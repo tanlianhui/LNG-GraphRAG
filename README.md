@@ -13,9 +13,11 @@ This project integrates multiple components to create a powerful GraphRAG system
 ## Features
 
 - 🎤 **Audio Processing**: High-quality speech recognition using Breeze-ASR-25
-- 📹 **Video Processing**: YouTube video download and processing capabilities
+- 📹 **Video Processing**: Enhanced YouTube video download with anti-detection measures
 - 🧠 **GraphRAG**: Intelligent knowledge graph construction and retrieval
 - 🔄 **Modular Design**: Flexible architecture for easy extension
+- 🛡️ **Anti-Detection**: Advanced retry logic, user-agent rotation, and cookie authentication
+- 🔧 **Error Handling**: Comprehensive error handling with detailed user feedback
 
 ## Getting Started
 
@@ -41,7 +43,29 @@ pip install -r requirements.txt
 
 ### Usage
 
-[Usage instructions will be added as the project develops]
+#### YouTube Video Download
+
+1. **Export Cookies** (Required to avoid 403 errors):
+```bash
+python VODs/export_cookies_guide.py
+```
+
+2. **Download Videos**:
+```bash
+python VODs/download_from_youtube.py
+```
+
+3. **Process with ASR**:
+```bash
+python run_batch_asr.py
+```
+
+#### Testing
+
+Run the UI to test functionality:
+```bash
+python launch_ui.py
+```
 
 ## Project Structure
 
