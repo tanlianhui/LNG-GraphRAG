@@ -50,6 +50,7 @@ def split_audio_at_silence(waveform, sample_rate, min_duration=60, max_duration=
     
     # Split audio at silence points
     chunks = []
+    chunk_times = []  # Store (start_time, end_time) for each chunk
     current_start = 0
     min_samples = int(min_duration * sample_rate)
     max_samples = int(max_duration * sample_rate)
@@ -65,19 +66,28 @@ def split_audio_at_silence(waveform, sample_rate, min_duration=60, max_duration=
         if chunk_duration > max_duration:
             # Split current chunk at max_duration
             end_sample = current_start + max_samples
+            start_time = current_start / sample_rate
+            end_time = end_sample / sample_rate
             chunks.append(waveform[current_start:end_sample])
+            chunk_times.append((start_time, end_time))
             current_start = end_sample
         else:
+            start_time = current_start / sample_rate
+            end_time = silence_start / sample_rate
             chunks.append(waveform[current_start:silence_start])
+            chunk_times.append((start_time, end_time))
             current_start = silence_end
     
     # Add remaining audio if any
     if current_start < len(waveform):
         remaining_duration = (len(waveform) - current_start) / sample_rate
         if remaining_duration >= min_duration:
+            start_time = current_start / sample_rate
+            end_time = len(waveform) / sample_rate
             chunks.append(waveform[current_start:])
+            chunk_times.append((start_time, end_time))
     
-    return chunks, sample_rate
+    return chunks, sample_rate, chunk_times
 
 def get_emptiest_drive():
     """Find the drive with the most free space"""
@@ -174,11 +184,11 @@ def cleanup_temp_file(temp_path, temp_dir):
     except Exception as e:
         print(f"Warning: Could not clean up temporary files: {e}")
 
-def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_name, output_dir):
+def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_name, output_dir, start_time, end_time):
     """Process a single audio chunk asynchronously"""
     chunk, sample_rate = chunk_data
     duration = len(chunk) / sample_rate
-    print(f"Processing chunk {chunk_index+1} (duration: {duration:.2f}s)")
+    print(f"Processing chunk {chunk_index+1} (duration: {duration:.2f}s, time: {start_time:.2f}s - {end_time:.2f}s)")
     
     try:
         # Process with model
@@ -201,18 +211,19 @@ def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_
         
         print(f"Chunk {chunk_index+1} transcription: {transcription[:100]}...")
         
-        # Save individual chunk transcription
+        # Save individual chunk transcription with time info
         chunk_file = f"{output_dir}/{base_name}_chunk_{chunk_index+1:03d}.txt"
         with open(chunk_file, "w", encoding="utf-8") as f:
+            f.write(f"[{start_time:.2f}s - {end_time:.2f}s]\n")
             f.write(transcription)
         print(f"Saved chunk {chunk_index+1} to: {chunk_file}")
         
-        return transcription, chunk_index
+        return transcription, chunk_index, start_time, end_time
         
     except Exception as e:
         error_msg = f"[Error in chunk {chunk_index+1}: {e}]"
         print(f"Error processing chunk {chunk_index+1}: {e}")
-        return error_msg, chunk_index
+        return error_msg, chunk_index, start_time, end_time
 
 def process_audio_file(audio_file_path):
     """Process a single audio file with ASR, saving after each chunk"""
@@ -261,7 +272,7 @@ def process_audio_file(audio_file_path):
     
     # Split audio into chunks
     print("Splitting audio into chunks...")
-    audio_chunks, sample_rate = split_audio_at_silence(waveform, sample_rate)
+    audio_chunks, sample_rate, chunk_times = split_audio_at_silence(waveform, sample_rate)
     print(f"Audio split into {len(audio_chunks)} chunks")
     
     # Create output directory
@@ -270,6 +281,7 @@ def process_audio_file(audio_file_path):
     
     base_name = os.path.splitext(os.path.basename(audio_file_path))[0]
     all_transcriptions = []
+    chunk_time_info = chunk_times.copy()  # Initialize with chunk times
     
     try:
         # Process chunks asynchronously using ThreadPoolExecutor
@@ -290,25 +302,30 @@ def process_audio_file(audio_file_path):
                     device, 
                     i, 
                     base_name, 
-                    output_dir
+                    output_dir,
+                    chunk_times[i][0],  # start_time
+                    chunk_times[i][1]   # end_time
                 ): i 
                 for i, chunk_data in enumerate(chunk_data_list)
             }
             
             # Collect results as they complete
             results = [None] * len(audio_chunks)
+            chunk_time_info = [None] * len(audio_chunks)
             completed_chunks = 0
             
             for future in concurrent.futures.as_completed(future_to_index):
                 try:
-                    transcription, chunk_index = future.result()
+                    transcription, chunk_index, start_time, end_time = future.result()
                     results[chunk_index] = transcription
+                    chunk_time_info[chunk_index] = (start_time, end_time)
                     completed_chunks += 1
                     print(f"Completed chunk {chunk_index+1}/{len(audio_chunks)} ({completed_chunks}/{len(audio_chunks)} total completed)")
                 except Exception as e:
                     chunk_index = future_to_index[future]
                     error_msg = f"[Error in chunk {chunk_index+1}: {e}]"
                     results[chunk_index] = error_msg
+                    chunk_time_info[chunk_index] = chunk_times[chunk_index]
                     completed_chunks += 1
                     print(f"Error in chunk {chunk_index+1}: {e} ({completed_chunks}/{len(audio_chunks)} total completed)")
         
@@ -318,6 +335,7 @@ def process_audio_file(audio_file_path):
     except Exception as e:
         print(f"Error during processing: {e}")
         all_transcriptions = [f"[Processing error: {e}]"] * len(audio_chunks)
+        # chunk_time_info already initialized before try block
     finally:
         # Always clean up temporary file
         cleanup_temp_file(safe_path, temp_dir)
@@ -326,7 +344,8 @@ def process_audio_file(audio_file_path):
     combined_file = f"{output_dir}/{base_name}_combined.txt"
     with open(combined_file, "w", encoding="utf-8") as f:
         for i, transcription in enumerate(all_transcriptions):
-            f.write(f"=== Chunk {i+1} ===\n")
+            start_time, end_time = chunk_time_info[i]
+            f.write(f"=== Chunk {i+1} [{start_time:.2f}s - {end_time:.2f}s] ===\n")
             f.write(transcription)
             f.write("\n\n")
     

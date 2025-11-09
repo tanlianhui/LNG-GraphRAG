@@ -451,27 +451,34 @@ class LNGGraphRAGUI:
             self.log_message(f"Download error: {e}")
     
     def process_selected_file(self):
-        """Process selected files with ASR"""
+        """Process selected files with ASR sequentially (one by one)"""
         selection = self.files_tree.selection()
         if not selection:
             messagebox.showwarning("Warning", "Please select files to process")
             return
         
+        # Collect selected files into a list
+        selected_files = []
         for item in selection:
             values = self.files_tree.item(item, "values")
             file_id = values[0]
-            # Get the actual file path from the database
+            # Get the actual file data from the database
             file_data = self.db.get_file_by_id(file_id)
             if file_data:
-                file_path = file_data[2]  # file_path is at index 2
+                # Create a tuple similar to pending_files structure: (file_id, ...)
+                # We'll use just the file_id since process_files_sequentially will look it up again
+                selected_files.append((file_id,))
             else:
                 self.log_message(f"Could not find file data for ID: {file_id}")
-                continue
-            
-            # Start processing in thread
-            thread = threading.Thread(target=self.process_file_asr, args=(file_id, file_path))
-            thread.daemon = True
-            thread.start()
+        
+        if not selected_files:
+            messagebox.showwarning("Warning", "No valid files selected to process")
+            return
+        
+        # Process files sequentially (one at a time)
+        thread = threading.Thread(target=self.process_files_sequentially, args=(selected_files,))
+        thread.daemon = True
+        thread.start()
     
     def process_all_pending(self):
         """Process all pending files sequentially"""
