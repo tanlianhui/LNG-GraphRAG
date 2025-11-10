@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNG GraphRAG Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+            color: #667eea;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Download Status Tab */
+        .search-box {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        .status-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .videos-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .videos-table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .videos-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .videos-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-skipped {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .file-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .file-exists {
+            background: #28a745;
+        }
+
+        .file-missing {
+            background: #dc3545;
+        }
+
+        /* Transcriptions Tab */
+        .transcription-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .transcription-item {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .transcription-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .transcription-header {
+            padding: 20px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .transcription-header:hover {
+            background: #e9ecef;
+        }
+
+        .transcription-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .transcription-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .transcription-toggle {
+            font-size: 1.5em;
+            color: #667eea;
+            transition: transform 0.3s;
+        }
+
+        .transcription-item.expanded .transcription-toggle {
+            transform: rotate(180deg);
+        }
+
+        .transcription-content {
+            display: none;
+            padding: 20px;
+            background: white;
+            max-height: 600px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .transcription-item.expanded .transcription-content {
+            display: block;
+        }
+
+        .transcription-chunk {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .transcription-chunk-header {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* GraphRAG Tab */
+        .query-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .query-input {
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        .query-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .query-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .query-results {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f8f9fa;
+            min-height: 200px;
+        }
+
+        .query-results.empty {
+            color: #999;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .query-results pre {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            transform: rotate(180deg) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎙️ LNG GraphRAG Dashboard</h1>
+            <p>YouTube Downloads | Transcriptions | GraphRAG Queries</p>
+        </div>
+
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-item">
+                <div class="stat-value" id="statTotal">-</div>
+                <div class="stat-label">Total Videos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statCompleted">-</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statTranscriptions">-</div>
+                <div class="stat-label">Transcriptions</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statPending">-</div>
+                <div class="stat-label">Pending</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(0)">📥 Download Status</button>
+            <button class="tab" onclick="switchTab(1)">📝 Transcriptions</button>
+            <button class="tab" onclick="switchTab(2)">🕸️ GraphRAG</button>
+        </div>
+
+        <!-- Download Status Tab -->
+        <div class="tab-content active" id="tab0">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search videos..." onkeyup="filterVideos()">
+            
+            <div class="status-filters">
+                <button class="filter-btn active" onclick="filterByStatus('all')">All</button>
+                <button class="filter-btn" onclick="filterByStatus('completed')">✅ Completed</button>
+                <button class="filter-btn" onclick="filterByStatus('pending')">⏳ Pending</button>
+                <button class="filter-btn" onclick="filterByStatus('failed')">❌ Failed</button>
+                <button class="filter-btn" onclick="filterByStatus('skipped')">⏭️ Skipped</button>
+            </div>
+
+            <table class="videos-table" id="videosTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>WAV File</th>
+                        <th>Transcription</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody id="videosTableBody">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px;">
+                            <div class="loading"></div>Loading videos...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Transcriptions Tab -->
+        <div class="tab-content" id="tab1">
+            <div id="transcriptionsList" class="transcription-list">
+                <div style="text-align: center; padding: 40px;">
+                    <div class="loading"></div>Loading transcriptions...
+                </div>
+            </div>
+        </div>
+
+        <!-- GraphRAG Tab -->
+        <div class="tab-content" id="tab2">
+            <div class="query-container">
+                <h2 style="margin-bottom: 10px;">Neo4j Cypher Query</h2>
+                <p style="color: #666; margin-bottom: 20px;">Enter your Cypher query to explore the knowledge graph</p>
+                
+                <textarea 
+                    class="query-input" 
+                    id="cypherQuery" 
+                    placeholder="MATCH (n) RETURN n LIMIT 25"></textarea>
+                
+                <div class="query-actions">
+                    <button class="btn btn-primary" onclick="executeQuery()">▶️ Execute Query</button>
+                    <button class="btn btn-secondary" onclick="clearQuery()">🗑️ Clear</button>
+                </div>
+
+                <div class="query-results empty" id="queryResults">
+                    Query results will appear here...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="refreshAll()" title="Refresh All Data">🔄</button>
+
+    <script>
+        let allVideos = [];
+        let currentStatusFilter = 'all';
+        let allTranscriptions = [];
+
+        // Tab switching
+        function switchTab(index) {
+            document.querySelectorAll('.tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.tab-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+            
+            // Load data when switching tabs
+            if (index === 0) {
+                loadDownloadStatus();
+            } else if (index === 1) {
+                loadTranscriptions();
+            }
+        }
+
+        // Load download status
+        async function loadDownloadStatus() {
+            try {
+                const response = await fetch('/api/download-status');
+                const data = await response.json();
+                
+                if (data.success) {
+                    allVideos = data.videos;
+                    updateStats(data);
+                    renderVideos(allVideos);
+                }
+            } catch (error) {
+                console.error('Error loading download status:', error);
+                document.getElementById('videosTableBody').innerHTML = 
+                    '<tr><td colspan="5" style="text-align: center; color: red;">Error loading videos</td></tr>';
+            }
+        }
+
+        // Update statistics
+        function updateStats(data) {
+            document.getElementById('statTotal').textContent = data.total || 0;
+            document.getElementById('statCompleted').textContent = data.completed || 0;
+            document.getElementById('statTranscriptions').textContent = data.with_transcriptions || 0;
+            document.getElementById('statPending').textContent = data.pending || 0;
+        }
+
+        // Render videos table
+        function renderVideos(videos) {
+            const tbody = document.getElementById('videosTableBody');
+            
+            if (videos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">No videos found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = videos.map(video => `
+                <tr>
+                    <td>${escapeHtml(video.title)}</td>
+                    <td><span class="status-badge status-${video.status}">${video.status}</span></td>
+                    <td>
+                        <span class="file-indicator ${video.wav_exists ? 'file-exists' : 'file-missing'}"></span>
+                        ${video.wav_exists ? 'Yes' : 'No'}
+                    </td>
+                    <td>
+                        <span class="file-indicator ${video.transcription_exists ? 'file-exists' : 'file-missing'}"></span>
+                        ${video.transcription_exists ? 'Yes' : 'No'}
+                    </td>
+                    <td><a href="${video.url}" target="_blank" style="color: #667eea;">View</a></td>
+                </tr>
+            `).join('');
+        }
+
+        // Filter by status
+        function filterByStatus(status) {
+            currentStatusFilter = status;
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter videos
+            let filtered = allVideos;
+            if (status !== 'all') {
+                filtered = allVideos.filter(v => v.status === status);
+            }
+            
+            renderVideos(filtered);
+        }
+
+        // Search videos
+        function filterVideos() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            let filtered = allVideos;
+            
+            if (currentStatusFilter !== 'all') {
+                filtered = filtered.filter(v => v.status === currentStatusFilter);
+            }
+            
+            if (searchTerm) {
+                filtered = filtered.filter(v => 
+                    v.title.toLowerCase().includes(searchTerm) ||
+                    v.url.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            renderVideos(filtered);
+        }
+
+        // Load transcriptions
+        async function loadTranscriptions() {
+            try {
+                const response = await fetch('/api/transcriptions');
+                const data = await response.json();
+                
+                if (data.success) {
+                    allTranscriptions = data.transcriptions;
+                    renderTranscriptions(allTranscriptions);
+                }
+            } catch (error) {
+                console.error('Error loading transcriptions:', error);
+                document.getElementById('transcriptionsList').innerHTML = 
+                    '<div style="text-align: center; color: red;">Error loading transcriptions</div>';
+            }
+        }
+
+        // Render transcriptions
+        function renderTranscriptions(transcriptions) {
+            const container = document.getElementById('transcriptionsList');
+            
+            if (transcriptions.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px;">No transcriptions found</div>';
+                return;
+            }
+
+            container.innerHTML = transcriptions.map((trans, index) => `
+                <div class="transcription-item" id="trans-${index}">
+                    <div class="transcription-header" onclick="toggleTranscription(${index})">
+                        <div>
+                            <div class="transcription-title">${escapeHtml(trans.title)}</div>
+                            <div class="transcription-meta">
+                                <span>📄 ${trans.filename}</span>
+                                <span>📊 ${trans.size_mb} MB</span>
+                            </div>
+                        </div>
+                        <div class="transcription-toggle">▼</div>
+                    </div>
+                    <div class="transcription-content" id="trans-content-${index}">
+                        <div style="text-align: center; padding: 20px;">
+                            <div class="loading"></div>Loading content...
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle transcription
+        async function toggleTranscription(index) {
+            const item = document.getElementById(`trans-${index}`);
+            const content = document.getElementById(`trans-content-${index}`);
+            const transcription = allTranscriptions[index];
+            
+            if (item.classList.contains('expanded')) {
+                item.classList.remove('expanded');
+            } else {
+                item.classList.add('expanded');
+                
+                // Load content if not loaded
+                if (content.textContent.includes('Loading content')) {
+                    try {
+                        const response = await fetch(`/api/transcription/${encodeURIComponent(transcription.filename)}`);
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            // Format content with chunks
+                            const formatted = formatTranscription(data.content);
+                            content.innerHTML = formatted;
+                        } else {
+                            content.innerHTML = '<div class="error-message">Error loading transcription</div>';
+                        }
+                    } catch (error) {
+                        content.innerHTML = '<div class="error-message">Error loading transcription</div>';
+                    }
+                }
+            }
+        }
+
+        // Format transcription content
+        function formatTranscription(content) {
+            // Split by chunk markers
+            const chunks = content.split(/=== Chunk \d+ ===/);
+            
+            return chunks.map((chunk, index) => {
+                const text = chunk.trim();
+                if (!text) return '';
+                
+                return `
+                    <div class="transcription-chunk">
+                        <div class="transcription-chunk-header">Chunk ${index}</div>
+                        <div>${escapeHtml(text)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Execute GraphRAG query
+        async function executeQuery() {
+            const query = document.getElementById('cypherQuery').value.trim();
+            const resultsDiv = document.getElementById('queryResults');
+            
+            if (!query) {
+                resultsDiv.innerHTML = '<div class="error-message">Please enter a query</div>';
+                return;
+            }
+            
+            resultsDiv.innerHTML = '<div style="text-align: center;"><div class="loading"></div>Executing query...</div>';
+            
+            try {
+                const response = await fetch('/api/graphrag/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.results && data.results.length > 0) {
+                        resultsDiv.innerHTML = `
+                            <div class="success-message">Query executed successfully</div>
+                            <pre>${JSON.stringify(data.results, null, 2)}</pre>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="success-message">${data.message || 'Query executed successfully'}</div>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    }
+                } else {
+                    resultsDiv.innerHTML = `<div class="error-message">${data.error || 'Query failed'}</div>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="error-message">Error: ${error.message}</div>`;
+            }
+        }
+
+        // Clear query
+        function clearQuery() {
+            document.getElementById('cypherQuery').value = '';
+            document.getElementById('queryResults').innerHTML = 'Query results will appear here...';
+        }
+
+        // Refresh all data
+        function refreshAll() {
+            const activeTab = document.querySelector('.tab.active');
+            const tabIndex = Array.from(document.querySelectorAll('.tab')).indexOf(activeTab);
+            
+            if (tabIndex === 0) {
+                loadDownloadStatus();
+            } else if (tabIndex === 1) {
+                loadTranscriptions();
+            }
+        }
+
+        // Utility function
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        loadDownloadStatus();
+    </script>
+</body>
+</html>
+
