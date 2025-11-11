@@ -367,22 +367,51 @@ class LNGGraphRAGUI:
             messagebox.showerror("Deletion Error", error_msg)
     
     def add_local_file(self):
-        """Add a local file to the database"""
-        file_path = filedialog.askopenfilename(
-            title="Select Audio File",
+        """Add local files to the database (supports multiple file selection)"""
+        file_paths = filedialog.askopenfilenames(
+            title="Select Audio Files",
             filetypes=[("Audio files", "*.wav *.mp3 *.m4a *.flac"), ("All files", "*.*")]
         )
         
-        if file_path:
+        if not file_paths:
+            return
+        
+        added_count = 0
+        failed_count = 0
+        failed_files = []
+        
+        for file_path in file_paths:
             try:
                 filename = os.path.basename(file_path)
                 file_size = os.path.getsize(file_path)
                 
                 file_id = self.db.add_file(filename, file_path, "audio", file_size)
                 self.log_message(f"Added local file: {filename} (ID: {file_id})")
-                self.refresh_data()
+                added_count += 1
             except Exception as e:
-                messagebox.showerror("Error", f"Failed to add file: {e}")
+                self.log_message(f"Failed to add file: {os.path.basename(file_path)} - {e}")
+                failed_count += 1
+                failed_files.append(os.path.basename(file_path))
+        
+        # Show summary
+        if added_count > 0:
+            self.log_message(f"Successfully added {added_count} file(s)")
+        if failed_count > 0:
+            self.log_message(f"Failed to add {failed_count} file(s)")
+            if failed_files:
+                self.log_message(f"Failed files: {', '.join(failed_files)}")
+        
+        if failed_count > 0 and added_count == 0:
+            messagebox.showerror("Error", f"Failed to add all files. Check the log for details.")
+        elif failed_count > 0:
+            messagebox.showwarning("Partial Success", 
+                f"Added {added_count} file(s) successfully.\n"
+                f"Failed to add {failed_count} file(s).\n"
+                f"Check the log for details.")
+        elif added_count > 0:
+            messagebox.showinfo("Success", f"Successfully added {added_count} file(s)")
+        
+        self.refresh_data()
     
     def download_selected(self):
         """Download selected URLs"""

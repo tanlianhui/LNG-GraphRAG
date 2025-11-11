@@ -66,6 +66,6 @@ tzdata==2025.2
 urllib3==2.5.0
 xxhash==3.6.0
 yarl==1.22.0
-yt-dlp==2025.10.14
+yt-dlp==2025.10.22
 flask==3.0.0
 neo4j==5.15.0
