@@ -3,7 +3,9 @@ import csv
 import os
 from pathlib import Path
 import json
+import asyncio
 from typing import List, Dict, Optional
+import sys
 
 app = Flask(__name__)
 
@@ -199,8 +201,18 @@ def api_graphrag_query():
             connection_timeout=30
         )
         
+        # Detect Community Edition and use appropriate database
+        actual_db_name = DB_NAME
+        try:
+            # Try to access system database (Enterprise Edition feature)
+            with driver.session(database="system") as test_session:
+                test_session.run("SHOW DATABASES")
+        except Exception:
+            # Community Edition - use default database "neo4j"
+            actual_db_name = "neo4j"
+        
         # Execute query
-        with driver.session(database=DB_NAME) as session:
+        with driver.session(database=actual_db_name) as session:
             result = session.run(query)
             
             # Collect results
@@ -272,6 +284,132 @@ def api_stats():
             'total_wav_files': sum(1 for v in videos if v['wav_exists'])
         }
     })
+
+@app.route('/api/transcription/update', methods=['POST'])
+def api_update_transcription():
+    """API endpoint for updating a transcription chunk"""
+    data = request.get_json()
+    filename = data.get('filename', '')
+    chunk_id = data.get('chunk_id')
+    new_text = data.get('new_text', '')
+    
+    if not filename or chunk_id is None or not new_text:
+        return jsonify({
+            'success': False,
+            'error': 'Missing required fields: filename, chunk_id, new_text'
+        }), 400
+    
+    # Security: ensure filename doesn't contain path traversal
+    filename = os.path.basename(filename)
+    if not filename.endswith('_combined.txt'):
+        return jsonify({
+            'success': False,
+            'error': 'Invalid filename format'
+        }), 400
+    
+    transcription_path = os.path.join(TRANSCRIPTIONS_DIR, filename)
+    if not os.path.exists(transcription_path):
+        return jsonify({
+            'success': False,
+            'error': 'Transcription file not found'
+        }), 404
+    
+    try:
+        # Import graphrag functions
+        graphrag_path = os.path.join(os.path.dirname(__file__), 'graphrag')
+        if graphrag_path not in sys.path:
+            sys.path.insert(0, graphrag_path)
+        
+        from graphrag.own_graph_rag import update_transcription_file, update_chunk_in_neo4j
+        import os as os_module
+        from dotenv import load_dotenv
+        
+        load_dotenv()
+        
+        # Update transcription file
+        file_updated = asyncio.run(update_transcription_file(
+            transcription_path,
+            chunk_id,
+            new_text
+        ))
+        
+        if not file_updated:
+            return jsonify({
+                'success': False,
+                'error': 'Failed to update transcription file'
+            }), 500
+        
+        # Update Neo4j (document name is the filename)
+        document_name = filename
+        db_name = os_module.getenv('NEO4J_DB_NAME', 'lng_transcriptions')
+        
+        neo4j_result = asyncio.run(update_chunk_in_neo4j(
+            document_name=document_name,
+            chunk_id=chunk_id,
+            new_text=new_text,
+            db_name=db_name
+        ))
+        
+        if not neo4j_result.get('success'):
+            return jsonify({
+                'success': False,
+                'error': f"Failed to update Neo4j: {neo4j_result.get('error', 'Unknown error')}",
+                'file_updated': True  # File was updated even if Neo4j failed
+            }), 500
+        
+        return jsonify({
+            'success': True,
+            'message': 'Transcription chunk updated successfully in both file and Neo4j',
+            'document_name': document_name,
+            'chunk_id': chunk_id
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Update failed: {str(e)}'
+        }), 500
+
+@app.route('/api/transcription/chunks/<filename>')
+def api_transcription_chunks(filename):
+    """API endpoint to get parsed chunks with metadata"""
+    # Security: ensure filename doesn't contain path traversal
+    filename = os.path.basename(filename)
+    if not filename.endswith('_combined.txt'):
+        return jsonify({
+            'success': False,
+            'error': 'Invalid filename format'
+        }), 400
+    
+    transcription_path = os.path.join(TRANSCRIPTIONS_DIR, filename)
+    if not os.path.exists(transcription_path):
+        return jsonify({
+            'success': False,
+            'error': 'Transcription file not found'
+        }), 404
+    
+    try:
+        # Import graphrag function
+        graphrag_path = os.path.join(os.path.dirname(__file__), 'graphrag')
+        if graphrag_path not in sys.path:
+            sys.path.insert(0, graphrag_path)
+        
+        from own_graph_rag import parse_transcription_chunks
+        
+        chunks = parse_transcription_chunks(transcription_path)
+        
+        return jsonify({
+            'success': True,
+            'filename': filename,
+            'chunks': chunks,
+            'total_chunks': len(chunks)
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Failed to parse chunks: {str(e)}'
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

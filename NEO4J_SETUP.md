@@ -8,6 +8,15 @@ This guide will help you set up Neo4j in Docker and load transcriptions into the
 2. **OpenAI API Key** for embeddings
 3. Python dependencies installed: `pip install -r requirements.txt`
 
+## Neo4j Edition Support
+
+This project supports both **Neo4j Community Edition** and **Enterprise Edition**:
+
+- **Community Edition** (default): Uses the default database (`neo4j`). Multiple databases are not supported.
+- **Enterprise Edition**: Can create and use multiple named databases.
+
+The code automatically detects which edition you're using and adjusts accordingly. No configuration needed!
+
 ## Step 1: Start Neo4j Docker Container
 
 ### Option A: Using the setup script (Recommended)

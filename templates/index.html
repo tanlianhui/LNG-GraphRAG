@@ -301,6 +301,52 @@
             font-weight: 600;
             color: #667eea;
             margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .edit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: #5568d3;
+        }
+
+        .chunk-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .chunk-editor {
+            margin-top: 10px;
+        }
+
+        .chunk-edit-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 10px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95em;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        .chunk-edit-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
         }
 
         /* GraphRAG Tab */
@@ -726,20 +772,136 @@
                 // Load content if not loaded
                 if (content.textContent.includes('Loading content')) {
                     try {
-                        const response = await fetch(`/api/transcription/${encodeURIComponent(transcription.filename)}`);
-                        const data = await response.json();
+                        // Load chunks with metadata
+                        const chunksResponse = await fetch(`/api/transcription/chunks/${encodeURIComponent(transcription.filename)}`);
+                        const chunksData = await chunksResponse.json();
                         
-                        if (data.success) {
-                            // Format content with chunks
-                            const formatted = formatTranscription(data.content);
-                            content.innerHTML = formatted;
+                        if (chunksData.success) {
+                            // Render chunks with edit capability
+                            renderChunksWithEdit(content, chunksData.chunks, transcription.filename);
                         } else {
+                            // Fallback to old method
+                            const response = await fetch(`/api/transcription/${encodeURIComponent(transcription.filename)}`);
+                            const data = await response.json();
+                            
+                            if (data.success) {
+                                const formatted = formatTranscription(data.content);
+                                content.innerHTML = formatted;
+                            } else {
                             content.innerHTML = '<div class="error-message">Error loading transcription</div>';
                         }
                     } catch (error) {
                         content.innerHTML = '<div class="error-message">Error loading transcription</div>';
                     }
                 }
+            }
+        }
+
+        // Render chunks with edit capability
+        function renderChunksWithEdit(container, chunks, filename) {
+            container.innerHTML = chunks.map((chunk, index) => {
+                const chunkId = chunk.chunk_id;
+                const text = chunk.text || '';
+                const timecode = chunk.start_time !== null && chunk.end_time !== null
+                    ? `[${chunk.start_time.toFixed(2)}s - ${chunk.end_time.toFixed(2)}s]`
+                    : '';
+                
+                return `
+                    <div class="transcription-chunk" id="chunk-${chunkId}">
+                        <div class="transcription-chunk-header">
+                            <span>Chunk ${chunkId + 1} ${timecode}</span>
+                            <button class="edit-btn" onclick="editChunk(${chunkId}, '${filename.replace(/'/g, "\\'")}')">✏️ Edit</button>
+                        </div>
+                        <div class="chunk-content" id="chunk-content-${chunkId}">${escapeHtml(text)}</div>
+                        <div class="chunk-editor" id="chunk-editor-${chunkId}" style="display: none;">
+                            <textarea class="chunk-edit-textarea" id="chunk-textarea-${chunkId}">${escapeHtml(text)}</textarea>
+                            <div class="chunk-edit-actions">
+                                <button class="btn btn-primary" onclick="saveChunk(${chunkId}, '${filename.replace(/'/g, "\\'")}')">💾 Save</button>
+                                <button class="btn btn-secondary" onclick="cancelEdit(${chunkId})">❌ Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Edit chunk
+        function editChunk(chunkId, filename) {
+            const contentDiv = document.getElementById(`chunk-content-${chunkId}`);
+            const editorDiv = document.getElementById(`chunk-editor-${chunkId}`);
+            const textarea = document.getElementById(`chunk-textarea-${chunkId}`);
+            
+            contentDiv.style.display = 'none';
+            editorDiv.style.display = 'block';
+            textarea.focus();
+        }
+
+        // Cancel edit
+        function cancelEdit(chunkId) {
+            const contentDiv = document.getElementById(`chunk-content-${chunkId}`);
+            const editorDiv = document.getElementById(`chunk-editor-${chunkId}`);
+            
+            contentDiv.style.display = 'block';
+            editorDiv.style.display = 'none';
+        }
+
+        // Save chunk
+        async function saveChunk(chunkId, filename) {
+            const textarea = document.getElementById(`chunk-textarea-${chunkId}`);
+            const newText = textarea.value.trim();
+            const contentDiv = document.getElementById(`chunk-content-${chunkId}`);
+            const editorDiv = document.getElementById(`chunk-editor-${chunkId}`);
+            
+            if (!newText) {
+                alert('Text cannot be empty');
+                return;
+            }
+            
+            // Show loading state
+            const saveBtn = editorDiv.querySelector('.btn-primary');
+            const originalText = saveBtn.textContent;
+            saveBtn.textContent = '⏳ Saving...';
+            saveBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/transcription/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        filename: filename,
+                        chunk_id: chunkId,
+                        new_text: newText
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update displayed content
+                    contentDiv.textContent = newText;
+                    contentDiv.style.display = 'block';
+                    editorDiv.style.display = 'none';
+                    
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'success-message';
+                    successMsg.textContent = '✓ Chunk updated successfully in file and Neo4j';
+                    successMsg.style.marginTop = '10px';
+                    editorDiv.parentElement.appendChild(successMsg);
+                    
+                    setTimeout(() => {
+                        successMsg.remove();
+                    }, 3000);
+                } else {
+                    alert(`Error: ${data.error || 'Failed to update chunk'}`);
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            } finally {
+                saveBtn.textContent = originalText;
+                saveBtn.disabled = false;
             }
         }
 

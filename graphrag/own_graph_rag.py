@@ -30,6 +30,41 @@ NEO4J_URI = f'bolt://{os.environ.get("NEO4J_IP", "localhost")}:7687'
 NEO4J_USERNAME = os.environ.get("NEO4J_USERNAME", "neo4j")
 NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "lng-graphrag-password")
 
+# Global flag to track if we're using Community Edition
+_IS_COMMUNITY_EDITION = None
+
+def get_database_name(requested_db_name: str) -> str:
+    """
+    Get the actual database name to use.
+    In Community Edition, returns None (default database).
+    In Enterprise Edition, returns the requested database name.
+    """
+    global _IS_COMMUNITY_EDITION
+    
+    if _IS_COMMUNITY_EDITION is None:
+        # Check on first call
+        try:
+            driver = neo4j.GraphDatabase.driver(
+                NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD), connection_timeout=5
+            )
+            try:
+                with driver.session(database="system") as session:
+                    session.run("SHOW DATABASES")
+                _IS_COMMUNITY_EDITION = False
+            except Exception:
+                _IS_COMMUNITY_EDITION = True
+            finally:
+                driver.close()
+        except Exception:
+            # If we can't connect, assume Community Edition to be safe
+            _IS_COMMUNITY_EDITION = True
+    
+    if _IS_COMMUNITY_EDITION:
+        # Community Edition: use default database name "neo4j"
+        return "neo4j"  # Default database name in Community Edition
+    else:
+        return requested_db_name
+
 # Simple logger replacement
 def log_debug(msg):
     print(f"[DEBUG] {msg}", flush=True)
@@ -63,9 +98,67 @@ def clean_json_response(raw_response: str) -> str:
     return content
 
 
+def parse_transcription_chunks(path: str) -> list[dict]:
+    """
+    Parse transcription file into chunks with metadata (chunk ID, timecodes, text).
+    Handles both formats:
+    - With timecodes: === Chunk 1 [0.00s - 94.49s] ===
+    - Without timecodes: === Chunk 1 ===
+    
+    Returns:
+        List of dicts with keys: chunk_id, text, start_time, end_time
+    """
+    try:
+        if not path.endswith(".txt"):
+            raise ValueError(f"Unsupported file type: {path}. Only .txt files are supported.")
+        
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        chunks = []
+        # Split by chunk markers
+        parts = content.split("=== Chunk")
+        
+        for part in parts[1:]:  # Skip first empty part
+            lines = part.strip().split("\n", 1)
+            if len(lines) >= 2:
+                header = lines[0].strip()
+                text = lines[1].strip() if len(lines) > 1 else ""
+                
+                # Parse chunk ID and timecodes
+                chunk_id = None
+                start_time = None
+                end_time = None
+                
+                # Extract chunk number
+                import re
+                chunk_match = re.search(r'(\d+)', header)
+                if chunk_match:
+                    chunk_id = int(chunk_match.group(1)) - 1  # 0-indexed
+                
+                # Extract timecodes if present: [0.00s - 94.49s]
+                timecode_match = re.search(r'\[([\d.]+)s\s*-\s*([\d.]+)s\]', header)
+                if timecode_match:
+                    start_time = float(timecode_match.group(1))
+                    end_time = float(timecode_match.group(2))
+                
+                if chunk_id is not None and text:
+                    chunks.append({
+                        "chunk_id": chunk_id,
+                        "text": text,
+                        "start_time": start_time,
+                        "end_time": end_time
+                    })
+        
+        return chunks
+    except Exception as e:
+        raise ValueError(f"Failed to parse transcription file {path}: {e}")
+
+
 def extract_text_from_file(path: str) -> str:
     """
     Extracts text content from a file. Supports TXT files (simplified version).
+    For transcriptions, use parse_transcription_chunks() instead to get chunk metadata.
     """
     try:
         if path.endswith(".txt"):
@@ -78,23 +171,81 @@ def extract_text_from_file(path: str) -> str:
 
 
 def prepare_database(db_name: str, clean_old_data: bool) -> str:
-    """Prepare Neo4j database - create if doesn't exist or clean if requested."""
+    """
+    Prepare Neo4j database - create if doesn't exist or clean if requested.
+    Handles both Community Edition (single database) and Enterprise Edition (multiple databases).
+    """
+    global _IS_COMMUNITY_EDITION
     db_name = db_name.lower()
     driver = None
+    is_community_edition = False
+    
     try:
         log_debug("--- Preparing database ---")
         driver = neo4j.GraphDatabase.driver(
             NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD), connection_timeout=30
         )
 
-        # Check if database exists
-        with driver.session(database="system") as session:
-            result = session.run("SHOW DATABASES")
-            databases = [record["name"] for record in result]
-        db_exists = db_name in databases
+        # Test if we can CREATE DATABASE (Enterprise Edition feature)
+        # Community Edition doesn't support CREATE DATABASE even if SHOW DATABASES works
+        # Default to Community Edition and only switch if we can successfully create a database
+        is_community_edition = True  # Assume Community Edition by default
+        db_exists = True  # Default database always exists
+        
+        # Test if CREATE DATABASE is supported by trying to create a test database
+        test_db_name = f"_test_db_{int(time())}"
+        try:
+            with driver.session(database="system") as session:
+                # Try to create a test database
+                session.run(f"CREATE DATABASE {test_db_name}")
+                # If successful, immediately drop it
+                session.run(f"DROP DATABASE {test_db_name} IF EXISTS")
+            # If we get here, it's Enterprise Edition
+            is_community_edition = False
+            # Now check if our target database exists
+            with driver.session(database="system") as session:
+                result = session.run("SHOW DATABASES")
+                databases = [record["name"] for record in result]
+            db_exists = db_name in databases
+            print(f"ℹ️  Detected Neo4j Enterprise Edition", flush=True)
+        except Exception as e:
+            # Any error creating database means Community Edition
+            error_str = str(e)
+            error_lower = error_str.lower()
+            
+            # Log the detection
+            if "unsupported" in error_lower or "administration" in error_lower:
+                print(f"ℹ️  Detected Neo4j Community Edition - using default database", flush=True)
+            else:
+                # Even if it's a different error, assume Community Edition for safety
+                print(f"ℹ️  Using default database (Community Edition - CREATE DATABASE not supported)", flush=True)
+            
+            is_community_edition = True
+            db_exists = True
 
         operation_performed = False
         msg = ""
+        
+        if is_community_edition:
+            # Community Edition: Use default database and clean data if requested
+            # Set global flag so other functions know we're using Community Edition
+            _IS_COMMUNITY_EDITION = True
+            
+            if clean_old_data:
+                print(f"Cleaning data in default database...", flush=True)
+                # Delete all nodes and relationships
+                with driver.session() as session:
+                    # Delete all nodes and relationships
+                    session.run("MATCH (n) DETACH DELETE n")
+                msg = f"Default database cleaned (Community Edition)."
+                operation_performed = True
+            else:
+                msg = f"Using default database (Community Edition)."
+                return msg
+        else:
+            # Enterprise Edition: Create or manage databases
+            _IS_COMMUNITY_EDITION = False
+            
         if not db_exists:
             print(f"Database '{db_name}' does not exist. Creating now...", flush=True)
             with driver.session(database="system") as session:
@@ -112,7 +263,7 @@ def prepare_database(db_name: str, clean_old_data: bool) -> str:
             return msg
 
         if operation_performed:
-            # Wait until the database is actually online
+                # Wait until the database is actually online
             print(f"Waiting for database '{db_name}' to come online...", flush=True)
             start_time = time()
             while time() - start_time < 60:  # 60 second timeout
@@ -147,7 +298,7 @@ def prepare_database(db_name: str, clean_old_data: bool) -> str:
 
 class RowSplitter(TextSplitter):
     """Text splitter which splits the input CSV/XLSX into rows of content."""
-    
+
     @validate_call
     async def run(self, text: list[Any]) -> TextChunks:
         chunks = []
@@ -158,7 +309,7 @@ class RowSplitter(TextSplitter):
 
 class SemanticSplitter(TextSplitter):
     """Text splitter which splits the input text semantically."""
-    
+
     @validate_call
     def __init__(self, chunk_size: int = 4000, chunk_overlap: int = 200) -> None:
         if chunk_overlap >= chunk_size:
@@ -311,10 +462,10 @@ async def generate_concepts_sync(
             chunk_range = f"{group['chunk_indices'][0]}-{group['chunk_indices'][-1]}" if len(group['chunk_indices']) > 1 else str(group['chunk_indices'][0])
             print(f"📦 Processing group {group_idx + 1}/{len(grouped_chunks)} (chunks {chunk_range})...", flush=True)
             
-            concept_prompt = f"""Extract key concepts and relationships from the following text passages.
+            concept_prompt = f"""Extract key concepts and relationships from the following text passages. 
             The text is divided by ---CHUNK_SEPARATOR--- markers. Each section represents a separate chunk.
             
-            IMPORTANT CONTEXT: This text was created by joining {len(group['chunk_indices'])} original chunks (indices: {group['chunk_indices']}) into one larger chunk for processing.
+            IMPORTANT CONTEXT: This text was created by joining {len(group['chunk_indices'])} original chunks (indices: {group['chunk_indices']}) into one larger chunk for processing. 
             When you identify a concept, you must specify which of the ORIGINAL chunks (not the joined chunk) actually contain that concept.
             The document has {len(text_chunks)} total original chunks (indices 0 to {len(text_chunks)-1}), so you can reference any chunk in that range.
             
@@ -359,19 +510,19 @@ async def generate_concepts_sync(
                     origin_chunks = concept.get("origin_chunks", [])
                     if not origin_chunks:
                         # Detect which chunks mention the concept
-                        concept_name_lower = concept["name"].lower()
-                        detected_chunks = []
-                        for chunk_idx in group['chunk_indices']:
-                            if chunk_idx < len(text_chunks):
-                                chunk_text = text_chunks[chunk_idx].lower()
-                                if concept_name_lower in chunk_text:
-                                    detected_chunks.append(chunk_idx)
-                        origin_chunks = detected_chunks if detected_chunks else group['chunk_indices'][:1]
+                            concept_name_lower = concept["name"].lower()
+                            detected_chunks = []
+                            for chunk_idx in group['chunk_indices']:
+                                if chunk_idx < len(text_chunks):
+                                    chunk_text = text_chunks[chunk_idx].lower()
+                                    if concept_name_lower in chunk_text:
+                                        detected_chunks.append(chunk_idx)
+                    origin_chunks = detected_chunks if detected_chunks else group['chunk_indices'][:1]
                     
                     concept["origin_chunks"] = origin_chunks
                     concept["concept_chunk_idx"] = origin_chunks[0] if origin_chunks else 0
                     all_concepts.append(concept)
-                
+                        
                 # Process relationships
                 for relationship in extraction_result.get("relationships", []):
                     relationship["concept_chunk_idx"] = group['chunk_indices'][0]
@@ -394,11 +545,12 @@ async def generate_concepts_sync(
         
         # Upload to Neo4j
         step_start = time()
+        actual_db_name = get_database_name(db_name)
         graph = Neo4jGraph(
             url=NEO4J_URI,
             username=NEO4J_USERNAME,
             password=NEO4J_PASSWORD,
-            database=db_name
+            database=actual_db_name
         )
         
         document_url = url_mapping_dict.get(document_name, "") if url_mapping_dict else ""
@@ -412,17 +564,17 @@ async def generate_concepts_sync(
                 c.description = concept.description,
                 c.concept_embeddings = concept.concept_embeddings,
                 c.document_name = CASE 
-                    WHEN c.document_name IS NULL THEN concept.document_name
-                    WHEN c.document_name = concept.document_name THEN c.document_name
-                    WHEN NOT concept.document_name IN split(c.document_name, ',') THEN c.document_name + ',' + concept.document_name
-                    ELSE c.document_name
+                WHEN c.document_name IS NULL THEN concept.document_name
+                WHEN c.document_name = concept.document_name THEN c.document_name
+                WHEN NOT concept.document_name IN split(c.document_name, ',') THEN c.document_name + ',' + concept.document_name
+                ELSE c.document_name
                 END,
                 c.url = CASE 
-                    WHEN c.url IS NULL THEN concept.url
-                    WHEN c.url = concept.url THEN c.url
-                    WHEN NOT concept.url IN split(c.url, ',') THEN c.url + ',' + concept.url
-                    ELSE c.url
-                END
+                WHEN c.url IS NULL THEN concept.url
+                WHEN c.url = concept.url THEN c.url
+                WHEN NOT concept.url IN split(c.url, ',') THEN c.url + ',' + concept.url
+                ELSE c.url
+            END
             """
             
             concept_data = []
@@ -503,6 +655,7 @@ async def generate_concepts_sync(
         
         # Create vector index for concepts
         step_start = time()
+        actual_db_name = get_database_name(db_name)
         concept_vector_store = Neo4jVector(
             embedding=embeddings_model,
             index_name="concept_embeddings",
@@ -511,17 +664,43 @@ async def generate_concepts_sync(
             url=NEO4J_URI,
             username=NEO4J_USERNAME,
             password=NEO4J_PASSWORD,
-            database=db_name
+            database=actual_db_name
         )
         
         try:
             concept_vector_store.create_new_index()
             print("✓ Created concept vector index", flush=True)
         except Exception as e:
-            print(f"⚠️ Concept vector index may already exist: {e}", flush=True)
+            # If library method fails, try manual creation
+            error_str = str(e).lower()
+            if "syntax" in error_str or "parameter" in error_str or "$name" in error_str:
+                print(f"⚠️ Library index creation failed, creating concept index manually...", flush=True)
+                try:
+                    # Get embedding dimension
+                    test_embedding = await embeddings_model.aembed_query("test")
+                    embedding_dim = len(test_embedding)
+                    
+                    # Create index manually with literal name
+                    create_index_query = f"""
+                    CREATE VECTOR INDEX concept_embeddings IF NOT EXISTS
+                    FOR (n:Concept) ON n.concept_embeddings
+                    OPTIONS {{
+                        indexConfig: {{
+                            `vector.dimensions`: {embedding_dim},
+                            `vector.similarity_function`: 'cosine'
+                        }}
+                    }}
+                    """
+                    graph.query(create_index_query)
+                    print("✓ Concept vector index created manually", flush=True)
+                except Exception as manual_error:
+                    print(f"⚠️ Manual concept index creation also failed: {manual_error}", flush=True)
+                    print(f"⚠️ Index may already exist or Neo4j version may not support vector indexes", flush=True)
+        else:
+                print(f"⚠️ Concept vector index may already exist: {e}", flush=True)
         
         print(f"✓ Concept generation: {time() - function_start:.2f}s", flush=True)
-        
+
     except Exception as e:
         log_error(f"Error in concept generation: {e}")
         log_error(f"{traceback.format_exc()}")
@@ -547,21 +726,31 @@ async def load_files_neo4j_graphrag(
         embeddings_model = OpenAIEmbeddings()
         print(f"✓ Embedding model initialization: {time() - step_start:.2f}s", flush=True)
 
-        # Extract text
+        # Parse transcription chunks with metadata (chunk ID, timecodes)
         step_start = time()
-        text = extract_text_from_file(path)
-        text_length = len(text) if text else 0
-        print(f"✓ File processing: {time() - step_start:.2f}s - Text length: {text_length}", flush=True)
-
-        if not text:
-            raise ValueError("No text extracted from file")
-
-        # Split text
-        step_start = time()
-        text_splitter = SemanticSplitter()
-        text_chunks_obj = await text_splitter.run(text)
-        text_chunks = [chunk.text for chunk in text_chunks_obj.chunks]
-        print(f"✓ Document splitting: {time() - step_start:.2f}s - Created {len(text_chunks)} chunks", flush=True)
+        transcription_chunks = parse_transcription_chunks(path)
+        
+        if not transcription_chunks:
+            raise ValueError("No chunks parsed from transcription file")
+        
+        # Extract text chunks and metadata
+        text_chunks = [chunk["text"] for chunk in transcription_chunks]
+        chunk_metadata = {
+            i: {
+                "chunk_id": chunk["chunk_id"],
+                "start_time": chunk.get("start_time"),
+                "end_time": chunk.get("end_time")
+            }
+            for i, chunk in enumerate(transcription_chunks)
+        }
+        
+        text_length = sum(len(chunk["text"]) for chunk in transcription_chunks)
+        print(f"✓ File processing: {time() - step_start:.2f}s - Parsed {len(transcription_chunks)} chunks, Text length: {text_length}", flush=True)
+        
+        # If chunks don't have timecodes, we still use them but without time metadata
+        chunks_with_timecodes = sum(1 for c in transcription_chunks if c.get("start_time") is not None)
+        if chunks_with_timecodes > 0:
+            print(f"✓ Found timecodes for {chunks_with_timecodes}/{len(transcription_chunks)} chunks", flush=True)
 
         # Create embeddings
         step_start = time()
@@ -621,32 +810,42 @@ async def load_files_neo4j_graphrag(
 
         # Neo4j connection
         step_start = time()
+        actual_db_name = get_database_name(db_name)
         graph = Neo4jGraph(
             url=NEO4J_URI,
             username=NEO4J_USERNAME,
             password=NEO4J_PASSWORD,
-            database=db_name
+            database=actual_db_name
         )
         print(f"✓ Neo4j connection setup: {time() - step_start:.2f}s", flush=True)
 
-        # Prepare document data
+        # Prepare document data with timecode metadata
         step_start = time()
         document_name = os.path.basename(path)
         document_data = []
         document_url = url_mapping_dict.get(document_name, "") if url_mapping_dict else ""
         
         for i, (chunk, embedding) in enumerate(zip(text_chunks, chunk_embeddings)):
-            document_data.append({
-                "chunk_id": i,
+            metadata = chunk_metadata.get(i, {})
+            chunk_data = {
+                "chunk_id": metadata.get("chunk_id", i),
                 "text": chunk,
                 "chunk_embeddings": embedding,
                 "document_name": document_name,
                 "url": document_url
-            })
+            }
+            
+            # Add timecode metadata if available
+            if metadata.get("start_time") is not None:
+                chunk_data["start_time"] = metadata["start_time"]
+            if metadata.get("end_time") is not None:
+                chunk_data["end_time"] = metadata["end_time"]
+            
+            document_data.append(chunk_data)
         
         print(f"✓ Document data preparation: {time() - step_start:.2f}s", flush=True)
 
-        # Upload to Neo4j
+        # Upload to Neo4j with timecode metadata
         step_start = time()
         upload_query = """
         UNWIND $chunks AS chunk
@@ -656,16 +855,20 @@ async def load_files_neo4j_graphrag(
             text: chunk.text,
             chunk_embeddings: chunk.chunk_embeddings,
             document_name: chunk.document_name,
-            url: chunk.url
+            url: chunk.url,
+            start_time: chunk.start_time,
+            end_time: chunk.end_time,
+            last_updated: datetime()
         })
         MERGE (doc)-[:HAS_CHUNK]->(c)
-        """
+            """
         
         graph.query(upload_query, params={"chunks": document_data})
         print(f"✓ Data upload to Neo4j: {time() - step_start:.2f}s", flush=True)
 
         # Create vector index
         step_start = time()
+        actual_db_name = get_database_name(db_name)
         vector_store = Neo4jVector(
             embedding=embeddings_model,
             index_name="chunk_embeddings",
@@ -674,11 +877,42 @@ async def load_files_neo4j_graphrag(
             url=NEO4J_URI,
             username=NEO4J_USERNAME,
             password=NEO4J_PASSWORD,
-            database=db_name
+            database=actual_db_name
         )
         
-        vector_store.create_new_index()
-        print(f"✓ Vector index creation: {time() - step_start:.2f}s", flush=True)
+        # Try to create index using library method, fallback to manual creation if it fails
+        try:
+            vector_store.create_new_index()
+            print(f"✓ Vector index creation: {time() - step_start:.2f}s", flush=True)
+        except Exception as e:
+            # If library method fails (e.g., parameterized index name issue), create manually
+            error_str = str(e).lower()
+            if "syntax" in error_str or "parameter" in error_str or "$name" in error_str:
+                print(f"⚠️ Library index creation failed, creating index manually...", flush=True)
+                try:
+                    # Get embedding dimension
+                    test_embedding = await embeddings_model.aembed_query("test")
+                    embedding_dim = len(test_embedding)
+                    
+                    # Create index manually with literal name
+                    create_index_query = f"""
+                    CREATE VECTOR INDEX chunk_embeddings IF NOT EXISTS
+                    FOR (n:Chunk) ON n.chunk_embeddings
+                    OPTIONS {{
+                        indexConfig: {{
+                            `vector.dimensions`: {embedding_dim},
+                            `vector.similarity_function`: 'cosine'
+                        }}
+                    }}
+                    """
+                    graph.query(create_index_query)
+                    print(f"✓ Vector index created manually: {time() - step_start:.2f}s", flush=True)
+                except Exception as manual_error:
+                    print(f"⚠️ Manual index creation also failed: {manual_error}", flush=True)
+                    print(f"⚠️ Index may already exist or Neo4j version may not support vector indexes", flush=True)
+            else:
+                # Re-raise if it's a different error
+                raise
 
         # Generate concepts if enabled
         if generate_concepts:
@@ -701,4 +935,169 @@ async def load_files_neo4j_graphrag(
         error_msg = f"Error in load_files_neo4j_graphrag: {e}\n{traceback.format_exc()}"
         log_error(error_msg)
         raise RuntimeError(f"GraphRAG processing failed: {str(e)}") from e
+
+
+async def update_chunk_in_neo4j(
+    document_name: str,
+    chunk_id: int,
+    new_text: str,
+    db_name: str = "lng_transcriptions"
+) -> dict:
+    """
+    Update a specific chunk's text and regenerate its embedding in Neo4j.
+    This allows manual corrections to transcriptions to be reflected in the graph.
+    
+    Args:
+        document_name: Name of the document (transcription file)
+        chunk_id: The chunk ID to update (0-indexed)
+        new_text: The new text content for the chunk
+        db_name: Database name (will be adjusted for Community Edition)
+    
+    Returns:
+        dict with success status and updated chunk info
+    """
+    try:
+        actual_db_name = get_database_name(db_name)
+        
+        # Initialize embedding model
+        embeddings_model = OpenAIEmbeddings()
+        
+        # Generate new embedding for the updated text
+        print(f"🔄 Regenerating embedding for chunk {chunk_id} in {document_name}...", flush=True)
+        new_embedding = await embeddings_model.aembed_query(new_text)
+        
+        # Connect to Neo4j
+        graph = Neo4jGraph(
+            url=NEO4J_URI,
+            username=NEO4J_USERNAME,
+            password=NEO4J_PASSWORD,
+            database=actual_db_name
+        )
+        
+        # Update the chunk node
+        update_query = """
+        MATCH (c:Chunk {document_name: $document_name, id: $chunk_id})
+        SET c.text = $new_text,
+            c.chunk_embeddings = $new_embedding,
+            c.last_updated = datetime()
+        RETURN c
+        """
+        
+        result = graph.query(
+            update_query,
+            params={
+                "document_name": document_name,
+                "chunk_id": chunk_id,
+                "new_text": new_text,
+                "new_embedding": new_embedding
+            }
+        )
+        
+        if not result:
+            raise ValueError(f"Chunk {chunk_id} not found in document {document_name}")
+        
+        # Update vector index
+        vector_store = Neo4jVector(
+            embedding=embeddings_model,
+            url=NEO4J_URI,
+            username=NEO4J_USERNAME,
+            password=NEO4J_PASSWORD,
+            database=actual_db_name,
+            index_name="chunk_index"
+        )
+        
+        # Delete old vector and add new one
+        delete_query = """
+        MATCH (c:Chunk {document_name: $document_name, id: $chunk_id})
+        DETACH DELETE c
+        """
+        graph.query(delete_query, params={"document_name": document_name, "chunk_id": chunk_id})
+        
+        # Re-add chunk with new embedding
+        create_query = """
+        MATCH (doc:Document {name: $document_name})
+        CREATE (c:Chunk {
+            id: $chunk_id,
+            text: $new_text,
+            chunk_embeddings: $new_embedding,
+            document_name: $document_name,
+            last_updated: datetime()
+        })
+        MERGE (doc)-[:HAS_CHUNK]->(c)
+        RETURN c
+        """
+        graph.query(create_query, params={
+            "document_name": document_name,
+            "chunk_id": chunk_id,
+            "new_text": new_text,
+            "new_embedding": new_embedding
+        })
+        
+        # Update vector store
+        vector_store.add_texts([new_text], metadatas=[{
+            "document_name": document_name,
+            "chunk_id": chunk_id
+        }])
+        
+        print(f"✓ Successfully updated chunk {chunk_id} in {document_name}", flush=True)
+        
+        return {
+            "success": True,
+            "document_name": document_name,
+            "chunk_id": chunk_id,
+            "message": "Chunk updated successfully"
+        }
+        
+    except Exception as e:
+        error_msg = f"Error updating chunk: {e}\n{traceback.format_exc()}"
+        log_error(error_msg)
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+async def update_transcription_file(
+    transcription_path: str,
+    chunk_id: int,
+    new_text: str
+) -> bool:
+    """
+    Update a specific chunk in a transcription file.
+    
+    Args:
+        transcription_path: Path to the transcription file
+        chunk_id: The chunk ID to update (0-indexed, but file uses 1-indexed)
+        new_text: The new text content
+    
+    Returns:
+        True if successful, False otherwise
+                """
+    try:
+        with open(transcription_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        # Find and replace the chunk
+        # Pattern: === Chunk N [timecodes] ===\n<text>
+        file_chunk_id = chunk_id + 1  # File uses 1-indexed
+        
+        # Match chunk header and content
+        pattern = rf'(=== Chunk {file_chunk_id}(?: \[[^\]]+\])? ===\n)(.*?)(?=\n=== Chunk|\Z)'
+        
+        def replace_chunk(match):
+            header = match.group(1)
+            return header + new_text + "\n"
+        
+        new_content = re.sub(pattern, replace_chunk, content, flags=re.DOTALL)
+        
+        # Write back to file
+        with open(transcription_path, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        
+        print(f"✓ Updated transcription file: {transcription_path} (chunk {file_chunk_id})", flush=True)
+        return True
+
+    except Exception as e:
+        log_error(f"Error updating transcription file: {e}")
+        return False
 
