@@ -320,7 +320,7 @@ def api_update_transcription():
         if graphrag_path not in sys.path:
             sys.path.insert(0, graphrag_path)
         
-        from graphrag.own_graph_rag import update_transcription_file, update_chunk_in_neo4j
+        from own_graph_rag import update_transcription_file, update_chunk_in_neo4j
         import os as os_module
         from dotenv import load_dotenv
         

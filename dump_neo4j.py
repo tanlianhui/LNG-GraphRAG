@@ -5,6 +5,7 @@ Dump Neo4j database to ./neo4j folder
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 from datetime import datetime
 
@@ -53,29 +54,88 @@ def create_dump_directory():
     dump_path.mkdir(parents=True, exist_ok=True)
     return dump_path
 
-def dump_database(dump_path: Path):
+def stop_neo4j():
+    """Stop Neo4j service in container"""
+    print("🛑 Stopping Neo4j service for offline dump...")
+    try:
+        subprocess.run(
+            ["docker", "exec", CONTAINER_NAME, "neo4j", "stop"],
+            check=True,
+            capture_output=True,
+            timeout=30
+        )
+        # Wait a bit for Neo4j to fully stop
+        time.sleep(3)
+        return True
+    except subprocess.TimeoutExpired:
+        print("⚠️  Neo4j stop command timed out, continuing...")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"⚠️  Error stopping Neo4j (may already be stopped): {e}")
+        return True
+
+def start_neo4j():
+    """Start Neo4j service in container"""
+    print("🚀 Starting Neo4j service...")
+    try:
+        subprocess.run(
+            ["docker", "exec", CONTAINER_NAME, "neo4j", "start"],
+            check=True,
+            capture_output=True,
+            timeout=30
+        )
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"⚠️  Error starting Neo4j: {e}")
+        return False
+
+def dump_database(dump_path: Path, offline=False):
     """Dump Neo4j database using neo4j-admin"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     dump_file = dump_path / f"neo4j_dump_{timestamp}.dump"
     
     print(f"📦 Dumping Neo4j database '{DB_NAME}' to {dump_file}...")
+    if offline:
+        print("   Using offline dump mode (Neo4j will be stopped temporarily)...")
     
     try:
-        # Use neo4j-admin database dump command
-        # Note: For Community Edition, we use the default "neo4j" database
-        cmd = [
-            "docker", "exec", CONTAINER_NAME,
-            "neo4j-admin", "database", "dump", DB_NAME,
-            "--to-path=/dumps",
-            f"--overwrite-destination=true"
-        ]
-        
         # First, create /dumps directory in container if it doesn't exist
+        # Run as root to ensure we can create the directory
         subprocess.run(
             ["docker", "exec", CONTAINER_NAME, "mkdir", "-p", "/dumps"],
             check=True,
             capture_output=True
         )
+        
+        # Set proper permissions on /dumps directory so neo4j user can write
+        subprocess.run(
+            ["docker", "exec", CONTAINER_NAME, "chown", "-R", "neo4j:neo4j", "/dumps"],
+            check=False,
+            capture_output=True
+        )
+        subprocess.run(
+            ["docker", "exec", CONTAINER_NAME, "chmod", "755", "/dumps"],
+            check=False,
+            capture_output=True
+        )
+        
+        # Stop Neo4j if offline dump is requested
+        if offline:
+            stop_neo4j()
+        
+        # Use neo4j-admin database dump command
+        # Note: For Community Edition, we use the default "neo4j" database
+        # Run as neo4j user to ensure proper permissions
+        cmd = [
+            "docker", "exec", "-u", "neo4j", CONTAINER_NAME,
+            "neo4j-admin", "database", "dump", DB_NAME,
+            "--to-path=/dumps",
+            "--overwrite-destination=true"
+        ]
+        
+        # Add verbose flag for better error messages
+        if not offline:
+            cmd.append("--verbose")
         
         # Run dump command
         result = subprocess.run(
@@ -84,6 +144,10 @@ def dump_database(dump_path: Path):
             text=True,
             check=True
         )
+        
+        # If offline, start Neo4j again
+        if offline:
+            start_neo4j()
         
         # Copy dump file from container to host
         container_dump_path = f"/dumps/{DB_NAME}.dump"
@@ -112,9 +176,32 @@ def dump_database(dump_path: Path):
         return dump_file
         
     except subprocess.CalledProcessError as e:
+        # If online dump failed and we haven't tried offline, try offline dump
+        if not offline:
+            print(f"⚠️  Online dump failed, trying offline dump...")
+            print(f"   Error: {e.stderr if e.stderr else str(e)}")
+            print()
+            # Try to start Neo4j if it was stopped
+            try:
+                start_neo4j()
+            except:
+                pass
+            # Retry with offline dump
+            return dump_database(dump_path, offline=True)
+        
         print(f"❌ Error dumping database: {e}")
         if e.stderr:
             print(f"   Error output: {e.stderr}")
+        if e.stdout:
+            print(f"   Output: {e.stdout}")
+        
+        # Try to start Neo4j if it was stopped
+        if offline:
+            try:
+                start_neo4j()
+            except:
+                pass
+        
         return None
 
 def main():

@@ -608,17 +608,28 @@
         async function loadDownloadStatus() {
             try {
                 const response = await fetch('/api/download-status');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
                 
                 if (data.success) {
                     allVideos = data.videos;
                     updateStats(data);
                     renderVideos(allVideos);
+                } else {
+                    throw new Error(data.error || 'Failed to load download status');
                 }
             } catch (error) {
                 console.error('Error loading download status:', error);
-                document.getElementById('videosTableBody').innerHTML = 
-                    '<tr><td colspan="5" style="text-align: center; color: red;">Error loading videos</td></tr>';
+                const tbody = document.getElementById('videosTableBody');
+                if (tbody) {
+                    tbody.innerHTML = 
+                        '<tr><td colspan="5" style="text-align: center; color: red;">Error loading videos: ' + 
+                        (error.message || 'Unknown error') + '</td></tr>';
+                }
             }
         }
 
@@ -715,16 +726,27 @@
         async function loadTranscriptions() {
             try {
                 const response = await fetch('/api/transcriptions');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
                 
                 if (data.success) {
                     allTranscriptions = data.transcriptions;
                     renderTranscriptions(allTranscriptions);
+                } else {
+                    throw new Error(data.error || 'Failed to load transcriptions');
                 }
             } catch (error) {
                 console.error('Error loading transcriptions:', error);
-                document.getElementById('transcriptionsList').innerHTML = 
-                    '<div style="text-align: center; color: red;">Error loading transcriptions</div>';
+                const container = document.getElementById('transcriptionsList');
+                if (container) {
+                    container.innerHTML = 
+                        '<div style="text-align: center; padding: 40px; color: red;">Error loading transcriptions: ' + 
+                        (error.message || 'Unknown error') + '</div>';
+                }
             }
         }
 
@@ -774,24 +796,36 @@
                     try {
                         // Load chunks with metadata
                         const chunksResponse = await fetch(`/api/transcription/chunks/${encodeURIComponent(transcription.filename)}`);
+                        
+                        if (!chunksResponse.ok) {
+                            throw new Error(`HTTP error! status: ${chunksResponse.status}`);
+                        }
+                        
                         const chunksData = await chunksResponse.json();
                         
-                        if (chunksData.success) {
+                        if (chunksData.success && chunksData.chunks) {
                             // Render chunks with edit capability
                             renderChunksWithEdit(content, chunksData.chunks, transcription.filename);
                         } else {
                             // Fallback to old method
                             const response = await fetch(`/api/transcription/${encodeURIComponent(transcription.filename)}`);
+                            
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            
                             const data = await response.json();
                             
                             if (data.success) {
                                 const formatted = formatTranscription(data.content);
                                 content.innerHTML = formatted;
                             } else {
-                            content.innerHTML = '<div class="error-message">Error loading transcription</div>';
+                                content.innerHTML = `<div class="error-message">Error loading transcription: ${data.error || 'Unknown error'}</div>`;
+                            }
                         }
                     } catch (error) {
-                        content.innerHTML = '<div class="error-message">Error loading transcription</div>';
+                        console.error('Error loading transcription:', error);
+                        content.innerHTML = `<div class="error-message">Error loading transcription: ${error.message || 'Unknown error'}</div>`;
                     }
                 }
             }
@@ -799,24 +833,38 @@
 
         // Render chunks with edit capability
         function renderChunksWithEdit(container, chunks, filename) {
+            if (!chunks || chunks.length === 0) {
+                container.innerHTML = '<div class="error-message">No chunks found in transcription file</div>';
+                return;
+            }
+            
             container.innerHTML = chunks.map((chunk, index) => {
-                const chunkId = chunk.chunk_id;
+                const chunkId = chunk.chunk_id !== undefined ? chunk.chunk_id : index;
                 const text = chunk.text || '';
-                const timecode = chunk.start_time !== null && chunk.end_time !== null
-                    ? `[${chunk.start_time.toFixed(2)}s - ${chunk.end_time.toFixed(2)}s]`
-                    : '';
+                let timecode = '';
+                if (chunk.start_time !== null && chunk.start_time !== undefined && 
+                    chunk.end_time !== null && chunk.end_time !== undefined) {
+                    try {
+                        timecode = `[${parseFloat(chunk.start_time).toFixed(2)}s - ${parseFloat(chunk.end_time).toFixed(2)}s]`;
+                    } catch (e) {
+                        timecode = '';
+                    }
+                }
+                
+                // Escape filename for use in JavaScript string
+                const escapedFilename = filename.replace(/'/g, "\\'").replace(/"/g, '\\"');
                 
                 return `
                     <div class="transcription-chunk" id="chunk-${chunkId}">
                         <div class="transcription-chunk-header">
                             <span>Chunk ${chunkId + 1} ${timecode}</span>
-                            <button class="edit-btn" onclick="editChunk(${chunkId}, '${filename.replace(/'/g, "\\'")}')">✏️ Edit</button>
+                            <button class="edit-btn" onclick="editChunk(${chunkId}, '${escapedFilename}')">✏️ Edit</button>
                         </div>
                         <div class="chunk-content" id="chunk-content-${chunkId}">${escapeHtml(text)}</div>
                         <div class="chunk-editor" id="chunk-editor-${chunkId}" style="display: none;">
                             <textarea class="chunk-edit-textarea" id="chunk-textarea-${chunkId}">${escapeHtml(text)}</textarea>
                             <div class="chunk-edit-actions">
-                                <button class="btn btn-primary" onclick="saveChunk(${chunkId}, '${filename.replace(/'/g, "\\'")}')">💾 Save</button>
+                                <button class="btn btn-primary" onclick="saveChunk(${chunkId}, '${escapedFilename}')">💾 Save</button>
                                 <button class="btn btn-secondary" onclick="cancelEdit(${chunkId})">❌ Cancel</button>
                             </div>
                         </div>
@@ -925,8 +973,15 @@
 
         // Execute GraphRAG query
         async function executeQuery() {
-            const query = document.getElementById('cypherQuery').value.trim();
+            const queryInput = document.getElementById('cypherQuery');
             const resultsDiv = document.getElementById('queryResults');
+            
+            if (!queryInput || !resultsDiv) {
+                console.error('Query elements not found');
+                return;
+            }
+            
+            const query = queryInput.value.trim();
             
             if (!query) {
                 resultsDiv.innerHTML = '<div class="error-message">Please enter a query</div>';
@@ -943,6 +998,10 @@
                     },
                     body: JSON.stringify({ query: query })
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 
@@ -962,7 +1021,8 @@
                     resultsDiv.innerHTML = `<div class="error-message">${data.error || 'Query failed'}</div>`;
                 }
             } catch (error) {
-                resultsDiv.innerHTML = `<div class="error-message">Error: ${error.message}</div>`;
+                console.error('Error executing query:', error);
+                resultsDiv.innerHTML = `<div class="error-message">Error: ${error.message || 'Unknown error'}</div>`;
             }
         }
 
