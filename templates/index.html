@@ -593,10 +593,14 @@
                 return;
             }
 
-            tbody.innerHTML = videos.map(video => `
+            tbody.innerHTML = videos.map(video => {
+                // If transcription exists, mark as completed (transcription = completed)
+                const displayStatus = video.transcription_exists ? 'completed' : video.status;
+                
+                return `
                 <tr>
                     <td>${escapeHtml(video.title)}</td>
-                    <td><span class="status-badge status-${video.status}">${video.status}</span></td>
+                    <td><span class="status-badge status-${displayStatus}">${displayStatus}</span></td>
                     <td>
                         <span class="file-indicator ${video.wav_exists ? 'file-exists' : 'file-missing'}"></span>
                         ${video.wav_exists ? 'Yes' : 'No'}
@@ -607,7 +611,8 @@
                     </td>
                     <td><a href="${video.url}" target="_blank" style="color: #667eea;">View</a></td>
                 </tr>
-            `).join('');
+            `;
+            }).join('');
         }
 
         // Filter by status
@@ -623,7 +628,13 @@
             // Filter videos
             let filtered = allVideos;
             if (status !== 'all') {
-                filtered = allVideos.filter(v => v.status === status);
+                // For completed filter, include videos with transcriptions (transcription = completed)
+                if (status === 'completed') {
+                    filtered = allVideos.filter(v => v.transcription_exists || v.status === 'completed');
+                } else {
+                    // For other statuses, exclude videos with transcriptions (they're considered completed)
+                    filtered = allVideos.filter(v => v.status === status && !v.transcription_exists);
+                }
             }
             
             renderVideos(filtered);
@@ -635,7 +646,13 @@
             let filtered = allVideos;
             
             if (currentStatusFilter !== 'all') {
-                filtered = filtered.filter(v => v.status === currentStatusFilter);
+                // For completed filter, include videos with transcriptions (transcription = completed)
+                if (currentStatusFilter === 'completed') {
+                    filtered = filtered.filter(v => v.transcription_exists || v.status === 'completed');
+                } else {
+                    // For other statuses, exclude videos with transcriptions (they're considered completed)
+                    filtered = filtered.filter(v => v.status === currentStatusFilter && !v.transcription_exists);
+                }
             }
             
             if (searchTerm) {

@@ -13,26 +13,36 @@ TRANSCRIPTIONS_DIR = "./transcriptions"
 VODS_DIR = "./VODs"
 
 def get_download_status() -> List[Dict]:
-    """Read download status from CSV file"""
+    """Read download status from CSV file and update based on transcription existence"""
     videos = []
     if not os.path.exists(VODS_CSV):
         return videos
     
+    updated_rows = []
+    needs_update = False
+    
     try:
         with open(VODS_CSV, 'r', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f)
+            fieldnames = reader.fieldnames
+            
             for row in reader:
                 title = row.get('title', '')
                 url = row.get('url', '')
                 status = row.get('status', 'pending')
                 
-                # Check if WAV file exists
-                wav_file = os.path.join(VODS_DIR, f"{title}.wav")
-                file_exists = os.path.exists(wav_file)
-                
                 # Check if transcription exists
                 transcription_file = os.path.join(TRANSCRIPTIONS_DIR, f"{title}_combined.txt")
                 transcription_exists = os.path.exists(transcription_file)
+                
+                # If transcription exists, mark as completed (regardless of WAV file)
+                if transcription_exists and status != 'completed':
+                    status = 'completed'
+                    needs_update = True
+                
+                # Check if WAV file exists (for display purposes only)
+                wav_file = os.path.join(VODS_DIR, f"{title}.wav")
+                file_exists = os.path.exists(wav_file)
                 
                 videos.append({
                     'title': title,
@@ -43,10 +53,31 @@ def get_download_status() -> List[Dict]:
                     'wav_file': wav_file if file_exists else None,
                     'transcription_file': transcription_file if transcription_exists else None
                 })
+                
+                # Store updated row for CSV update
+                updated_row = row.copy()
+                updated_row['status'] = status
+                updated_rows.append(updated_row)
+        
+        # Update CSV if any statuses were changed
+        if needs_update and updated_rows:
+            update_csv_file(updated_rows, fieldnames)
+            
     except Exception as e:
         print(f"Error reading CSV: {e}")
     
     return videos
+
+def update_csv_file(rows: List[Dict], fieldnames: List[str]):
+    """Update the CSV file with corrected statuses"""
+    try:
+        with open(VODS_CSV, 'w', newline='', encoding='utf-8-sig') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+        print(f"✅ Updated CSV file with {len(rows)} entries")
+    except Exception as e:
+        print(f"⚠️  Error updating CSV file: {e}")
 
 def get_transcription_files() -> List[Dict]:
     """Get list of all transcription files"""
@@ -98,14 +129,16 @@ def index():
 def api_download_status():
     """API endpoint for download status"""
     videos = get_download_status()
+    # Count completed as videos with transcriptions (transcription = completed)
+    completed_count = sum(1 for v in videos if v['transcription_exists'] or v['status'] == 'completed')
     return jsonify({
         'success': True,
         'videos': videos,
         'total': len(videos),
-        'completed': sum(1 for v in videos if v['status'] == 'completed'),
-        'pending': sum(1 for v in videos if v['status'] == 'pending'),
-        'failed': sum(1 for v in videos if v['status'] == 'failed'),
-        'skipped': sum(1 for v in videos if v['status'] == 'skipped'),
+        'completed': completed_count,
+        'pending': sum(1 for v in videos if v['status'] == 'pending' and not v['transcription_exists']),
+        'failed': sum(1 for v in videos if v['status'] == 'failed' and not v['transcription_exists']),
+        'skipped': sum(1 for v in videos if v['status'] == 'skipped' and not v['transcription_exists']),
         'with_transcriptions': sum(1 for v in videos if v['transcription_exists'])
     })
 
@@ -150,15 +183,73 @@ def api_graphrag_query():
             'error': 'No query provided'
         }), 400
     
-    # TODO: Implement Neo4j connection and query execution
-    # For now, return a placeholder response
-    return jsonify({
-        'success': True,
-        'query': query,
-        'message': 'GraphRAG Neo4j integration coming soon',
-        'results': [],
-        'note': 'This endpoint will connect to Neo4j and execute Cypher queries once GraphRAG is implemented'
-    })
+    # Neo4j connection settings
+    NEO4J_URI = os.getenv('NEO4J_URI', 'bolt://localhost:7687')
+    NEO4J_USERNAME = os.getenv('NEO4J_USERNAME', 'neo4j')
+    NEO4J_PASSWORD = os.getenv('NEO4J_PASSWORD', 'lng-graphrag-password')
+    DB_NAME = os.getenv('NEO4J_DB_NAME', 'lng_transcriptions')
+    
+    try:
+        import neo4j
+        
+        # Connect to Neo4j
+        driver = neo4j.GraphDatabase.driver(
+            NEO4J_URI,
+            auth=(NEO4J_USERNAME, NEO4J_PASSWORD),
+            connection_timeout=30
+        )
+        
+        # Execute query
+        with driver.session(database=DB_NAME) as session:
+            result = session.run(query)
+            
+            # Collect results
+            records = []
+            for record in result:
+                # Convert record to dict
+                record_dict = {}
+                for key in record.keys():
+                    value = record[key]
+                    # Handle Neo4j types
+                    if hasattr(value, '__dict__'):
+                        record_dict[key] = str(value)
+                    else:
+                        record_dict[key] = value
+                records.append(record_dict)
+            
+            # Get summary
+            summary = result.consume()
+            
+            return jsonify({
+                'success': True,
+                'query': query,
+                'results': records,
+                'summary': {
+                    'result_available_after': summary.result_available_after,
+                    'result_consumed_after': summary.result_consumed_after,
+                    'counters': {
+                        'nodes_created': summary.counters.nodes_created,
+                        'nodes_deleted': summary.counters.nodes_deleted,
+                        'relationships_created': summary.counters.relationships_created,
+                        'relationships_deleted': summary.counters.relationships_deleted,
+                    }
+                }
+            })
+        
+    except ImportError:
+        return jsonify({
+            'success': False,
+            'error': 'Neo4j driver not installed. Install with: pip install neo4j'
+        }), 500
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Query execution failed: {str(e)}',
+            'query': query
+        }), 500
+    finally:
+        if 'driver' in locals():
+            driver.close()
 
 @app.route('/api/stats')
 def api_stats():
@@ -166,13 +257,16 @@ def api_stats():
     videos = get_download_status()
     transcriptions = get_transcription_files()
     
+    # Completed = videos with transcriptions (transcription = completed)
+    completed_count = sum(1 for v in videos if v['transcription_exists'] or v['status'] == 'completed')
+    
     return jsonify({
         'success': True,
         'stats': {
             'total_videos': len(videos),
-            'completed_downloads': sum(1 for v in videos if v['status'] == 'completed'),
-            'pending_downloads': sum(1 for v in videos if v['status'] == 'pending'),
-            'failed_downloads': sum(1 for v in videos if v['status'] == 'failed'),
+            'completed_downloads': completed_count,
+            'pending_downloads': sum(1 for v in videos if v['status'] == 'pending' and not v['transcription_exists']),
+            'failed_downloads': sum(1 for v in videos if v['status'] == 'failed' and not v['transcription_exists']),
             'total_transcriptions': len(transcriptions),
             'videos_with_transcriptions': sum(1 for v in videos if v['transcription_exists']),
             'total_wav_files': sum(1 for v in videos if v['wav_exists'])
