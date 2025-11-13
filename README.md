@@ -254,10 +254,13 @@ docker-compose up -d
 # OR
 ./setup_neo4j.sh
 
-# 3. Verify Neo4j is ready
+# 3. (Optional) Restore database from dump if available
+python auto_restore_neo4j.py
+
+# 4. Verify Neo4j is ready
 docker ps | grep lng-neo4j
 
-# 4. Start web dashboard
+# 5. Start web dashboard
 python launch_web.py
 ```
 
@@ -286,6 +289,35 @@ python load_transcriptions_to_neo4j.py
 # - Process only new files
 # - Update the knowledge graph
 ```
+
+#### Backup and Restore Neo4j Database
+
+**Create a backup:**
+```bash
+python dump_neo4j.py
+```
+
+This creates a timestamped dump file in `./neo4j/` directory.
+
+**Restore from backup:**
+```bash
+# Restore from latest dump
+python restore_neo4j.py
+
+# Restore from specific dump file
+python restore_neo4j.py --dump-file neo4j_dump_20250101_120000.dump
+```
+
+**Auto-restore on startup:**
+```bash
+# After starting Neo4j, automatically restore if database is empty
+python auto_restore_neo4j.py
+
+# Force restore even if database has data
+python auto_restore_neo4j.py --force
+```
+
+See `NEO4J_BACKUP.md` for detailed backup/restore documentation.
 
 ### Troubleshooting Quick Reference
 
@@ -347,6 +379,10 @@ LNG-GraphRAG/
 ├── load_transcriptions_to_neo4j.py  # Transcription loader
 ├── setup_neo4j.sh         # Neo4j setup script
 ├── docker-compose.yml     # Neo4j Docker config
+├── dump_neo4j.py          # Backup Neo4j database
+├── restore_neo4j.py       # Restore Neo4j database
+├── auto_restore_neo4j.py  # Auto-restore on startup
+├── neo4j/                 # Database dumps (gitignored)
 └── .env                   # Environment variables (create this)
 ```
 

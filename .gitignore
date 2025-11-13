@@ -89,3 +89,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 VODs/*.wav
+
+# Neo4j dumps
+neo4j/
+*.dump
