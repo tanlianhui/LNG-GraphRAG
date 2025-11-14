@@ -193,6 +193,7 @@ def api_graphrag_query():
     
     try:
         import neo4j
+        from time import time
         
         # Connect to Neo4j
         driver = neo4j.GraphDatabase.driver(
@@ -202,14 +203,29 @@ def api_graphrag_query():
         )
         
         # Detect Community Edition and use appropriate database
+        # Use the same detection logic as own_graph_rag.py
         actual_db_name = DB_NAME
+        is_community_edition = True  # Assume Community Edition by default
+        
+        # Test if CREATE DATABASE is supported (Enterprise Edition feature)
+        test_db_name = f"_test_db_{int(time())}"
         try:
-            # Try to access system database (Enterprise Edition feature)
-            with driver.session(database="system") as test_session:
-                test_session.run("SHOW DATABASES")
+            with driver.session(database="system") as session:
+                # Try to create a test database
+                session.run(f"CREATE DATABASE {test_db_name}")
+                # If successful, immediately drop it
+                session.run(f"DROP DATABASE {test_db_name} IF EXISTS")
+            # If we get here, it's Enterprise Edition
+            is_community_edition = False
         except Exception:
-            # Community Edition - use default database "neo4j"
-            actual_db_name = "neo4j"
+            # Any error creating database means Community Edition
+            is_community_edition = True
+        
+        # Use appropriate database name
+        if is_community_edition:
+            actual_db_name = "neo4j"  # Default database in Community Edition
+        else:
+            actual_db_name = DB_NAME  # Use requested database in Enterprise Edition
         
         # Execute query
         with driver.session(database=actual_db_name) as session:
