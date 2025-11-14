@@ -189,6 +189,465 @@ def api_transcription_content(filename):
         'content': content
     })
 
+@app.route('/api/graphrag/nl-query', methods=['POST'])
+def api_graphrag_nl_query():
+    """API endpoint for natural language queries - converts to Cypher using LLM"""
+    data = request.get_json()
+    nl_query = data.get('query', '')
+    
+    if not nl_query:
+        return jsonify({
+            'success': False,
+            'error': 'No query provided'
+        }), 400
+    
+    try:
+        # Import LLM
+        from langchain_openai import ChatOpenAI
+        from dotenv import load_dotenv
+        import os as os_module
+        
+        load_dotenv()
+        
+        # Initialize LLM
+        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        
+        # Get database schema information
+        NEO4J_URI = os.getenv('NEO4J_URI', 'bolt://localhost:7687')
+        NEO4J_USERNAME = os.getenv('NEO4J_USERNAME', 'neo4j')
+        NEO4J_PASSWORD = os.getenv('NEO4J_PASSWORD', 'lng-graphrag-password')
+        DB_NAME = os.getenv('NEO4J_DB_NAME', 'lng_transcriptions')
+        
+        import neo4j
+        from time import time
+        
+        # Connect to Neo4j to get schema
+        driver = neo4j.GraphDatabase.driver(
+            NEO4J_URI,
+            auth=(NEO4J_USERNAME, NEO4J_PASSWORD),
+            connection_timeout=30
+        )
+        
+        # Detect Community Edition
+        actual_db_name = DB_NAME
+        is_community_edition = True
+        test_db_name = f"_test_db_{int(time())}"
+        try:
+            with driver.session(database="system") as session:
+                session.run(f"CREATE DATABASE {test_db_name}")
+                session.run(f"DROP DATABASE {test_db_name} IF EXISTS")
+            is_community_edition = False
+        except Exception:
+            is_community_edition = True
+        
+        if is_community_edition:
+            actual_db_name = "neo4j"
+        else:
+            actual_db_name = DB_NAME
+        
+        # Get schema information
+        schema_info = ""
+        try:
+            with driver.session(database=actual_db_name) as session:
+                # Get node labels
+                result = session.run("CALL db.labels()")
+                labels = [record["label"] for record in result]
+                
+                # Get relationship types
+                result = session.run("CALL db.relationshipTypes()")
+                rel_types = [record["relationshipType"] for record in result]
+                
+                # Get sample properties for each label
+                label_props = {}
+                for label in labels[:10]:  # Limit to first 10 labels
+                    try:
+                        result = session.run(f"MATCH (n:{label}) RETURN keys(n) as keys LIMIT 1")
+                        for record in result:
+                            label_props[label] = record["keys"]
+                            break
+                    except:
+                        pass
+                
+                schema_info = f"""
+Neo4j Database Schema:
+- Node Labels: {', '.join(labels)}
+- Relationship Types: {', '.join(rel_types)}
+- Sample Properties:
+"""
+                for label, props in label_props.items():
+                    schema_info += f"  - {label}: {', '.join(props) if props else 'N/A'}\n"
+        except Exception as e:
+            schema_info = f"Schema info unavailable: {str(e)}"
+        
+        driver.close()
+        
+        # Create prompt for LLM to convert natural language to Cypher
+        cypher_prompt = f"""You are a Neo4j Cypher query expert. Convert the user's natural language question into a valid Cypher query.
+
+Database Schema:
+{schema_info}
+
+CRITICAL GUIDELINES - Prioritize Text Content:
+1. Always return ONLY the Cypher query, no explanations or markdown
+2. Use proper Cypher syntax with MATCH, WHERE, RETURN clauses
+3. **MOST IMPORTANT**: Always RETURN nodes that have a 'text' property - this contains the actual content
+   - For Chunk nodes: RETURN n.text, n (to get both text and full node)
+   - For Concept nodes: RETURN n.name, n (concepts may not have text, use name)
+   - Always prioritize nodes with text content over metadata-only nodes
+4. Use LIMIT to restrict results (default: 25-50 nodes for good context)
+5. Common patterns for text-rich queries:
+   - Finding chunks with text: MATCH (n:Chunk) WHERE n.text CONTAINS 'keyword' RETURN n.text, n LIMIT 25
+   - Finding related content: MATCH (c:Chunk)-[r]->(concept:Concept) RETURN c.text, c, r, concept LIMIT 30
+   - Finding by document: MATCH (d:Document)<-[:BELONGS_TO]-(c:Chunk) RETURN c.text, c LIMIT 25
+6. For text search, use CONTAINS or STARTS WITH on the 'text' property
+7. When returning relationships, also return the connected nodes' text properties
+8. **Always include n.text in RETURN when querying Chunk nodes** - this is the most valuable content
+
+User Question: {nl_query}
+
+Cypher Query:"""
+        
+        # Generate Cypher query using LLM
+        response = llm.invoke([{"role": "user", "content": cypher_prompt}])
+        cypher_query = response.content.strip()
+        
+        # Clean up the query (remove markdown code blocks if present)
+        if cypher_query.startswith("```"):
+            lines = cypher_query.split("\n")
+            cypher_query = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
+        cypher_query = cypher_query.strip()
+        
+        # Execute the generated Cypher query to get context
+        query_results = execute_cypher_query_for_context(cypher_query, actual_db_name)
+        
+        if not query_results.get('success'):
+            return jsonify({
+                'success': False,
+                'error': f'Query execution failed: {query_results.get("error", "Unknown error")}',
+                'query': nl_query
+            }), 500
+        
+        # Use LLM to answer the question based on the graph context
+        context_data = query_results.get('results', [])
+        
+        # Format context for LLM
+        context_text = format_graph_context(context_data)
+        
+        # Generate answer using LLM with graph context
+        answer_prompt = f"""You are a helpful assistant that answers questions based on a knowledge graph database containing transcription chunks and concepts.
+
+User Question: {nl_query}
+
+Graph Context (from Neo4j query results - text content prioritized):
+{context_text}
+
+IMPORTANT INSTRUCTIONS:
+1. **Prioritize the text content** from nodes - this is the actual transcribed content and is the most valuable information
+2. Use the text fields to answer the question directly - they contain the real content from the transcriptions
+3. Supplement with metadata (document names, chunk IDs, timecodes, etc.) when relevant to provide context
+4. If multiple text chunks are relevant, synthesize them into a coherent answer
+5. Be specific and cite relevant details from the text content when possible
+6. If the graph doesn't contain relevant information in the text fields, say so clearly
+7. Format your answer in a natural, conversational way
+
+Answer:"""
+        
+        answer_response = llm.invoke([{"role": "user", "content": answer_prompt}])
+        answer = answer_response.content.strip()
+        
+        return jsonify({
+            'success': True,
+            'query': nl_query,
+            'cypher_query': cypher_query,
+            'answer': answer,
+            'results_count': len(context_data)
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Natural language query failed: {str(e)}',
+            'query': nl_query
+        }), 500
+
+
+def execute_cypher_query_for_context(query: str, db_name: str):
+    """Helper function to execute a Cypher query and return results as dict (not JSON response)"""
+    import neo4j
+    
+    NEO4J_URI = os.getenv('NEO4J_URI', 'bolt://localhost:7687')
+    NEO4J_USERNAME = os.getenv('NEO4J_USERNAME', 'neo4j')
+    NEO4J_PASSWORD = os.getenv('NEO4J_PASSWORD', 'lng-graphrag-password')
+    
+    driver = None
+    try:
+        driver = neo4j.GraphDatabase.driver(
+            NEO4J_URI,
+            auth=(NEO4J_USERNAME, NEO4J_PASSWORD),
+            connection_timeout=30
+        )
+        
+        with driver.session(database=db_name) as session:
+            result = session.run(query)
+            
+            # Collect results - extract text and meaningful information
+            records = []
+            for record in result:
+                record_dict = {}
+                for key in record.keys():
+                    value = record[key]
+                    # Handle Neo4j Node objects - extract meaningful properties
+                    if hasattr(value, 'labels') and hasattr(value, 'properties'):
+                        props = dict(value)
+                        record_dict[key] = {
+                            'type': list(value.labels)[0] if value.labels else 'Node',
+                            'properties': props
+                        }
+                    # Handle Neo4j Relationship objects
+                    elif hasattr(value, 'type') and hasattr(value, 'start_node') and hasattr(value, 'end_node'):
+                        record_dict[key] = {
+                            'type': value.type,
+                            'start': dict(value.start_node),
+                            'end': dict(value.end_node),
+                            'properties': dict(value)
+                        }
+                    # Handle lists
+                    elif isinstance(value, list):
+                        serialized_list = []
+                        for item in value:
+                            if hasattr(item, 'labels') and hasattr(item, 'properties'):
+                                serialized_list.append({
+                                    'type': list(item.labels)[0] if item.labels else 'Node',
+                                    'properties': dict(item)
+                                })
+                            elif hasattr(item, 'type'):
+                                serialized_list.append({
+                                    'type': item.type,
+                                    'properties': dict(item)
+                                })
+                            else:
+                                serialized_list.append(item)
+                        record_dict[key] = serialized_list
+                    # Handle plain objects
+                    elif isinstance(value, dict):
+                        record_dict[key] = value
+                    elif hasattr(value, '__dict__'):
+                        try:
+                            record_dict[key] = dict(value)
+                        except:
+                            record_dict[key] = str(value)
+                    else:
+                        record_dict[key] = value
+                records.append(record_dict)
+            
+            return {
+                'success': True,
+                'results': records
+            }
+    except Exception as e:
+        return {
+            'success': False,
+            'error': str(e)
+        }
+    finally:
+        if driver:
+            driver.close()
+
+
+def format_graph_context(results: list) -> str:
+    """Format graph query results into readable text for LLM context, prioritizing text fields"""
+    if not results:
+        return "No data found in the graph."
+    
+    context_parts = []
+    for i, record in enumerate(results[:50], 1):  # Limit to 50 records
+        record_text = []
+        text_contents = []  # Collect all text fields first
+        metadata_parts = []  # Collect other metadata
+        
+        for key, value in record.items():
+            if isinstance(value, dict):
+                if 'properties' in value:
+                    props = value['properties']
+                    node_type = value.get('type', 'Node')
+                    
+                    # PRIORITY 1: Extract text field (most important content)
+                    text_content = props.get('text', '')
+                    if text_content:
+                        # Get full text or meaningful chunk
+                        text_contents.append(f"[{node_type}] {text_content[:500]}")  # Increased to 500 chars for more context
+                    
+                    # PRIORITY 2: Extract other meaningful fields as metadata
+                    metadata = {}
+                    # Important metadata fields to include
+                    if props.get('name'):
+                        metadata['name'] = props['name']
+                    if props.get('document_name'):
+                        metadata['document'] = props['document_name']
+                    if props.get('chunk_id') is not None:
+                        metadata['chunk_id'] = props['chunk_id']
+                    if props.get('start_time') is not None:
+                        metadata['start_time'] = props['start_time']
+                    if props.get('end_time') is not None:
+                        metadata['end_time'] = props['end_time']
+                    if props.get('url'):
+                        metadata['url'] = props['url']
+                    
+                    # Add metadata if available
+                    if metadata:
+                        metadata_parts.append(f"{node_type} metadata: {metadata}")
+                else:
+                    # Handle relationship or other dict structures
+                    if 'start' in value and 'end' in value:
+                        # It's a relationship
+                        rel_type = value.get('type', 'RELATED_TO')
+                        start_props = value.get('start', {}).get('properties', {})
+                        end_props = value.get('end', {}).get('properties', {})
+                        
+                        # Get text from start and end nodes
+                        if start_props.get('text'):
+                            text_contents.append(f"[Start Node] {start_props['text'][:300]}")
+                        if end_props.get('text'):
+                            text_contents.append(f"[End Node] {end_props['text'][:300]}")
+                        
+                        metadata_parts.append(f"Relationship: {rel_type}")
+                    else:
+                        metadata_parts.append(f"{key}: {str(value)[:200]}")
+            elif isinstance(value, (str, int, float)):
+                # Direct values
+                if isinstance(value, str) and len(value) > 50:
+                    # Long strings might be text content
+                    text_contents.append(f"{key}: {value[:300]}")
+                else:
+                    metadata_parts.append(f"{key}: {str(value)}")
+        
+        # Combine: text content first, then metadata
+        if text_contents:
+            record_text.extend(text_contents)
+        if metadata_parts:
+            record_text.extend(metadata_parts)
+        
+        if record_text:
+            context_parts.append(f"Result {i}:\n" + "\n".join(record_text))
+    
+    return "\n\n".join(context_parts) if context_parts else "No meaningful data extracted from results."
+
+
+def execute_cypher_query(query: str, db_name: str):
+    """Helper function to execute a Cypher query and return results as JSON response"""
+    import neo4j
+    
+    NEO4J_URI = os.getenv('NEO4J_URI', 'bolt://localhost:7687')
+    NEO4J_USERNAME = os.getenv('NEO4J_USERNAME', 'neo4j')
+    NEO4J_PASSWORD = os.getenv('NEO4J_PASSWORD', 'lng-graphrag-password')
+    
+    driver = None
+    try:
+        driver = neo4j.GraphDatabase.driver(
+            NEO4J_URI,
+            auth=(NEO4J_USERNAME, NEO4J_PASSWORD),
+            connection_timeout=30
+        )
+        
+        with driver.session(database=db_name) as session:
+            result = session.run(query)
+            
+            # Collect results - properly serialize Neo4j nodes and relationships
+            records = []
+            for record in result:
+                record_dict = {}
+                for key in record.keys():
+                    value = record[key]
+                    # Handle Neo4j Node objects
+                    if hasattr(value, 'labels') and hasattr(value, 'properties'):
+                        record_dict[key] = {
+                            'identity': value.id,
+                            'labels': list(value.labels),
+                            'properties': dict(value)
+                        }
+                    # Handle Neo4j Relationship objects
+                    elif hasattr(value, 'type') and hasattr(value, 'start_node') and hasattr(value, 'end_node'):
+                        record_dict[key] = {
+                            'identity': value.id,
+                            'type': value.type,
+                            'start': {
+                                'identity': value.start_node.id,
+                                'labels': list(value.start_node.labels),
+                                'properties': dict(value.start_node)
+                            },
+                            'end': {
+                                'identity': value.end_node.id,
+                                'labels': list(value.end_node.labels),
+                                'properties': dict(value.end_node)
+                            },
+                            'properties': dict(value)
+                        }
+                    # Handle lists (paths, arrays)
+                    elif isinstance(value, list):
+                        serialized_list = []
+                        for item in value:
+                            if hasattr(item, 'labels') and hasattr(item, 'properties'):
+                                serialized_list.append({
+                                    'identity': item.id,
+                                    'labels': list(item.labels),
+                                    'properties': dict(item)
+                                })
+                            elif hasattr(item, 'type') and hasattr(item, 'start_node'):
+                                serialized_list.append({
+                                    'identity': item.id,
+                                    'type': item.type,
+                                    'start': {
+                                        'identity': item.start_node.id,
+                                        'labels': list(item.start_node.labels),
+                                        'properties': dict(item.start_node)
+                                    },
+                                    'end': {
+                                        'identity': item.end_node.id,
+                                        'labels': list(item.end_node.labels),
+                                        'properties': dict(item.end_node)
+                                    },
+                                    'properties': dict(item)
+                                })
+                            else:
+                                serialized_list.append(item)
+                        record_dict[key] = serialized_list
+                    elif hasattr(value, '__dict__'):
+                        try:
+                            record_dict[key] = dict(value)
+                        except:
+                            record_dict[key] = str(value)
+                    else:
+                        record_dict[key] = value
+                records.append(record_dict)
+            
+            summary = result.consume()
+            
+            return jsonify({
+                'success': True,
+                'query': query,
+                'results': records,
+                'summary': {
+                    'result_available_after': summary.result_available_after,
+                    'result_consumed_after': summary.result_consumed_after,
+                    'counters': {
+                        'nodes_created': summary.counters.nodes_created,
+                        'nodes_deleted': summary.counters.nodes_deleted,
+                        'relationships_created': summary.counters.relationships_created,
+                        'relationships_deleted': summary.counters.relationships_deleted,
+                    }
+                }
+            })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Query execution failed: {str(e)}',
+            'query': query
+        }), 500
+    finally:
+        if driver:
+            driver.close()
+
+
 @app.route('/api/graphrag/query', methods=['POST'])
 def api_graphrag_query():
     """API endpoint for GraphRAG Neo4j queries"""

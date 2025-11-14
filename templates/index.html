@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LNG GraphRAG Dashboard</title>
-    <!-- vis-network for graph visualization -->
-    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <!-- Prism.js for Cypher syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
@@ -384,6 +382,17 @@
             gap: 20px;
         }
 
+        .nl-query-input {
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .nl-query-input:focus {
+            outline: none;
+            border-color: #5568d3;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
         .query-input-wrapper {
             position: relative;
         }
@@ -478,27 +487,7 @@
             line-height: 1.5;
         }
 
-        #graphContainer {
-            width: 100%;
-            height: 100%;
-            min-height: 400px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: white;
-        }
-
-        .graph-controls {
-            margin-bottom: 10px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .graph-info {
-            color: #666;
-            font-size: 0.9em;
-        }
+        /* Graph container and related styles removed - no longer using graph visualization */
 
         .loading {
             display: inline-block;
@@ -630,21 +619,42 @@
         <!-- GraphRAG Tab -->
         <div class="tab-content" id="tab2">
             <div class="query-container">
-                <h2 style="margin-bottom: 10px;">Neo4j Cypher Query</h2>
-                <p style="color: #666; margin-bottom: 20px;">Enter your Cypher query to explore the knowledge graph</p>
+                <h2 style="margin-bottom: 10px;">🕸️ GraphRAG Query</h2>
+                <p style="color: #666; margin-bottom: 20px;">Ask questions in natural language or write Cypher queries to explore the knowledge graph</p>
                 
-                <div class="query-input-wrapper">
-                    <textarea 
-                        class="query-input" 
-                        id="cypherQuery" 
-                        placeholder="MATCH (n)-[r]->(m) RETURN n, r, m LIMIT 25"
-                        spellcheck="false"></textarea>
+                <!-- Natural Language Query -->
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">💬 Ask a Question (Natural Language)</label>
+                    <input 
+                        type="text" 
+                        class="nl-query-input" 
+                        id="nlQuery" 
+                        placeholder="e.g., Show me all concepts related to 'person' or 'Find chunks that mention specific topics'"
+                        style="width: 100%; padding: 12px; border: 2px solid #667eea; border-radius: 8px; font-size: 1em;">
+                    <button class="btn btn-primary" onclick="executeNLQuery()" style="margin-top: 10px;">🤖 Ask LLM Agent</button>
                 </div>
                 
-                <div class="query-actions">
-                    <button class="btn btn-primary" onclick="executeQuery()">▶️ Execute Query</button>
-                    <button class="btn btn-secondary" onclick="clearQuery()">🗑️ Clear</button>
-                </div>
+                <div style="text-align: center; margin: 15px 0; color: #999;">OR</div>
+                
+                <!-- Cypher Query (Optional - for advanced users) -->
+                <details style="margin-top: 15px;">
+                    <summary style="cursor: pointer; font-weight: 600; color: #667eea; padding: 10px; background: #f8f9fa; border-radius: 4px;">
+                        🔧 Advanced: Write Cypher Query Directly
+                    </summary>
+                    <div style="margin-top: 15px;">
+                        <div class="query-input-wrapper">
+                            <textarea 
+                                class="query-input" 
+                                id="cypherQuery" 
+                                placeholder="MATCH (n)-[r]->(m) RETURN n, r, m LIMIT 25"
+                                spellcheck="false"></textarea>
+                        </div>
+                        <div class="query-actions">
+                            <button class="btn btn-primary" onclick="executeQuery()">▶️ Execute Cypher</button>
+                            <button class="btn btn-secondary" onclick="clearQuery()">🗑️ Clear</button>
+                        </div>
+                    </div>
+                </details>
 
                 <div class="query-results empty" id="queryResults">
                     <div>Query results will appear here...</div>
@@ -1114,6 +1124,73 @@
             }).join('');
         }
 
+        // Execute natural language query using LLM agent
+        async function executeNLQuery() {
+            const queryInput = document.getElementById('nlQuery');
+            const resultsDiv = document.getElementById('queryResults');
+            
+            if (!queryInput || !resultsDiv) {
+                console.error('Query elements not found');
+                return;
+            }
+            
+            const query = queryInput.value.trim();
+            
+            if (!query) {
+                resultsDiv.innerHTML = '<div class="error-message">Please enter a question</div>';
+                resultsDiv.classList.add('empty');
+                return;
+            }
+            
+            resultsDiv.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loading"></div>🤖 LLM is analyzing your question and querying the graph...</div>';
+            resultsDiv.classList.remove('empty');
+            
+            try {
+                const response = await fetch('/api/graphrag/nl-query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show the LLM's answer
+                    const answer = data.answer || 'No answer generated.';
+                    const resultsCount = data.results_count || 0;
+                    
+                    resultsDiv.innerHTML = `
+                        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <span style="font-size: 1.5em; margin-right: 10px;">🤖</span>
+                                <h3 style="margin: 0; color: #333;">Answer</h3>
+                            </div>
+                            <div style="color: #333; line-height: 1.8; font-size: 1.05em; white-space: pre-wrap;">${escapeHtml(answer)}</div>
+                            ${resultsCount > 0 ? `<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0; color: #666; font-size: 0.9em;">
+                                📊 Based on ${resultsCount} result${resultsCount !== 1 ? 's' : ''} from the knowledge graph
+                            </div>` : ''}
+                        </div>
+                    `;
+                    resultsDiv.classList.remove('empty');
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="error-message">${data.error || 'Query failed'}</div>
+                    `;
+                    resultsDiv.classList.add('empty');
+                }
+            } catch (error) {
+                console.error('Error executing NL query:', error);
+                resultsDiv.innerHTML = `<div class="error-message">Error: ${error.message || 'Unknown error'}</div>`;
+                resultsDiv.classList.add('empty');
+            }
+        }
+
         // Execute GraphRAG query
         async function executeQuery() {
             const queryInput = document.getElementById('cypherQuery');
@@ -1152,7 +1229,24 @@
                 
                 if (data.success) {
                     if (data.results && data.results.length > 0) {
-                        renderGraphResults(data.results, resultsDiv);
+                        // For Cypher queries, show a summary instead of graph
+                        const resultsCount = data.results.length;
+                        resultsDiv.innerHTML = `
+                            <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <span style="font-size: 1.5em; margin-right: 10px;">✅</span>
+                                    <h3 style="margin: 0; color: #333;">Query Executed Successfully</h3>
+                                </div>
+                                <p style="color: #666; margin-bottom: 10px;">Returned ${resultsCount} result${resultsCount !== 1 ? 's' : ''}.</p>
+                                <details style="margin-top: 15px;">
+                                    <summary style="cursor: pointer; color: #667eea; font-weight: 600;">View Results (${resultsCount} items)</summary>
+                                    <div style="margin-top: 10px; max-height: 400px; overflow-y: auto;">
+                                        <pre style="background: #f8f9fa; padding: 15px; border-radius: 4px; font-size: 0.9em; overflow-x: auto;">${JSON.stringify(data.results, null, 2)}</pre>
+                                    </div>
+                                </details>
+                            </div>
+                        `;
+                        resultsDiv.classList.remove('empty');
                     } else {
                         resultsDiv.innerHTML = `
                             <div class="success-message">${data.message || 'Query executed successfully but returned no results'}</div>
@@ -1170,239 +1264,28 @@
             }
         }
 
-        // Render graph visualization from Neo4j results
-        function renderGraphResults(results, container) {
-            container.classList.remove('empty');
-            
-            // Extract nodes and edges from results
-            const nodesMap = new Map();
-            const edgesMap = new Map();
-            let nodeIdCounter = 0;
-            let edgeIdCounter = 0;
-            
-            // Color scheme for different node types
-            const nodeColors = {
-                'Chunk': { background: '#667eea', border: '#5568d3' },
-                'Concept': { background: '#f093fb', border: '#d875e8' },
-                'Document': { background: '#4facfe', border: '#3d8bfe' },
-                'default': { background: '#95a5a6', border: '#7f8c8d' }
-            };
-            
-            // Process each result record
-            results.forEach((record, recordIdx) => {
-                Object.keys(record).forEach(key => {
-                    const value = record[key];
-                    
-                    // Handle node objects
-                    if (value && typeof value === 'object' && value.labels) {
-                        // It's a Neo4j node
-                        const labels = Array.isArray(value.labels) ? value.labels : [value.labels];
-                        const nodeType = labels[0] || 'Node';
-                        const nodeId = value.identity || value.id || `node_${nodeIdCounter++}`;
-                        const properties = value.properties || {};
-                        
-                        if (!nodesMap.has(nodeId)) {
-                            const color = nodeColors[nodeType] || nodeColors['default'];
-                            nodesMap.set(nodeId, {
-                                id: nodeId,
-                                label: properties.name || properties.text || properties.title || 
-                                       (properties.text ? properties.text.substring(0, 30) + '...' : nodeType),
-                                group: nodeType,
-                                title: `${nodeType}\n${JSON.stringify(properties, null, 2)}`,
-                                color: color,
-                                font: { color: '#fff', size: 12 },
-                                shape: 'box'
-                            });
-                        }
-                    }
-                    // Handle relationship objects
-                    else if (value && typeof value === 'object' && value.type) {
-                        // It's a Neo4j relationship
-                        const relType = value.type;
-                        const startNode = value.start || value.startNode;
-                        const endNode = value.end || value.endNode;
-                        const properties = value.properties || {};
-                        
-                        if (startNode && endNode) {
-                            const startId = startNode.identity || startNode.id;
-                            const endId = endNode.identity || endNode.id;
-                            const edgeKey = `${startId}_${relType}_${endId}`;
-                            
-                            if (!edgesMap.has(edgeKey)) {
-                                edgesMap.set(edgeKey, {
-                                    id: `edge_${edgeIdCounter++}`,
-                                    from: startId,
-                                    to: endId,
-                                    label: relType,
-                                    title: `${relType}\n${JSON.stringify(properties, null, 2)}`,
-                                    arrows: 'to',
-                                    color: { color: '#888', highlight: '#667eea' },
-                                    font: { size: 10, align: 'middle' }
-                                });
-                            }
-                        }
-                    }
-                    // Handle arrays (might contain nodes/relationships)
-                    else if (Array.isArray(value)) {
-                        value.forEach(item => {
-                            if (item && typeof item === 'object') {
-                                if (item.labels) {
-                                    // Node in array
-                                    const labels = Array.isArray(item.labels) ? item.labels : [item.labels];
-                                    const nodeType = labels[0] || 'Node';
-                                    const nodeId = item.identity || item.id || `node_${nodeIdCounter++}`;
-                                    const properties = item.properties || {};
-                                    
-                                    if (!nodesMap.has(nodeId)) {
-                                        const color = nodeColors[nodeType] || nodeColors['default'];
-                                        nodesMap.set(nodeId, {
-                                            id: nodeId,
-                                            label: properties.name || properties.text || properties.title || 
-                                                   (properties.text ? properties.text.substring(0, 30) + '...' : nodeType),
-                                            group: nodeType,
-                                            title: `${nodeType}\n${JSON.stringify(properties, null, 2)}`,
-                                            color: color,
-                                            font: { color: '#fff', size: 12 },
-                                            shape: 'box'
-                                        });
-                                    }
-                                } else if (item.type) {
-                                    // Relationship in array
-                                    const relType = item.type;
-                                    const startNode = item.start || item.startNode;
-                                    const endNode = item.end || item.endNode;
-                                    
-                                    if (startNode && endNode) {
-                                        const startId = startNode.identity || startNode.id;
-                                        const endId = endNode.identity || endNode.id;
-                                        const edgeKey = `${startId}_${relType}_${endId}`;
-                                        
-                                        if (!edgesMap.has(edgeKey)) {
-                                            edgesMap.set(edgeKey, {
-                                                id: `edge_${edgeIdCounter++}`,
-                                                from: startId,
-                                                to: endId,
-                                                label: relType,
-                                                arrows: 'to',
-                                                color: { color: '#888', highlight: '#667eea' }
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-            
-            // Convert maps to arrays
-            const nodes = Array.from(nodesMap.values());
-            const edges = Array.from(edgesMap.values());
-            
-            if (nodes.length === 0 && edges.length === 0) {
-                container.innerHTML = `
-                    <div class="success-message">Query executed successfully</div>
-                    <p style="color: #666; margin-top: 10px;">No graph data found in results. Try a query that returns nodes and relationships, e.g.:</p>
-                    <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px; margin-top: 10px;">MATCH (n)-[r]->(m) RETURN n, r, m LIMIT 25</pre>
-                    <details style="margin-top: 20px;">
-                        <summary style="cursor: pointer; color: #667eea;">View raw JSON results</summary>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px; margin-top: 10px; max-height: 300px; overflow: auto;">${JSON.stringify(results, null, 2)}</pre>
-                    </details>
-                `;
-                return;
-            }
-            
-            // Create graph container
-            container.innerHTML = `
-                <div class="graph-controls">
-                    <div class="graph-info">
-                        📊 <strong>${nodes.length}</strong> nodes, <strong>${edges.length}</strong> relationships
-                    </div>
-                    <button class="btn btn-secondary" onclick="document.getElementById('rawJsonResults').style.display = document.getElementById('rawJsonResults').style.display === 'none' ? 'block' : 'none'" style="padding: 6px 12px; font-size: 0.85em;">📄 Toggle JSON</button>
-                </div>
-                <div id="graphContainer"></div>
-                <div id="rawJsonResults" style="display: none; margin-top: 20px;">
-                    <details>
-                        <summary style="cursor: pointer; color: #667eea;">Raw JSON Results</summary>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px; margin-top: 10px; max-height: 300px; overflow: auto;">${JSON.stringify(results, null, 2)}</pre>
-                    </details>
-                </div>
-            `;
-            
-            // Create graph visualization
-            const graphContainer = document.getElementById('graphContainer');
-            const data = {
-                nodes: new vis.DataSet(nodes),
-                edges: new vis.DataSet(edges)
-            };
-            
-            const options = {
-                nodes: {
-                    shape: 'box',
-                    font: {
-                        size: 12,
-                        color: '#fff'
-                    },
-                    borderWidth: 2,
-                    shadow: true
-                },
-                edges: {
-                    arrows: {
-                        to: {
-                            enabled: true,
-                            scaleFactor: 0.8
-                        }
-                    },
-                    font: {
-                        size: 10,
-                        align: 'middle'
-                    },
-                    smooth: {
-                        type: 'continuous',
-                        roundness: 0.5
-                    },
-                    shadow: true
-                },
-                physics: {
-                    enabled: true,
-                    stabilization: {
-                        iterations: 200
-                    },
-                    barnesHut: {
-                        gravitationalConstant: -2000,
-                        centralGravity: 0.1,
-                        springLength: 200,
-                        springConstant: 0.04,
-                        damping: 0.09
-                    }
-                },
-                interaction: {
-                    hover: true,
-                    tooltipDelay: 100,
-                    zoomView: true,
-                    dragView: true
-                }
-            };
-            
-            const network = new vis.Network(graphContainer, data, options);
-            
-            // Add event listeners
-            network.on('click', function(params) {
-                if (params.nodes.length > 0) {
-                    const nodeId = params.nodes[0];
-                    const node = nodes.find(n => n.id === nodeId);
-                    if (node) {
-                        console.log('Selected node:', node);
-                    }
-                }
-            });
-        }
+        // Graph visualization removed - now using LLM to answer questions directly
 
         // Clear query
         function clearQuery() {
             document.getElementById('cypherQuery').value = '';
+            document.getElementById('nlQuery').value = '';
             document.getElementById('queryResults').innerHTML = 'Query results will appear here...';
+            document.getElementById('queryResults').classList.add('empty');
         }
+        
+        // Allow Enter key to submit natural language query
+        document.addEventListener('DOMContentLoaded', function() {
+            const nlInput = document.getElementById('nlQuery');
+            if (nlInput) {
+                nlInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        executeNLQuery();
+                    }
+                });
+            }
+        });
 
         // Refresh all data
         function refreshAll() {
