@@ -290,8 +290,8 @@
         }
 
         .transcription-chunk {
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 12px;
+            padding: 10px;
             background: #f8f9fa;
             border-left: 4px solid #667eea;
             border-radius: 4px;
@@ -300,20 +300,26 @@
         .transcription-chunk-header {
             font-weight: 600;
             color: #667eea;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.95em;
         }
 
-        .edit-btn {
+        .chunk-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .edit-btn, .delete-btn {
             background: #667eea;
             color: white;
             border: none;
-            padding: 5px 12px;
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 3px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.85em;
             transition: background 0.3s;
         }
 
@@ -321,32 +327,48 @@
             background: #5568d3;
         }
 
+        .delete-btn {
+            background: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
         .chunk-content {
             white-space: pre-wrap;
             word-wrap: break-word;
-            line-height: 1.6;
+            line-height: 1.5;
+            margin-top: 5px;
         }
 
         .chunk-editor {
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .chunk-edit-textarea {
             width: 100%;
-            min-height: 150px;
-            padding: 10px;
+            min-height: 100px;
+            max-height: 300px;
+            padding: 8px;
             border: 2px solid #667eea;
             border-radius: 4px;
             font-family: inherit;
-            font-size: 0.95em;
+            font-size: 0.9em;
             resize: vertical;
             box-sizing: border-box;
+            line-height: 1.4;
         }
 
         .chunk-edit-actions {
-            margin-top: 10px;
+            margin-top: 6px;
             display: flex;
-            gap: 10px;
+            gap: 6px;
+        }
+
+        .chunk-edit-actions .btn {
+            padding: 6px 12px;
+            font-size: 0.85em;
         }
 
         /* GraphRAG Tab */
@@ -858,7 +880,10 @@
                     <div class="transcription-chunk" id="chunk-${chunkId}">
                         <div class="transcription-chunk-header">
                             <span>Chunk ${chunkId + 1} ${timecode}</span>
-                            <button class="edit-btn" onclick="editChunk(${chunkId}, '${escapedFilename}')">✏️ Edit</button>
+                            <div class="chunk-actions">
+                                <button class="edit-btn" onclick="editChunk(${chunkId}, '${escapedFilename}')">✏️ Edit</button>
+                                <button class="delete-btn" onclick="deleteChunk(${chunkId}, '${escapedFilename}')">🗑️ Delete</button>
+                            </div>
                         </div>
                         <div class="chunk-content" id="chunk-content-${chunkId}">${escapeHtml(text)}</div>
                         <div class="chunk-editor" id="chunk-editor-${chunkId}" style="display: none;">
@@ -891,6 +916,73 @@
             
             contentDiv.style.display = 'block';
             editorDiv.style.display = 'none';
+        }
+
+        // Delete chunk
+        async function deleteChunk(chunkId, filename) {
+            if (!confirm(`Are you sure you want to delete Chunk ${chunkId + 1}? This action cannot be undone.`)) {
+                return;
+            }
+            
+            const chunkElement = document.getElementById(`chunk-${chunkId}`);
+            if (!chunkElement) {
+                alert('Chunk element not found');
+                return;
+            }
+            
+            // Show loading state
+            chunkElement.style.opacity = '0.5';
+            chunkElement.style.pointerEvents = 'none';
+            const originalHTML = chunkElement.innerHTML;
+            chunkElement.innerHTML = '<div style="text-align: center; padding: 20px;"><div class="loading"></div>Deleting chunk...</div>';
+            
+            try {
+                const response = await fetch('/api/transcription/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        filename: filename,
+                        chunk_id: chunkId
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Remove the chunk element from the DOM
+                    chunkElement.remove();
+                    
+                    // Show success message
+                    const container = chunkElement.parentElement;
+                    if (container) {
+                        const successMsg = document.createElement('div');
+                        successMsg.className = 'success-message';
+                        successMsg.textContent = `Chunk ${chunkId + 1} deleted successfully`;
+                        successMsg.style.marginBottom = '10px';
+                        container.insertBefore(successMsg, container.firstChild);
+                        
+                        // Remove success message after 3 seconds
+                        setTimeout(() => {
+                            successMsg.remove();
+                        }, 3000);
+                    }
+                } else {
+                    throw new Error(data.error || 'Failed to delete chunk');
+                }
+            } catch (error) {
+                console.error('Error deleting chunk:', error);
+                // Restore original state
+                chunkElement.style.opacity = '1';
+                chunkElement.style.pointerEvents = 'auto';
+                chunkElement.innerHTML = originalHTML;
+                alert(`Error deleting chunk: ${error.message || 'Unknown error'}`);
+            }
         }
 
         // Save chunk

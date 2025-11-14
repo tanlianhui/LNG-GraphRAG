@@ -9,7 +9,7 @@ import re
 import traceback
 import ast
 from time import sleep, time
-from typing import Any
+from typing import Any, Optional
 
 # Core imports
 import neo4j
@@ -36,28 +36,39 @@ _IS_COMMUNITY_EDITION = None
 def get_database_name(requested_db_name: str) -> str:
     """
     Get the actual database name to use.
-    In Community Edition, returns None (default database).
+    In Community Edition, returns "neo4j" (default database).
     In Enterprise Edition, returns the requested database name.
     """
     global _IS_COMMUNITY_EDITION
     
     if _IS_COMMUNITY_EDITION is None:
-        # Check on first call
+        # Check on first call - use the same detection logic as prepare_database
+        # Test if CREATE DATABASE is supported (Enterprise Edition feature)
+        driver = None
         try:
             driver = neo4j.GraphDatabase.driver(
                 NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD), connection_timeout=5
             )
+            
+            # Try to create a test database to detect Enterprise Edition
+            test_db_name = f"_test_db_{int(time())}"
             try:
                 with driver.session(database="system") as session:
-                    session.run("SHOW DATABASES")
+                    # Try to create a test database
+                    session.run(f"CREATE DATABASE {test_db_name}")
+                    # If successful, immediately drop it
+                    session.run(f"DROP DATABASE {test_db_name} IF EXISTS")
+                # If we get here, it's Enterprise Edition
                 _IS_COMMUNITY_EDITION = False
             except Exception:
+                # Any error creating database means Community Edition
                 _IS_COMMUNITY_EDITION = True
-            finally:
-                driver.close()
         except Exception:
             # If we can't connect, assume Community Edition to be safe
             _IS_COMMUNITY_EDITION = True
+        finally:
+            if driver:
+                driver.close()
     
     if _IS_COMMUNITY_EDITION:
         # Community Edition: use default database name "neo4j"
@@ -105,6 +116,8 @@ def parse_transcription_chunks(path: str) -> list[dict]:
     - With timecodes: === Chunk 1 [0.00s - 94.49s] ===
     - Without timecodes: === Chunk 1 ===
     
+    Also handles edit files by reading original and applying edits.
+    
     Returns:
         List of dicts with keys: chunk_id, text, start_time, end_time
     """
@@ -115,44 +128,117 @@ def parse_transcription_chunks(path: str) -> list[dict]:
         with open(path, "r", encoding="utf-8") as f:
             content = f.read()
         
-        chunks = []
-        # Split by chunk markers
-        parts = content.split("=== Chunk")
+        # Check if this is an edit file (contains "=== EDIT" markers)
+        if "=== EDIT" in content:
+            # For edit files, we need to read the original file and apply edits
+            # First, try to find the original file
+            original_filename = os.path.basename(path).replace('_combined_edit.txt', '_combined.txt')
+            original_dir = os.path.dirname(path).replace('/edit', '')
+            original_path = os.path.join(original_dir, original_filename)
+            
+            # Parse original file first
+            if os.path.exists(original_path):
+                with open(original_path, "r", encoding="utf-8") as f:
+                    original_content = f.read()
+                chunks = parse_original_chunks(original_content)
+                # Apply edits from edit file
+                chunks = apply_edits_to_chunks(chunks, content)
+                return chunks
+            else:
+                # If original doesn't exist, just parse edit file as regular chunks
+                log_debug(f"Original file not found: {original_path}, parsing edit file directly")
         
-        for part in parts[1:]:  # Skip first empty part
-            lines = part.strip().split("\n", 1)
-            if len(lines) >= 2:
-                header = lines[0].strip()
-                text = lines[1].strip() if len(lines) > 1 else ""
-                
-                # Parse chunk ID and timecodes
-                chunk_id = None
-                start_time = None
-                end_time = None
-                
-                # Extract chunk number
-                import re
-                chunk_match = re.search(r'(\d+)', header)
-                if chunk_match:
-                    chunk_id = int(chunk_match.group(1)) - 1  # 0-indexed
-                
-                # Extract timecodes if present: [0.00s - 94.49s]
-                timecode_match = re.search(r'\[([\d.]+)s\s*-\s*([\d.]+)s\]', header)
-                if timecode_match:
-                    start_time = float(timecode_match.group(1))
-                    end_time = float(timecode_match.group(2))
-                
-                if chunk_id is not None and text:
-                    chunks.append({
-                        "chunk_id": chunk_id,
-                        "text": text,
-                        "start_time": start_time,
-                        "end_time": end_time
-                    })
+        # Parse regular transcription file
+        return parse_original_chunks(content)
         
-        return chunks
     except Exception as e:
         raise ValueError(f"Failed to parse transcription file {path}: {e}")
+
+
+def parse_original_chunks(content: str) -> list[dict]:
+    """Parse original transcription file format"""
+    import re
+    chunks = []
+    # Split by chunk markers
+    parts = content.split("=== Chunk")
+    
+    for part in parts[1:]:  # Skip first empty part
+        lines = part.strip().split("\n", 1)
+        if len(lines) >= 2:
+            header = lines[0].strip()
+            text = lines[1].strip() if len(lines) > 1 else ""
+            
+            # Parse chunk ID and timecodes
+            chunk_id = None
+            start_time = None
+            end_time = None
+            
+            # Extract chunk number
+            chunk_match = re.search(r'(\d+)', header)
+            if chunk_match:
+                chunk_id = int(chunk_match.group(1)) - 1  # 0-indexed
+            
+            # Extract timecodes if present: [0.00s - 94.49s]
+            timecode_match = re.search(r'\[([\d.]+)s\s*-\s*([\d.]+)s\]', header)
+            if timecode_match:
+                start_time = float(timecode_match.group(1))
+                end_time = float(timecode_match.group(2))
+            
+            if chunk_id is not None and text:
+                # Clean up text: remove any leftover timecode fragments like "41s] ==="
+                # This can happen when timecode formatting is inconsistent
+                text = re.sub(r'\d+\.?\d*s\]\s*===?\s*', '', text)  # Remove patterns like "41s] ===" or "41.5s] ==="
+                text = re.sub(r'^===?\s*', '', text)  # Remove leading "==="
+                text = text.strip()
+                
+                chunks.append({
+                    "chunk_id": chunk_id,
+                    "text": text,
+                    "start_time": start_time,
+                    "end_time": end_time
+                })
+    
+    return chunks
+
+
+def apply_edits_to_chunks(chunks: list[dict], edit_content: str) -> list[dict]:
+    """
+    Apply edits from edit file to chunks.
+    Edit file format:
+    === EDIT timestamp ===
+    Document: filename
+    Chunk ID: chunk_id
+    New Text:
+    [new text]
+    ===
+    """
+    import re
+    from datetime import datetime
+    
+    # Parse all edits, keeping only the latest edit for each chunk
+    edit_pattern = r'=== EDIT ([^=]+) ===\nDocument: ([^\n]+)\nChunk ID: (\d+)\nNew Text:\n(.*?)\n==='
+    edits = re.findall(edit_pattern, edit_content, re.DOTALL)
+    
+    # Group edits by chunk_id and keep only the latest (by timestamp)
+    chunk_edits = {}
+    for timestamp_str, doc_name, chunk_id_str, new_text in edits:
+        chunk_id = int(chunk_id_str)
+        try:
+            timestamp = datetime.fromisoformat(timestamp_str.strip())
+            if chunk_id not in chunk_edits or timestamp > chunk_edits[chunk_id][0]:
+                chunk_edits[chunk_id] = (timestamp, new_text.strip())
+        except Exception:
+            # If timestamp parsing fails, just use the latest one we've seen
+            if chunk_id not in chunk_edits:
+                chunk_edits[chunk_id] = (datetime.now(), new_text.strip())
+    
+    # Apply edits to chunks
+    for chunk_id, (timestamp, new_text) in chunk_edits.items():
+        if 0 <= chunk_id < len(chunks):
+            chunks[chunk_id]["text"] = new_text
+            log_debug(f"Applied edit to chunk {chunk_id} (timestamp: {timestamp})")
+    
+    return chunks
 
 
 def extract_text_from_file(path: str) -> str:
@@ -206,8 +292,8 @@ def prepare_database(db_name: str, clean_old_data: bool) -> str:
             with driver.session(database="system") as session:
                 result = session.run("SHOW DATABASES")
                 databases = [record["name"] for record in result]
-            db_exists = db_name in databases
-            print(f"ℹ️  Detected Neo4j Enterprise Edition", flush=True)
+                db_exists = db_name in databases
+                print(f"ℹ️  Detected Neo4j Enterprise Edition", flush=True)
         except Exception as e:
             # Any error creating database means Community Edition
             error_str = str(e)
@@ -471,8 +557,19 @@ async def generate_concepts_sync(
             
             Text: {group['text']}
             
-            {"Focus on these entity types: " + ", ".join(node_labels) if node_labels else "Extract important concepts, entities, topics, and themes."}
-            {"Focus on these relationship types: " + ", ".join(rel_labels) if rel_labels else "Identify specific semantic relationships between concepts."}
+            CONCEPT EXTRACTION GUIDELINES:
+            Focus on extracting the following types of concepts:
+            1. **Person**: Names of people, characters, speakers, or individuals mentioned
+            2. **Event**: Specific events, activities, happenings, or occurrences
+            3. **Time**: Temporal references (dates, times, periods, durations, "yesterday", "next week", etc.)
+            4. **Place**: Locations, places, venues, geographical references
+            5. **Recurrent Keywords**: Important terms, phrases, or topics that appear multiple times or are central to the discussion
+            6. **Organization**: Companies, groups, institutions, teams
+            7. **Topic/Theme**: Main subjects, themes, or topics of discussion
+            8. **Object/Thing**: Important objects, items, or things mentioned
+            
+            {"Focus on these entity types: " + ", ".join(node_labels) if node_labels else ""}
+            {"Focus on these relationship types: " + ", ".join(rel_labels) if rel_labels else ""}
             {prompt_template if prompt_template else ""}
             
             Return a JSON object with:
@@ -480,8 +577,8 @@ async def generate_concepts_sync(
                 "concepts": [
                     {{
                         "name": "concept name",
-                        "type": "concept type (e.g., Person, Organization, Topic, Theme, etc.)",
-                        "description": "brief description of the concept",
+                        "type": "concept type (must be one of: Person, Event, Time, Place, Recurrent Keyword, Organization, Topic, Theme, Object, or other relevant type)",
+                        "description": "brief description of the concept and its significance",
                         "origin_chunks": [15, 16, 17]  // List of ACTUAL original chunk indices (0 to {len(text_chunks)-1}) that mention this concept
                     }}
                 ],
@@ -489,13 +586,17 @@ async def generate_concepts_sync(
                     {{
                         "from": "source concept name",
                         "to": "target concept name",
-                        "type": "specific relationship type",
+                        "type": "specific relationship type (e.g., 'participated_in', 'occurred_at', 'mentioned_with', 'related_to', etc.)",
                         "description": "brief description of the relationship"
                     }}
                 ]
             }}
             
-            Only return valid JSON. Be concise but comprehensive.
+            IMPORTANT: 
+            - Prioritize Person, Event, Time, Place, and Recurrent Keywords
+            - For Recurrent Keywords, identify terms that appear multiple times or are central themes
+            - Be specific with concept names (use full names for people, exact dates/times, precise locations)
+            - Only return valid JSON. Be concise but comprehensive.
             """
             
             try:
@@ -510,14 +611,14 @@ async def generate_concepts_sync(
                     origin_chunks = concept.get("origin_chunks", [])
                     if not origin_chunks:
                         # Detect which chunks mention the concept
-                            concept_name_lower = concept["name"].lower()
-                            detected_chunks = []
-                            for chunk_idx in group['chunk_indices']:
-                                if chunk_idx < len(text_chunks):
-                                    chunk_text = text_chunks[chunk_idx].lower()
-                                    if concept_name_lower in chunk_text:
-                                        detected_chunks.append(chunk_idx)
-                    origin_chunks = detected_chunks if detected_chunks else group['chunk_indices'][:1]
+                        concept_name_lower = concept["name"].lower()
+                        detected_chunks = []
+                        for chunk_idx in group['chunk_indices']:
+                            if chunk_idx < len(text_chunks):
+                                chunk_text = text_chunks[chunk_idx].lower()
+                                if concept_name_lower in chunk_text:
+                                    detected_chunks.append(chunk_idx)
+                        origin_chunks = detected_chunks if detected_chunks else group['chunk_indices'][:1]
                     
                     concept["origin_chunks"] = origin_chunks
                     concept["concept_chunk_idx"] = origin_chunks[0] if origin_chunks else 0
@@ -1057,47 +1158,210 @@ async def update_chunk_in_neo4j(
         }
 
 
-async def update_transcription_file(
-    transcription_path: str,
+async def write_edit_to_file(
+    edit_file_path: str,
+    document_name: str,
     chunk_id: int,
     new_text: str
 ) -> bool:
     """
-    Update a specific chunk in a transcription file.
+    Write an edit record to the "_edit" file. Appends edits to the file.
+    Does not modify the original transcription file.
     
     Args:
-        transcription_path: Path to the transcription file
-        chunk_id: The chunk ID to update (0-indexed, but file uses 1-indexed)
+        edit_file_path: Path to the edit file (e.g., "transcriptions/edit/filename_combined_edit.txt")
+        document_name: Name of the document (for reference)
+        chunk_id: The chunk ID that was edited (0-indexed)
         new_text: The new text content
     
     Returns:
         True if successful, False otherwise
-                """
+    """
+    try:
+        from datetime import datetime
+        
+        # Create directory if it doesn't exist
+        edit_dir = os.path.dirname(edit_file_path)
+        if edit_dir and not os.path.exists(edit_dir):
+            os.makedirs(edit_dir, exist_ok=True)
+        
+        # Format: timestamp | document_name | chunk_id | new_text
+        timestamp = datetime.now().isoformat()
+        edit_record = f"=== EDIT {timestamp} ===\n"
+        edit_record += f"Document: {document_name}\n"
+        edit_record += f"Chunk ID: {chunk_id}\n"
+        edit_record += f"New Text:\n{new_text}\n"
+        edit_record += "===\n\n"
+        
+        # Append to edit file (create if doesn't exist)
+        with open(edit_file_path, "a", encoding="utf-8") as f:
+            f.write(edit_record)
+        
+        print(f"✓ Wrote edit to file: {edit_file_path} (chunk {chunk_id})", flush=True)
+        return True
+
+    except Exception as e:
+        log_error(f"Error writing edit to file: {e}")
+        return False
+
+
+def get_transcription_file_path(filename: str, transcriptions_dir: str = "./transcriptions", edit_dir: str = "./transcriptions/edit") -> Optional[str]:
+    """
+    Get the path to transcription file, checking edit file first if it exists.
+    
+    Args:
+        filename: Name of the transcription file (e.g., "filename_combined.txt")
+        transcriptions_dir: Directory containing original transcription files
+        edit_dir: Directory containing edit files
+    
+    Returns:
+        Path to the file to use (edit file if exists, otherwise original), or None if neither exists
+    """
+    # Check for edit file first
+    edit_filename = filename.replace('_combined.txt', '_combined_edit.txt')
+    edit_path = os.path.join(edit_dir, edit_filename)
+    if os.path.exists(edit_path):
+        return edit_path
+    
+    # Fall back to original file
+    original_path = os.path.join(transcriptions_dir, filename)
+    if os.path.exists(original_path):
+        return original_path
+    
+    return None
+
+
+async def delete_chunk_in_neo4j(
+    document_name: str,
+    chunk_id: int,
+    db_name: str = "lng_transcriptions"
+) -> dict:
+    """
+    Delete a specific chunk node from Neo4j by id and document_name.
+    This removes the chunk node and all its relationships.
+    
+    Args:
+        document_name: Name of the document (transcription file)
+        chunk_id: The chunk ID to delete (0-indexed)
+        db_name: Database name (will be adjusted for Community Edition)
+    
+    Returns:
+        dict with success status
+    """
+    try:
+        actual_db_name = get_database_name(db_name)
+        
+        # Connect to Neo4j
+        graph = Neo4jGraph(
+            url=NEO4J_URI,
+            username=NEO4J_USERNAME,
+            password=NEO4J_PASSWORD,
+            database=actual_db_name
+        )
+        
+        # Delete the chunk node and all its relationships
+        delete_query = """
+        MATCH (c:Chunk {document_name: $document_name, id: $chunk_id})
+        DETACH DELETE c
+        RETURN count(c) as deleted_count
+        """
+        
+        result = graph.query(
+            delete_query,
+            params={
+                "document_name": document_name,
+                "chunk_id": chunk_id
+            }
+        )
+        
+        # Check if chunk was found and deleted
+        # Result format from Neo4jGraph.query is a list of records
+        deleted_count = 0
+        if result and len(result) > 0:
+            # The result is a list of dictionaries/records
+            first_record = result[0]
+            if isinstance(first_record, dict):
+                deleted_count = first_record.get("deleted_count", 0)
+            else:
+                # If it's a record object, try to access the value
+                deleted_count = getattr(first_record, "deleted_count", 0) if hasattr(first_record, "deleted_count") else 0
+        
+        if deleted_count == 0:
+            raise ValueError(f"Chunk {chunk_id} not found in document {document_name}")
+        
+        # Also remove from vector index if it exists
+        # The vector index should automatically handle deletion when the node is deleted
+        # But we can explicitly delete it if needed
+        try:
+            vector_store = Neo4jVector(
+                embedding=OpenAIEmbeddings(),  # Dummy embedding, just for deletion
+                url=NEO4J_URI,
+                username=NEO4J_USERNAME,
+                password=NEO4J_PASSWORD,
+                database=actual_db_name,
+                index_name="chunk_index"
+            )
+            # The vector index deletion is handled automatically by Neo4j when the node is deleted
+        except Exception as e:
+            # Vector index deletion is optional, don't fail if it doesn't exist
+            log_debug(f"Note: Could not access vector index for deletion (this is OK): {e}")
+        
+        print(f"✓ Successfully deleted chunk {chunk_id} from {document_name}", flush=True)
+        
+        return {
+            "success": True,
+            "document_name": document_name,
+            "chunk_id": chunk_id,
+            "message": "Chunk deleted successfully"
+        }
+        
+    except Exception as e:
+        error_msg = f"Error deleting chunk: {e}\n{traceback.format_exc()}"
+        log_error(error_msg)
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+async def delete_chunk_from_transcription_file(
+    transcription_path: str,
+    chunk_id: int
+) -> bool:
+    """
+    Delete a specific chunk from a transcription file.
+    
+    Args:
+        transcription_path: Path to the transcription file
+        chunk_id: The chunk ID to delete (0-indexed, but file uses 1-indexed)
+    
+    Returns:
+        True if successful, False otherwise
+    """
     try:
         with open(transcription_path, "r", encoding="utf-8") as f:
             content = f.read()
         
-        # Find and replace the chunk
+        # Find and remove the chunk
         # Pattern: === Chunk N [timecodes] ===\n<text>
         file_chunk_id = chunk_id + 1  # File uses 1-indexed
         
-        # Match chunk header and content
-        pattern = rf'(=== Chunk {file_chunk_id}(?: \[[^\]]+\])? ===\n)(.*?)(?=\n=== Chunk|\Z)'
+        # Match chunk header and content, remove entire chunk
+        pattern = rf'=== Chunk {file_chunk_id}(?: \[[^\]]+\])? ===\n.*?(?=\n=== Chunk|\Z)'
         
-        def replace_chunk(match):
-            header = match.group(1)
-            return header + new_text + "\n"
+        new_content = re.sub(pattern, '', content, flags=re.DOTALL)
         
-        new_content = re.sub(pattern, replace_chunk, content, flags=re.DOTALL)
+        # Clean up any double newlines that might result
+        new_content = re.sub(r'\n{3,}', '\n\n', new_content)
         
         # Write back to file
         with open(transcription_path, "w", encoding="utf-8") as f:
             f.write(new_content)
         
-        print(f"✓ Updated transcription file: {transcription_path} (chunk {file_chunk_id})", flush=True)
+        print(f"✓ Deleted chunk {file_chunk_id} from transcription file: {transcription_path}", flush=True)
         return True
 
     except Exception as e:
-        log_error(f"Error updating transcription file: {e}")
+        log_error(f"Error deleting chunk from transcription file: {e}")
         return False
 

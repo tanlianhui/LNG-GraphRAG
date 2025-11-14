@@ -12,6 +12,7 @@ app = Flask(__name__)
 # Configuration
 VODS_CSV = "./VODs/videos.csv"
 TRANSCRIPTIONS_DIR = "./transcriptions"
+EDIT_DIR = "./transcriptions/edit"
 VODS_DIR = "./VODs"
 
 def get_download_status() -> List[Dict]:
@@ -109,10 +110,25 @@ def get_transcription_files() -> List[Dict]:
     
     return transcriptions
 
+def get_transcription_file_path(filename: str) -> Optional[str]:
+    """Get the path to transcription file, checking edit file first if it exists"""
+    # Check for edit file first
+    edit_filename = filename.replace('_combined.txt', '_combined_edit.txt')
+    edit_path = os.path.join(EDIT_DIR, edit_filename)
+    if os.path.exists(edit_path):
+        return edit_path
+    
+    # Fall back to original file
+    original_path = os.path.join(TRANSCRIPTIONS_DIR, filename)
+    if os.path.exists(original_path):
+        return original_path
+    
+    return None
+
 def get_transcription_content(filename: str) -> Optional[str]:
-    """Read transcription file content"""
-    file_path = os.path.join(TRANSCRIPTIONS_DIR, filename)
-    if not os.path.exists(file_path):
+    """Read transcription file content, preferring edit file if it exists"""
+    file_path = get_transcription_file_path(filename)
+    if not file_path:
         return None
     
     try:
@@ -336,15 +352,20 @@ def api_update_transcription():
         if graphrag_path not in sys.path:
             sys.path.insert(0, graphrag_path)
         
-        from own_graph_rag import update_transcription_file, update_chunk_in_neo4j
+        from own_graph_rag import write_edit_to_file, update_chunk_in_neo4j
         import os as os_module
         from dotenv import load_dotenv
         
         load_dotenv()
         
-        # Update transcription file
-        file_updated = asyncio.run(update_transcription_file(
-            transcription_path,
+        # Write edit to "_edit" file in edit directory (do not modify original transcription file)
+        # Create edit directory if it doesn't exist
+        os.makedirs(EDIT_DIR, exist_ok=True)
+        edit_filename = filename.replace('_combined.txt', '_combined_edit.txt')
+        edit_file_path = os.path.join(EDIT_DIR, edit_filename)
+        file_updated = asyncio.run(write_edit_to_file(
+            edit_file_path,
+            filename,
             chunk_id,
             new_text
         ))
@@ -352,7 +373,7 @@ def api_update_transcription():
         if not file_updated:
             return jsonify({
                 'success': False,
-                'error': 'Failed to update transcription file'
+                'error': 'Failed to write edit to file'
             }), 500
         
         # Update Neo4j (document name is the filename)
@@ -375,9 +396,10 @@ def api_update_transcription():
         
         return jsonify({
             'success': True,
-            'message': 'Transcription chunk updated successfully in both file and Neo4j',
+            'message': 'Transcription chunk updated successfully in Neo4j and edit file',
             'document_name': document_name,
-            'chunk_id': chunk_id
+            'chunk_id': chunk_id,
+            'edit_file': os.path.basename(edit_file_path)
         })
         
     except Exception as e:
@@ -410,9 +432,11 @@ def api_transcription_chunks(filename):
         if graphrag_path not in sys.path:
             sys.path.insert(0, graphrag_path)
         
-        from own_graph_rag import parse_transcription_chunks
+        from own_graph_rag import parse_transcription_chunks, get_transcription_file_path as get_file_path
         
-        chunks = parse_transcription_chunks(transcription_path)
+        # Check for edit file first, then fall back to original
+        actual_path = get_file_path(filename) or transcription_path
+        chunks = parse_transcription_chunks(actual_path)
         
         return jsonify({
             'success': True,
@@ -425,6 +449,77 @@ def api_transcription_chunks(filename):
         return jsonify({
             'success': False,
             'error': f'Failed to parse chunks: {str(e)}'
+        }), 500
+
+@app.route('/api/transcription/delete', methods=['POST'])
+def api_delete_transcription():
+    """API endpoint for deleting a transcription chunk"""
+    data = request.get_json()
+    filename = data.get('filename', '')
+    chunk_id = data.get('chunk_id')
+    
+    if not filename or chunk_id is None:
+        return jsonify({
+            'success': False,
+            'error': 'Missing required fields: filename, chunk_id'
+        }), 400
+    
+    # Security: ensure filename doesn't contain path traversal
+    filename = os.path.basename(filename)
+    if not filename.endswith('_combined.txt'):
+        return jsonify({
+            'success': False,
+            'error': 'Invalid filename format'
+        }), 400
+    
+    transcription_path = os.path.join(TRANSCRIPTIONS_DIR, filename)
+    if not os.path.exists(transcription_path):
+        return jsonify({
+            'success': False,
+            'error': 'Transcription file not found'
+        }), 404
+    
+    try:
+        # Import graphrag functions
+        graphrag_path = os.path.join(os.path.dirname(__file__), 'graphrag')
+        if graphrag_path not in sys.path:
+            sys.path.insert(0, graphrag_path)
+        
+        from own_graph_rag import delete_chunk_in_neo4j
+        import os as os_module
+        from dotenv import load_dotenv
+        
+        load_dotenv()
+        
+        # Delete from Neo4j only (do not modify transcription files)
+        # Document name is the filename
+        document_name = filename
+        db_name = os_module.getenv('NEO4J_DB_NAME', 'lng_transcriptions')
+        
+        neo4j_result = asyncio.run(delete_chunk_in_neo4j(
+            document_name=document_name,
+            chunk_id=chunk_id,
+            db_name=db_name
+        ))
+        
+        if not neo4j_result.get('success'):
+            return jsonify({
+                'success': False,
+                'error': f"Failed to delete from Neo4j: {neo4j_result.get('error', 'Unknown error')}",
+                'file_deleted': True  # File was deleted even if Neo4j failed
+            }), 500
+        
+        return jsonify({
+            'success': True,
+            'message': 'Chunk deleted successfully from Neo4j (transcription file unchanged)',
+            'document_name': document_name,
+            'chunk_id': chunk_id
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Delete failed: {str(e)}'
         }), 500
 
 if __name__ == '__main__':
