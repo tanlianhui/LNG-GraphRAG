@@ -247,16 +247,75 @@ def api_graphrag_query():
         with driver.session(database=actual_db_name) as session:
             result = session.run(query)
             
-            # Collect results
+            # Collect results - properly serialize Neo4j nodes and relationships
             records = []
             for record in result:
                 # Convert record to dict
                 record_dict = {}
                 for key in record.keys():
                     value = record[key]
-                    # Handle Neo4j types
-                    if hasattr(value, '__dict__'):
-                        record_dict[key] = str(value)
+                    # Handle Neo4j Node objects
+                    if hasattr(value, 'labels') and hasattr(value, 'properties'):
+                        record_dict[key] = {
+                            'identity': value.id,
+                            'labels': list(value.labels),
+                            'properties': dict(value)
+                        }
+                    # Handle Neo4j Relationship objects
+                    elif hasattr(value, 'type') and hasattr(value, 'start_node') and hasattr(value, 'end_node'):
+                        record_dict[key] = {
+                            'identity': value.id,
+                            'type': value.type,
+                            'start': {
+                                'identity': value.start_node.id,
+                                'labels': list(value.start_node.labels),
+                                'properties': dict(value.start_node)
+                            },
+                            'end': {
+                                'identity': value.end_node.id,
+                                'labels': list(value.end_node.labels),
+                                'properties': dict(value.end_node)
+                            },
+                            'properties': dict(value)
+                        }
+                    # Handle lists (paths, arrays)
+                    elif isinstance(value, list):
+                        serialized_list = []
+                        for item in value:
+                            if hasattr(item, 'labels') and hasattr(item, 'properties'):
+                                # Node in list
+                                serialized_list.append({
+                                    'identity': item.id,
+                                    'labels': list(item.labels),
+                                    'properties': dict(item)
+                                })
+                            elif hasattr(item, 'type') and hasattr(item, 'start_node'):
+                                # Relationship in list
+                                serialized_list.append({
+                                    'identity': item.id,
+                                    'type': item.type,
+                                    'start': {
+                                        'identity': item.start_node.id,
+                                        'labels': list(item.start_node.labels),
+                                        'properties': dict(item.start_node)
+                                    },
+                                    'end': {
+                                        'identity': item.end_node.id,
+                                        'labels': list(item.end_node.labels),
+                                        'properties': dict(item.end_node)
+                                    },
+                                    'properties': dict(item)
+                                })
+                            else:
+                                serialized_list.append(item)
+                        record_dict[key] = serialized_list
+                    # Handle other Neo4j types
+                    elif hasattr(value, '__dict__'):
+                        # Try to serialize as dict if possible
+                        try:
+                            record_dict[key] = dict(value)
+                        except:
+                            record_dict[key] = str(value)
                     else:
                         record_dict[key] = value
                 records.append(record_dict)
