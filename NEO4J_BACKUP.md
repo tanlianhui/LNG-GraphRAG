@@ -9,6 +9,8 @@ The Neo4j database can be dumped to a local folder (`./neo4j`) and restored when
 - Migrating data between environments
 - Restoring after a container restart or data loss
 
+Dumps include all node and relationship data (e.g. Chunk/Concept nodes with `nomic_embeddings`, `openai_embeddings`, and vector indexes are stored in the graph data).
+
 ## Prerequisites
 
 - Neo4j container must be running (`lng-neo4j`)

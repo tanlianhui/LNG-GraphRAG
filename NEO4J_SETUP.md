@@ -5,17 +5,18 @@ This guide will help you set up Neo4j in Docker and load transcriptions into the
 ## Prerequisites
 
 1. **Docker** installed and running
-2. **OpenAI API Key** for embeddings
-3. Python dependencies installed: `pip install -r requirements.txt`
+2. **OpenAI API Key** for concept generation (LLM) and for `--embedding openai` or `both`
+3. **Ollama** with `nomic-embed-text` for local embeddings when using `--embedding nomic` or `both` (run `ollama pull nomic-embed-text`)
+4. Python dependencies installed: `pip install -r requirements.txt`
 
 ## Neo4j Edition Support
 
 This project supports both **Neo4j Community Edition** and **Enterprise Edition**:
 
-- **Community Edition** (default): Uses the default database (`neo4j`). Multiple databases are not supported.
-- **Enterprise Edition**: Can create and use multiple named databases.
+- **Community Edition** (Docker default): Has only one database, the default **`neo4j`**. There is no separate `lng_transcriptions` database — the app uses **`neo4j`** and refers to it as "lng_transcriptions" in messages. In Neo4j Browser, `SHOW DATABASES` will only list `neo4j` and `system`.
+- **Enterprise Edition**: Can create and use multiple named databases (e.g. `lng_transcriptions`).
 
-The code automatically detects which edition you're using and adjusts accordingly. No configuration needed!
+The code automatically detects which edition you're using and uses the correct database. No configuration needed!
 
 ## Step 1: Start Neo4j Docker Container
 
@@ -71,22 +72,78 @@ export NEO4J_DB_NAME='lng_transcriptions'
 
 ## Step 3: Load Transcriptions
 
+### Embedding options
+
+Chunk and Concept nodes store embeddings in two optional properties:
+
+- **`nomic_embeddings`** — from Ollama `nomic-embed-text` (local)
+- **`openai_embeddings`** — from OpenAI `text-embedding-3-small` (API)
+
+Use `--embedding nomic` (default), `--embedding openai`, or `--embedding both`. Vector indexes are created for each property you use (`chunk_nomic_embeddings`, `chunk_openai_embeddings`, and the same for concepts).
+
 ### Load all transcriptions
 
 ```bash
+# Ensure Neo4j is running, then load (default: nomic embeddings only)
+python run_embeddings_to_neo4j.py
+
+# Or load directly (Neo4j must already be running)
 python load_transcriptions_to_neo4j.py
+
+# With both nomic and OpenAI embeddings
+python load_transcriptions_to_neo4j.py --embedding both
+
+# Wipe existing graph and reload (removes old data; use after schema/embedding changes)
+python load_transcriptions_to_neo4j.py --embedding both --clean
 ```
 
 This will:
-- Create the `lng_transcriptions` database
-- Process each transcription file in `./transcriptions/`
-- Generate embeddings for chunks
+- Use the default database `neo4j` (Community Edition) or create/use `lng_transcriptions` (Enterprise)
+- Process each `*_combined.txt` in `./transcriptions/`
+- Generate embeddings and store them as `nomic_embeddings` and/or `openai_embeddings` on Chunk/Concept nodes
 - Extract concepts and relationships
 - Build the knowledge graph
 
 ### Process specific files
 
-You can modify `load_transcriptions_to_neo4j.py` to filter specific files.
+You can modify `load_transcriptions_to_neo4j.py` to filter specific files, or use `load_single_to_neo4j.py` for one file (see below).
+
+### Add a single transcription or WAV to existing Neo4j
+
+To add one new transcription (or one WAV) **without** wiping the database:
+
+```bash
+# From a _combined.txt file (same format as in ./transcriptions/)
+python load_single_to_neo4j.py ./transcriptions/MyVideo_combined.txt
+
+# From a single WAV: runs ASR first, then loads the produced _combined.txt
+python load_single_to_neo4j.py ./VODs/MyVideo.wav
+
+# With OpenAI + Nomic embeddings
+python load_single_to_neo4j.py ./transcriptions/MyVideo_combined.txt --embedding both
+```
+
+The script uses the same pipeline (chunks, embeddings, concepts) and appends to the existing graph. Ensure Neo4j is running and `OPENAI_API_KEY` is set if you use concept generation or `--embedding openai|both`.
+
+### Transcriptions without timestamps
+
+Transcriptions should use the format `=== Chunk 1 [0.00s - 94.49s] ===`. If some files only have `=== Chunk 1 ===` (no timecodes):
+
+```bash
+# Find which transcriptions lack timestamps and get their YouTube URLs
+python find_transcriptions_without_timestamps.py
+
+# Redownload those videos and rerun ASR to produce the same format with timestamps
+python redownload_rerun_no_timestamps.py
+
+# Single title (exact match with videos.csv)
+python redownload_rerun_no_timestamps.py --title "Exact video title"
+
+# Only rerun ASR (WAVs already present)
+python redownload_rerun_no_timestamps.py --skip-download
+```
+
+Then load (or reload) transcriptions as in Step 3.
 
 ## Step 4: Access Neo4j
 
@@ -180,11 +237,11 @@ docker rm lng-neo4j
 - Verify the graphrag module can be imported
 - Check Python dependencies: `pip install -r requirements.txt`
 
-### Database not found
+### Database not found / No "lng_transcriptions" database
 
-If you get "Database not found" errors:
-- The database is created automatically on first load
-- Check database exists: `docker exec lng-neo4j cypher-shell -u neo4j -p lng-graphrag-password "SHOW DATABASES"`
+- **Community Edition (Docker default):** There is no separate `lng_transcriptions` database. The app uses the default database **`neo4j`**. Run `SHOW DATABASES` — you will only see `neo4j` and `system`. Data is stored in `neo4j`.
+- **Enterprise Edition:** The loader can create/use a named database `lng_transcriptions` if supported.
+- If you see "Database not found", ensure the Neo4j container is running and the app has detected the correct edition (check startup messages for "Community Edition" or "Enterprise Edition").
 
 ## Stopping Neo4j
 

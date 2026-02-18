@@ -180,21 +180,30 @@ python run_batch_asr.py  # If available
 # Set OpenAI API key if not in .env file
 export OPENAI_API_KEY='your-openai-api-key-here'
 
-# Load all transcriptions into Neo4j
+# Option A: Ensure Neo4j is running, then load (uses Ollama nomic embeddings by default)
+python run_embeddings_to_neo4j.py
+
+# Option B: Load directly (you must start Neo4j first)
 python load_transcriptions_to_neo4j.py
+
+# With embedding choice: nomic only (default), openai only, or both
+python load_transcriptions_to_neo4j.py --embedding both
+
+# Wipe existing graph and reload (e.g. to fix legacy chunk_embeddings → nomic_embeddings/openai_embeddings)
+python load_transcriptions_to_neo4j.py --embedding both --clean
 ```
 
 **What happens:**
 1. Script checks Neo4j connection (waits if not ready)
-2. Creates `lng_transcriptions` database if needed
-3. Processes each transcription file in `./transcriptions/`
-4. Generates embeddings for text chunks
+2. Uses default database `neo4j` (Community Edition) or `lng_transcriptions` (Enterprise)
+3. Processes each `*_combined.txt` in `./transcriptions/`
+4. Generates embeddings (Ollama nomic and/or OpenAI) and stores them as **`nomic_embeddings`** and **`openai_embeddings`** on Chunk/Concept nodes
 5. Extracts concepts and relationships
-6. Builds knowledge graph in Neo4j
+6. Builds the knowledge graph
 
 **Expected Output:**
 - Progress for each transcription file
-- Cost tracking for OpenAI API calls
+- Cost tracking for OpenAI when using `--embedding openai` or `both`
 - Summary of successful/failed loads
 
 #### Step 6: Launch Web Dashboard
@@ -277,17 +286,37 @@ docker stop lng-neo4j
 
 #### Adding New Transcriptions
 
+**Add a single file (no DB wipe):**
+```bash
+# From an existing _combined.txt
+python load_single_to_neo4j.py ./transcriptions/MyVideo_combined.txt
+
+# From a single WAV (runs ASR first, then loads)
+python load_single_to_neo4j.py ./VODs/MyVideo.wav
+
+# With both nomic and OpenAI embeddings
+python load_single_to_neo4j.py ./transcriptions/MyVideo_combined.txt --embedding both
+```
+
+**Add multiple new files:**
 ```bash
 # 1. Place new transcription files in ./transcriptions/
 #    Format: {title}_combined.txt
 
-# 2. Load into Neo4j
-python load_transcriptions_to_neo4j.py
+# 2. Load into Neo4j (only new documents are added; use --clean to wipe and reload all)
+python load_transcriptions_to_neo4j.py --embedding nomic
+```
 
-# The script will:
-# - Skip already processed files (based on document name)
-# - Process only new files
-# - Update the knowledge graph
+**Transcriptions missing timestamps:** If some files use `=== Chunk 1 ===` instead of `=== Chunk 1 [0.00s - 94.49s] ===`:
+```bash
+# Find which transcriptions lack timestamps and get their YouTube URLs
+python find_transcriptions_without_timestamps.py
+
+# Redownload those videos and rerun ASR (same format with timestamps)
+python redownload_rerun_no_timestamps.py
+
+# Or for one title only
+python redownload_rerun_no_timestamps.py --title "Exact title from CSV"
 ```
 
 #### Backup and Restore Neo4j Database
@@ -327,7 +356,7 @@ See `NEO4J_BACKUP.md` for detailed backup/restore documentation.
 | OpenAI API errors | Check `OPENAI_API_KEY` is set correctly |
 | Import errors | Run `pip install -r requirements.txt` |
 | Port already in use | Change port in `docker-compose.yml` or `web_app.py` |
-| Database not found | Database is created automatically on first load |
+| Database not found | Community Edition has only default DB `neo4j`; app uses it automatically. See NEO4J_SETUP.md. |
 | Transcription files not found | Check `./transcriptions/` directory exists |
 
 ### System Status Checks
@@ -368,15 +397,19 @@ NEO4J_DB_NAME=lng_transcriptions
 LNG-GraphRAG/
 ├── transcriptions/          # Transcription files (*_combined.txt)
 ├── VODs/
-│   ├── videos.csv          # Download status tracking
+│   ├── videos.csv         # Download status tracking
 │   ├── *.wav               # Audio files
 │   └── www.youtube.com_cookies.txt  # YouTube cookies
 ├── graphrag/
-│   └── own_graph_rag.py   # GraphRAG implementation
+│   └── own_graph_rag.py   # GraphRAG implementation (nomic/openai embeddings)
 ├── templates/
 │   └── index.html         # Web dashboard UI
 ├── web_app.py             # Flask web server
-├── load_transcriptions_to_neo4j.py  # Transcription loader
+├── load_transcriptions_to_neo4j.py  # Batch loader (--embedding, --clean)
+├── load_single_to_neo4j.py          # Single transcription or WAV → Neo4j (no wipe)
+├── run_embeddings_to_neo4j.py      # Ensure Neo4j + load all (--embedding, --clean)
+├── find_transcriptions_without_timestamps.py   # List files missing timecodes
+├── redownload_rerun_no_timestamps.py           # Redownload + ASR for those files
 ├── setup_neo4j.sh         # Neo4j setup script
 ├── docker-compose.yml     # Neo4j Docker config
 ├── dump_neo4j.py          # Backup Neo4j database

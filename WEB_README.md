@@ -77,17 +77,12 @@ http://localhost:5000
 ## Future Enhancements
 
 ### GraphRAG Integration
-The GraphRAG tab is ready for Neo4j integration. To enable it:
+The GraphRAG tab connects to Neo4j. The graph contains:
+- **Document** → **Chunk** (with `text`, `nomic_embeddings`, `openai_embeddings`, optional `start_time`/`end_time`)
+- **Chunk** → **Concept** (MENTIONS)
+- **Concept** (with `nomic_embeddings`, `openai_embeddings`) and **CONCEPT_RELATION** between concepts
 
-1. Install and configure Neo4j
-2. Update `web_app.py` to connect to Neo4j:
-```python
-from neo4j import GraphDatabase
-
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "password"))
-```
-
-3. Implement query execution in the `/api/graphrag/query` endpoint
+Vector indexes: `chunk_nomic_embeddings`, `chunk_openai_embeddings`, `concept_nomic_embeddings`, `concept_openai_embeddings`. Load data with `run_embeddings_to_neo4j.py` or `load_transcriptions_to_neo4j.py` (see NEO4J_SETUP.md).
 
 ### Features to Add
 - Real-time updates via WebSocket

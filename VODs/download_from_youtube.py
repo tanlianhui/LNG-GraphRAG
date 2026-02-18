@@ -241,27 +241,39 @@ def download_from_youtube(url: str, output_path: str = "./VODs/%(title)s", max_r
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     ydl.download([url])
                 
-                # Verify the download actually succeeded by checking for the file
+                # Verify the download actually succeeded: file exists and is non-empty
                 try:
                     with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
                         info = ydl.extract_info(url, download=False)
                         title = info.get('title', 'Unknown')
                         downloaded_file = f"./VODs/{title}.wav"
-                        if os.path.exists(downloaded_file):
+                        if os.path.exists(downloaded_file) and os.path.getsize(downloaded_file) > 0:
                             print(f"Successfully downloaded: {url} -> {downloaded_file}")
                             return True, downloaded_file
-                        else:
-                            # Fallback: try to find the file
-                            import glob
-                            wav_files = glob.glob("./VODs/*.wav")
-                            if wav_files:
-                                # Get the most recently created file
-                                latest_file = max(wav_files, key=os.path.getctime)
-                                print(f"Successfully downloaded: {url} -> {latest_file}")
-                                return True, latest_file
-                            else:
-                                print(f"Download failed: No file found for {url}")
-                                return False, None
+                        if os.path.exists(downloaded_file) and os.path.getsize(downloaded_file) == 0:
+                            try:
+                                os.remove(downloaded_file)
+                            except OSError:
+                                pass
+                            raise ValueError("The downloaded file is empty")
+                        # Fallback: try to find a non-empty wav
+                        import glob
+                        wav_files = [f for f in glob.glob("./VODs/*.wav") if os.path.getsize(f) > 0]
+                        if wav_files:
+                            latest_file = max(wav_files, key=os.path.getctime)
+                            print(f"Successfully downloaded: {url} -> {latest_file}")
+                            return True, latest_file
+                        raise ValueError("No file found or file is empty")
+                except ValueError as e:
+                    error_msg = str(e)
+                    print(f"Attempt {attempt + 1} failed for {url}: {error_msg}")
+                    if "empty" in error_msg.lower():
+                        success, file_path = try_fallback_download(url, output_path, user_agent, cookie_option)
+                        if success and file_path:
+                            return True, file_path
+                    if attempt < max_retries - 1:
+                        continue
+                    return False, None
                 except Exception as e:
                     print(f"Could not verify download for {url}: {e}")
                     return False, None
@@ -289,14 +301,23 @@ def download_from_youtube(url: str, output_path: str = "./VODs/%(title)s", max_r
                     continue
                 elif "Video unavailable" in error_msg:
                     print("Video is unavailable (private, deleted, or region-blocked)")
-                    return False
+                    return False, None
                 elif "format" in error_msg.lower() or "not available" in error_msg.lower():
                     print("Format issue - trying fallback download method...")
-                    # Try fallback download method
                     success, file_path = try_fallback_download(url, output_path, user_agent, cookie_option)
-                    if success:
+                    if success and file_path:
                         return True, file_path
                     continue
+                elif "empty" in error_msg.lower() or "fragment not found" in error_msg.lower() or "sabr" in error_msg.lower():
+                    print("SABR/HLS fragment or empty file - trying fallback (TV/client workarounds)...")
+                    success, file_path = try_fallback_download(url, output_path, user_agent, cookie_option)
+                    if success and file_path:
+                        return True, file_path
+                    if attempt < max_retries - 1:
+                        continue
+                    else:
+                        print("Tip: Update yt-dlp: pip install -U yt-dlp. See https://github.com/yt-dlp/yt-dlp/wiki/PO-Token-Guide")
+                        return False, None
                 else:
                     print(f"Unknown error: {error_msg}")
                     continue
@@ -304,17 +325,91 @@ def download_from_youtube(url: str, output_path: str = "./VODs/%(title)s", max_r
     print(f"All attempts failed for {url}")
     return False, None
 
-def _android_ydl_opts(base_opts):
-    """Add YouTube android player client to avoid 403/SABR."""
-    base_opts['extractor_args'] = {'youtube': {'player_client': ['android']}}
+def _player_client_opts(base_opts, clients):
+    """Set YouTube player_client (e.g. tv_embedded, tv, android) to avoid SABR/PO Token issues."""
+    base_opts['extractor_args'] = {'youtube': {'player_client': clients}}
     return base_opts
 
 
+def _android_ydl_opts(base_opts):
+    """Add YouTube android player client to avoid 403/SABR."""
+    return _player_client_opts(base_opts, ['android'])
+
+
+def _common_audio_pp():
+    return [{
+        'key': 'FFmpegExtractAudio',
+        'preferredcodec': 'wav',
+        'preferredquality': '192',
+    }]
+
+
+def _common_audio_pp_args():
+    return {'FFmpegExtractAudio': ['-ar', '16000']}
+
+
 def try_fallback_download(url, output_path, user_agent, cookie_option):
-    """Try alternative download methods when main method fails (android client, different formats)."""
-    print("Trying fallback download methods (android player client)...")
-    
-    # Method 1: Android client + worst audio format (often works when 140 fails)
+    """Try alternative download methods when main method fails.
+    Prefer clients that do not require PO Token: tv_embedded (with cookies), tv, tv_simply, then android."""
+    print("Trying fallback download methods (TV / android clients)...")
+
+    def _try_download(ydl_opts, label):
+        try:
+            if cookie_option:
+                ydl_opts['cookiefile'] = cookie_option
+            ydl_opts.setdefault('user_agent', user_agent)
+            ydl_opts.setdefault('referer', 'https://www.youtube.com/')
+            ydl_opts.setdefault('ignoreerrors', False)
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([url])
+            with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
+                info = ydl.extract_info(url, download=False)
+                title = info.get('title', 'Unknown')
+                downloaded_file = f"./VODs/{title}.wav"
+                if os.path.exists(downloaded_file) and os.path.getsize(downloaded_file) > 0:
+                    print(f"Fallback ({label}) succeeded: {downloaded_file}")
+                    return True, downloaded_file
+        except Exception as e:
+            print(f"Fallback ({label}) failed: {e}")
+        return False, None
+
+    # Method 1: tv_embedded (no PO Token required; requires account cookies)
+    if cookie_option:
+        opts = {
+            'outtmpl': output_path,
+            'format': 'bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best',
+            'postprocessors': _common_audio_pp(),
+            'postprocessor_args': _common_audio_pp_args(),
+        }
+        success, path = _try_download(_player_client_opts(opts, ['tv_embedded']), 'tv_embedded')
+        if success:
+            return True, path
+
+    # Method 2: tv (no PO Token required)
+    opts = {
+        'outtmpl': output_path,
+        'format': 'bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best',
+        'postprocessors': _common_audio_pp(),
+        'postprocessor_args': _common_audio_pp_args(),
+    }
+    if cookie_option:
+        opts['cookiefile'] = cookie_option
+    success, path = _try_download(_player_client_opts(opts, ['tv']), 'tv')
+    if success:
+        return True, path
+
+    # Method 3: tv_simply (no PO Token; no account cookies)
+    opts = {
+        'outtmpl': output_path,
+        'format': 'bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best',
+        'postprocessors': _common_audio_pp(),
+        'postprocessor_args': _common_audio_pp_args(),
+    }
+    success, path = _try_download(_player_client_opts(opts, ['tv_simply']), 'tv_simply')
+    if success:
+        return True, path
+
+    # Method 4: Android client + worst audio format (often works when 140 fails)
     try:
         ydl_opts = _android_ydl_opts({
             'outtmpl': output_path,
@@ -334,24 +429,22 @@ def try_fallback_download(url, output_path, user_agent, cookie_option):
             ydl_opts['cookiefile'] = cookie_option
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        print("Fallback method 1 succeeded")
-        
-        # Try to find the downloaded file
         try:
             with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
                 info = ydl.extract_info(url, download=False)
                 title = info.get('title', 'Unknown')
                 downloaded_file = f"./VODs/{title}.wav"
-                if os.path.exists(downloaded_file):
+                if os.path.exists(downloaded_file) and os.path.getsize(downloaded_file) > 0:
+                    print("Fallback (android worstaudio) succeeded")
                     return True, downloaded_file
         except Exception:
             pass
-        return True, None
+        print("Fallback (android worstaudio): no valid file")
         
     except Exception as e:
-        print(f"Fallback method 1 failed: {e}")
+        print(f"Fallback (android worstaudio) failed: {e}")
     
-    # Method 2: Android client, no format specification
+    # Method 5: Android client, no format specification
     try:
         ydl_opts = _android_ydl_opts({
             'outtmpl': output_path,
@@ -370,24 +463,22 @@ def try_fallback_download(url, output_path, user_agent, cookie_option):
             ydl_opts['cookiefile'] = cookie_option
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        print("Fallback method 2 succeeded")
-        
-        # Try to find the downloaded file
         try:
             with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
                 info = ydl.extract_info(url, download=False)
                 title = info.get('title', 'Unknown')
                 downloaded_file = f"./VODs/{title}.wav"
-                if os.path.exists(downloaded_file):
+                if os.path.exists(downloaded_file) and os.path.getsize(downloaded_file) > 0:
+                    print("Fallback (android default format) succeeded")
                     return True, downloaded_file
         except Exception:
             pass
-        return True, None
+        print("Fallback (android default format): no valid file")
         
     except Exception as e:
-        print(f"Fallback method 2 failed: {e}")
+        print(f"Fallback (android default format) failed: {e}")
     
-    # Method 3: Android client, best format (video+audio then extract)
+    # Method 6: Android client, best format (video+audio then extract)
     try:
         ydl_opts = _android_ydl_opts({
             'outtmpl': output_path,
@@ -405,22 +496,20 @@ def try_fallback_download(url, output_path, user_agent, cookie_option):
             ydl_opts['cookiefile'] = cookie_option
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        print("Fallback method 3 succeeded")
-        
-        # Try to find the downloaded file
         try:
             with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
                 info = ydl.extract_info(url, download=False)
                 title = info.get('title', 'Unknown')
                 downloaded_file = f"./VODs/{title}.wav"
-                if os.path.exists(downloaded_file):
+                if os.path.exists(downloaded_file) and os.path.getsize(downloaded_file) > 0:
+                    print("Fallback (android best) succeeded")
                     return True, downloaded_file
         except Exception:
             pass
-        return True, None
+        print("Fallback (android best): no valid file")
         
     except Exception as e:
-        print(f"Fallback method 3 failed: {e}")
+        print(f"Fallback (android best) failed: {e}")
     
     print("All fallback methods failed")
     return False, None
