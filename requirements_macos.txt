@@ -43,6 +43,7 @@ langchain-classic==1.0.0
 langchain-community==0.4.1
 langchain-core==1.0.4
 langchain-neo4j==0.6.0
+langchain-ollama==0.4.1
 langchain-openai==1.0.2
 langchain-text-splitters==1.0.0
 langsmith==0.4.42

@@ -14,7 +14,8 @@ from typing import Any, Optional
 # Core imports
 import neo4j
 import tiktoken
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_openai import ChatOpenAI
+from langchain_ollama import OllamaEmbeddings
 from langchain_neo4j import Neo4jVector, Neo4jGraph
 from langchain_community.callbacks import get_openai_callback
 from semantic_text_splitter import CharacterTextSplitter
@@ -481,7 +482,7 @@ def join_small_chunks(text_chunks: list[str], max_tokens: int = 10000) -> list[s
 async def generate_concepts_sync(
     text_chunks: list[str],
     document_name: str,
-    embeddings_model: OpenAIEmbeddings,
+    embeddings_model: OllamaEmbeddings,
     db_name: str,
     node_labels: list[str] = [],
     rel_labels: list[str] = [],
@@ -824,7 +825,7 @@ async def load_files_neo4j_graphrag(
         
         # Initialize embedding model
         step_start = time()
-        embeddings_model = OpenAIEmbeddings()
+        embeddings_model = OllamaEmbeddings(model="nomic-embed-text")
         print(f"✓ Embedding model initialization: {time() - step_start:.2f}s", flush=True)
 
         # Parse transcription chunks with metadata (chunk ID, timecodes)
@@ -1061,7 +1062,7 @@ async def update_chunk_in_neo4j(
         actual_db_name = get_database_name(db_name)
         
         # Initialize embedding model
-        embeddings_model = OpenAIEmbeddings()
+        embeddings_model = OllamaEmbeddings(model="nomic-embed-text")
         
         # Generate new embedding for the updated text
         print(f"🔄 Regenerating embedding for chunk {chunk_id} in {document_name}...", flush=True)
@@ -1294,7 +1295,7 @@ async def delete_chunk_in_neo4j(
         # But we can explicitly delete it if needed
         try:
             vector_store = Neo4jVector(
-                embedding=OpenAIEmbeddings(),  # Dummy embedding, just for deletion
+                embedding=OllamaEmbeddings(model="nomic-embed-text"),  # Dummy embedding, just for deletion
                 url=NEO4J_URI,
                 username=NEO4J_USERNAME,
                 password=NEO4J_PASSWORD,

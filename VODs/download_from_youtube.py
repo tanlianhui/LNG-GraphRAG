@@ -123,6 +123,48 @@ def update_csv_status(video_title, status):
     except Exception as e:
         print(f"⚠️  Could not update CSV for {video_title}: {e}")
 
+
+def normalize_youtube_url(url: str) -> str:
+    """Normalize YouTube URL to https://www.youtube.com/watch?v=ID"""
+    if "youtu.be/" in url:
+        vid = url.split("youtu.be/")[1].split("?")[0].strip()
+        return f"https://www.youtube.com/watch?v={vid}"
+    if "watch?v=" in url:
+        vid = url.split("watch?v=")[1].split("&")[0].split("?")[0].strip()
+        return f"https://www.youtube.com/watch?v={vid}"
+    return url
+
+
+def ensure_video_in_csv(url: str, title: str) -> None:
+    """Ensure a video row exists in CSV; update title if row had a placeholder."""
+    url = normalize_youtube_url(url)
+    try:
+        rows = []
+        with open(OUTPUT_CSV, 'r', newline='', encoding="utf-8-sig") as f:
+            reader = csv.reader(f)
+            header = next(reader, None)
+            if not header:
+                return
+            rows.append(header)
+            found = False
+            for row in reader:
+                if len(row) >= 2 and row[1].strip() == url:
+                    # Update title so CSV matches downloaded filename
+                    row[0] = title
+                    if len(row) >= 3:
+                        row[2] = "pending"
+                    else:
+                        row.append("pending")
+                    found = True
+                rows.append(row)
+            if not found:
+                rows.append([title, url, "pending"])
+        with open(OUTPUT_CSV, 'w', newline='', encoding="utf-8-sig") as f:
+            writer = csv.writer(f)
+            writer.writerows(rows)
+    except Exception as e:
+        print(f"⚠️  Could not update CSV: {e}")
+
 def download_from_youtube(url: str, output_path: str = "./VODs/%(title)s", max_retries: int = 3):
     # First, check if file already exists
     try:
@@ -153,6 +195,7 @@ def download_from_youtube(url: str, output_path: str = "./VODs/%(title)s", max_r
             # Rotate user agents
             user_agent = random.choice(user_agents)
             
+            # Prefer android player client to avoid YouTube SABR/403 on media download
             ydl_opts = {
                 'outtmpl': output_path,
                 'format': 'bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best',
@@ -164,18 +207,21 @@ def download_from_youtube(url: str, output_path: str = "./VODs/%(title)s", max_r
                 'postprocessor_args': {
                     'FFmpegExtractAudio': ['-ar', '16000']  # Set sample rate to 16kHz
                 },
-                'ignoreerrors': False,  # Don't ignore errors - we want to catch them
-                'no_warnings': False,  # Show warnings for debugging
-                'user_agent': user_agent,  # Rotate user agents
-                'referer': 'https://www.youtube.com/',  # Add referer
-                'sleep_interval': random.uniform(1, 3),  # Random sleep between requests
-                'max_sleep_interval': 5,  # Maximum sleep time
-                'sleep_interval_requests': 1,  # Sleep after each request
-                'extract_flat': False,  # Ensure we extract full info
-                'writethumbnail': False,  # Don't download thumbnails
-                'writeinfojson': False,  # Don't write info JSON
-                'writesubtitles': False,  # Don't download subtitles
-                'writeautomaticsub': False,  # Don't download auto subtitles
+                'ignoreerrors': False,
+                'no_warnings': False,
+                'user_agent': user_agent,
+                'referer': 'https://www.youtube.com/',
+                'sleep_interval': random.uniform(1, 3),
+                'max_sleep_interval': 5,
+                'sleep_interval_requests': 1,
+                'extract_flat': False,
+                'writethumbnail': False,
+                'writeinfojson': False,
+                'writesubtitles': False,
+                'writeautomaticsub': False,
+                'extractor_args': {
+                    'youtube': {'player_client': ['android', 'web']}  # android often avoids 403
+                },
                 'http_headers': {
                     'User-Agent': user_agent,
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -226,17 +272,16 @@ def download_from_youtube(url: str, output_path: str = "./VODs/%(title)s", max_r
                 # Check for specific error types
                 if "403" in error_msg or "Forbidden" in error_msg:
                     print("403 Forbidden - YouTube is blocking the request")
-                    print("This may be due to:")
-                    print("1. YouTube's anti-bot measures")
-                    print("2. Missing or invalid cookies")
-                    print("3. IP-based restrictions")
+                    print("Trying fallback with android player client...")
+                    success, file_path = try_fallback_download(url, output_path, user_agent, cookie_option)
+                    if success and file_path:
+                        return True, file_path
                     if attempt < max_retries - 1:
                         print("Trying different user agent and longer delay...")
-                        # Longer delay for 403 errors
                         time.sleep(random.uniform(10, 20))
                         continue
                     else:
-                        print("All retry attempts failed due to 403 Forbidden")
+                        print("All retry attempts failed. Try: pip install -U yt-dlp")
                         return False, None
                 elif "429" in error_msg or "Too Many Requests" in error_msg:
                     print("Rate limited - waiting longer before retry...")
@@ -259,32 +304,34 @@ def download_from_youtube(url: str, output_path: str = "./VODs/%(title)s", max_r
     print(f"All attempts failed for {url}")
     return False, None
 
+def _android_ydl_opts(base_opts):
+    """Add YouTube android player client to avoid 403/SABR."""
+    base_opts['extractor_args'] = {'youtube': {'player_client': ['android']}}
+    return base_opts
+
+
 def try_fallback_download(url, output_path, user_agent, cookie_option):
-    """Try alternative download methods when main method fails"""
-    print("Trying fallback download methods...")
+    """Try alternative download methods when main method fails (android client, different formats)."""
+    print("Trying fallback download methods (android player client)...")
     
-    # Method 1: Try with different format selection
+    # Method 1: Android client + worst audio format (often works when 140 fails)
     try:
-        ydl_opts = {
+        ydl_opts = _android_ydl_opts({
             'outtmpl': output_path,
-            'format': 'worstaudio/worst',  # Try worst quality first
+            'format': 'worstaudio/worst',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'wav',
                 'preferredquality': '192',
             }],
-            'postprocessor_args': {
-                'FFmpegExtractAudio': ['-ar', '16000']
-            },
+            'postprocessor_args': {'FFmpegExtractAudio': ['-ar', '16000']},
             'ignoreerrors': True,
             'user_agent': user_agent,
             'referer': 'https://www.youtube.com/',
             'extract_flat': False,
-        }
-        
+        })
         if cookie_option:
             ydl_opts['cookiefile'] = cookie_option
-        
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
         print("Fallback method 1 succeeded")
@@ -304,27 +351,23 @@ def try_fallback_download(url, output_path, user_agent, cookie_option):
     except Exception as e:
         print(f"Fallback method 1 failed: {e}")
     
-    # Method 2: Try with no format specification
+    # Method 2: Android client, no format specification
     try:
-        ydl_opts = {
+        ydl_opts = _android_ydl_opts({
             'outtmpl': output_path,
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'wav',
                 'preferredquality': '192',
             }],
-            'postprocessor_args': {
-                'FFmpegExtractAudio': ['-ar', '16000']
-            },
+            'postprocessor_args': {'FFmpegExtractAudio': ['-ar', '16000']},
             'ignoreerrors': True,
             'user_agent': user_agent,
             'referer': 'https://www.youtube.com/',
             'extract_flat': False,
-        }
-        
+        })
         if cookie_option:
             ydl_opts['cookiefile'] = cookie_option
-        
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
         print("Fallback method 2 succeeded")
@@ -344,18 +387,22 @@ def try_fallback_download(url, output_path, user_agent, cookie_option):
     except Exception as e:
         print(f"Fallback method 2 failed: {e}")
     
-    # Method 3: Try with minimal options
+    # Method 3: Android client, best format (video+audio then extract)
     try:
-        ydl_opts = {
+        ydl_opts = _android_ydl_opts({
             'outtmpl': output_path,
             'format': 'best',
             'ignoreerrors': True,
             'user_agent': user_agent,
-        }
-        
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'wav',
+                'preferredquality': '192',
+            }],
+            'postprocessor_args': {'FFmpegExtractAudio': ['-ar', '16000']},
+        })
         if cookie_option:
             ydl_opts['cookiefile'] = cookie_option
-        
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
         print("Fallback method 3 succeeded")
@@ -380,6 +427,44 @@ def try_fallback_download(url, output_path, user_agent, cookie_option):
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="LNG YouTube Downloader")
+    parser.add_argument(
+        "--url",
+        type=str,
+        help="Download a single video by URL (e.g. https://youtu.be/VIDEO_ID). Does not overwrite videos.csv.",
+    )
+    args = parser.parse_args()
+
+    if args.url:
+        # Single-video mode: add to CSV if needed, then download
+        url = normalize_youtube_url(args.url)
+        print("LNG YouTube Downloader - Single video")
+        print("=" * 60)
+        print(f"URL: {url}")
+        try:
+            with yt_dlp.YoutubeDL({"quiet": True}) as ydl:
+                info = ydl.extract_info(url, download=False)
+                title = info.get("title", "Unknown")
+        except Exception as e:
+            print(f"❌ Failed to get video info: {e}")
+            return
+        print(f"Title: {title}")
+        ensure_video_in_csv(url, title)
+        expected_filename = f"./VODs/{title}.wav"
+        if os.path.exists(expected_filename):
+            print(f"Skipping - already downloaded: {expected_filename}")
+            update_csv_status(title, "skipped")
+            return
+        ok, _ = download_from_youtube(url)
+        if ok:
+            update_csv_status(title, "completed")
+            print("✅ Download completed. Next: run ASR, then load_transcriptions_to_neo4j.py")
+        else:
+            update_csv_status(title, "failed")
+            print("❌ Download failed.")
+        return
+
     print("LNG YouTube Downloader with Enhanced Error Handling")
     print("=" * 60)
     print("Fetching video list...")

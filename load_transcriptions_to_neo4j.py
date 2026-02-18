@@ -10,10 +10,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
 
-# Set OpenAI API key if not already set
+# Set OpenAI API key if not already set (still needed for ChatOpenAI LLM in concept generation)
 if "OPENAI_API_KEY" not in os.environ:
     print("⚠️  Warning: OPENAI_API_KEY not set. Please set it before running:")
     print("   export OPENAI_API_KEY='your-api-key'")
+    print("   Note: OpenAI is used for LLM (concept generation), while Ollama handles embeddings")
     sys.exit(1)
 
 # Add graphrag directory to path

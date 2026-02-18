@@ -225,8 +225,10 @@ def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_
         print(f"Error processing chunk {chunk_index+1}: {e}")
         return error_msg, chunk_index, start_time, end_time
 
-def process_audio_file(audio_file_path):
-    """Process a single audio file with ASR, saving after each chunk"""
+def process_audio_file(audio_file_path, keep_audio=False):
+    """Process a single audio file with ASR, saving after each chunk.
+    If keep_audio=True, do not delete the source WAV after success (e.g. for batch from VODs).
+    """
     print("Loading ASR model...")
     
     # Load model and processor
@@ -366,9 +368,8 @@ def process_audio_file(audio_file_path):
     if chunk_files_cleaned > 0:
         print(f"Cleaned up {chunk_files_cleaned} temporary chunk files")
     
-    # Delete original audio file after successful transcription
-    # Only delete if combined transcription file was successfully created
-    if os.path.exists(combined_file):
+    # Delete original audio file after successful transcription (unless keep_audio=True)
+    if not keep_audio and os.path.exists(combined_file):
         try:
             if os.path.exists(audio_file_path):
                 os.remove(audio_file_path)
@@ -377,7 +378,9 @@ def process_audio_file(audio_file_path):
                 print(f"Original audio file not found: {audio_file_path}")
         except Exception as e:
             print(f"Warning: Could not delete original audio file {audio_file_path}: {e}")
-    else:
+    elif keep_audio and os.path.exists(combined_file):
+        print(f"Kept original audio file (--keep-audio): {audio_file_path}")
+    elif not os.path.exists(combined_file):
         print(f"Warning: Combined transcription file not found, keeping original audio file: {audio_file_path}")
     
     print("Processing completed!")
