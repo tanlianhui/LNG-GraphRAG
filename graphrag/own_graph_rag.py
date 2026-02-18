@@ -9,13 +9,17 @@ import re
 import traceback
 import ast
 from time import sleep, time
-from typing import Any, Optional
+from typing import Any, Literal, Optional
+
+# Embedding backend: which model(s) to use; stored as nomic_embeddings and/or openai_embeddings on nodes
+EmbeddingBackend = Literal["nomic", "openai", "both"]
 
 # Core imports
 import neo4j
 import tiktoken
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_ollama import OllamaEmbeddings
+from langchain_core.embeddings import Embeddings
 from langchain_neo4j import Neo4jVector, Neo4jGraph
 from langchain_community.callbacks import get_openai_callback
 from semantic_text_splitter import CharacterTextSplitter
@@ -319,15 +323,15 @@ def prepare_database(db_name: str, clean_old_data: bool) -> str:
             _IS_COMMUNITY_EDITION = True
             
             if clean_old_data:
-                print(f"Cleaning data in default database...", flush=True)
+                print(f"Cleaning data in default database 'neo4j'...", flush=True)
                 # Delete all nodes and relationships
                 with driver.session() as session:
                     # Delete all nodes and relationships
                     session.run("MATCH (n) DETACH DELETE n")
-                msg = f"Default database cleaned (Community Edition)."
+                msg = f"Default database 'neo4j' cleaned (Community Edition)."
                 operation_performed = True
             else:
-                msg = f"Using default database (Community Edition)."
+                msg = f"Using default database 'neo4j' (Community Edition — no separate '{db_name}' DB; data lives in 'neo4j')."
                 return msg
         else:
             # Enterprise Edition: Create or manage databases
@@ -482,14 +486,16 @@ def join_small_chunks(text_chunks: list[str], max_tokens: int = 10000) -> list[s
 async def generate_concepts_sync(
     text_chunks: list[str],
     document_name: str,
-    embeddings_model: OllamaEmbeddings,
+    nomic_model: Optional[Embeddings],
+    openai_model: Optional[Embeddings],
+    embedding_backend: EmbeddingBackend,
     db_name: str,
     node_labels: list[str] = [],
     rel_labels: list[str] = [],
     prompt_template: str = "",
     url_mapping_dict: dict = None
 ) -> None:
-    """Generate concepts synchronously and upload to Neo4j"""
+    """Generate concepts synchronously and upload to Neo4j. Concept embeddings stored as nomic_embeddings and/or openai_embeddings."""
     try:
         function_start = time()
         step_start = time()
@@ -639,10 +645,22 @@ async def generate_concepts_sync(
         
         print(f"✓ Extracted {len(all_concepts)} concepts and {len(all_relationships)} relationships", flush=True)
         
-        # Create embeddings for concepts
+        # Create embeddings for concepts (nomic and/or openai)
         step_start = time()
         concept_texts = [f"{concept['name']}: {concept['description']}" for concept in all_concepts]
-        concept_embeddings = embeddings_model.embed_documents(concept_texts) if concept_texts else []
+        concept_embeddings_nomic: list[list[float]] = []
+        concept_embeddings_openai: list[list[float]] = []
+        if concept_texts:
+            if nomic_model:
+                if hasattr(nomic_model, "aembed_documents"):
+                    concept_embeddings_nomic = await nomic_model.aembed_documents(concept_texts)
+                else:
+                    concept_embeddings_nomic = nomic_model.embed_documents(concept_texts)
+            if openai_model:
+                if hasattr(openai_model, "aembed_documents"):
+                    concept_embeddings_openai = await openai_model.aembed_documents(concept_texts)
+                else:
+                    concept_embeddings_openai = openai_model.embed_documents(concept_texts)
         log_debug(f"✓ Concept embeddings creation: {time() - step_start:.2f}s")
         
         # Upload to Neo4j
@@ -657,14 +675,15 @@ async def generate_concepts_sync(
         
         document_url = url_mapping_dict.get(document_name, "") if url_mapping_dict else ""
         
-        # Upload concepts
+        # Upload concepts with nomic_embeddings and/or openai_embeddings
         if all_concepts:
             concept_upload_query = """
             UNWIND $concepts AS concept
             MERGE (c:Concept {name: concept.name})
             SET c.type = concept.type,
                 c.description = concept.description,
-                c.concept_embeddings = concept.concept_embeddings,
+                c.nomic_embeddings = concept.nomic_embeddings,
+                c.openai_embeddings = concept.openai_embeddings,
                 c.document_name = CASE 
                 WHEN c.document_name IS NULL THEN concept.document_name
                 WHEN c.document_name = concept.document_name THEN c.document_name
@@ -685,7 +704,8 @@ async def generate_concepts_sync(
                     "name": concept["name"],
                     "type": concept["type"],
                     "description": concept["description"],
-                    "concept_embeddings": concept_embeddings[i] if i < len(concept_embeddings) else [],
+                    "nomic_embeddings": concept_embeddings_nomic[i] if i < len(concept_embeddings_nomic) else None,
+                    "openai_embeddings": concept_embeddings_openai[i] if i < len(concept_embeddings_openai) else None,
                     "document_name": document_name,
                     "url": document_url
                 })
@@ -755,57 +775,48 @@ async def generate_concepts_sync(
             graph.query(connection_query, params={"connections": chunk_concept_connections})
             print(f"✓ Connected {len(chunk_concept_connections)} chunk-concept relationships", flush=True)
         
-        # Create vector index for concepts
+        # Create vector index(es) for concept nomic_embeddings and/or openai_embeddings
         step_start = time()
         actual_db_name = get_database_name(db_name)
-        concept_vector_store = Neo4jVector(
-            embedding=embeddings_model,
-            index_name="concept_embeddings",
-            node_label="Concept",
-            embedding_node_property="concept_embeddings",
-            url=NEO4J_URI,
-            username=NEO4J_USERNAME,
-            password=NEO4J_PASSWORD,
-            database=actual_db_name
-        )
-        
-        try:
-            concept_vector_store.create_new_index()
-            print("✓ Created concept vector index", flush=True)
-        except Exception as e:
-            # If library method fails, try manual creation
-            error_str = str(e).lower()
-            if "syntax" in error_str or "parameter" in error_str or "$name" in error_str:
-                print(f"⚠️ Library index creation failed, creating concept index manually...", flush=True)
-                try:
-                    # Get embedding dimension
-                    test_embedding = await embeddings_model.aembed_query("test")
-                    embedding_dim = len(test_embedding)
-                    
-                    # Create index manually with literal name
-                    create_index_query = f"""
-                    CREATE VECTOR INDEX concept_embeddings IF NOT EXISTS
-                    FOR (n:Concept) ON n.concept_embeddings
-                    OPTIONS {{
-                        indexConfig: {{
-                            `vector.dimensions`: {embedding_dim},
-                            `vector.similarity_function`: 'cosine'
-                        }}
+        for emb_list, prop_name, index_name in [
+            (concept_embeddings_nomic, "nomic_embeddings", "concept_nomic_embeddings"),
+            (concept_embeddings_openai, "openai_embeddings", "concept_openai_embeddings"),
+        ]:
+            if not emb_list:
+                continue
+            try:
+                embedding_dim = len(emb_list[0])
+                create_index_query = f"""
+                CREATE VECTOR INDEX {index_name} IF NOT EXISTS
+                FOR (n:Concept) ON n.{prop_name}
+                OPTIONS {{
+                    indexConfig: {{
+                        `vector.dimensions`: {embedding_dim},
+                        `vector.similarity_function`: 'cosine'
                     }}
-                    """
-                    graph.query(create_index_query)
-                    print("✓ Concept vector index created manually", flush=True)
-                except Exception as manual_error:
-                    print(f"⚠️ Manual concept index creation also failed: {manual_error}", flush=True)
-                    print(f"⚠️ Index may already exist or Neo4j version may not support vector indexes", flush=True)
-        else:
-                print(f"⚠️ Concept vector index may already exist: {e}", flush=True)
+                }}
+                """
+                graph.query(create_index_query)
+                print(f"✓ Concept vector index {index_name} created", flush=True)
+            except Exception as e:
+                print(f"⚠️ Concept index {index_name} creation failed (may already exist): {e}", flush=True)
         
         print(f"✓ Concept generation: {time() - function_start:.2f}s", flush=True)
 
     except Exception as e:
         log_error(f"Error in concept generation: {e}")
         log_error(f"{traceback.format_exc()}")
+
+
+def _get_embedding_models(backend: EmbeddingBackend) -> tuple[Optional[Embeddings], Optional[Embeddings]]:
+    """Return (nomic_model, openai_model); one or both may be None."""
+    nomic_model: Optional[Embeddings] = None
+    openai_model: Optional[Embeddings] = None
+    if backend in ("nomic", "both"):
+        nomic_model = OllamaEmbeddings(model="nomic-embed-text")
+    if backend in ("openai", "both"):
+        openai_model = OpenAIEmbeddings(model="text-embedding-3-small")
+    return nomic_model, openai_model
 
 
 async def load_files_neo4j_graphrag(
@@ -817,15 +828,20 @@ async def load_files_neo4j_graphrag(
     generate_concepts: bool = True,
     background_tasks = None,
     url_mapping_dict: dict = None,
+    embedding_backend: EmbeddingBackend = "nomic",
 ) -> None:
-    """Load files into Neo4j using GraphRAG"""
+    """Load files into Neo4j using GraphRAG.
+    embedding_backend: 'nomic' | 'openai' | 'both' — which embeddings to compute and store on Chunk/Concept nodes
+    as nomic_embeddings and/or openai_embeddings."""
     try:
         total_start = time()
         log_debug(f"=== Starting load_files_neo4j_graphrag for: {path} ===")
         
-        # Initialize embedding model
+        # Initialize embedding model(s)
         step_start = time()
-        embeddings_model = OllamaEmbeddings(model="nomic-embed-text")
+        nomic_model, openai_model = _get_embedding_models(embedding_backend)
+        primary_model = nomic_model or openai_model  # for vector index when only one
+        print(f"✓ Embedding backend: {embedding_backend} (nomic_embeddings, openai_embeddings)", flush=True)
         print(f"✓ Embedding model initialization: {time() - step_start:.2f}s", flush=True)
 
         # Parse transcription chunks with metadata (chunk ID, timecodes)
@@ -854,12 +870,13 @@ async def load_files_neo4j_graphrag(
         if chunks_with_timecodes > 0:
             print(f"✓ Found timecodes for {chunks_with_timecodes}/{len(transcription_chunks)} chunks", flush=True)
 
-        # Create embeddings
+        # Create embeddings (nomic and/or openai based on embedding_backend)
         step_start = time()
         MAX_TOKENS_PER_BATCH = 200000
         BATCH_SIZE = 100
         
-        chunk_embeddings = []
+        chunk_embeddings_nomic: list[list[float]] = []
+        chunk_embeddings_openai: list[list[float]] = []
         total_cost = 0
         total_tokens = 0
         total_requests = 0
@@ -892,12 +909,16 @@ async def load_files_neo4j_graphrag(
                 continue
             
             try:
-                with get_openai_callback() as cb:
-                    batch_embeddings = await embeddings_model.aembed_documents(batch)
-                    chunk_embeddings.extend(batch_embeddings)
-                    total_cost += cb.total_cost
-                    total_tokens += cb.total_tokens
-                    total_requests += cb.successful_requests
+                if nomic_model:
+                    batch_nomic = await nomic_model.aembed_documents(batch)
+                    chunk_embeddings_nomic.extend(batch_nomic)
+                if openai_model:
+                    with get_openai_callback() as cb:
+                        batch_openai = await openai_model.aembed_documents(batch)
+                        chunk_embeddings_openai.extend(batch_openai)
+                        total_cost += cb.total_cost
+                        total_tokens += cb.total_tokens
+                        total_requests += cb.successful_requests
                 
                 print(f"📊 Processed batch {batch_num}/{total_batches} - {len(batch)} chunks, {batch_tokens:,} tokens", flush=True)
                 batch_num += 1
@@ -908,7 +929,8 @@ async def load_files_neo4j_graphrag(
                 i += len(batch)
         
         print(f"✓ Embedding creation: {time() - step_start:.2f}s", flush=True)
-        print(f"📊 Chunk embeddings cost: ${total_cost:.6f} | Tokens: {total_tokens:,} | Requests: {total_requests}", flush=True)
+        if openai_model:
+            print(f"📊 OpenAI chunk embeddings cost: ${total_cost:.6f} | Tokens: {total_tokens:,} | Requests: {total_requests}", flush=True)
 
         # Neo4j connection
         step_start = time()
@@ -921,33 +943,34 @@ async def load_files_neo4j_graphrag(
         )
         print(f"✓ Neo4j connection setup: {time() - step_start:.2f}s", flush=True)
 
-        # Prepare document data with timecode metadata
+        # Prepare document data with timecode metadata and nomic_embeddings / openai_embeddings
         step_start = time()
         document_name = os.path.basename(path)
         document_data = []
         document_url = url_mapping_dict.get(document_name, "") if url_mapping_dict else ""
         
-        for i, (chunk, embedding) in enumerate(zip(text_chunks, chunk_embeddings)):
+        for i, chunk in enumerate(text_chunks):
             metadata = chunk_metadata.get(i, {})
             chunk_data = {
                 "chunk_id": metadata.get("chunk_id", i),
                 "text": chunk,
-                "chunk_embeddings": embedding,
                 "document_name": document_name,
-                "url": document_url
+                "url": document_url,
+                "nomic_embeddings": chunk_embeddings_nomic[i] if i < len(chunk_embeddings_nomic) else None,
+                "openai_embeddings": chunk_embeddings_openai[i] if i < len(chunk_embeddings_openai) else None,
             }
-            
-            # Add timecode metadata if available
             if metadata.get("start_time") is not None:
                 chunk_data["start_time"] = metadata["start_time"]
             if metadata.get("end_time") is not None:
                 chunk_data["end_time"] = metadata["end_time"]
-            
             document_data.append(chunk_data)
         
         print(f"✓ Document data preparation: {time() - step_start:.2f}s", flush=True)
+        if document_data:
+            first_keys = sorted(document_data[0].keys())
+            print(f"   Chunk node properties: {first_keys}", flush=True)
 
-        # Upload to Neo4j with timecode metadata
+        # Upload to Neo4j with timecode metadata and nomic_embeddings / openai_embeddings (no chunk_embeddings)
         step_start = time()
         upload_query = """
         UNWIND $chunks AS chunk
@@ -955,73 +978,62 @@ async def load_files_neo4j_graphrag(
         CREATE (c:Chunk {
             id: chunk.chunk_id,
             text: chunk.text,
-            chunk_embeddings: chunk.chunk_embeddings,
             document_name: chunk.document_name,
             url: chunk.url,
             start_time: chunk.start_time,
             end_time: chunk.end_time,
-            last_updated: datetime()
+            last_updated: datetime(),
+            nomic_embeddings: chunk.nomic_embeddings,
+            openai_embeddings: chunk.openai_embeddings
         })
         MERGE (doc)-[:HAS_CHUNK]->(c)
-            """
+        """
         
+        # Remove legacy embedding properties from any existing nodes (from older loader runs)
+        try:
+            graph.query("MATCH (n:Chunk) WHERE n.chunk_embeddings IS NOT NULL REMOVE n.chunk_embeddings")
+            graph.query("MATCH (n:Concept) WHERE n.concept_embeddings IS NOT NULL REMOVE n.concept_embeddings")
+        except Exception:
+            pass  # Ignore if no such properties
+
         graph.query(upload_query, params={"chunks": document_data})
         print(f"✓ Data upload to Neo4j: {time() - step_start:.2f}s", flush=True)
 
-        # Create vector index
+        # Create vector index(es) for chunk nomic_embeddings and/or openai_embeddings
         step_start = time()
         actual_db_name = get_database_name(db_name)
-        vector_store = Neo4jVector(
-            embedding=embeddings_model,
-            index_name="chunk_embeddings",
-            node_label="Chunk",
-            embedding_node_property="chunk_embeddings",
-            url=NEO4J_URI,
-            username=NEO4J_USERNAME,
-            password=NEO4J_PASSWORD,
-            database=actual_db_name
-        )
-        
-        # Try to create index using library method, fallback to manual creation if it fails
-        try:
-            vector_store.create_new_index()
-            print(f"✓ Vector index creation: {time() - step_start:.2f}s", flush=True)
-        except Exception as e:
-            # If library method fails (e.g., parameterized index name issue), create manually
-            error_str = str(e).lower()
-            if "syntax" in error_str or "parameter" in error_str or "$name" in error_str:
-                print(f"⚠️ Library index creation failed, creating index manually...", flush=True)
-                try:
-                    # Get embedding dimension
-                    test_embedding = await embeddings_model.aembed_query("test")
-                    embedding_dim = len(test_embedding)
-                    
-                    # Create index manually with literal name
-                    create_index_query = f"""
-                    CREATE VECTOR INDEX chunk_embeddings IF NOT EXISTS
-                    FOR (n:Chunk) ON n.chunk_embeddings
-                    OPTIONS {{
-                        indexConfig: {{
-                            `vector.dimensions`: {embedding_dim},
-                            `vector.similarity_function`: 'cosine'
-                        }}
+        for prop_name, model, index_name in [
+            ("nomic_embeddings", nomic_model, "chunk_nomic_embeddings"),
+            ("openai_embeddings", openai_model, "chunk_openai_embeddings"),
+        ]:
+            if model is None:
+                continue
+            try:
+                test_embedding = await model.aembed_query("test")
+                embedding_dim = len(test_embedding)
+                create_index_query = f"""
+                CREATE VECTOR INDEX {index_name} IF NOT EXISTS
+                FOR (n:Chunk) ON n.{prop_name}
+                OPTIONS {{
+                    indexConfig: {{
+                        `vector.dimensions`: {embedding_dim},
+                        `vector.similarity_function`: 'cosine'
                     }}
-                    """
-                    graph.query(create_index_query)
-                    print(f"✓ Vector index created manually: {time() - step_start:.2f}s", flush=True)
-                except Exception as manual_error:
-                    print(f"⚠️ Manual index creation also failed: {manual_error}", flush=True)
-                    print(f"⚠️ Index may already exist or Neo4j version may not support vector indexes", flush=True)
-            else:
-                # Re-raise if it's a different error
-                raise
+                }}
+                """
+                graph.query(create_index_query)
+                print(f"✓ Vector index {index_name}: {time() - step_start:.2f}s", flush=True)
+            except Exception as e:
+                print(f"⚠️ Index {index_name} creation failed (may already exist): {e}", flush=True)
 
         # Generate concepts if enabled
         if generate_concepts:
             await generate_concepts_sync(
                 text_chunks=text_chunks,
                 document_name=document_name,
-                embeddings_model=embeddings_model,
+                nomic_model=nomic_model,
+                openai_model=openai_model,
+                embedding_backend=embedding_backend,
                 db_name=db_name,
                 node_labels=node_labels,
                 rel_labels=rel_labels,
@@ -1076,11 +1088,11 @@ async def update_chunk_in_neo4j(
             database=actual_db_name
         )
         
-        # Update the chunk node
+        # Update the chunk node (nomic_embeddings used for vector index chunk_nomic_embeddings)
         update_query = """
         MATCH (c:Chunk {document_name: $document_name, id: $chunk_id})
         SET c.text = $new_text,
-            c.chunk_embeddings = $new_embedding,
+            c.nomic_embeddings = $new_embedding,
             c.last_updated = datetime()
         RETURN c
         """
@@ -1098,14 +1110,15 @@ async def update_chunk_in_neo4j(
         if not result:
             raise ValueError(f"Chunk {chunk_id} not found in document {document_name}")
         
-        # Update vector index
+        # Vector index chunk_nomic_embeddings is updated when node property is set
         vector_store = Neo4jVector(
             embedding=embeddings_model,
             url=NEO4J_URI,
             username=NEO4J_USERNAME,
             password=NEO4J_PASSWORD,
             database=actual_db_name,
-            index_name="chunk_index"
+            index_name="chunk_nomic_embeddings",
+            embedding_node_property="nomic_embeddings",
         )
         
         # Delete old vector and add new one
@@ -1115,13 +1128,13 @@ async def update_chunk_in_neo4j(
         """
         graph.query(delete_query, params={"document_name": document_name, "chunk_id": chunk_id})
         
-        # Re-add chunk with new embedding
+        # Re-add chunk with new embedding (nomic_embeddings)
         create_query = """
         MATCH (doc:Document {name: $document_name})
         CREATE (c:Chunk {
             id: $chunk_id,
             text: $new_text,
-            chunk_embeddings: $new_embedding,
+            nomic_embeddings: $new_embedding,
             document_name: $document_name,
             last_updated: datetime()
         })
@@ -1300,7 +1313,7 @@ async def delete_chunk_in_neo4j(
                 username=NEO4J_USERNAME,
                 password=NEO4J_PASSWORD,
                 database=actual_db_name,
-                index_name="chunk_index"
+                index_name="chunk_nomic_embeddings",
             )
             # The vector index deletion is handled automatically by Neo4j when the node is deleted
         except Exception as e:

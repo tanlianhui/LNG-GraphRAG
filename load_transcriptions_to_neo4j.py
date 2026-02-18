@@ -10,11 +10,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
 
-# Set OpenAI API key if not already set (still needed for ChatOpenAI LLM in concept generation)
+# Set OpenAI API key if not already set (needed for ChatOpenAI LLM in concept generation and for openai embeddings when used)
 if "OPENAI_API_KEY" not in os.environ:
     print("⚠️  Warning: OPENAI_API_KEY not set. Please set it before running:")
     print("   export OPENAI_API_KEY='your-api-key'")
-    print("   Note: OpenAI is used for LLM (concept generation), while Ollama handles embeddings")
+    print("   Note: OpenAI is used for LLM (concept generation) and optionally for openai_embeddings (--embedding openai|both)")
     sys.exit(1)
 
 # Add graphrag directory to path
@@ -34,8 +34,9 @@ TRANSCRIPTIONS_DIR = Path("./transcriptions")
 CLEAN_DB = False  # Set to True to clean existing database
 
 
-async def load_transcription_file(file_path: Path, db_name: str):
-    """Load a single transcription file into Neo4j"""
+async def load_transcription_file(file_path: Path, db_name: str, embedding_backend: str = "nomic"):
+    """Load a single transcription file into Neo4j.
+    embedding_backend: 'nomic' | 'openai' | 'both' — stored as nomic_embeddings and/or openai_embeddings on nodes."""
     try:
         print(f"\n{'='*60}")
         print(f"📄 Processing: {file_path.name}")
@@ -66,7 +67,8 @@ async def load_transcription_file(file_path: Path, db_name: str):
             prompt_template="",  # Add custom prompt template if needed
             generate_concepts=True,  # Generate concepts from transcriptions
             background_tasks=None,  # Run synchronously
-            url_mapping_dict=url_mapping if url_mapping else None
+            url_mapping_dict=url_mapping if url_mapping else None,
+            embedding_backend=embedding_backend,
         )
         
         print(f"✅ Successfully loaded: {file_path.name}")
@@ -79,11 +81,16 @@ async def load_transcription_file(file_path: Path, db_name: str):
         return False
 
 
-async def main():
-    """Main function to load all transcriptions"""
+async def main(embedding_backend: str = "nomic", clean_db: bool = False):
+    """Main function to load all transcriptions.
+    embedding_backend: 'nomic' | 'openai' | 'both' — which embeddings to store (nomic_embeddings, openai_embeddings).
+    clean_db: if True, wipe existing graph data before loading (ensures only nomic_embeddings/openai_embeddings, no legacy chunk_embeddings)."""
     print("="*60)
     print("🎙️  LNG Transcription GraphRAG Loader")
     print("="*60)
+    print(f"📌 Embedding backend: {embedding_backend} (node properties: nomic_embeddings, openai_embeddings)")
+    if clean_db:
+        print("📌 Clean DB: yes (existing graph data will be removed first)")
     
     # Check if transcriptions directory exists
     if not TRANSCRIPTIONS_DIR.exists():
@@ -133,11 +140,16 @@ async def main():
                 print(f"   Or check if it's running: docker ps | grep neo4j")
                 sys.exit(1)
     
-    # Prepare database
-    print(f"\n🔧 Preparing Neo4j database '{DB_NAME}'...")
+    # Prepare database (Community Edition has only default DB "neo4j"; we use it for "lng_transcriptions")
+    print(f"\n🔧 Preparing Neo4j (logical database: '{DB_NAME}')...")
     try:
-        result = prepare_database(DB_NAME, clean_old_data=CLEAN_DB)
+        result = prepare_database(DB_NAME, clean_old_data=clean_db or CLEAN_DB)
         print(f"✅ {result}")
+        # Clarify for Docker/Community users: data lives in default database "neo4j"
+        from graphrag.own_graph_rag import get_database_name
+        actual = get_database_name(DB_NAME)
+        if actual != DB_NAME:
+            print(f"   ℹ️  Using default database '{actual}' (Community Edition has no separate '{DB_NAME}' database).")
     except Exception as e:
         print(f"❌ Error preparing database: {e}")
         sys.exit(1)
@@ -152,7 +164,7 @@ async def main():
     for i, file_path in enumerate(transcription_files, 1):
         print(f"\n[{i}/{len(transcription_files)}] Loading: {file_path.name}")
         
-        success = await load_transcription_file(file_path, DB_NAME)
+        success = await load_transcription_file(file_path, DB_NAME, embedding_backend=embedding_backend)
         
         if success:
             successful += 1
@@ -170,14 +182,30 @@ async def main():
     print(f"✅ Successful: {successful}")
     print(f"❌ Failed: {failed}")
     print(f"📄 Total: {len(transcription_files)}")
-    print(f"\n💡 Database '{DB_NAME}' is ready for queries!")
+    from graphrag.own_graph_rag import get_database_name
+    actual_db = get_database_name(DB_NAME)
+    print(f"\n💡 Data is in Neo4j database '{actual_db}' (logical name: {DB_NAME}). Ready for queries!")
     print(f"🌐 Access Neo4j Browser at: http://localhost:7474")
     print(f"🔌 Bolt connection: bolt://localhost:7687")
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Load transcriptions into Neo4j with embeddings")
+    parser.add_argument(
+        "--embedding",
+        choices=["nomic", "openai", "both"],
+        default="nomic",
+        help="Which embeddings to compute and store: nomic_embeddings, openai_embeddings, or both (default: nomic)",
+    )
+    parser.add_argument(
+        "--clean",
+        action="store_true",
+        help="Wipe existing graph data before loading (use once to remove old chunk_embeddings and reload with nomic/openai)",
+    )
+    args = parser.parse_args()
     try:
-        asyncio.run(main())
+        asyncio.run(main(embedding_backend=args.embedding, clean_db=args.clean))
     except KeyboardInterrupt:
         print("\n\n⚠️  Interrupted by user")
         sys.exit(1)
