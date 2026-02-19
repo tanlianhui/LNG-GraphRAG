@@ -220,7 +220,7 @@ python web_app.py
 - URL: http://localhost:5000
 - Three tabs available:
   1. **Download Status**: Monitor YouTube download progress
-  2. **Transcriptions**: Browse and view transcriptions
+  2. **Transcriptions**: Split view—left: scrollable list and chunk text (with edit/Neo4j sync); right: fixed YouTube player for the selected transcription (URL from `VODs/videos.csv`). Use this to listen while annotating.
   3. **GraphRAG**: Query Neo4j knowledge graph
 
 #### Step 7: Query the Knowledge Graph

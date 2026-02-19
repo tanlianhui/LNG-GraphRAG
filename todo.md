@@ -21,6 +21,9 @@
 - [x] `redownload_rerun_no_timestamps.py` to redownload videos and rerun ASR for same format with timestamps
 - [x] Neo4j Community Edition support: use default DB `neo4j` when named DBs not available
 - [x] Documentation updates (README, NEO4J_SETUP, NEO4J_BACKUP) for embeddings, single-file load, and timestamp tools
+- [x] Manual chunk update: `update_chunk_in_neo4j` supports `embedding_backend` (nomic / openai / both) so both embeddings stay in sync when fixing transcriptions
+- [x] Ollama option for NL query LLM (`NL_QUERY_LLM=ollama`, `OLLAMA_NL_MODEL`) to save OpenAI token cost
+- [x] Transcriptions tab split view: left = scrollable list + chunks, right = fixed YouTube player (URL from `videos.csv`)
 
 ## Notes
 - Project combines GraphRAG with audio processing capabilities

@@ -82,32 +82,46 @@ def update_csv_file(rows: List[Dict], fieldnames: List[str]):
     except Exception as e:
         print(f"⚠️  Error updating CSV file: {e}")
 
+def get_title_to_url_map() -> Dict[str, str]:
+    """Build title -> YouTube URL from VODs/videos.csv (for YouTube player in Transcriptions tab)."""
+    out = {}
+    if not os.path.exists(VODS_CSV):
+        return out
+    try:
+        with open(VODS_CSV, 'r', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                title, url = row.get('title', '').strip(), row.get('url', '').strip()
+                if title and url:
+                    out[title] = url
+    except Exception as e:
+        print(f"Error reading videos.csv for URL map: {e}")
+    return out
+
+
 def get_transcription_files() -> List[Dict]:
-    """Get list of all transcription files"""
+    """Get list of all transcription files (includes url when found in VODs/videos.csv)."""
     transcriptions = []
     if not os.path.exists(TRANSCRIPTIONS_DIR):
         return transcriptions
-    
+    title_to_url = get_title_to_url_map()
     try:
         for file in os.listdir(TRANSCRIPTIONS_DIR):
             if file.endswith('_combined.txt'):
                 file_path = os.path.join(TRANSCRIPTIONS_DIR, file)
                 title = file.replace('_combined.txt', '')
                 file_size = os.path.getsize(file_path)
-                
                 transcriptions.append({
                     'filename': file,
                     'title': title,
                     'path': file_path,
                     'size': file_size,
-                    'size_mb': round(file_size / (1024 * 1024), 2)
+                    'size_mb': round(file_size / (1024 * 1024), 2),
+                    'url': title_to_url.get(title, ''),
                 })
-        
-        # Sort by filename (which includes date)
         transcriptions.sort(key=lambda x: x['filename'], reverse=True)
     except Exception as e:
         print(f"Error reading transcriptions directory: {e}")
-    
     return transcriptions
 
 def get_transcription_file_path(filename: str) -> Optional[str]:
@@ -210,6 +224,7 @@ def api_graphrag_nl_query():
         # LLM for NL → Cypher and answer: openai (API, costs tokens) or ollama (local, no API cost)
         nl_llm_backend = os.getenv("NL_QUERY_LLM", "openai").strip().lower()
         ollama_model = os.getenv("OLLAMA_NL_MODEL", "llama3.2").strip()
+        openai_model = os.getenv("OPENAI_NL_MODEL", "gpt-4o-mini").strip()
         
         if nl_llm_backend == "ollama":
             from langchain_ollama import ChatOllama

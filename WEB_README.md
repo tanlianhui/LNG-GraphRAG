@@ -12,11 +12,12 @@ A modern web interface for monitoring YouTube downloads, viewing transcriptions,
 - Direct links to YouTube videos
 
 ### 📝 Transcriptions Tab
-- Browse all available transcriptions
-- Collapsible sections for each transcription file
-- Chunk-based display (organized by audio chunks)
-- File metadata (size, filename)
-- Lazy loading of transcription content
+- **Split layout**: left = transcription list and chunk content; right = **fixed YouTube player** for the selected video (so annotators can listen while editing).
+- **YouTube player**: When you expand a transcription whose title matches a row in `VODs/videos.csv`, the right half shows the embedded YouTube video for that URL. The right panel stays fixed while the left side scrolls.
+- Browse all available transcriptions; collapsible sections per file.
+- Chunk-based display (organized by audio chunks) with edit/delete and Neo4j sync.
+- File metadata (size, filename). Lazy loading of transcription content.
+- The transcriptions API (`GET /api/transcriptions`) includes an optional `url` field per item when the title is found in `videos.csv`.
 
 ### 🕸️ GraphRAG Tab
 - Neo4j Cypher query interface
@@ -63,7 +64,7 @@ http://localhost:5000
 - `GET /api/stats` - Get overall statistics
 
 ### Transcriptions
-- `GET /api/transcriptions` - List all transcription files
+- `GET /api/transcriptions` - List all transcription files (each item includes `url` when the title exists in `VODs/videos.csv`, for the YouTube player).
 - `GET /api/transcription/<filename>` - Get transcription content
 
 ### GraphRAG
