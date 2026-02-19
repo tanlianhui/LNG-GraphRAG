@@ -73,6 +73,24 @@ http://localhost:5000
     "query": "MATCH (n) RETURN n LIMIT 25"
   }
   ```
+- `POST /api/graphrag/nl-query` - Natural language question → Cypher → graph context → answer (uses an LLM; see configuration below).
+
+### Configuration (optional)
+
+Environment variables for the **natural language query** LLM (saves OpenAI token cost when using Ollama):
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `NL_QUERY_LLM` | `openai` | `openai` = GPT-4o-mini (API); `ollama` = local model (no API cost). |
+| `OLLAMA_NL_MODEL` | `llama3.2` | Ollama model name when `NL_QUERY_LLM=ollama` (e.g. `llama3.2`, `llama3.1`, `mistral`). |
+
+Example (use local LLM for NL queries):
+```bash
+export NL_QUERY_LLM=ollama
+export OLLAMA_NL_MODEL=llama3.2
+python launch_web.py
+```
+Ensure Ollama is running and the model is pulled (`ollama pull llama3.2`). The API response includes `llm_backend` (`openai` or `ollama`).
 
 ## Future Enhancements
 

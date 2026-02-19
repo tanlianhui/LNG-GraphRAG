@@ -145,6 +145,18 @@ python redownload_rerun_no_timestamps.py --skip-download
 
 Then load (or reload) transcriptions as in Step 3.
 
+### Manual transcription fixes and embeddings
+
+When you correct chunk text (e.g. fix ASR mistakes), embeddings should stay in sync. There are two supported flows:
+
+1. **Edit file + reload**  
+   Edits are stored in `transcriptions/edit/<doc>_combined_edit.txt` in the format `=== EDIT ... ===` (Document, Chunk ID, New Text). When you **reload** that document (e.g. via `load_single_to_neo4j.py` or a full `load_transcriptions_to_neo4j.py`), the loader applies those edits to the chunk text and recomputes **both** nomic and OpenAI embeddings for the whole document. Use this when you have many edits or prefer file-based history.
+
+2. **In-place update (e.g. web UI)**  
+   Saving a chunk edit from the web app (or any caller of `update_chunk_in_neo4j`) updates the Chunk node in Neo4j and regenerates embeddings for that chunk only. By default **both** `nomic_embeddings` and `openai_embeddings` are updated so vector search stays consistent. The same edit is also written to the `_combined_edit.txt` file for that document.
+
+So in both flows, **nomic and OpenAI embeddings are updated** to match the adjusted chunk text.
+
 ## Step 4: Access Neo4j
 
 ### Neo4j Browser

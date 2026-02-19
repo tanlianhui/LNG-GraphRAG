@@ -326,10 +326,9 @@ def prepare_database(db_name: str, clean_old_data: bool) -> str:
                 print(f"Cleaning data in default database 'neo4j'...", flush=True)
                 # Delete all nodes and relationships
                 with driver.session() as session:
-                    # Delete all nodes and relationships
                     session.run("MATCH (n) DETACH DELETE n")
                 msg = f"Default database 'neo4j' cleaned (Community Edition)."
-                operation_performed = True
+                return msg
             else:
                 msg = f"Using default database 'neo4j' (Community Edition — no separate '{db_name}' DB; data lives in 'neo4j')."
                 return msg
@@ -1055,32 +1054,37 @@ async def update_chunk_in_neo4j(
     document_name: str,
     chunk_id: int,
     new_text: str,
-    db_name: str = "lng_transcriptions"
+    db_name: str = "lng_transcriptions",
+    embedding_backend: EmbeddingBackend = "both",
 ) -> dict:
     """
-    Update a specific chunk's text and regenerate its embedding in Neo4j.
-    This allows manual corrections to transcriptions to be reflected in the graph.
+    Update a specific chunk's text and regenerate its embedding(s) in Neo4j.
+    Use this when manually correcting a chunk (e.g. from the web UI); both
+    nomic_embeddings and openai_embeddings are updated when embedding_backend is "both".
     
     Args:
         document_name: Name of the document (transcription file)
         chunk_id: The chunk ID to update (0-indexed)
         new_text: The new text content for the chunk
         db_name: Database name (will be adjusted for Community Edition)
+        embedding_backend: Which embeddings to regenerate: "nomic", "openai", or "both"
     
     Returns:
         dict with success status and updated chunk info
     """
     try:
         actual_db_name = get_database_name(db_name)
+        nomic_model, openai_model = _get_embedding_models(embedding_backend)
         
-        # Initialize embedding model
-        embeddings_model = OllamaEmbeddings(model="nomic-embed-text")
+        # Regenerate embedding(s) for the new text
+        print(f"🔄 Regenerating embedding(s) for chunk {chunk_id} in {document_name} ({embedding_backend})...", flush=True)
+        new_nomic: Optional[list[float]] = None
+        new_openai: Optional[list[float]] = None
+        if nomic_model:
+            new_nomic = await nomic_model.aembed_query(new_text)
+        if openai_model:
+            new_openai = await openai_model.aembed_query(new_text)
         
-        # Generate new embedding for the updated text
-        print(f"🔄 Regenerating embedding for chunk {chunk_id} in {document_name}...", flush=True)
-        new_embedding = await embeddings_model.aembed_query(new_text)
-        
-        # Connect to Neo4j
         graph = Neo4jGraph(
             url=NEO4J_URI,
             username=NEO4J_USERNAME,
@@ -1088,81 +1092,37 @@ async def update_chunk_in_neo4j(
             database=actual_db_name
         )
         
-        # Update the chunk node (nomic_embeddings used for vector index chunk_nomic_embeddings)
-        update_query = """
-        MATCH (c:Chunk {document_name: $document_name, id: $chunk_id})
-        SET c.text = $new_text,
-            c.nomic_embeddings = $new_embedding,
-            c.last_updated = datetime()
+        # Build SET clause for embedding props (only set the ones we regenerated)
+        set_parts = ["c.text = $new_text", "c.last_updated = datetime()"]
+        params = {
+            "document_name": document_name,
+            "chunk_id": chunk_id,
+            "new_text": new_text,
+        }
+        if new_nomic is not None:
+            set_parts.append("c.nomic_embeddings = $new_nomic")
+            params["new_nomic"] = new_nomic
+        if new_openai is not None:
+            set_parts.append("c.openai_embeddings = $new_openai")
+            params["new_openai"] = new_openai
+        
+        update_query = f"""
+        MATCH (c:Chunk {{document_name: $document_name, id: $chunk_id}})
+        SET {", ".join(set_parts)}
         RETURN c
         """
-        
-        result = graph.query(
-            update_query,
-            params={
-                "document_name": document_name,
-                "chunk_id": chunk_id,
-                "new_text": new_text,
-                "new_embedding": new_embedding
-            }
-        )
+        result = graph.query(update_query, params=params)
         
         if not result:
             raise ValueError(f"Chunk {chunk_id} not found in document {document_name}")
         
-        # Vector index chunk_nomic_embeddings is updated when node property is set
-        vector_store = Neo4jVector(
-            embedding=embeddings_model,
-            url=NEO4J_URI,
-            username=NEO4J_USERNAME,
-            password=NEO4J_PASSWORD,
-            database=actual_db_name,
-            index_name="chunk_nomic_embeddings",
-            embedding_node_property="nomic_embeddings",
-        )
-        
-        # Delete old vector and add new one
-        delete_query = """
-        MATCH (c:Chunk {document_name: $document_name, id: $chunk_id})
-        DETACH DELETE c
-        """
-        graph.query(delete_query, params={"document_name": document_name, "chunk_id": chunk_id})
-        
-        # Re-add chunk with new embedding (nomic_embeddings)
-        create_query = """
-        MATCH (doc:Document {name: $document_name})
-        CREATE (c:Chunk {
-            id: $chunk_id,
-            text: $new_text,
-            nomic_embeddings: $new_embedding,
-            document_name: $document_name,
-            last_updated: datetime()
-        })
-        MERGE (doc)-[:HAS_CHUNK]->(c)
-        RETURN c
-        """
-        graph.query(create_query, params={
-            "document_name": document_name,
-            "chunk_id": chunk_id,
-            "new_text": new_text,
-            "new_embedding": new_embedding
-        })
-        
-        # Update vector store
-        vector_store.add_texts([new_text], metadatas=[{
-            "document_name": document_name,
-            "chunk_id": chunk_id
-        }])
-        
         print(f"✓ Successfully updated chunk {chunk_id} in {document_name}", flush=True)
-        
         return {
             "success": True,
             "document_name": document_name,
             "chunk_id": chunk_id,
-            "message": "Chunk updated successfully"
+            "message": "Chunk updated successfully",
         }
-        
     except Exception as e:
         error_msg = f"Error updating chunk: {e}\n{traceback.format_exc()}"
         log_error(error_msg)

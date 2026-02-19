@@ -1164,12 +1164,15 @@
                     // Show the LLM's answer
                     const answer = data.answer || 'No answer generated.';
                     const resultsCount = data.results_count || 0;
+                    const llmBackend = data.llm_backend || 'openai';
+                    const llmLabel = llmBackend === 'ollama' ? 'Ollama (local)' : 'OpenAI';
                     
                     resultsDiv.innerHTML = `
                         <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
                             <div style="display: flex; align-items: center; margin-bottom: 15px;">
                                 <span style="font-size: 1.5em; margin-right: 10px;">🤖</span>
                                 <h3 style="margin: 0; color: #333;">Answer</h3>
+                                <span style="margin-left: auto; font-size: 0.8em; color: #888;">${escapeHtml(llmLabel)}</span>
                             </div>
                             <div style="color: #333; line-height: 1.8; font-size: 1.05em; white-space: pre-wrap;">${escapeHtml(answer)}</div>
                             ${resultsCount > 0 ? `<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0; color: #666; font-size: 0.9em;">

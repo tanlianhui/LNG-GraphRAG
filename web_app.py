@@ -202,15 +202,21 @@ def api_graphrag_nl_query():
         }), 400
     
     try:
-        # Import LLM
-        from langchain_openai import ChatOpenAI
         from dotenv import load_dotenv
         import os as os_module
         
         load_dotenv()
         
-        # Initialize LLM
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        # LLM for NL → Cypher and answer: openai (API, costs tokens) or ollama (local, no API cost)
+        nl_llm_backend = os.getenv("NL_QUERY_LLM", "openai").strip().lower()
+        ollama_model = os.getenv("OLLAMA_NL_MODEL", "llama3.2").strip()
+        
+        if nl_llm_backend == "ollama":
+            from langchain_ollama import ChatOllama
+            llm = ChatOllama(model=ollama_model, temperature=0)
+        else:
+            from langchain_openai import ChatOpenAI
+            llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
         
         # Get database schema information
         NEO4J_URI = os.getenv('NEO4J_URI', 'bolt://localhost:7687')
@@ -360,7 +366,8 @@ Answer:"""
             'query': nl_query,
             'cypher_query': cypher_query,
             'answer': answer,
-            'results_count': len(context_data)
+            'results_count': len(context_data),
+            'llm_backend': nl_llm_backend,
         })
         
     except Exception as e:

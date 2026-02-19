@@ -246,9 +246,8 @@ LIMIT 25
 ```
 
 **In Web Dashboard GraphRAG Tab:**
-- Enter Cypher queries directly
-- View results in JSON format
-- Execute queries against the knowledge graph
+- Ask questions in **natural language** (LLM converts to Cypher and answers from graph context). Default LLM is OpenAI (gpt-4o-mini). To save token cost, set `NL_QUERY_LLM=ollama` and run Ollama with e.g. `ollama pull llama3.2` (see WEB_README.md).
+- Enter **Cypher queries** directly and view results in JSON format
 
 ### Daily Operations
 
@@ -389,6 +388,11 @@ NEO4J_IP=localhost
 NEO4J_USERNAME=neo4j
 NEO4J_PASSWORD=lng-graphrag-password
 NEO4J_DB_NAME=lng_transcriptions
+
+# Natural language query LLM (optional; saves OpenAI cost when set to ollama)
+# NL_QUERY_LLM=openai   # default: uses gpt-4o-mini
+# NL_QUERY_LLM=ollama   # local model, no API cost
+# OLLAMA_NL_MODEL=llama3.2   # when NL_QUERY_LLM=ollama
 ```
 
 ### File Structure Reference
