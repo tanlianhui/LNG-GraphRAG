@@ -208,21 +208,31 @@ def parse_original_chunks(content: str) -> list[dict]:
 
 def apply_edits_to_chunks(chunks: list[dict], edit_content: str) -> list[dict]:
     """
-    Apply edits from edit file to chunks.
-    Edit file format:
-    === EDIT timestamp ===
-    Document: filename
-    Chunk ID: chunk_id
-    New Text:
-    [new text]
-    ===
+    Apply edits from edit file (or edit_history file) to chunks.
+    Supports formats:
+    - === EDIT timestamp ===\nDocument: ...\nChunk ID: ...\nNew Text:\n...
+    - With optional User: and Old Text: lines (edit_history format)
     """
     import re
     from datetime import datetime
     
-    # Parse all edits, keeping only the latest edit for each chunk
-    edit_pattern = r'=== EDIT ([^=]+) ===\nDocument: ([^\n]+)\nChunk ID: (\d+)\nNew Text:\n(.*?)\n==='
+    # Parse all edits: optional User:, optional Old Text:, then Document, Chunk ID, New Text
+    edit_pattern = (
+        r'=== EDIT ([^=]+) ===\s*\n'
+        r'(?:User: [^\n]*\n)?'
+        r'Document: ([^\n]+)\n'
+        r'Chunk ID: (\d+)\n'
+        r'(?:Old Text:\n(.*?)\n)?'
+        r'New Text:\n(.*?)\n==='
+    )
     edits = re.findall(edit_pattern, edit_content, re.DOTALL)
+    # edits: (timestamp, doc_name, chunk_id_str, old_text_or_empty, new_text)
+    if edits and len(edits[0]) == 5:
+        edits = [(t, doc, cid, ntext) for t, doc, cid, _, ntext in edits]
+    else:
+        # Fallback: original pattern without Old Text / User
+        edit_pattern_legacy = r'=== EDIT ([^=]+) ===\nDocument: ([^\n]+)\nChunk ID: (\d+)\nNew Text:\n(.*?)\n==='
+        edits = re.findall(edit_pattern_legacy, edit_content, re.DOTALL)
     
     # Group edits by chunk_id and keep only the latest (by timestamp)
     chunk_edits = {}
@@ -244,6 +254,124 @@ def apply_edits_to_chunks(chunks: list[dict], edit_content: str) -> list[dict]:
             log_debug(f"Applied edit to chunk {chunk_id} (timestamp: {timestamp})")
     
     return chunks
+
+
+def chunks_to_combined_content(chunks: list[dict]) -> str:
+    """
+    Serialize chunks back to the combined transcription file format
+    (=== Chunk N [start_time s - end_time s] ===\\ntext).
+    """
+    lines = []
+    for i, ch in enumerate(chunks):
+        n = i + 1  # 1-based in file
+        header = f"=== Chunk {n}"
+        start = ch.get("start_time")
+        end = ch.get("end_time")
+        if start is not None and end is not None:
+            header += f" [{start}s - {end}s]"
+        header += " ===\n"
+        lines.append(header + (ch.get("text") or "").strip())
+    return "\n\n".join(lines)
+
+
+def write_full_transcription_to_edit_file(
+    transcriptions_dir: str,
+    edit_dir: str,
+    edit_history_dir: str,
+    document_name: str,
+    chunk_id: int,
+    new_text: str,
+) -> bool:
+    """
+    Load current transcription (original + edit_history), apply the one chunk edit,
+    and write the entire transcription to edit_dir/<doc>_combined_edit.txt.
+    If the existing edit file is in old log format (=== EDIT), migrate it to edit_history first.
+    """
+    try:
+        if edit_dir and not os.path.exists(edit_dir):
+            os.makedirs(edit_dir, exist_ok=True)
+        if edit_history_dir and not os.path.exists(edit_history_dir):
+            os.makedirs(edit_history_dir, exist_ok=True)
+
+        original_path = os.path.join(transcriptions_dir, document_name)
+        if not os.path.exists(original_path):
+            log_error(f"Original transcription not found: {original_path}")
+            return False
+
+        with open(original_path, "r", encoding="utf-8") as f:
+            original_content = f.read()
+        chunks = parse_original_chunks(original_content)
+        if chunk_id < 0 or chunk_id >= len(chunks):
+            log_error(f"Chunk ID {chunk_id} out of range (0..{len(chunks)-1})")
+            return False
+
+        edit_filename = document_name.replace("_combined.txt", "_combined_edit.txt")
+        edit_path = os.path.join(edit_dir, edit_filename)
+        edit_history_filename = document_name.replace("_combined.txt", "_edit_history.txt")
+        edit_history_path = os.path.join(edit_history_dir, edit_history_filename)
+
+        # If current edit file exists and is old-format (edit log), migrate to edit_history
+        if os.path.exists(edit_path):
+            with open(edit_path, "r", encoding="utf-8") as f:
+                existing = f.read()
+            if "=== EDIT" in existing:
+                os.makedirs(edit_history_dir, exist_ok=True)
+                with open(edit_history_path, "a", encoding="utf-8") as f:
+                    f.write(existing)
+                # Now we'll overwrite edit_path with full content below
+
+        # Apply existing edit_history to chunks (if any)
+        if os.path.exists(edit_history_path):
+            with open(edit_history_path, "r", encoding="utf-8") as f:
+                history_content = f.read()
+            chunks = apply_edits_to_chunks(chunks, history_content)
+
+        # Apply this edit
+        chunks[chunk_id]["text"] = new_text.strip()
+        full_content = chunks_to_combined_content(chunks)
+        with open(edit_path, "w", encoding="utf-8") as f:
+            f.write(full_content)
+        log_debug(f"Wrote full transcription to {edit_path}")
+        return True
+    except Exception as e:
+        log_error(f"Error writing full transcription to edit file: {e}")
+        return False
+
+
+def write_edit_record_to_history(
+    edit_history_dir: str,
+    document_name: str,
+    chunk_id: int,
+    old_text: str,
+    new_text: str,
+    username: str,
+) -> bool:
+    """
+    Append one edit record (user + chunk edit) to edit_history file.
+    Format: === EDIT timestamp ===\\nUser: ...\\nDocument: ...\\nChunk ID: ...\\nOld Text:\\n...\\nNew Text:\\n...\\n===
+    """
+    try:
+        if edit_history_dir and not os.path.exists(edit_history_dir):
+            os.makedirs(edit_history_dir, exist_ok=True)
+        from datetime import datetime
+
+        edit_history_filename = document_name.replace("_combined.txt", "_edit_history.txt")
+        edit_history_path = os.path.join(edit_history_dir, edit_history_filename)
+        timestamp = datetime.now().isoformat()
+        record = f"=== EDIT {timestamp} ===\n"
+        record += f"User: {username or 'anonymous'}\n"
+        record += f"Document: {document_name}\n"
+        record += f"Chunk ID: {chunk_id}\n"
+        record += f"Old Text:\n{(old_text or '').strip()}\n"
+        record += f"New Text:\n{(new_text or '').strip()}\n"
+        record += "===\n\n"
+        with open(edit_history_path, "a", encoding="utf-8") as f:
+            f.write(record)
+        log_debug(f"Appended edit record to {edit_history_path}")
+        return True
+    except Exception as e:
+        log_error(f"Error writing edit record to history: {e}")
+        return False
 
 
 def extract_text_from_file(path: str) -> str:
@@ -1075,6 +1203,9 @@ async def update_chunk_in_neo4j(
     try:
         actual_db_name = get_database_name(db_name)
         nomic_model, openai_model = _get_embedding_models(embedding_backend)
+        
+        # Ensure chunk_id is int (Neo4j stores id as integer)
+        chunk_id = int(chunk_id) if chunk_id is not None else 0
         
         # Regenerate embedding(s) for the new text
         print(f"🔄 Regenerating embedding(s) for chunk {chunk_id} in {document_name} ({embedding_backend})...", flush=True)

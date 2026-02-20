@@ -2,6 +2,32 @@
 
 This document describes how to backup and restore your Neo4j database.
 
+## Never re-run embeddings after Neo4j rebuild
+
+To **never run the embedding process again** after you rebuild the Neo4j Docker container (or recreate the volume):
+
+1. **One-time**: Run the embedding process with **nomic only** (default):
+   ```bash
+   python run_embeddings_to_neo4j.py --embedding nomic --clean
+   ```
+2. **Right after load**: Create a dump (includes all nodes and embeddings):
+   ```bash
+   python dump_neo4j.py
+   ```
+   Or run load and dump in one go:
+   ```bash
+   python run_embeddings_to_neo4j.py --embedding nomic --clean --dump-after
+   ```
+3. **When you rebuild Neo4j** (new container, new volume, or `docker compose up` after `down -v`):
+   - **Do not** run `run_embeddings_to_neo4j.py` again.
+   - **Do** restore from the dump:
+     ```bash
+     python restore_neo4j.py
+     ```
+   Restore brings back the full graph (including `nomic_embeddings`) so you never need to re-embed.
+
+4. **Optional**: To keep data across simple container rebuilds without using dumps, avoid removing the Neo4j volume: use `docker compose down` (no `-v`). The `neo4j_data` volume persists. Only if you delete the volume or start from scratch do you need to run `restore_neo4j.py` instead of re-running embeddings.
+
 ## Overview
 
 The Neo4j database can be dumped to a local folder (`./neo4j`) and restored when needed. This is useful for:

@@ -95,7 +95,7 @@ def ensure_nomic_model() -> None:
         print("⚠️  ollama pull timed out; if the model is already present, loading will still work.")
 
 
-async def main_async(embedding_backend: str = "nomic", clean_db: bool = False) -> None:
+async def main_async(embedding_backend: str = "nomic", clean_db: bool = False, dump_after: bool = False) -> None:
     print("=" * 60)
     print("🎙️  LNG Transcriptions → Embeddings → Neo4j")
     print("=" * 60)
@@ -138,6 +138,28 @@ async def main_async(embedding_backend: str = "nomic", clean_db: bool = False) -
     from load_transcriptions_to_neo4j import main as load_main
     await load_main(embedding_backend=embedding_backend, clean_db=clean_db)
 
+    # So you never have to re-run embeddings after a Neo4j rebuild: dump now, restore later.
+    print("\n" + "=" * 60)
+    print("💾 Never re-run embeddings after Neo4j rebuild")
+    print("=" * 60)
+    print("  1. Run a dump now (recommended):  python dump_neo4j.py")
+    print("  2. After any Neo4j Docker rebuild (new container/volume):  python restore_neo4j.py")
+    print("     Do NOT run this embedding script again — restore brings back the graph with embeddings.")
+    print("  3. To keep data across rebuilds without restore: avoid 'docker compose down -v' (keeps neo4j_data volume).")
+    if dump_after:
+        print("\n📦 Running dump_neo4j.py now...")
+        try:
+            subprocess.run(
+                [sys.executable, str(Path(__file__).parent / "dump_neo4j.py")],
+                cwd=Path(__file__).parent,
+                check=True,
+                timeout=300,
+            )
+            print("✅ Dump completed. After Neo4j rebuild, run: python restore_neo4j.py")
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
+            print(f"⚠️  Dump failed or skipped: {e}. Run manually: python dump_neo4j.py")
+    print("=" * 60 + "\n")
+
 
 def main() -> None:
     import argparse
@@ -155,8 +177,13 @@ def main() -> None:
         action="store_true",
         help="Wipe existing graph data before loading (removes old chunk_embeddings; reload with nomic/openai)",
     )
+    parser.add_argument(
+        "--dump-after",
+        action="store_true",
+        help="Run dump_neo4j.py after load so you can restore after Neo4j rebuild without re-running embeddings",
+    )
     args = parser.parse_args()
-    asyncio.run(main_async(embedding_backend=args.embedding, clean_db=args.clean))
+    asyncio.run(main_async(embedding_backend=args.embedding, clean_db=args.clean, dump_after=args.dump_after))
 
 
 if __name__ == "__main__":

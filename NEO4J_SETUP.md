@@ -81,6 +81,8 @@ Chunk and Concept nodes store embeddings in two optional properties:
 
 Use `--embedding nomic` (default), `--embedding openai`, or `--embedding both`. Vector indexes are created for each property you use (`chunk_nomic_embeddings`, `chunk_openai_embeddings`, and the same for concepts).
 
+**Never re-run embeddings after Neo4j rebuild:** Run load once with nomic (default), then `python dump_neo4j.py` (or use `--dump-after`). After any Neo4j Docker rebuild, run `python restore_neo4j.py` instead of the embedding script. See [NEO4J_BACKUP.md](NEO4J_BACKUP.md#never-re-run-embeddings-after-neo4j-rebuild).
+
 ### Load all transcriptions
 
 ```bash

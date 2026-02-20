@@ -19,7 +19,9 @@ A modern web interface for monitoring YouTube downloads, viewing transcriptions,
 - File metadata (size, filename). Lazy loading of transcription content.
 - The transcriptions API (`GET /api/transcriptions`) includes an optional `url` field per item when the title is found in `videos.csv`.
 
-**Where edits are saved:** Edits from the webpage are **not** written back to the original `transcriptions/<name>_combined.txt` file. They are appended to **edit files** in `transcriptions/edit/<name>_combined_edit.txt`. The app (and Neo4j loader) always prefer the edit file when it exists and merge edits with the original when reading, so your corrections are the effective source of truth. The original file is left unchanged so you keep a clean ASR output and a separate record of human edits.
+**Where edits are saved:** Edits from the webpage are **not** written back to the original `transcriptions/<name>_combined.txt` file.
+- **`transcriptions/edit/`** — Holds the **entire edited transcription file** per document (`<name>_combined_edit.txt`). Each save overwrites this file with the full content (all chunks) so it always reflects the current state.
+- **`transcriptions/edit_history/`** — Holds **per-user, per-chunk edit history** (`<name>_edit_history.txt`), not full files. Each record includes username, chunk ID, old/new text, and timestamp. The app (and Neo4j loader) prefer the edit file in `edit/` when it exists; the original file is left unchanged so you keep a clean ASR output.
 
 ### 🕸️ GraphRAG Tab
 - Neo4j Cypher query interface

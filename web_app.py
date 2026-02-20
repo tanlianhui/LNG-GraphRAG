@@ -83,7 +83,8 @@ except ImportError:
 # Configuration
 VODS_CSV = "./VODs/videos.csv"
 TRANSCRIPTIONS_DIR = "./transcriptions"
-EDIT_DIR = "./transcriptions/edit"
+EDIT_DIR = "./transcriptions/edit"  # full edited transcription files
+EDIT_HISTORY_DIR = "./transcriptions/edit_history"  # per-user, per-chunk edit history (not full files)
 VODS_DIR = "./VODs"
 
 def get_download_status() -> List[Dict]:
@@ -1129,7 +1130,10 @@ def api_update_transcription():
     """API endpoint for updating a transcription chunk"""
     data = request.get_json()
     filename = data.get('filename', '')
-    chunk_id = data.get('chunk_id')
+    try:
+        chunk_id = int(data.get('chunk_id')) if data.get('chunk_id') is not None else None
+    except (TypeError, ValueError):
+        chunk_id = None
     new_text = data.get('new_text', '')
     
     if not filename or chunk_id is None or not new_text:
@@ -1159,29 +1163,52 @@ def api_update_transcription():
         if graphrag_path not in sys.path:
             sys.path.insert(0, graphrag_path)
         
-        from own_graph_rag import write_edit_to_file, update_chunk_in_neo4j
+        from own_graph_rag import (
+            get_transcription_file_path,
+            parse_transcription_chunks,
+            write_full_transcription_to_edit_file,
+            write_edit_record_to_history,
+            update_chunk_in_neo4j,
+        )
         import os as os_module
         from dotenv import load_dotenv
         
         load_dotenv()
         
-        # Write edit to "_edit" file in edit directory (do not modify original transcription file)
-        # Create edit directory if it doesn't exist
-        os.makedirs(EDIT_DIR, exist_ok=True)
-        edit_filename = filename.replace('_combined.txt', '_combined_edit.txt')
-        edit_file_path = os.path.join(EDIT_DIR, edit_filename)
-        file_updated = asyncio.run(write_edit_to_file(
-            edit_file_path,
+        # Get current chunks to read old_text for edit_history
+        current_path = get_transcription_file_path(filename, TRANSCRIPTIONS_DIR, EDIT_DIR)
+        chunks = parse_transcription_chunks(current_path) if current_path else []
+        old_text = chunks[chunk_id]["text"] if chunk_id < len(chunks) else ""
+        username = "anonymous"
+        if auth_configured() and getattr(current_user, "is_authenticated", False):
+            username = getattr(current_user, "username", "") or "anonymous"
+        
+        # Save entire edited transcription to edit/ and append record (with username) to edit_history/
+        file_updated = write_full_transcription_to_edit_file(
+            TRANSCRIPTIONS_DIR,
+            EDIT_DIR,
+            EDIT_HISTORY_DIR,
             filename,
             chunk_id,
-            new_text
-        ))
-        
+            new_text,
+        )
         if not file_updated:
             return jsonify({
                 'success': False,
                 'error': 'Failed to write edit to file'
             }), 500
+        
+        write_edit_record_to_history(
+            EDIT_HISTORY_DIR,
+            filename,
+            chunk_id,
+            old_text,
+            new_text,
+            username,
+        )
+        
+        edit_filename = filename.replace('_combined.txt', '_combined_edit.txt')
+        edit_file_path = os.path.join(EDIT_DIR, edit_filename)
         
         # Update Neo4j (document name is the filename)
         document_name = filename
@@ -1194,22 +1221,34 @@ def api_update_transcription():
             db_name=db_name
         ))
         
-        if not neo4j_result.get('success'):
+        neo4j_updated = neo4j_result.get('success', False)
+        neo4j_error = neo4j_result.get('error', '')
+        chunk_not_found = neo4j_error and 'not found in document' in neo4j_error
+        
+        if not neo4j_updated and not chunk_not_found:
             return jsonify({
                 'success': False,
-                'error': f"Failed to update Neo4j: {neo4j_result.get('error', 'Unknown error')}",
-                'file_updated': True  # File was updated even if Neo4j failed
+                'error': f"Failed to update Neo4j: {neo4j_error or 'Unknown error'}",
+                'file_updated': True
             }), 500
         
         if auth_configured() and getattr(current_user, 'is_authenticated', False):
-            auth_record_edit(current_user.id, document_name, chunk_id, new_text, old_text=None)
+            auth_record_edit(current_user.id, document_name, chunk_id, new_text, old_text=old_text)
         
+        if neo4j_updated:
+            message = 'Transcription chunk updated successfully in Neo4j and edit file'
+        else:
+            message = (
+                'Edit saved to file. Chunk not found in Neo4j for this document '
+                '(load or reload this transcription into Neo4j to sync embeddings).'
+            )
         return jsonify({
             'success': True,
-            'message': 'Transcription chunk updated successfully in Neo4j and edit file',
+            'message': message,
             'document_name': document_name,
             'chunk_id': chunk_id,
-            'edit_file': os.path.basename(edit_file_path)
+            'edit_file': os.path.basename(edit_file_path),
+            'neo4j_updated': neo4j_updated
         })
         
     except Exception as e:

@@ -11,33 +11,32 @@ from pathlib import Path
 CONTAINER_NAME = "lng-neo4j"
 DUMP_DIR = "./neo4j"
 DB_NAME = "neo4j"  # Community Edition uses "neo4j" as default
+NEO4J_IMAGE = "neo4j:5.15-community"  # Match docker-compose
 
-def check_docker_running():
-    """Check if Docker is running and container exists"""
+def check_docker_running(require_running: bool = False):
+    """Check if Docker is running and container exists. If require_running, container must be up."""
     try:
         result = subprocess.run(
             ["docker", "ps", "-a", "--filter", f"name={CONTAINER_NAME}", "--format", "{{.Names}}"],
             capture_output=True,
             text=True,
-            check=True
+            check=True,
         )
-        if CONTAINER_NAME not in result.stdout:
+        if CONTAINER_NAME not in (result.stdout or "").strip():
             print(f"❌ Container '{CONTAINER_NAME}' not found.")
             print(f"   Please start Neo4j first with: ./setup_neo4j.sh")
             return False
-        
-        # Check if container is running
-        result = subprocess.run(
-            ["docker", "ps", "--filter", f"name={CONTAINER_NAME}", "--format", "{{.Names}}"],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        if CONTAINER_NAME not in result.stdout:
-            print(f"❌ Container '{CONTAINER_NAME}' is not running.")
-            print(f"   Please start it with: docker start {CONTAINER_NAME}")
-            return False
-        
+        if require_running:
+            result = subprocess.run(
+                ["docker", "ps", "--filter", f"name={CONTAINER_NAME}", "--format", "{{.Names}}"],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            if CONTAINER_NAME not in (result.stdout or "").strip():
+                print(f"❌ Container '{CONTAINER_NAME}' is not running.")
+                print(f"   Start it with: docker start {CONTAINER_NAME}")
+                return False
         return True
     except subprocess.CalledProcessError as e:
         print(f"❌ Error checking Docker: {e}")
@@ -45,6 +44,61 @@ def check_docker_running():
     except FileNotFoundError:
         print("❌ Docker not found. Please install Docker.")
         return False
+
+
+def _get_data_volume_name():
+    """Get the Docker volume name mounted at /data for CONTAINER_NAME."""
+    r = subprocess.run(
+        [
+            "docker", "inspect", CONTAINER_NAME,
+            "--format", "{{range .Mounts}}{{if eq .Destination \"/data\"}}{{.Name}}{{end}}{{end}}",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    name = (r.stdout or "").strip()
+    if not name:
+        raise RuntimeError("Could not find Neo4j data volume for container. Is it created by docker-compose?")
+    return name
+
+def _neo4j_status():
+    """Return True if Neo4j server is running inside the container."""
+    r = subprocess.run(
+        ["docker", "exec", CONTAINER_NAME, "neo4j", "status"],
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    return r.returncode == 0 and "running" in (r.stdout or "").lower()
+
+
+def _stop_neo4j_in_container():
+    """Stop the Neo4j server process inside the container (container keeps running)."""
+    import time
+    print("🛑 Stopping Neo4j server (container stays up)...")
+    for attempt in range(4):
+        subprocess.run(
+            ["docker", "exec", CONTAINER_NAME, "neo4j", "stop"],
+            capture_output=True,
+            timeout=30,
+        )
+        time.sleep(5)
+        if not _neo4j_status():
+            return True
+        # Last resort: kill the Neo4j Java process so load can run
+        if attempt >= 2:
+            print("   Stopping Neo4j process directly...")
+            r = subprocess.run(
+                ["docker", "exec", CONTAINER_NAME, "sh", "-c", "pkill -f 'org.neo4j' || true"],
+                capture_output=True,
+                timeout=10,
+            )
+            time.sleep(5)
+            if not _neo4j_status():
+                return True
+    return False
+
 
 def find_dump_file(dump_path: Path, dump_file: str = None):
     """Find the dump file to restore"""
@@ -73,115 +127,162 @@ def find_dump_file(dump_path: Path, dump_file: str = None):
     print(f"❌ No dump files found in {dump_path}")
     return None
 
-def stop_neo4j():
-    """Stop Neo4j service in container"""
-    print("🛑 Stopping Neo4j service...")
+def _restore_in_container(dump_file: Path) -> bool:
+    """Restore by stopping only the Neo4j server inside the container, then load, then start.
+    Container stays running the whole time. Returns True on success."""
+    dump_name = dump_file.name
+    container_dump = f"/dumps/{DB_NAME}.dump"
     try:
-        subprocess.run(
-            ["docker", "exec", CONTAINER_NAME, "neo4j", "stop"],
-            check=True,
-            capture_output=True,
-            timeout=30
-        )
-        # Wait a bit for Neo4j to fully stop
-        import time
-        time.sleep(3)
-        return True
-    except subprocess.TimeoutExpired:
-        print("⚠️  Neo4j stop command timed out, continuing...")
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"⚠️  Error stopping Neo4j (may already be stopped): {e}")
-        return True
-
-def restore_database(dump_file: Path):
-    """Restore Neo4j database from dump file"""
-    print(f"📥 Restoring Neo4j database '{DB_NAME}' from {dump_file.name}...")
-    
-    try:
-        # Create /dumps directory in container
         subprocess.run(
             ["docker", "exec", CONTAINER_NAME, "mkdir", "-p", "/dumps"],
             check=True,
-            capture_output=True
+            capture_output=True,
         )
-        
-        # Copy dump file to container
-        container_dump_path = f"/dumps/{DB_NAME}.dump"
-        print(f"📤 Copying dump file to container...")
         subprocess.run(
-            ["docker", "cp", str(dump_file), f"{CONTAINER_NAME}:{container_dump_path}"],
+            ["docker", "cp", str(dump_file), f"{CONTAINER_NAME}:{container_dump}"],
             check=True,
-            capture_output=True
+            capture_output=True,
         )
-        
-        # Stop Neo4j before restore
-        stop_neo4j()
-        
-        # Restore database using neo4j-admin
-        print(f"🔄 Restoring database...")
-        cmd = [
-            "docker", "exec", CONTAINER_NAME,
-            "neo4j-admin", "database", "load", DB_NAME,
-            "--from-path=/dumps",
-            f"--overwrite-destination=true"
-        ]
-        
-        result = subprocess.run(
-            cmd,
+        if not _stop_neo4j_in_container():
+            print("⚠️  Could not stop Neo4j server in container.")
+            return False
+        import time
+        time.sleep(2)
+        subprocess.run(
+            [
+                "docker", "exec", CONTAINER_NAME,
+                "neo4j-admin", "database", "load", DB_NAME,
+                "--from-path=/dumps",
+                "--overwrite-destination=true",
+            ],
+            check=True,
             capture_output=True,
             text=True,
-            check=True
+            timeout=600,
         )
-        
-        # Clean up container dump file
         subprocess.run(
-            ["docker", "exec", CONTAINER_NAME, "rm", "-f", container_dump_path],
+            ["docker", "exec", CONTAINER_NAME, "rm", "-f", container_dump],
             check=False,
-            capture_output=True
+            capture_output=True,
         )
-        
-        # Start Neo4j
-        print(f"🚀 Starting Neo4j service...")
-        subprocess.run(
+        print("🚀 Starting Neo4j server...")
+        r = subprocess.run(
             ["docker", "exec", CONTAINER_NAME, "neo4j", "start"],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        if r.returncode != 0 and "already running" not in (r.stderr or r.stdout or "").lower():
+            raise subprocess.CalledProcessError(r.returncode, r.args, r.stdout, r.stderr)
+        print("✅ Database restored successfully!")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"❌ In-container restore failed: {e}")
+        if getattr(e, "stderr", None):
+            print(f"   {e.stderr}")
+        return False
+
+
+def _restore_via_stop_container(dump_file: Path) -> bool:
+    """Restore by stopping the whole container, loading in a one-off container, then starting again."""
+    import time
+    dump_path = dump_file.resolve().parent
+    dump_name = dump_file.name
+    try:
+        volume_name = _get_data_volume_name()
+        print("🛑 Stopping Neo4j container...")
+        subprocess.run(
+            ["docker", "stop", CONTAINER_NAME],
             check=True,
             capture_output=True,
-            timeout=30
+            timeout=60,
         )
-        
-        print(f"✅ Database restored successfully!")
+        time.sleep(2)
+        print("🔄 Restoring database (one-off container)...")
+        load_cmd = (
+            'cp "/dumps/$DUMP_NAME" /dumps/neo4j.dump && '
+            "neo4j-admin database load neo4j --from-path=/dumps --overwrite-destination=true"
+        )
+        subprocess.run(
+            [
+                "docker", "run", "--rm",
+                "-e", f"DUMP_NAME={dump_name}",
+                "-v", f"{volume_name}:/data",
+                "-v", f"{dump_path}:/dumps",
+                NEO4J_IMAGE,
+                "sh", "-c", load_cmd,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
+        print("🚀 Starting Neo4j container...")
+        subprocess.run(
+            ["docker", "start", CONTAINER_NAME],
+            check=True,
+            capture_output=True,
+            timeout=30,
+        )
+        print("✅ Database restored successfully!")
         return True
-        
     except subprocess.CalledProcessError as e:
         print(f"❌ Error restoring database: {e}")
-        if e.stderr:
+        if getattr(e, "stderr", None):
             print(f"   Error output: {e.stderr}")
-        if e.stdout:
-            print(f"   Output: {e.stdout}")
-        
-        # Try to start Neo4j even if restore failed
         try:
             subprocess.run(
-                ["docker", "exec", CONTAINER_NAME, "neo4j", "start"],
+                ["docker", "start", CONTAINER_NAME],
                 check=False,
                 capture_output=True,
-                timeout=30
+                timeout=30,
             )
-        except:
+        except Exception:
             pass
-        
         return False
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        try:
+            subprocess.run(
+                ["docker", "start", CONTAINER_NAME],
+                check=False,
+                capture_output=True,
+                timeout=30,
+            )
+        except Exception:
+            pass
+        return False
+
+
+def restore_database(dump_file: Path, stop_container: bool = False) -> bool:
+    """Restore Neo4j database from dump.
+    By default: stop only the Neo4j server inside the container, load, then start (container stays up).
+    If stop_container=True or in-container fails: stop the whole container, load in one-off, start container."""
+    print(f"📥 Restoring Neo4j database '{DB_NAME}' from {dump_file.name}...")
+    if stop_container:
+        return _restore_via_stop_container(dump_file)
+    # Prefer in-container (stop Neo4j process only)
+    if _restore_in_container(dump_file):
+        return True
+    print("   Falling back to stop-container method...")
+    return _restore_via_stop_container(dump_file)
 
 def main():
     """Main function"""
     import argparse
     
-    parser = argparse.ArgumentParser(description="Restore Neo4j database from dump")
+    parser = argparse.ArgumentParser(
+        description="Restore Neo4j database from dump. By default stops only the Neo4j server inside the container (container stays up)."
+    )
     parser.add_argument(
         "--dump-file",
         type=str,
-        help="Specific dump file to restore (default: latest or most recent)"
+        help="Specific dump file to restore (default: latest or most recent)",
+    )
+    parser.add_argument(
+        "--stop-container",
+        action="store_true",
+        help="Stop the whole Docker container to restore (use if in-container restore fails with 'database is in use')",
     )
     args = parser.parse_args()
     
@@ -190,8 +291,8 @@ def main():
     print("=" * 50)
     print()
     
-    # Check Docker
-    if not check_docker_running():
+    # Check Docker; for in-container restore the container must be running
+    if not check_docker_running(require_running=not args.stop_container):
         sys.exit(1)
     
     # Find dump file
@@ -207,15 +308,15 @@ def main():
     
     print()
     print(f"⚠️  WARNING: This will overwrite the current database '{DB_NAME}'!")
-    response = input("   Are you sure you want to continue? (yes/no): ")
+    response = input("   Are you sure you want to continue? (y/n): ")
     if response.lower() not in ['yes', 'y']:
         print("❌ Restore cancelled.")
         sys.exit(0)
     
     print()
     
-    # Restore database
-    success = restore_database(dump_file)
+    # Restore database (in-container by default; fallback to stop-container if that fails)
+    success = restore_database(dump_file, stop_container=args.stop_container)
     
     if success:
         print()
