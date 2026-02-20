@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register – LNG GraphRAG</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 420px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.5em; margin-bottom: 8px; }
+        .form-wrap { padding: 28px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: 600; color: #333; margin-bottom: 6px; }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn:hover { opacity: 0.95; }
+        .msg { margin-top: 14px; padding: 10px; border-radius: 6px; font-size: 0.95em; display: none; }
+        .msg.error { background: #f8d7da; color: #721c24; }
+        .msg.success { background: #d4edda; color: #155724; }
+        .links { margin-top: 18px; text-align: center; }
+        .links a { color: #667eea; text-decoration: none; }
+        .links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎙️ LNG GraphRAG</h1>
+            <p>Create an account</p>
+        </div>
+        <div class="form-wrap">
+            <form id="registerForm" onsubmit="return submitRegister(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required minlength="2" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password">
+                </div>
+                <div id="msg" class="msg"></div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <div class="links">
+                <a href="{{ url_for('login') }}">Already have an account? Log in</a> · <a href="{{ url_for('index') }}">Dashboard</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submitRegister(e) {
+            e.preventDefault();
+            var msg = document.getElementById('msg');
+            msg.style.display = 'none';
+            msg.className = 'msg';
+            var username = document.getElementById('username').value.trim();
+            var email = document.getElementById('email').value.trim().toLowerCase();
+            var password = document.getElementById('password').value;
+            if (username.length < 2) {
+                msg.textContent = 'Username must be at least 2 characters.';
+                msg.className = 'msg error';
+                msg.style.display = 'block';
+                return false;
+            }
+            if (password.length < 6) {
+                msg.textContent = 'Password must be at least 6 characters.';
+                msg.className = 'msg error';
+                msg.style.display = 'block';
+                return false;
+            }
+            fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ username: username, email: email, password: password })
+            })
+            .then(function(r) { return r.json().then(function(d) { return { status: r.status, data: d }; }); })
+            .then(function(res) {
+                if (res.data.success) {
+                    msg.textContent = 'Account created. Redirecting...';
+                    msg.className = 'msg success';
+                    msg.style.display = 'block';
+                    window.location.href = '/';
+                } else {
+                    msg.textContent = res.data.error || 'Registration failed.';
+                    msg.className = 'msg error';
+                    msg.style.display = 'block';
+                }
+            })
+            .catch(function() {
+                msg.textContent = 'Network error.';
+                msg.className = 'msg error';
+                msg.style.display = 'block';
+            });
+            return false;
+        }
+    </script>
+</body>
+</html>

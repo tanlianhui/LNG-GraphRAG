@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 import csv
 import os
 from pathlib import Path
@@ -6,8 +6,79 @@ import json
 import asyncio
 from typing import List, Dict, Optional
 import sys
+from werkzeug.security import generate_password_hash, check_password_hash
+
+# Load .env before any code that reads MYSQL_* or other env
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 app = Flask(__name__)
+# Secret key optional for local dev; set FLASK_SECRET_KEY in .env only for production
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "lng-graphrag-dev-secret-change-in-production")
+
+# Flask-Login (optional: only if auth DB is configured)
+try:
+    from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+    from auth_db import (
+        is_configured as auth_configured,
+        init_tables as auth_init_tables,
+        get_connection as auth_get_connection,
+        create_user as auth_create_user,
+        get_user_by_id as auth_get_user_by_id,
+        get_user_by_username,
+        get_user_by_email,
+        get_user_for_flask,
+        create_reset_token as auth_create_reset_token,
+        get_user_by_reset_token as auth_get_user_by_reset_token,
+        delete_reset_token as auth_delete_reset_token,
+        update_user_password as auth_update_user_password,
+        record_edit as auth_record_edit,
+        record_query as auth_record_query,
+        get_edit_history as auth_get_edit_history,
+        get_query_history as auth_get_query_history,
+    )
+    login_manager = LoginManager(app)
+    login_manager.login_view = "login"
+    login_manager.login_message = "Please log in to access this page."
+
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        if request.path.startswith("/api/"):
+            return jsonify({"success": False, "error": "Login required"}), 401
+        return redirect(url_for("login"))
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        try:
+            return get_user_for_flask(int(user_id))
+        except (ValueError, TypeError):
+            return None
+
+    _auth_tables_inited = False
+
+    def init_auth_tables_once():
+        global _auth_tables_inited
+        if _auth_tables_inited or not auth_configured():
+            return
+        try:
+            with auth_get_connection() as conn:
+                auth_init_tables(conn)
+            _auth_tables_inited = True
+        except Exception as e:
+            print(f"Auth DB init warning: {e}")
+except ImportError:
+    login_manager = None
+    login_required = lambda f: f  # no-op if Flask-Login not installed
+    current_user = None
+    auth_configured = lambda: False
+    init_auth_tables_once = lambda: None
+    auth_record_edit = lambda *a, **k: None
+    auth_record_query = lambda *a, **k: None
+    auth_get_edit_history = lambda uid, limit=100: []
+    auth_get_query_history = lambda uid, limit=100: []
 
 # Configuration
 VODS_CSV = "./VODs/videos.csv"
@@ -152,10 +223,200 @@ def get_transcription_content(filename: str) -> Optional[str]:
         print(f"Error reading transcription file: {e}")
         return None
 
+@app.before_request
+def _init_auth_db():
+    init_auth_tables_once()
+
+
 @app.route('/')
 def index():
     """Main page"""
     return render_template('index.html')
+
+
+@app.route('/login')
+def login():
+    """Login page"""
+    return render_template('login.html')
+
+
+@app.route('/register')
+def register():
+    """Register page"""
+    return render_template('register.html')
+
+
+@app.route('/api/auth/register', methods=['POST'])
+def api_auth_register():
+    """Register a new user. Body: username, email, password."""
+    data = request.get_json() or {}
+    username = (data.get('username') or '').strip()
+    email = (data.get('email') or '').strip().lower()
+    password = data.get('password') or ''
+    if not username or not email or not password:
+        return jsonify({'success': False, 'error': 'Username, email, and password are required'}), 400
+    if len(username) < 2:
+        return jsonify({'success': False, 'error': 'Username must be at least 2 characters'}), 400
+    if len(password) < 6:
+        return jsonify({'success': False, 'error': 'Password must be at least 6 characters'}), 400
+    if not auth_configured():
+        return jsonify({
+            'success': False,
+            'error': 'Auth not configured. Run: pip install flask-login pymysql. Set MYSQL_* in .env and start MySQL (e.g. docker-compose up -d mysql). See AUTH_SETUP.md.'
+        }), 503
+    password_hash = generate_password_hash(password, method="pbkdf2:sha256")
+    user_id = auth_create_user(username, email, password_hash)
+    if user_id is None:
+        return jsonify({'success': False, 'error': 'Username or email already taken'}), 409
+    from flask_login import login_user
+    user = get_user_for_flask(user_id)
+    if user:
+        login_user(user, remember=True)
+    return jsonify({'success': True, 'user_id': user_id, 'username': username})
+
+
+@app.route('/api/auth/login', methods=['POST'])
+def api_auth_login():
+    """Login. Body: username or email, password."""
+    data = request.get_json() or {}
+    login_id = (data.get('username') or data.get('email') or '').strip()
+    password = data.get('password') or ''
+    if not login_id or not password:
+        return jsonify({'success': False, 'error': 'Username/email and password required'}), 400
+    if not auth_configured():
+        return jsonify({
+            'success': False,
+            'error': 'Auth not configured. Run: pip install flask-login pymysql. Set MYSQL_* in .env and start MySQL (e.g. docker-compose up -d mysql). See AUTH_SETUP.md.'
+        }), 503
+    user_row = get_user_by_username(login_id) if '@' not in login_id else get_user_by_email(login_id)
+    if not user_row or not check_password_hash(user_row['password_hash'], password):
+        return jsonify({'success': False, 'error': 'Invalid username/email or password'}), 401
+    from flask_login import login_user
+    from auth_db import get_user_for_flask
+    user = get_user_for_flask(user_row['id'])
+    if user:
+        login_user(user, remember=True)
+    return jsonify({'success': True, 'username': user_row['username']})
+
+
+@app.route('/api/auth/logout', methods=['POST'])
+def api_auth_logout():
+    """Logout current user."""
+    if auth_configured():
+        try:
+            logout_user()
+        except Exception:
+            pass
+    return jsonify({'success': True})
+
+
+@app.route('/forgot-password')
+def forgot_password_page():
+    """Forgot password form page."""
+    return render_template('forgot_password.html')
+
+
+@app.route('/reset-password')
+def reset_password_page():
+    """Reset password form page (requires ?token=...)."""
+    token = request.args.get('token', '')
+    return render_template('reset_password.html', token=token)
+
+
+@app.route('/api/auth/forgot-password', methods=['POST'])
+def api_auth_forgot_password():
+    """Request password reset. Body: email. Creates token and returns reset link (or sends email if configured)."""
+    data = request.get_json() or {}
+    email = (data.get('email') or '').strip().lower()
+    if not email:
+        return jsonify({'success': False, 'error': 'Email is required'}), 400
+    if not auth_configured():
+        return jsonify({
+            'success': False,
+            'error': 'Auth not configured. See AUTH_SETUP.md.'
+        }), 503
+    user_row = get_user_by_email(email)
+    # Always return same message to avoid leaking whether email exists
+    if not user_row:
+        return jsonify({
+            'success': True,
+            'message': 'If an account exists for that email, a reset link has been sent.',
+            'reset_link': None
+        })
+    import secrets
+    from datetime import datetime, timedelta
+    token = secrets.token_urlsafe(32)
+    expires_at = datetime.utcnow() + timedelta(hours=1)
+    try:
+        auth_create_reset_token(token, user_row['id'], expires_at)
+    except Exception as e:
+        return jsonify({'success': False, 'error': 'Could not create reset token'}), 500
+    reset_link = request.url_root.rstrip('/') + '/reset-password?token=' + token
+    # TODO: if SMTP configured, send email with reset_link; else return link for dev
+    return jsonify({
+        'success': True,
+        'message': 'If an account exists for that email, a reset link has been created.',
+        'reset_link': reset_link
+    })
+
+
+@app.route('/api/auth/reset-password', methods=['POST'])
+def api_auth_reset_password():
+    """Reset password with token. Body: token, new_password."""
+    data = request.get_json() or {}
+    token = (data.get('token') or '').strip()
+    new_password = data.get('new_password') or ''
+    if not token:
+        return jsonify({'success': False, 'error': 'Reset token is required'}), 400
+    if len(new_password) < 6:
+        return jsonify({'success': False, 'error': 'Password must be at least 6 characters'}), 400
+    if not auth_configured():
+        return jsonify({'success': False, 'error': 'Auth not configured.'}), 503
+    user_row = auth_get_user_by_reset_token(token)
+    if not user_row:
+        return jsonify({'success': False, 'error': 'Invalid or expired reset link. Request a new one.'}), 400
+    password_hash = generate_password_hash(new_password, method="pbkdf2:sha256")
+    if not auth_update_user_password(user_row['id'], password_hash):
+        return jsonify({'success': False, 'error': 'Failed to update password'}), 500
+    auth_delete_reset_token(token)
+    return jsonify({'success': True, 'message': 'Password updated. You can log in now.'})
+
+
+@app.route('/api/auth/me')
+def api_auth_me():
+    """Return current user if logged in."""
+    if not auth_configured():
+        return jsonify({'success': True, 'user': None})
+    if getattr(current_user, 'is_authenticated', False):
+        return jsonify({'success': True, 'user': {'id': current_user.id, 'username': current_user.username, 'email': current_user.email}})
+    return jsonify({'success': True, 'user': None})
+
+
+@app.route('/api/history/edits')
+@login_required
+def api_history_edits():
+    """Return edit history for current user (requires login)."""
+    if not auth_configured():
+        return jsonify({'success': False, 'error': 'Auth not configured'}), 503
+    if not getattr(current_user, 'is_authenticated', False):
+        return jsonify({'success': False, 'error': 'Login required'}), 401
+    limit = min(int(request.args.get('limit', 100)), 500)
+    rows = auth_get_edit_history(current_user.id, limit=limit)
+    return jsonify({'success': True, 'edits': rows})
+
+
+@app.route('/api/history/queries')
+@login_required
+def api_history_queries():
+    """Return query history for current user (requires login)."""
+    if not auth_configured():
+        return jsonify({'success': False, 'error': 'Auth not configured'}), 503
+    if not getattr(current_user, 'is_authenticated', False):
+        return jsonify({'success': False, 'error': 'Login required'}), 401
+    limit = min(int(request.args.get('limit', 100)), 500)
+    rows = auth_get_query_history(current_user.id, limit=limit)
+    return jsonify({'success': True, 'queries': rows})
+
 
 @app.route('/api/download-status')
 def api_download_status():
@@ -375,6 +636,9 @@ Answer:"""
         
         answer_response = llm.invoke([{"role": "user", "content": answer_prompt}])
         answer = answer_response.content.strip()
+        
+        if auth_configured() and getattr(current_user, 'is_authenticated', False):
+            auth_record_query(current_user.id, 'nl', nl_query, result_count=len(context_data))
         
         return jsonify({
             'success': True,
@@ -643,6 +907,9 @@ def execute_cypher_query(query: str, db_name: str):
                 records.append(record_dict)
             
             summary = result.consume()
+            
+            if auth_configured() and getattr(current_user, 'is_authenticated', False):
+                auth_record_query(current_user.id, 'cypher', query, result_count=len(records))
             
             return jsonify({
                 'success': True,
@@ -933,6 +1200,9 @@ def api_update_transcription():
                 'error': f"Failed to update Neo4j: {neo4j_result.get('error', 'Unknown error')}",
                 'file_updated': True  # File was updated even if Neo4j failed
             }), 500
+        
+        if auth_configured() and getattr(current_user, 'is_authenticated', False):
+            auth_record_edit(current_user.id, document_name, chunk_id, new_text, old_text=None)
         
         return jsonify({
             'success': True,

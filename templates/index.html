@@ -613,9 +613,13 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <div class="header" style="position: relative;">
             <h1>🎙️ LNG GraphRAG Dashboard</h1>
             <p>YouTube Downloads | Transcriptions | GraphRAG Queries</p>
+            <div id="userBar" style="position: absolute; top: 20px; right: 24px; font-size: 0.95em;">
+                <a href="/login" style="color: rgba(255,255,255,0.95); margin-right: 12px;">Login</a>
+                <a href="/register" style="color: rgba(255,255,255,0.95);">Register</a>
+            </div>
         </div>
 
         <div class="stats-bar" id="statsBar">
@@ -641,6 +645,7 @@
             <button class="tab active" onclick="switchTab(0)">📥 Download Status</button>
             <button class="tab" onclick="switchTab(1)">📝 Transcriptions</button>
             <button class="tab" onclick="switchTab(2)">🕸️ GraphRAG</button>
+            <button class="tab" id="tabHistoryBtn" onclick="switchTab(3)" style="display: none;">📋 History</button>
         </div>
 
         <!-- Download Status Tab -->
@@ -742,6 +747,13 @@
                 </div>
             </div>
         </div>
+
+        <!-- History Tab (visible when logged in) -->
+        <div class="tab-content" id="tab3">
+            <div id="historyContent">
+                <p style="color: #666;">Log in to see your transcription edit history and query history.</p>
+            </div>
+        </div>
     </div>
 
     <button class="refresh-btn" onclick="refreshAll()" title="Refresh All Data">🔄</button>
@@ -765,6 +777,88 @@
                 loadDownloadStatus();
             } else if (index === 1) {
                 loadTranscriptions();
+            } else if (index === 3) {
+                loadHistory();
+            }
+        }
+
+        // Auth: update user bar and optionally show History tab
+        async function refreshAuthState() {
+            try {
+                const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+                const data = await res.json();
+                const bar = document.getElementById('userBar');
+                const historyBtn = document.getElementById('tabHistoryBtn');
+                if (data.success && data.user) {
+                    bar.innerHTML = 'Hello, <strong>' + escapeHtml(data.user.username) + '</strong> &nbsp;|&nbsp; <a href="#" onclick="doLogout(); return false;" style="color: rgba(255,255,255,0.95);">Logout</a>';
+                    if (historyBtn) historyBtn.style.display = '';
+                } else {
+                    bar.innerHTML = '<a href="/login" style="color: rgba(255,255,255,0.95); margin-right: 12px;">Login</a> <a href="/register" style="color: rgba(255,255,255,0.95);">Register</a>';
+                    if (historyBtn) historyBtn.style.display = 'none';
+                }
+            } catch (e) {
+                console.error('Auth state:', e);
+            }
+        }
+        async function doLogout() {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' });
+            refreshAuthState();
+            const tab3 = document.getElementById('tab3');
+            if (tab3 && tab3.classList.contains('active')) {
+                document.querySelectorAll('.tab').forEach((t, i) => { t.classList.toggle('active', i === 0); });
+                document.querySelectorAll('.tab-content').forEach((c, i) => { c.classList.toggle('active', i === 0); });
+            }
+            document.getElementById('historyContent').innerHTML = '<p style="color: #666;">Log in to see your transcription edit history and query history.</p>';
+        }
+
+        // History tab: load edit and query history (requires login)
+        async function loadHistory() {
+            const container = document.getElementById('historyContent');
+            try {
+                const [editsRes, queriesRes] = await Promise.all([
+                    fetch('/api/history/edits?limit=50', { credentials: 'same-origin' }),
+                    fetch('/api/history/queries?limit=50', { credentials: 'same-origin' })
+                ]);
+                if (editsRes.status === 401 || queriesRes.status === 401) {
+                    container.innerHTML = '<p style="color: #666;">Log in to see your transcription edit history and query history.</p>';
+                    return;
+                }
+                const editsData = await editsRes.json();
+                const queriesData = await queriesRes.json();
+                if (!editsData.success || !queriesData.success) {
+                    container.innerHTML = '<p style="color: #666;">Could not load history.</p>';
+                    return;
+                }
+                const edits = editsData.edits || [];
+                const queries = queriesData.queries || [];
+                let html = '<h3 style="margin-bottom: 12px;">📝 Edit history</h3>';
+                html += '<div style="max-height: 280px; overflow-y: auto; margin-bottom: 24px;">';
+                if (edits.length === 0) {
+                    html += '<p style="color: #888;">No edits yet.</p>';
+                } else {
+                    html += '<table class="videos-table" style="width: 100%;"><thead><tr><th>Document</th><th>Chunk</th><th>Time</th><th>New text (preview)</th></tr></thead><tbody>';
+                    edits.forEach(function(r) {
+                        const preview = (r.new_text || '').slice(0, 80) + ((r.new_text || '').length > 80 ? '…' : '');
+                        html += '<tr><td>' + escapeHtml(r.document_name) + '</td><td>' + r.chunk_id + '</td><td>' + escapeHtml(String(r.created_at || '')) + '</td><td>' + escapeHtml(preview) + '</td></tr>';
+                    });
+                    html += '</tbody></table>';
+                }
+                html += '</div><h3 style="margin-bottom: 12px;">🔍 Query history</h3><div style="max-height: 280px; overflow-y: auto;">';
+                if (queries.length === 0) {
+                    html += '<p style="color: #888;">No queries yet.</p>';
+                } else {
+                    html += '<table class="videos-table" style="width: 100%;"><thead><tr><th>Type</th><th>Time</th><th>Query (preview)</th><th>Results</th></tr></thead><tbody>';
+                    queries.forEach(function(r) {
+                        const preview = (r.query_text || '').slice(0, 60) + ((r.query_text || '').length > 60 ? '…' : '');
+                        html += '<tr><td>' + escapeHtml(r.query_type || '') + '</td><td>' + escapeHtml(String(r.created_at || '')) + '</td><td>' + escapeHtml(preview) + '</td><td>' + (r.result_count != null ? r.result_count : '–') + '</td></tr>';
+                    });
+                    html += '</tbody></table>';
+                }
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('Load history:', e);
+                container.innerHTML = '<p style="color: #666;">Log in to see your transcription edit history and query history.</p>';
             }
         }
 
@@ -1382,7 +1476,7 @@
             document.getElementById('queryResults').classList.add('empty');
         }
         
-        // Allow Enter key to submit natural language query
+        // Allow Enter key to submit natural language query; init auth state
         document.addEventListener('DOMContentLoaded', function() {
             const nlInput = document.getElementById('nlQuery');
             if (nlInput) {
@@ -1393,6 +1487,7 @@
                     }
                 });
             }
+            refreshAuthState();
         });
 
         // Refresh all data
@@ -1416,6 +1511,7 @@
 
         // Initialize
         loadDownloadStatus();
+        refreshAuthState();
     </script>
 </body>
 </html>

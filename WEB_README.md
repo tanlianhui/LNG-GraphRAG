@@ -27,6 +27,10 @@ A modern web interface for monitoring YouTube downloads, viewing transcriptions,
 - Results display with JSON formatting
 - Ready for future GraphRAG implementation
 
+## Optional: User login and history
+
+You can enable a **user login system** with a separate **MySQL** database. When enabled, users can register and log in; the app records **transcription edit history** and **query history** per user. See **[AUTH_SETUP.md](AUTH_SETUP.md)** for MySQL setup and environment variables. If MySQL is not configured, the app runs without login and the dashboard works as before.
+
 ## Installation
 
 1. Install dependencies:

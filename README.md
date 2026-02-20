@@ -257,10 +257,11 @@ LIMIT 25
 # 1. Activate virtual environment
 source .venv/bin/activate
 
-# 2. Start Neo4j (if not already running)
+# 2. Start Neo4j (and optional MySQL for user login) if not already running
 docker-compose up -d
 # OR
 ./setup_neo4j.sh
+# (docker-compose also starts MySQL on port 3306 for optional auth; see AUTH_SETUP.md)
 
 # 3. (Optional) Restore database from dump if available
 python auto_restore_neo4j.py
@@ -415,7 +416,7 @@ LNG-GraphRAG/
 ├── find_transcriptions_without_timestamps.py   # List files missing timecodes
 ├── redownload_rerun_no_timestamps.py           # Redownload + ASR for those files
 ├── setup_neo4j.sh         # Neo4j setup script
-├── docker-compose.yml     # Neo4j Docker config
+├── docker-compose.yml     # Neo4j + MySQL (auth) Docker config
 ├── dump_neo4j.py          # Backup Neo4j database
 ├── restore_neo4j.py       # Restore Neo4j database
 ├── auto_restore_neo4j.py  # Auto-restore on startup

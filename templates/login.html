@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – LNG GraphRAG</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 420px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.5em; margin-bottom: 8px; }
+        .form-wrap { padding: 28px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: 600; color: #333; margin-bottom: 6px; }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn:hover { opacity: 0.95; }
+        .msg { margin-top: 14px; padding: 10px; border-radius: 6px; font-size: 0.95em; display: none; }
+        .msg.error { background: #f8d7da; color: #721c24; }
+        .msg.success { background: #d4edda; color: #155724; }
+        .links { margin-top: 18px; text-align: center; }
+        .links a { color: #667eea; text-decoration: none; }
+        .links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎙️ LNG GraphRAG</h1>
+            <p>Log in</p>
+        </div>
+        <div class="form-wrap">
+            <form id="loginForm" onsubmit="return submitLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username or email</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                <div style="margin-bottom: 10px; text-align: right;">
+                    <a href="{{ url_for('forgot_password_page') }}" style="color: #667eea; font-size: 0.9em;">Forgot password?</a>
+                </div>
+                <div id="msg" class="msg"></div>
+                <button type="submit" class="btn">Log in</button>
+            </form>
+            <div class="links">
+                <a href="{{ url_for('register') }}">Create an account</a> · <a href="{{ url_for('index') }}">Dashboard</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submitLogin(e) {
+            e.preventDefault();
+            var msg = document.getElementById('msg');
+            msg.style.display = 'none';
+            msg.className = 'msg';
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value;
+            if (!username || !password) {
+                msg.textContent = 'Please enter username/email and password.';
+                msg.className = 'msg error';
+                msg.style.display = 'block';
+                return false;
+            }
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username, password: password })
+            })
+            .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+            .then(function(res) {
+                if (res.ok && res.data.success) {
+                    msg.textContent = 'Logged in. Redirecting...';
+                    msg.className = 'msg success';
+                    msg.style.display = 'block';
+                    window.location.href = '/';
+                } else {
+                    msg.textContent = res.data.error || 'Login failed.';
+                    msg.className = 'msg error';
+                    msg.style.display = 'block';
+                }
+            })
+            .catch(function() {
+                msg.textContent = 'Network error.';
+                msg.className = 'msg error';
+                msg.style.display = 'block';
+            });
+            return false;
+        }
+    </script>
+</body>
+</html>
