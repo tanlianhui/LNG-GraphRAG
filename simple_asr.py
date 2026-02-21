@@ -17,8 +17,10 @@ from pathlib import Path
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from utils import setup_path, safe_execute, log_error, handle_unicode_encoding
 
-def split_audio_at_silence(waveform, sample_rate, min_duration=60, max_duration=300, silence_threshold=0.01, min_silence_duration=1.0):
-    """Split audio at silence points with duration constraints."""
+def split_audio_at_silence(waveform, sample_rate, min_duration=10, max_duration=30, silence_threshold=0.01, min_silence_duration=1.0):
+    """Split audio by silence only. Each returned chunk is one continuous segment (no mid-segment cuts).
+    Duration constraints: segments shorter than min_duration are skipped; segments longer than max_duration
+    are split at max_duration. Each chunk's full timespan is passed to ASR for transcription."""
     # Convert to mono if stereo
     if waveform.shape[0] > 1:
         waveform = waveform.mean(dim=0)
@@ -185,28 +187,25 @@ def cleanup_temp_file(temp_path, temp_dir):
         print(f"Warning: Could not clean up temporary files: {e}")
 
 def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_name, output_dir, start_time, end_time):
-    """Process a single audio chunk asynchronously"""
+    """Process the entire audio chunk (full timespan) with ASR. No truncation of input or output."""
     chunk, sample_rate = chunk_data
     duration = len(chunk) / sample_rate
     print(f"Processing chunk {chunk_index+1} (duration: {duration:.2f}s, time: {start_time:.2f}s - {end_time:.2f}s)")
     
     try:
-        # Process with model
+        # Process entire chunk: full waveform for this timespan
         with torch.no_grad():
-            # Get features
             inputs = processor(chunk, sampling_rate=16000, return_tensors="pt")
             inputs = {k: v.to(device) for k, v in inputs.items()}
-            
-            # Generate
+            # Allow full-length output for the whole segment (~25 tokens/sec of speech; cap for memory)
+            max_tokens = min(4096, max(448, int(duration * 25)))
             generated_ids = model.generate(
                 inputs["input_features"],
-                max_length=448,
+                max_length=max_tokens,
                 num_beams=1,
                 do_sample=False,
                 temperature=None,
             )
-            
-            # Decode
             transcription = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
         
         print(f"Chunk {chunk_index+1} transcription: {transcription[:100]}...")
@@ -272,10 +271,10 @@ def process_audio_file(audio_file_path, keep_audio=False):
             cleanup_temp_file(safe_path, temp_dir)
             return False
     
-    # Split audio into chunks
-    print("Splitting audio into chunks...")
+    # Split audio by silence only; each chunk is the full segment for that timespan
+    print("Splitting audio by silence...")
     audio_chunks, sample_rate, chunk_times = split_audio_at_silence(waveform, sample_rate)
-    print(f"Audio split into {len(audio_chunks)} chunks")
+    print(f"Audio split into {len(audio_chunks)} chunks (each chunk = full segment, no partial cuts)")
     
     # Create output directory
     output_dir = "./transcriptions"

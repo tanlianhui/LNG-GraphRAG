@@ -1,5 +1,10 @@
 # LNG-GraphRAG Project TODO
 
+## Next Steps (priority)
+- [ ] **Speaker diarization** (deferred): Integrate [pyannote/speaker-diarization-3.1](https://huggingface.co/pyannote/speaker-diarization-3.1) to label “who spoke when” in audio (requires Hugging Face token + accepting model conditions).
+- [x] **Full-span transcriptions**: Ensure transcriptions cover the entire timestamp span (fixed in `simple_asr.py`: dynamic `max_tokens` per chunk; split by silence).
+- [x] **Layout & color**: Collapsible hamburger menu panel on the left; color palette `#525252`, `#614000`, `#D39B05`, `#FEAE02`, `#1E1E1E` applied across the dashboard.
+
 ## Future Goals
 - [ ] Complete GraphRAG implementation
 - [ ] Integrate Breeze-ASR-25 for audio processing
