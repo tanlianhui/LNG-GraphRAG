@@ -1429,6 +1429,127 @@ async def delete_chunk_in_neo4j(
         }
 
 
+async def delete_document_chunks_in_neo4j(
+    document_name: str,
+    db_name: str = "lng_transcriptions",
+) -> dict:
+    """
+    Delete all Chunk nodes (and their relationships) for a given document_name.
+    Used before re-loading a re-transcribed file so Neo4j is updated from the new txt.
+
+    Args:
+        document_name: Name of the document (transcription filename, e.g. "video_combined.txt")
+        db_name: Database name (will be adjusted for Community Edition)
+
+    Returns:
+        dict with success, deleted_count, and optional error
+    """
+    try:
+        actual_db_name = get_database_name(db_name)
+        graph = Neo4jGraph(
+            url=NEO4J_URI,
+            username=NEO4J_USERNAME,
+            password=NEO4J_PASSWORD,
+            database=actual_db_name,
+        )
+        # Get count then delete (Cypher DELETE does not return the deleted nodes)
+        count_result = graph.query(
+            "MATCH (c:Chunk {document_name: $document_name}) RETURN count(c) AS cnt",
+            params={"document_name": document_name},
+        )
+        deleted_count = 0
+        if count_result and len(count_result) > 0:
+            r = count_result[0]
+            deleted_count = r.get("cnt", 0) if isinstance(r, dict) else getattr(r, "cnt", 0)
+        delete_query = """
+        MATCH (c:Chunk {document_name: $document_name})
+        DETACH DELETE c
+        """
+        graph.query(delete_query, params={"document_name": document_name})
+        print(f"✓ Deleted {deleted_count} chunk(s) for document {document_name}", flush=True)
+        return {
+            "success": True,
+            "document_name": document_name,
+            "deleted_count": deleted_count,
+            "message": f"Deleted {deleted_count} chunk(s) for document",
+        }
+    except Exception as e:
+        error_msg = f"Error deleting document chunks: {e}\n{traceback.format_exc()}"
+        log_error(error_msg)
+        return {
+            "success": False,
+            "document_name": document_name,
+            "deleted_count": 0,
+            "error": str(e),
+        }
+
+
+async def reload_document_in_neo4j(
+    path: str,
+    db_name: str = "lng_transcriptions",
+    embedding_backend: EmbeddingBackend = "nomic",
+    url_mapping_dict: dict = None,
+) -> dict:
+    """
+    Update Neo4j for a re-transcribed file: delete all Chunk nodes for that document,
+    then re-create them (and concepts) from the transcription file.
+
+    Use this after re-running ASR to replace Neo4j chunk nodes with the new transcript.
+
+    Args:
+        path: Path to the transcription file (e.g. transcriptions/Video_combined.txt)
+        db_name: Database name (will be adjusted for Community Edition)
+        embedding_backend: 'nomic' | 'openai' | 'both' for new chunk/concept embeddings
+        url_mapping_dict: Optional dict of document_name -> URL for Document/chunk url
+
+    Returns:
+        dict with success, document_name, deleted_count, and optional error
+    """
+    document_name = os.path.basename(path)
+    if not os.path.isabs(path):
+        path = os.path.abspath(path)
+    if not os.path.isfile(path):
+        return {
+            "success": False,
+            "document_name": document_name,
+            "error": f"File not found: {path}",
+        }
+    # 1) Delete all chunks for this document in Neo4j
+    delete_result = await delete_document_chunks_in_neo4j(document_name=document_name, db_name=db_name)
+    if not delete_result.get("success"):
+        return delete_result
+    deleted_count = delete_result.get("deleted_count", 0)
+    # 2) Re-create chunks (and concepts) from the transcription file
+    try:
+        await load_files_neo4j_graphrag(
+            path=path,
+            db_name=db_name,
+            node_labels=[],
+            rel_labels=[],
+            prompt_template="",
+            generate_concepts=True,
+            background_tasks=None,
+            url_mapping_dict=url_mapping_dict or None,
+            embedding_backend=embedding_backend,
+        )
+        print(f"✓ Reloaded document {document_name} in Neo4j (replaced {deleted_count} chunks)", flush=True)
+        return {
+            "success": True,
+            "document_name": document_name,
+            "deleted_count": deleted_count,
+            "message": f"Reloaded {document_name}: deleted {deleted_count} old chunks, created new chunks and concepts",
+        }
+    except Exception as e:
+        error_msg = f"Error reloading document: {e}\n{traceback.format_exc()}"
+        log_error(error_msg)
+        return {
+            "success": False,
+            "document_name": document_name,
+            "deleted_count": deleted_count,
+            "error": str(e),
+        }
+
+
 async def delete_chunk_from_transcription_file(
     transcription_path: str,
     chunk_id: int

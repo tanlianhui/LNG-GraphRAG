@@ -1300,6 +1300,77 @@ def api_transcription_chunks(filename):
             'error': f'Failed to parse chunks: {str(e)}'
         }), 500
 
+@app.route('/api/transcription/reload', methods=['POST'])
+def api_reload_transcription():
+    """
+    Re-load a re-transcribed file into Neo4j: delete all Chunk nodes for that document_name,
+    then create new chunks (and concepts) from the transcription file.
+    """
+    data = request.get_json() or {}
+    filename = data.get('filename', '')
+    embedding_backend = data.get('embedding', 'nomic')
+    if embedding_backend not in ('nomic', 'openai', 'both'):
+        embedding_backend = 'nomic'
+
+    filename = os.path.basename(filename)
+    if not filename.endswith('_combined.txt'):
+        return jsonify({
+            'success': False,
+            'error': 'Invalid filename: must end with _combined.txt'
+        }), 400
+
+    transcription_path = os.path.join(TRANSCRIPTIONS_DIR, filename)
+    if not os.path.exists(transcription_path):
+        return jsonify({
+            'success': False,
+            'error': 'Transcription file not found'
+        }), 404
+
+    try:
+        graphrag_path = os.path.join(os.path.dirname(__file__), 'graphrag')
+        if graphrag_path not in sys.path:
+            sys.path.insert(0, graphrag_path)
+        from own_graph_rag import reload_document_in_neo4j
+        import os as os_module
+        from dotenv import load_dotenv
+        load_dotenv()
+
+        url_mapping = {}
+        csv_path = os.path.join(os.path.dirname(__file__), 'VODs', 'videos.csv')
+        if os.path.isfile(csv_path):
+            import csv
+            with open(csv_path, 'r', encoding='utf-8-sig') as f:
+                for row in csv.DictReader(f):
+                    title = (row.get('title') or '').strip()
+                    if title and (filename.startswith(title) or filename.replace('_combined.txt', '') == title):
+                        url_mapping[filename] = (row.get('url') or '').strip()
+                        break
+
+        db_name = os_module.getenv('NEO4J_DB_NAME', 'lng_transcriptions')
+        result = asyncio.run(reload_document_in_neo4j(
+            path=os.path.abspath(transcription_path),
+            db_name=db_name,
+            embedding_backend=embedding_backend,
+            url_mapping_dict=url_mapping or None,
+        ))
+        if not result.get('success'):
+            return jsonify({
+                'success': False,
+                'error': result.get('error', 'Reload failed')
+            }), 500
+        return jsonify({
+            'success': True,
+            'document_name': result.get('document_name'),
+            'deleted_count': result.get('deleted_count', 0),
+            'message': result.get('message', 'Reload complete'),
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
 @app.route('/api/transcription/delete', methods=['POST'])
 def api_delete_transcription():
     """API endpoint for deleting a transcription chunk"""
