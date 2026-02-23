@@ -1,6 +1,10 @@
-# User Login and History (MySQL)
+# MySQL: Auth and Pipeline (single database)
 
-Optional user registration and login with a **separate MySQL database**. When enabled, the app records **transcription edit history** and **query history** per user.
+The app uses **one MySQL database** (`lng_graphrag_auth`) for:
+- **Auth**: user accounts, edit history, query history, password reset tokens
+- **Pipeline**: files, downloads, processing jobs (used by the desktop UI and cleanup scripts)
+
+User login is optional: when MySQL is not configured, the web app runs without login. The **desktop UI** (e.g. `launch_ui.py`) and **cleanup_database.py** require MySQL to be running (e.g. `docker-compose up -d mysql`).
 
 ## Prerequisites
 
@@ -84,7 +88,31 @@ If MySQL is not available or not configured, the app runs **without** login: no 
 
 ## Tables
 
-Start the web app after MySQL is running. On first request, the app creates the database (if missing) and tables: `users`, `edit_history`, `query_history`, `password_reset_tokens`. No manual SQL is required.
+Start the web app (or the desktop UI / cleanup script) after MySQL is running. On first use, the app creates the database (if missing) and all tables. No manual SQL is required.
+
+- **Auth**: `users`, `edit_history`, `query_history`, `password_reset_tokens`
+- **Pipeline**: `files`, `downloads`, `processing_jobs`
+
+## Git and the database
+
+- **Schema** (table definitions) lives in **code** (`auth_db.init_tables`) and is in **git**. When the app starts, it runs `CREATE TABLE IF NOT EXISTS ...` so the DB shape stays in sync with the code.
+- **Data** (rows) lives in the **Docker volume** `mysql_data`. It is **not** in git. Normal workflow: you do not commit database dumps; the DB is created/updated when you run the app and use it.
+
+If you want to **version or backup** data (e.g. seed data, fixtures):
+
+```bash
+# Dump the database to a file (you can commit this if you want)
+docker exec lng-mysql mysqldump -u lng_user -plng-graphrag-password lng_graphrag_auth > docker/mysql-dump.sql
+
+# Restore from that file (e.g. on another machine or after removing the volume)
+docker exec -i lng-mysql mysql -u lng_user -plng-graphrag-password lng_graphrag_auth < docker/mysql-dump.sql
+```
+
+The repo does **not** run dumps or restores automatically; add that to your own scripts or CI if needed.
+
+### Migrating from the old SQLite pipeline DB
+
+Pipeline state (files, downloads, processing_jobs) used to live in `lng_graphrag.db` (SQLite). It now lives in MySQL. If you had data in that file and need it in MySQL, you can re-add files and URLs via the desktop UI, or write a one-off script that reads from the SQLite file and inserts into MySQL. The old `lng_graphrag.db` file is no longer used and can be removed after migration.
 
 ## Behaviour
 

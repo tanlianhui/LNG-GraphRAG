@@ -59,8 +59,9 @@ def get_connection():
 
 
 def init_tables(conn) -> None:
-    """Create users, edit_history, query_history if they don't exist."""
+    """Create all app tables: auth (users, edit_history, query_history, password_reset_tokens) and pipeline (files, downloads, processing_jobs)."""
     with conn.cursor() as cur:
+        # --- Auth ---
         cur.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -102,6 +103,51 @@ def init_tables(conn) -> None:
                 expires_at DATETIME NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 INDEX idx_expires (expires_at)
+            )
+        """)
+        # --- Pipeline (files, downloads, processing_jobs) ---
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS files (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                filename VARCHAR(512) NOT NULL,
+                file_path VARCHAR(1024) NOT NULL,
+                file_type VARCHAR(64) NOT NULL,
+                status VARCHAR(32) NOT NULL DEFAULT 'pending',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                file_size INT NULL,
+                duration DOUBLE NULL,
+                transcription_path VARCHAR(1024) NULL,
+                error_message TEXT NULL,
+                INDEX idx_status (status),
+                INDEX idx_created (created_at)
+            )
+        """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS downloads (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                url VARCHAR(2048) NOT NULL,
+                title VARCHAR(512) NULL,
+                status VARCHAR(32) NOT NULL DEFAULT 'pending',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                file_id INT NULL,
+                error_message TEXT NULL,
+                FOREIGN KEY (file_id) REFERENCES files(id) ON DELETE SET NULL,
+                INDEX idx_status (status)
+            )
+        """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS processing_jobs (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                file_id INT NOT NULL,
+                job_type VARCHAR(64) NOT NULL,
+                status VARCHAR(32) NOT NULL DEFAULT 'pending',
+                started_at TIMESTAMP NULL,
+                completed_at TIMESTAMP NULL,
+                error_message TEXT NULL,
+                FOREIGN KEY (file_id) REFERENCES files(id) ON DELETE CASCADE,
+                INDEX idx_status (status)
             )
         """)
 

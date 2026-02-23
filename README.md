@@ -261,7 +261,7 @@ source .venv/bin/activate
 docker-compose up -d
 # OR
 ./setup_neo4j.sh
-# (docker-compose also starts MySQL on port 3306 for optional auth; see AUTH_SETUP.md)
+# (docker-compose also starts MySQL on port 3306 for auth and for desktop UI pipeline state; see AUTH_SETUP.md)
 
 # 3. (Optional) Restore database from dump if available
 python auto_restore_neo4j.py

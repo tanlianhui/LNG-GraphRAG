@@ -12,29 +12,24 @@ from utils import setup_path, safe_execute, log_error
 def check_dependencies():
     """Check if required dependencies are installed"""
     required_modules = [
-        'torch', 'torchaudio', 'transformers', 'datasets', 
-        'yt_dlp', 'sqlite3'
+        'torch', 'torchaudio', 'transformers', 'datasets',
+        'yt_dlp', 'pymysql'
     ]
     
     missing_modules = []
-    
     for module in required_modules:
         try:
-            if module == 'sqlite3':
-                import sqlite3
-            else:
-                __import__(module)
+            __import__(module)
         except ImportError:
             missing_modules.append(module)
     
     if missing_modules:
         error_msg = f"Missing required modules: {', '.join(missing_modules)}\n\n"
         error_msg += "Please install them using:\n"
-        error_msg += "pip install torch torchaudio transformers datasets yt-dlp"
-        
+        error_msg += "pip install torch torchaudio transformers datasets yt-dlp pymysql\n\n"
+        error_msg += "Also start MySQL (e.g. docker-compose up -d mysql). See AUTH_SETUP.md."
         messagebox.showerror("Missing Dependencies", error_msg)
         return False
-    
     return True
 
 def main():

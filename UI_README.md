@@ -25,7 +25,7 @@ A comprehensive GUI application for managing YouTube downloads and ASR processin
 - Track processing jobs and status
 
 ### 📊 Database Status Tracking
-- SQLite database for persistent storage
+- MySQL database (same as web app auth; start with `docker-compose up -d mysql`)
 - Track files, downloads, and processing jobs
 - View comprehensive statistics
 - Monitor progress and errors
