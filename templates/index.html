@@ -737,23 +737,34 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
+            min-width: 120px;
+            height: 48px;
+            border-radius: 999px;
             background: var(--accent-gold);
             color: var(--bg-dark);
             border: none;
-            font-size: 1.4em;
+            font-size: 1em;
             cursor: pointer;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
             transition: all 0.2s;
             z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 14px;
+            font-weight: 700;
         }
 
         .refresh-btn:hover {
             background: var(--accent-bright);
-            transform: rotate(180deg) scale(1.05);
+            transform: scale(1.05);
             box-shadow: 0 4px 16px rgba(254, 174, 2, 0.4);
+        }
+
+        .refresh-btn .refresh-icon {
+            font-size: 1.2em;
+            line-height: 1;
         }
 
         @media (max-width: 900px) {
@@ -791,6 +802,13 @@
             .transcriptions-right {
                 min-height: 220px;
                 max-height: 45vh;
+            }
+            .refresh-btn {
+                right: 12px;
+                bottom: 12px;
+                min-width: 104px;
+                height: 42px;
+                font-size: 0.92em;
             }
         }
 
@@ -847,7 +865,7 @@
                     </div>
                     <div class="header-main">
                         <h1>🎙️ LNG: LNG Nowledge GraphRAG Dashboard</h1>
-                        <p>YouTube Video Download | Transcribe | Ask GraphRAG! Queries</p>
+                        <p>YouTube Video Download -> Transcribe -> Ask GraphRAG!</p>
                     </div>
                 </div>
 
@@ -980,7 +998,10 @@
         </div>
     </div>
 
-    <button class="refresh-btn" onclick="refreshAll()" title="Refresh All Data">🔄</button>
+    <button class="refresh-btn" id="refreshBtn" onclick="refreshAll()" title="Refresh current list">
+        <span class="refresh-icon">🔄</span>
+        <span>Refresh</span>
+    </button>
 
     <script>
         let allVideos = [];
@@ -1006,9 +1027,17 @@
             document.querySelectorAll('.tab-content').forEach((content, i) => {
                 content.classList.toggle('active', i === index);
             });
+            updateRefreshButtonVisibility(index);
             if (index === 0) loadDownloadStatus();
             else if (index === 1) loadTranscriptions();
             else if (index === 3) loadHistory();
+        }
+
+        function updateRefreshButtonVisibility(activeIndex) {
+            const btn = document.getElementById('refreshBtn');
+            if (!btn) return;
+            // Show only on Download Status (0) and Transcriptions (1)
+            btn.style.display = (activeIndex === 0 || activeIndex === 1) ? 'inline-flex' : 'none';
         }
 
         // Auth: update user bar and optionally show History tab
@@ -1746,6 +1775,7 @@
         // Initialize
         loadDownloadStatus();
         refreshAuthState();
+        updateRefreshButtonVisibility(0);
     </script>
 </body>
 </html>
