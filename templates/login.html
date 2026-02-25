@@ -80,6 +80,10 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required autocomplete="current-password">
                 </div>
+                <div class="form-group" id="otpGroup" style="display:none;">
+                    <label for="otp">OTP (admin 2FA)</label>
+                    <input type="text" id="otp" name="otp" autocomplete="one-time-code" inputmode="numeric" placeholder="6-digit code">
+                </div>
                 <div style="margin-bottom: 10px; text-align: right;">
                     <a href="{{ url_for('forgot_password_page') }}" style="color: #667eea; font-size: 0.9em;">Forgot password?</a>
                 </div>
@@ -99,6 +103,7 @@
             msg.className = 'msg';
             var username = document.getElementById('username').value.trim();
             var password = document.getElementById('password').value;
+            var otp = document.getElementById('otp').value.trim();
             if (!username || !password) {
                 msg.textContent = 'Please enter username/email and password.';
                 msg.className = 'msg error';
@@ -108,7 +113,7 @@
             fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: username, password: password })
+                body: JSON.stringify({ username: username, password: password, otp: otp })
             })
             .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
             .then(function(res) {
@@ -118,6 +123,9 @@
                     msg.style.display = 'block';
                     window.location.href = '/';
                 } else {
+                    if (res.data && res.data.requires_otp) {
+                        document.getElementById('otpGroup').style.display = 'block';
+                    }
                     msg.textContent = res.data.error || 'Login failed.';
                     msg.className = 'msg error';
                     msg.style.display = 'block';

@@ -930,7 +930,12 @@
                 const bar = document.getElementById('userBar');
                 const historyBtn = document.getElementById('tabHistoryBtn');
                 if (data.success && data.user) {
-                    bar.innerHTML = 'Hello, <strong>' + escapeHtml(data.user.username) + '</strong> &nbsp;|&nbsp; <a href="#" onclick="doLogout(); return false;" style="color: rgba(255,255,255,0.95);">Logout</a>';
+                    let adminLink = '';
+                    if (data.user.is_admin) {
+                        const badge = data.user.admin_2fa_enabled ? '2FA On' : '2FA Off';
+                        adminLink = ' &nbsp;|&nbsp; <a href="/admin/2fa" style="color: rgba(255,255,255,0.95);">Admin 2FA (' + badge + ')</a>';
+                    }
+                    bar.innerHTML = 'Hello, <strong>' + escapeHtml(data.user.username) + '</strong>' + adminLink + ' &nbsp;|&nbsp; <a href="#" onclick="doLogout(); return false;" style="color: rgba(255,255,255,0.95);">Logout</a>';
                     if (historyBtn) historyBtn.style.display = '';
                 } else {
                     bar.innerHTML = '<a href="/login" style="color: rgba(255,255,255,0.95); margin-right: 12px;">Login</a> <a href="/register" style="color: rgba(255,255,255,0.95);">Register</a>';

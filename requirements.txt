@@ -70,6 +70,7 @@ yt-dlp==2025.10.22
 flask==3.0.0
 flask-login==0.6.3
 pymysql==1.1.2
+pyotp==2.9.0
 cryptography==46.0.5
 neo4j==5.15.0
 python-dotenv==1.0.0

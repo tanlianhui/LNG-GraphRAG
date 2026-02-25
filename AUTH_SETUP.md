@@ -11,7 +11,14 @@ User login is optional: when MySQL is not configured, the web app runs without l
 - **MySQL** via Docker (included in `docker-compose.yml`) or any MySQL 5.7+ / 8.x
 - Python packages: `flask-login`, `pymysql` (see `requirements.txt`)
 
-## MySQL via Docker
+## Where to run MySQL
+
+- **Local (same machine):** Use Docker: `docker-compose up -d mysql` (see below).
+- **Shared / production:** Deploy MySQL on a server or use a managed service so every machine uses the same DB via `MYSQL_HOST`.
+- **Self-host on your own PC (public access):** Read **[docs/SELF_HOSTING_SECURITY.md](docs/SELF_HOSTING_SECURITY.md)** first for threat/risk notes, safer exposure patterns, and admin 2FA options.
+- **Replicate + test checklist:** See **[docs/SELF_HOSTING_RUNBOOK.md](docs/SELF_HOSTING_RUNBOOK.md)** for a complete end-to-end procedure and verification steps.
+
+## MySQL via Docker (local)
 
 The project's **docker-compose.yml** includes a MySQL service for the auth database. Start it with Neo4j:
 
@@ -82,6 +89,10 @@ MYSQL_DATABASE=lng_graphrag_auth
 
 # Production only: set a strong secret for session cookies
 # FLASK_SECRET_KEY=your-secret-key-here
+
+# Admin allowlist for admin routes + 2FA
+# ADMIN_EMAILS=you@example.com,teammate@example.com
+# ADMIN_USERNAMES=your_username
 ```
 
 If MySQL is not available or not configured, the app runs **without** login: no registration, no history; the dashboard works as before and the header shows "Login | Register" (login/register pages return 503 if MySQL is not configured).
@@ -130,13 +141,18 @@ Edits and queries are recorded **only when the user is logged in**. Anonymous us
 ## API
 
 - `POST /api/auth/register` — body: `{ "username", "email", "password" }`
-- `POST /api/auth/login` — body: `{ "username" or "email", "password" }`
+- `POST /api/auth/login` — body: `{ "username" or "email", "password", "otp?" }` (`otp` required for admin accounts with 2FA enabled)
 - `POST /api/auth/logout`
 - `POST /api/auth/forgot-password` — body: `{ "email" }`; returns `{ "success", "message", "reset_link" }` (reset_link shown when email not configured)
 - `POST /api/auth/reset-password` — body: `{ "token", "new_password" }`; token from reset link
 - `GET /api/auth/me` — current user or `null`
 - `GET /api/history/edits?limit=100` — edit history (login required)
 - `GET /api/history/queries?limit=100` — query history (login required)
+- `GET /admin/2fa` — admin 2FA management page (login + admin required)
+- `GET /api/admin/2fa/status` — admin 2FA status
+- `POST /api/admin/2fa/setup` — generate/rotate admin OTP secret
+- `POST /api/admin/2fa/enable` — body: `{ "otp" }`
+- `POST /api/admin/2fa/disable` — body: `{ "otp" }`
 
 ## Docker Compose
 

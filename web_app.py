@@ -6,6 +6,7 @@ import json
 import asyncio
 from typing import List, Dict, Optional
 import sys
+from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Load .env before any code that reads MYSQL_* or other env
@@ -39,6 +40,9 @@ try:
         record_query as auth_record_query,
         get_edit_history as auth_get_edit_history,
         get_query_history as auth_get_query_history,
+        get_admin_2fa as auth_get_admin_2fa,
+        set_admin_2fa_secret as auth_set_admin_2fa_secret,
+        set_admin_2fa_enabled as auth_set_admin_2fa_enabled,
     )
     login_manager = LoginManager(app)
     login_manager.login_view = "login"
@@ -79,6 +83,15 @@ except ImportError:
     auth_record_query = lambda *a, **k: None
     auth_get_edit_history = lambda uid, limit=100: []
     auth_get_query_history = lambda uid, limit=100: []
+    auth_get_admin_2fa = lambda uid: {"user_id": uid, "otp_secret": None, "otp_enabled": False}
+    auth_set_admin_2fa_secret = lambda uid, secret: False
+    auth_set_admin_2fa_enabled = lambda uid, enabled: False
+
+# Optional: pyotp for app-level admin 2FA fallback
+try:
+    import pyotp
+except ImportError:
+    pyotp = None
 
 # Configuration
 VODS_CSV = "./VODs/videos.csv"
@@ -86,6 +99,39 @@ TRANSCRIPTIONS_DIR = "./transcriptions"
 EDIT_DIR = "./transcriptions/edit"  # full edited transcription files
 EDIT_HISTORY_DIR = "./transcriptions/edit_history"  # per-user, per-chunk edit history (not full files)
 VODS_DIR = "./VODs"
+
+
+def _parse_csv_env(name: str) -> set:
+    raw = os.getenv(name, "")
+    return {item.strip().lower() for item in raw.split(",") if item.strip()}
+
+
+ADMIN_EMAILS = _parse_csv_env("ADMIN_EMAILS")
+ADMIN_USERNAMES = _parse_csv_env("ADMIN_USERNAMES")
+
+
+def is_admin_user(user_obj) -> bool:
+    """Admin identity comes from env allowlist for easy local control."""
+    if not user_obj:
+        return False
+    username = (getattr(user_obj, "username", "") or "").strip().lower()
+    email = (getattr(user_obj, "email", "") or "").strip().lower()
+    if not ADMIN_EMAILS and not ADMIN_USERNAMES:
+        return False
+    return (email in ADMIN_EMAILS) or (username in ADMIN_USERNAMES)
+
+
+def admin_required(fn):
+    """Require logged-in admin user."""
+    @wraps(fn)
+    @login_required
+    def wrapper(*args, **kwargs):
+        if not getattr(current_user, "is_authenticated", False):
+            return jsonify({"success": False, "error": "Login required"}), 401
+        if not is_admin_user(current_user):
+            return jsonify({"success": False, "error": "Admin required. Set ADMIN_EMAILS/ADMIN_USERNAMES in .env."}), 403
+        return fn(*args, **kwargs)
+    return wrapper
 
 def get_download_status() -> List[Dict]:
     """Read download status from CSV file and update based on transcription existence"""
@@ -282,6 +328,7 @@ def api_auth_login():
     data = request.get_json() or {}
     login_id = (data.get('username') or data.get('email') or '').strip()
     password = data.get('password') or ''
+    otp = (data.get('otp') or '').strip().replace(" ", "")
     if not login_id or not password:
         return jsonify({'success': False, 'error': 'Username/email and password required'}), 400
     if not auth_configured():
@@ -292,6 +339,19 @@ def api_auth_login():
     user_row = get_user_by_username(login_id) if '@' not in login_id else get_user_by_email(login_id)
     if not user_row or not check_password_hash(user_row['password_hash'], password):
         return jsonify({'success': False, 'error': 'Invalid username/email or password'}), 401
+    user_email = (user_row.get("email") or "").strip().lower()
+    user_name = (user_row.get("username") or "").strip().lower()
+    is_admin_identity = (user_email in ADMIN_EMAILS) or (user_name in ADMIN_USERNAMES)
+    if is_admin_identity:
+        twofa = auth_get_admin_2fa(user_row['id'])
+        if twofa.get("otp_enabled"):
+            if pyotp is None:
+                return jsonify({'success': False, 'error': 'pyotp is required for admin 2FA. Install dependencies and retry.'}), 503
+            if not otp:
+                return jsonify({'success': False, 'error': 'OTP code required for admin account', 'requires_otp': True}), 401
+            secret = twofa.get("otp_secret") or ""
+            if not secret or not pyotp.TOTP(secret).verify(otp, valid_window=1):
+                return jsonify({'success': False, 'error': 'Invalid OTP code', 'requires_otp': True}), 401
     from flask_login import login_user
     from auth_db import get_user_for_flask
     user = get_user_for_flask(user_row['id'])
@@ -389,8 +449,97 @@ def api_auth_me():
     if not auth_configured():
         return jsonify({'success': True, 'user': None})
     if getattr(current_user, 'is_authenticated', False):
-        return jsonify({'success': True, 'user': {'id': current_user.id, 'username': current_user.username, 'email': current_user.email}})
+        admin_status = auth_get_admin_2fa(current_user.id) if is_admin_user(current_user) else {"otp_enabled": False}
+        return jsonify({
+            'success': True,
+            'user': {
+                'id': current_user.id,
+                'username': current_user.username,
+                'email': current_user.email,
+                'is_admin': is_admin_user(current_user),
+                'admin_2fa_enabled': bool(admin_status.get("otp_enabled")),
+            }
+        })
     return jsonify({'success': True, 'user': None})
+
+
+@app.route('/admin/2fa')
+@login_required
+def admin_2fa_page():
+    """Simple admin page for OTP setup/enable/disable."""
+    if not is_admin_user(current_user):
+        return redirect(url_for("index"))
+    return render_template("admin_2fa.html")
+
+
+@app.route('/api/admin/2fa/status')
+@admin_required
+def api_admin_2fa_status():
+    status = auth_get_admin_2fa(current_user.id)
+    return jsonify({
+        "success": True,
+        "is_admin": True,
+        "otp_enabled": bool(status.get("otp_enabled")),
+        "has_secret": bool(status.get("otp_secret")),
+        "pyotp_available": pyotp is not None,
+    })
+
+
+@app.route('/api/admin/2fa/setup', methods=['POST'])
+@admin_required
+def api_admin_2fa_setup():
+    if pyotp is None:
+        return jsonify({"success": False, "error": "pyotp is not installed. Install requirements first."}), 503
+    secret = pyotp.random_base32()
+    if not auth_set_admin_2fa_secret(current_user.id, secret):
+        return jsonify({"success": False, "error": "Failed to store OTP secret"}), 500
+    issuer = os.getenv("OTP_ISSUER", "LNG GraphRAG")
+    account = (getattr(current_user, "email", "") or getattr(current_user, "username", "") or f"user-{current_user.id}")
+    otp_uri = pyotp.totp.TOTP(secret).provisioning_uri(name=account, issuer_name=issuer)
+    return jsonify({
+        "success": True,
+        "secret": secret,
+        "otpauth_uri": otp_uri,
+        "message": "Scan the URI in your authenticator app, then call /api/admin/2fa/enable with current otp code."
+    })
+
+
+@app.route('/api/admin/2fa/enable', methods=['POST'])
+@admin_required
+def api_admin_2fa_enable():
+    if pyotp is None:
+        return jsonify({"success": False, "error": "pyotp is not installed. Install requirements first."}), 503
+    data = request.get_json() or {}
+    otp = (data.get("otp") or "").strip().replace(" ", "")
+    if not otp:
+        return jsonify({"success": False, "error": "OTP code is required"}), 400
+    status = auth_get_admin_2fa(current_user.id)
+    secret = status.get("otp_secret") or ""
+    if not secret:
+        return jsonify({"success": False, "error": "2FA setup not initialized. Run setup first."}), 400
+    if not pyotp.TOTP(secret).verify(otp, valid_window=1):
+        return jsonify({"success": False, "error": "Invalid OTP code"}), 401
+    if not auth_set_admin_2fa_enabled(current_user.id, True):
+        return jsonify({"success": False, "error": "Failed to enable 2FA"}), 500
+    return jsonify({"success": True, "message": "Admin 2FA enabled"})
+
+
+@app.route('/api/admin/2fa/disable', methods=['POST'])
+@admin_required
+def api_admin_2fa_disable():
+    if pyotp is None:
+        return jsonify({"success": False, "error": "pyotp is not installed. Install requirements first."}), 503
+    data = request.get_json() or {}
+    otp = (data.get("otp") or "").strip().replace(" ", "")
+    status = auth_get_admin_2fa(current_user.id)
+    secret = status.get("otp_secret") or ""
+    if not secret or not status.get("otp_enabled"):
+        return jsonify({"success": False, "error": "Admin 2FA is not enabled"}), 400
+    if not otp or not pyotp.TOTP(secret).verify(otp, valid_window=1):
+        return jsonify({"success": False, "error": "Valid OTP code is required to disable"}), 401
+    if not auth_set_admin_2fa_enabled(current_user.id, False):
+        return jsonify({"success": False, "error": "Failed to disable 2FA"}), 500
+    return jsonify({"success": True, "message": "Admin 2FA disabled"})
 
 
 @app.route('/api/history/edits')

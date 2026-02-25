@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin 2FA - LNG GraphRAG</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background: #111; color: #eee; }
+        .wrap { max-width: 760px; margin: 32px auto; padding: 24px; background: #1c1c1c; border-radius: 12px; }
+        h1 { margin-top: 0; }
+        .card { background: #272727; border-radius: 10px; padding: 16px; margin: 14px 0; }
+        .row { margin: 10px 0; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; }
+        input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #444; background: #111; color: #eee; }
+        button { padding: 10px 14px; border: 0; border-radius: 6px; cursor: pointer; margin-right: 8px; }
+        .btn { background: #3b82f6; color: white; }
+        .btn.warn { background: #b91c1c; }
+        .muted { color: #bbb; font-size: 0.95em; }
+        pre { white-space: pre-wrap; word-break: break-all; background: #111; padding: 10px; border-radius: 6px; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Admin 2FA Setup</h1>
+    <p class="muted">Use this page to enable/disable TOTP for admin login.</p>
+
+    <div class="card">
+        <div class="row"><strong>Status:</strong> <span id="statusText">Loading...</span></div>
+        <button class="btn" onclick="refreshStatus()">Refresh</button>
+        <a href="/" style="color:#93c5fd;">Back to dashboard</a>
+    </div>
+
+    <div class="card">
+        <h3>1) Create/Rotate Secret</h3>
+        <p class="muted">After creating secret, add it to an authenticator app and then enable 2FA with a current OTP code.</p>
+        <button class="btn" onclick="setupSecret()">Create Secret</button>
+        <div class="row"><label>Secret</label><input id="secret" readonly></div>
+        <div class="row"><label>otpauth URI</label><pre id="uri"></pre></div>
+    </div>
+
+    <div class="card">
+        <h3>2) Enable/Disable</h3>
+        <div class="row">
+            <label for="otp">Current OTP code</label>
+            <input id="otp" placeholder="e.g. 123456">
+        </div>
+        <button class="btn" onclick="enable2fa()">Enable 2FA</button>
+        <button class="btn warn" onclick="disable2fa()">Disable 2FA</button>
+    </div>
+
+    <div class="card">
+        <strong>Message</strong>
+        <pre id="msg"></pre>
+    </div>
+</div>
+
+<script>
+function setMsg(text) { document.getElementById('msg').textContent = text || ''; }
+function otpVal() { return document.getElementById('otp').value.trim(); }
+
+async function api(path, method, body) {
+    const res = await fetch(path, {
+        method: method || 'GET',
+        credentials: 'same-origin',
+        headers: {'Content-Type': 'application/json'},
+        body: body ? JSON.stringify(body) : undefined
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Request failed');
+    }
+    return data;
+}
+
+async function refreshStatus() {
+    try {
+        const data = await api('/api/admin/2fa/status');
+        document.getElementById('statusText').textContent =
+            data.otp_enabled ? 'Enabled' : (data.has_secret ? 'Secret set, not enabled' : 'Not configured');
+        setMsg('Status refreshed.');
+    } catch (e) {
+        setMsg(e.message);
+    }
+}
+
+async function setupSecret() {
+    try {
+        const data = await api('/api/admin/2fa/setup', 'POST', {});
+        document.getElementById('secret').value = data.secret || '';
+        document.getElementById('uri').textContent = data.otpauth_uri || '';
+        setMsg(data.message || 'Secret created.');
+        await refreshStatus();
+    } catch (e) {
+        setMsg(e.message);
+    }
+}
+
+async function enable2fa() {
+    try {
+        const data = await api('/api/admin/2fa/enable', 'POST', {otp: otpVal()});
+        setMsg(data.message || 'Enabled.');
+        await refreshStatus();
+    } catch (e) {
+        setMsg(e.message);
+    }
+}
+
+async function disable2fa() {
+    try {
+        const data = await api('/api/admin/2fa/disable', 'POST', {otp: otpVal()});
+        setMsg(data.message || 'Disabled.');
+        await refreshStatus();
+    } catch (e) {
+        setMsg(e.message);
+    }
+}
+
+refreshStatus();
+</script>
+</body>
+</html>

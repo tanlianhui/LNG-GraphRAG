@@ -1,6 +1,6 @@
 """
 User authentication and history storage using MySQL.
-Creates tables: users, edit_history, query_history.
+Creates tables: users, edit_history, query_history, admin_2fa.
 """
 import os
 from typing import Optional, List, Dict, Any
@@ -59,7 +59,7 @@ def get_connection():
 
 
 def init_tables(conn) -> None:
-    """Create all app tables: auth (users, edit_history, query_history, password_reset_tokens) and pipeline (files, downloads, processing_jobs)."""
+    """Create all app tables: auth (users, edit_history, query_history, password_reset_tokens, admin_2fa) and pipeline (files, downloads, processing_jobs)."""
     with conn.cursor() as cur:
         # --- Auth ---
         cur.execute("""
@@ -103,6 +103,16 @@ def init_tables(conn) -> None:
                 expires_at DATETIME NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 INDEX idx_expires (expires_at)
+            )
+        """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS admin_2fa (
+                user_id INT PRIMARY KEY,
+                otp_secret VARCHAR(64) NULL,
+                otp_enabled TINYINT(1) NOT NULL DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         """)
         # --- Pipeline (files, downloads, processing_jobs) ---
@@ -207,6 +217,61 @@ def get_user_by_email(email: str) -> Optional[Dict[str, Any]]:
                 return cur.fetchone()
     except Exception:
         return None
+
+
+def get_admin_2fa(user_id: int) -> Dict[str, Any]:
+    """Return admin 2FA record for a user (default disabled if not found)."""
+    try:
+        with get_connection() as conn:
+            with conn.cursor(DictCursor) as cur:
+                cur.execute(
+                    "SELECT user_id, otp_secret, otp_enabled, created_at, updated_at FROM admin_2fa WHERE user_id = %s",
+                    (user_id,),
+                )
+                row = cur.fetchone()
+                if row:
+                    row["otp_enabled"] = bool(row.get("otp_enabled"))
+                    return row
+                return {"user_id": user_id, "otp_secret": None, "otp_enabled": False}
+    except Exception:
+        return {"user_id": user_id, "otp_secret": None, "otp_enabled": False}
+
+
+def set_admin_2fa_secret(user_id: int, otp_secret: str) -> bool:
+    """Create/update admin OTP secret and mark as not enabled until first verification."""
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    INSERT INTO admin_2fa (user_id, otp_secret, otp_enabled)
+                    VALUES (%s, %s, 0)
+                    ON DUPLICATE KEY UPDATE otp_secret = VALUES(otp_secret), otp_enabled = 0
+                    """,
+                    (user_id, otp_secret),
+                )
+                return True
+    except Exception:
+        return False
+
+
+def set_admin_2fa_enabled(user_id: int, enabled: bool) -> bool:
+    """Enable or disable admin 2FA for a user."""
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    INSERT INTO admin_2fa (user_id, otp_secret, otp_enabled)
+                    VALUES (%s, NULL, %s)
+                    ON DUPLICATE KEY UPDATE otp_enabled = VALUES(otp_enabled)
+                    """,
+                    (user_id, 1 if enabled else 0),
+                )
+                return True
+    except Exception:
+        return False
+
 
 
 def create_reset_token(token: str, user_id: int, expires_at) -> None:
