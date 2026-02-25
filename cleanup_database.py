@@ -7,7 +7,7 @@ Use this script to clean up interrupted processes if the UI is not available
 import sys
 import os
 from utils import setup_path, safe_execute, log_error
-from database_manager import DatabaseManager
+from backend.database_manager import DatabaseManager
 
 def main():
     setup_path()

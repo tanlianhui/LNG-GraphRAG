@@ -23,7 +23,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "lng-graphrag-dev-secret-change-i
 # Flask-Login (optional: only if auth DB is configured)
 try:
     from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-    from auth_db import (
+    from backend.auth_db import (
         is_configured as auth_configured,
         init_tables as auth_init_tables,
         get_connection as auth_get_connection,
@@ -353,7 +353,7 @@ def api_auth_login():
             if not secret or not pyotp.TOTP(secret).verify(otp, valid_window=1):
                 return jsonify({'success': False, 'error': 'Invalid OTP code', 'requires_otp': True}), 401
     from flask_login import login_user
-    from auth_db import get_user_for_flask
+    from backend.auth_db import get_user_for_flask
     user = get_user_for_flask(user_row['id'])
     if user:
         login_user(user, remember=True)

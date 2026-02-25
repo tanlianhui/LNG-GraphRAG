@@ -5,7 +5,7 @@ Uses MySQL (same DB as auth) for file status, downloads, and processing jobs.
 Requires PyMySQL and MySQL (e.g. docker-compose up -d mysql). See AUTH_SETUP.md.
 """
 
-from auth_db import get_connection, init_tables, is_configured
+from backend.auth_db import get_connection, init_tables, is_configured
 
 # Optional: use PyMySQL for direct checks
 try:

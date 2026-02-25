@@ -14,7 +14,7 @@ import webbrowser
 
 # Path setup is handled by utils
 
-from database_manager import DatabaseManager
+from backend.database_manager import DatabaseManager
 from VODs.download_from_youtube import download_from_youtube
 from simple_asr import process_audio_file
 

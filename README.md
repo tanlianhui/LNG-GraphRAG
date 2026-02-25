@@ -400,6 +400,12 @@ NEO4J_DB_NAME=lng_transcriptions
 
 ```
 LNG-GraphRAG/
+├── backend/
+│   ├── web_app.py          # Structured backend app import path
+│   ├── auth_db.py          # Structured auth/db import path
+│   └── database_manager.py # Structured pipeline DB import path
+├── frontend/
+│   └── README.md           # Frontend layer notes
 ├── transcriptions/          # Transcription files (*_combined.txt)
 ├── VODs/
 │   ├── videos.csv         # Download status tracking
@@ -407,9 +413,8 @@ LNG-GraphRAG/
 │   └── www.youtube.com_cookies.txt  # YouTube cookies
 ├── graphrag/
 │   └── own_graph_rag.py   # GraphRAG implementation (nomic/openai embeddings)
-├── templates/
-│   └── index.html         # Web dashboard UI
-├── web_app.py             # Flask web server
+├── templates/             # Jinja templates (login/register/dashboard/admin)
+├── web_app.py             # Flask web server implementation
 ├── load_transcriptions_to_neo4j.py  # Batch loader (--embedding, --clean)
 ├── load_single_to_neo4j.py          # Single transcription or WAV → Neo4j (no wipe)
 ├── run_embeddings_to_neo4j.py      # Ensure Neo4j + load all (--embedding, --clean)
