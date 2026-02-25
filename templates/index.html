@@ -371,12 +371,13 @@
             flex: 1;
             min-height: 0;
             overflow: hidden;
-            align-items: stretch;
+            align-items: flex-start;
         }
         .transcriptions-left {
             flex: 1;
             min-width: 0;
             min-height: 0;
+            max-height: calc(100dvh - 260px);
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -385,7 +386,9 @@
             color: #a0a0a0;
         }
         .transcriptions-right {
-            flex: 1;
+            flex: 0 0 50%;
+            width: 50%;
+            max-width: 50%;
             min-width: 0;
             display: flex;
             flex-direction: column;
@@ -393,9 +396,17 @@
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--bg-gray);
+            min-height: 0;
+            height: auto;
+            align-self: flex-start;
+            --video-aspect-ratio: 16 / 9;
+            position: sticky;
+            top: 12px;
         }
         .transcriptions-right-placeholder {
-            flex: 1;
+            width: 100%;
+            aspect-ratio: var(--video-aspect-ratio);
+            height: auto;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -405,20 +416,19 @@
             text-align: center;
         }
         .transcription-youtube-wrap {
-            position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            overflow: hidden;
+            aspect-ratio: var(--video-aspect-ratio);
+            height: auto;
             background: #000;
+            display: flex;
+            align-items: stretch;
+            margin: 0 auto;
         }
         .transcription-youtube-wrap iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             border: none;
+            flex: 1;
         }
         .transcription-list {
             display: flex;
@@ -800,9 +810,14 @@
                 flex-direction: column;
             }
             .transcriptions-right {
+                width: 100%;
+                max-width: 100%;
                 min-height: 220px;
                 max-height: 45vh;
+                position: static;
+                top: auto;
             }
+            .transcriptions-left { max-height: none; }
             .refresh-btn {
                 right: 12px;
                 bottom: 12px;
@@ -1308,19 +1323,52 @@
             const m = u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
             return m ? 'https://www.youtube.com/embed/' + m[1] + '?rel=0' : null;
         }
-        function setTranscriptionYoutubeVideo(url) {
+        function setRightVideoAspect(width, height) {
+            const right = document.querySelector('.transcriptions-right');
+            if (!right) return;
+            if (width && height) {
+                right.style.setProperty('--video-aspect-ratio', `${width} / ${height}`);
+            } else {
+                right.style.setProperty('--video-aspect-ratio', '16 / 9');
+            }
+        }
+
+        async function fetchVideoAspect(url) {
+            if (!url) return null;
+            try {
+                const res = await fetch(`/api/video-aspect?url=${encodeURIComponent(url)}`);
+                const data = await res.json();
+                if (res.ok && data.success && data.width && data.height) {
+                    return { width: data.width, height: data.height };
+                }
+            } catch (e) {
+                console.warn('video aspect fetch failed', e);
+            }
+            return null;
+        }
+
+        async function setTranscriptionYoutubeVideo(url) {
             const placeholder = document.getElementById('transcriptionYoutubePlaceholder');
             const wrap = document.getElementById('transcriptionYoutubeWrap');
             const iframe = document.getElementById('transcriptionYoutubePlayer');
+            const right = document.querySelector('.transcriptions-right');
             const embed = getYoutubeEmbedUrl(url);
             if (embed && iframe) {
+                setRightVideoAspect(null, null); // start with default before metadata resolves
                 iframe.src = embed;
                 if (wrap) wrap.style.display = 'block';
                 if (placeholder) placeholder.style.display = 'none';
+                if (right) right.classList.add('has-video');
+                const dims = await fetchVideoAspect(url);
+                if (dims) {
+                    setRightVideoAspect(dims.width, dims.height);
+                }
             } else {
                 if (iframe) iframe.src = 'about:blank';
                 if (wrap) wrap.style.display = 'none';
                 if (placeholder) placeholder.style.display = 'flex';
+                if (right) right.classList.remove('has-video');
+                setRightVideoAspect(null, null);
             }
         }
 
@@ -1334,7 +1382,7 @@
                 item.classList.remove('expanded');
             } else {
                 item.classList.add('expanded');
-                setTranscriptionYoutubeVideo(transcription.url || '');
+                await setTranscriptionYoutubeVideo(transcription.url || '');
                 
                 // Load content if not loaded
                 if (content.textContent.includes('Loading content')) {

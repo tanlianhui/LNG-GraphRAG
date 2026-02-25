@@ -595,6 +595,58 @@ def api_transcriptions():
         'total': len(transcriptions)
     })
 
+
+@app.route('/api/video-aspect')
+def api_video_aspect():
+    """Return best-effort original video dimensions for a URL."""
+    video_url = (request.args.get('url') or '').strip()
+    if not video_url:
+        return jsonify({'success': False, 'error': 'Missing url'}), 400
+    try:
+        import yt_dlp
+
+        ydl_opts = {
+            'quiet': True,
+            'no_warnings': True,
+            'skip_download': True,
+            'extract_flat': False,
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(video_url, download=False)
+
+        width = info.get('width')
+        height = info.get('height')
+
+        # Fallback: infer from available video formats
+        if not width or not height:
+            formats = info.get('formats') or []
+            candidates = [
+                f for f in formats
+                if f.get('width') and f.get('height') and f.get('vcodec') not in (None, 'none')
+            ]
+            if candidates:
+                best = max(candidates, key=lambda f: int(f.get('width', 0)) * int(f.get('height', 0)))
+                width = int(best.get('width'))
+                height = int(best.get('height'))
+
+        if not width or not height:
+            return jsonify({'success': False, 'error': 'Could not determine video dimensions'}), 200
+
+        width = int(width)
+        height = int(height)
+        if width <= 0 or height <= 0:
+            return jsonify({'success': False, 'error': 'Invalid video dimensions'}), 200
+
+        return jsonify({
+            'success': True,
+            'width': width,
+            'height': height,
+            'aspect_ratio': width / height,
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': f'Could not read video metadata: {e}'}), 200
+
+
 @app.route('/api/transcription/<filename>')
 def api_transcription_content(filename):
     """API endpoint for transcription content"""
