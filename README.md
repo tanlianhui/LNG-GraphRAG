@@ -141,8 +141,7 @@ docker exec lng-neo4j cypher-shell -u neo4j -p lng-graphrag-password "RETURN 1"
 
 **Expected Output:**
 - Container `lng-neo4j` should be running
-- Neo4j Browser available at http://localhost:7474
-- Bolt connection available at bolt://localhost:7687
+- Neo4j Browser: http://localhost:17474 (Bolt: `bolt://localhost:17687`). If you see a Windows "port forbidden" error for 7687, the stack uses 17474/17687; set `NEO4J_URI=bolt://localhost:17687` in `.env` (see `.env.example`).
 
 **Note:** The setup uses Neo4j Community Edition by default. The code automatically detects this and uses the default database. If you're using Enterprise Edition, it will create named databases as specified.
 

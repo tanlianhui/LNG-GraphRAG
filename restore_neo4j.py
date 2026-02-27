@@ -347,7 +347,7 @@ def main():
                 time.sleep(2)
         
         print()
-        print("🌐 Neo4j Browser: http://localhost:7474")
+        print("🌐 Neo4j Browser: http://localhost:17474 (or 7474 if using default ports)")
         return 0
     else:
         print()

@@ -1,12 +1,11 @@
-version: '3.8'
-
 services:
   neo4j:
     image: neo4j:5.15-community
     container_name: lng-neo4j
     ports:
-      - "127.0.0.1:7474:7474"  # HTTP (localhost only)
-      - "127.0.0.1:7687:7687"  # Bolt (localhost only)
+      # Use 17474/17687 on host to avoid Windows reserved port 7687 (Hyper-V/WSL). Set NEO4J_URI=bolt://localhost:17687 and open http://localhost:17474 for Browser.
+      - "127.0.0.1:17474:7474"  # HTTP (Neo4j Browser)
+      - "127.0.0.1:17687:7687"  # Bolt
     environment:
       - NEO4J_AUTH=neo4j/lng-graphrag-password
       - NEO4J_PLUGINS=["apoc"]

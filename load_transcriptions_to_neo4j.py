@@ -115,7 +115,10 @@ async def main(embedding_backend: str = "nomic", clean_db: bool = False):
     while retry_count < max_retries:
         try:
             import neo4j
-            NEO4J_URI = f'bolt://{os.environ.get("NEO4J_IP", "localhost")}:7687'
+            NEO4J_URI = os.environ.get(
+                "NEO4J_URI",
+                f'bolt://{os.environ.get("NEO4J_IP", "localhost")}:{os.environ.get("NEO4J_PORT", "7687")}'
+            )
             NEO4J_USERNAME = os.environ.get("NEO4J_USERNAME", "neo4j")
             NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "lng-graphrag-password")
             
@@ -185,8 +188,10 @@ async def main(embedding_backend: str = "nomic", clean_db: bool = False):
     from graphrag.own_graph_rag import get_database_name
     actual_db = get_database_name(DB_NAME)
     print(f"\n💡 Data is in Neo4j database '{actual_db}' (logical name: {DB_NAME}). Ready for queries!")
-    print(f"🌐 Access Neo4j Browser at: http://localhost:7474")
-    print(f"🔌 Bolt connection: bolt://localhost:7687")
+    _port = os.environ.get("NEO4J_PORT", "17687")
+    _uri = os.environ.get("NEO4J_URI", f"bolt://localhost:{_port}")
+    print(f"🌐 Access Neo4j Browser at: http://localhost:17474 (or 7474 if using default ports)")
+    print(f"🔌 Bolt connection: {_uri}")
 
 
 if __name__ == "__main__":

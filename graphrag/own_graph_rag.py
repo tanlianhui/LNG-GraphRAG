@@ -30,8 +30,11 @@ from pydantic import validate_call
 # Initialize encoding for token counting
 encoding = tiktoken.get_encoding("cl100k_base")
 
-# Neo4j connection settings from environment
-NEO4J_URI = f'bolt://{os.environ.get("NEO4J_IP", "localhost")}:7687'
+# Neo4j connection settings from environment (NEO4J_URI overrides NEO4J_IP:NEO4J_PORT)
+NEO4J_URI = os.environ.get(
+    "NEO4J_URI",
+    f'bolt://{os.environ.get("NEO4J_IP", "localhost")}:{os.environ.get("NEO4J_PORT", "7687")}'
+)
 NEO4J_USERNAME = os.environ.get("NEO4J_USERNAME", "neo4j")
 NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "lng-graphrag-password")
 

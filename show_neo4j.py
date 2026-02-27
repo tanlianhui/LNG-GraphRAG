@@ -29,7 +29,10 @@ if env_path:
     load_dotenv(env_path)
 import neo4j
 
-uri = "bolt://" + os.environ.get("NEO4J_IP", "localhost") + ":7687"
+uri = os.environ.get(
+    "NEO4J_URI",
+    "bolt://" + os.environ.get("NEO4J_IP", "localhost") + ":" + os.environ.get("NEO4J_PORT", "7687")
+)
 user = os.environ.get("NEO4J_USERNAME", "neo4j")
 password = os.environ.get("NEO4J_PASSWORD", "lng-graphrag-password")
 driver = neo4j.GraphDatabase.driver(uri, auth=(user, password))

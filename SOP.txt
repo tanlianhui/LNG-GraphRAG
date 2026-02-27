@@ -1,0 +1,6 @@
+.venv\Scripts\Activate
+docker compose up -d
+python launch_web.py
+
+cloudflared tunnel --url http://localhost:5000
+
