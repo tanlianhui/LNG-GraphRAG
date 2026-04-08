@@ -113,10 +113,14 @@ fi
 # ---------------------------------------------------------------------------
 echo "  Starting Docker containers..."
 if command -v docker &>/dev/null; then
-    docker compose -f "$ROOT/docker-compose.yml" up -d
-    echo "  [OK] Docker containers started"
-    echo "  [INFO] Waiting 15s for Neo4j and MySQL to become healthy..."
-    sleep 15
+    if docker compose -f "$ROOT/docker-compose.yml" up -d 2>&1; then
+        echo "  [OK] Docker containers started"
+        echo "  [INFO] Waiting 15s for Neo4j and MySQL to become healthy..."
+        sleep 15
+    else
+        echo "  [WARN] Docker compose failed (is Docker Desktop running?) — Neo4j/MySQL unavailable."
+        echo "         GraphRAG and auth features will not work, but basic serving continues."
+    fi
 else
     echo "  [WARN] docker not found — Neo4j/MySQL containers will not start."
 fi

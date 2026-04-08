@@ -228,13 +228,16 @@ def get_transcription_files() -> List[Dict]:
             if file.endswith('_combined.txt'):
                 file_path = os.path.join(TRANSCRIPTIONS_DIR, file)
                 title = file.replace('_combined.txt', '')
-                file_size = os.path.getsize(file_path)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        char_count = len(f.read())
+                except Exception:
+                    char_count = 0
                 transcriptions.append({
                     'filename': file,
                     'title': title,
                     'path': file_path,
-                    'size': file_size,
-                    'size_mb': round(file_size / (1024 * 1024), 2),
+                    'char_count': char_count,
                     'url': title_to_url.get(title, ''),
                 })
         transcriptions.sort(key=lambda x: x['filename'], reverse=True)
