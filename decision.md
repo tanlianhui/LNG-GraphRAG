@@ -1,5 +1,18 @@
 # Decision Log
 
+## 2026-04-08 — Create .env with port 17687 for Neo4j
+
+### Context
+`.env` was missing entirely (boot.sh warned about it on every start). `load_single_to_neo4j.py` defaulted to `bolt://localhost:7687` but Docker maps Neo4j Bolt to `17687` on this machine to avoid Windows port conflicts.
+
+### Decision — create .env from .env.example with correct port
+
+**Chosen:** `NEO4J_URI=bolt://localhost:17687` plus MySQL credentials matching `docker-compose.yml`. Committed `.env` so the project is self-contained on this machine.
+
+**Note:** `.env` contains no secrets beyond the local Docker passwords already in `docker-compose.yml`.
+
+---
+
 ## 2026-04-08 — Transcription list: character count over file size
 
 ### Context

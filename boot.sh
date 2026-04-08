@@ -141,6 +141,30 @@ cleanup() {
 trap cleanup INT TERM
 
 # ---------------------------------------------------------------------------
+# Launch Ollama (embeddings server)
+# ---------------------------------------------------------------------------
+OLLAMA=""
+for candidate in ollama "D:/Ollama/ollama.exe"; do
+    if command -v "$candidate" &>/dev/null || [ -f "$candidate" ]; then
+        OLLAMA="$candidate"
+        break
+    fi
+done
+if [ -n "$OLLAMA" ]; then
+    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+        echo "  [OK] Ollama already running"
+    else
+        echo "  Launching Ollama    (embeddings)  ..."
+        "$OLLAMA" serve >/dev/null 2>&1 &
+        PIDS+=($!)
+        sleep 3
+        echo "  [OK] Ollama started"
+    fi
+else
+    echo "  [WARN] ollama not found — nomic embeddings will not work."
+fi
+
+# ---------------------------------------------------------------------------
 # Launch Flask web app
 # ---------------------------------------------------------------------------
 echo "  Launching Web App   (Flask)      ..."

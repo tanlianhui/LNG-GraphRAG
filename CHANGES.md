@@ -9,6 +9,25 @@
 
 ---
 
+## 2026-04-08 — Add 【LNG】2026MAR 食糞者的黃金律法震撼美味 to database
+
+### What changed
+
+- Downloaded, transcribed (Breeze-ASR-25, CPU), and loaded into Neo4j.
+- 632 chunks, 210,348 characters, nomic embeddings. Concept generation skipped (no OPENAI_API_KEY).
+- Entry added to `VODs/videos.csv` as completed.
+
+---
+
+## 2026-04-08 — boot.sh: auto-start Ollama; fix load_single_to_neo4j WAV path
+
+### What changed
+
+- **`boot.sh`** — added Ollama startup block: checks if already running, starts `ollama serve` if not. Required for nomic embeddings during Neo4j ingestion.
+- **`load_single_to_neo4j.py`** — fixed WAV→transcript path: now looks in `./transcriptions/` first (where `simple_asr` writes), falls back to WAV's own directory.
+
+---
+
 ## 2026-04-08 — Fix auto-start: add 2-minute delay + survive Docker not-ready
 
 ### What changed

@@ -91,8 +91,11 @@ def main():
         if not success:
             print(f"❌ ASR failed: {err}")
             sys.exit(1)
-        # simple_asr writes to same dir as audio: {audio_dir}/{stem}_combined.txt
-        combined = path.parent / f"{path.stem}_combined.txt"
+        # simple_asr writes to ./transcriptions/{stem}_combined.txt
+        combined = TRANSCRIPTIONS_DIR / f"{path.stem}_combined.txt"
+        if not combined.exists():
+            # fallback: same dir as audio
+            combined = path.parent / f"{path.stem}_combined.txt"
         if not combined.exists():
             print(f"❌ Expected output not found: {combined}")
             sys.exit(1)
