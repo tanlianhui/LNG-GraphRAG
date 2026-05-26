@@ -165,10 +165,13 @@ def get_download_status() -> List[Dict]:
                 wav_file = os.path.join(VODS_DIR, f"{title}.wav")
                 file_exists = os.path.exists(wav_file)
                 
+                upload_date = row.get('upload_date', '')
+
                 videos.append({
                     'title': title,
                     'url': url,
                     'status': status,
+                    'upload_date': upload_date,
                     'wav_exists': file_exists,
                     'transcription_exists': transcription_exists,
                     'wav_file': wav_file if file_exists else None,
@@ -200,8 +203,8 @@ def update_csv_file(rows: List[Dict], fieldnames: List[str]):
     except Exception as e:
         print(f"⚠️  Error updating CSV file: {e}")
 
-def get_title_to_url_map() -> Dict[str, str]:
-    """Build title -> YouTube URL from VODs/videos.csv (for YouTube player in Transcriptions tab)."""
+def get_title_to_url_map() -> Dict[str, dict]:
+    """Build title -> {url, upload_date} from VODs/videos.csv."""
     out = {}
     if not os.path.exists(VODS_CSV):
         return out
@@ -209,20 +212,22 @@ def get_title_to_url_map() -> Dict[str, str]:
         with open(VODS_CSV, 'r', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                title, url = row.get('title', '').strip(), row.get('url', '').strip()
+                title = row.get('title', '').strip()
+                url = row.get('url', '').strip()
+                upload_date = row.get('upload_date', '').strip()
                 if title and url:
-                    out[title] = url
+                    out[title] = {'url': url, 'upload_date': upload_date}
     except Exception as e:
         print(f"Error reading videos.csv for URL map: {e}")
     return out
 
 
 def get_transcription_files() -> List[Dict]:
-    """Get list of all transcription files (includes url when found in VODs/videos.csv)."""
+    """Get list of all transcription files sorted by upload_date desc (falls back to filename)."""
     transcriptions = []
     if not os.path.exists(TRANSCRIPTIONS_DIR):
         return transcriptions
-    title_to_url = get_title_to_url_map()
+    title_map = get_title_to_url_map()
     try:
         for file in os.listdir(TRANSCRIPTIONS_DIR):
             if file.endswith('_combined.txt'):
@@ -233,14 +238,19 @@ def get_transcription_files() -> List[Dict]:
                         char_count = len(f.read())
                 except Exception:
                     char_count = 0
+                meta = title_map.get(title, {})
                 transcriptions.append({
                     'filename': file,
                     'title': title,
                     'path': file_path,
                     'char_count': char_count,
-                    'url': title_to_url.get(title, ''),
+                    'url': meta.get('url', ''),
+                    'upload_date': meta.get('upload_date', ''),
                 })
-        transcriptions.sort(key=lambda x: x['filename'], reverse=True)
+        transcriptions.sort(
+            key=lambda x: (x['upload_date'] or x['filename']),
+            reverse=True,
+        )
     except Exception as e:
         print(f"Error reading transcriptions directory: {e}")
     return transcriptions
@@ -273,9 +283,23 @@ def get_transcription_content(filename: str) -> Optional[str]:
         print(f"Error reading transcription file: {e}")
         return None
 
+_quiz_tables_inited = False
+
+def _init_quiz_tables_once():
+    global _quiz_tables_inited
+    if _quiz_tables_inited:
+        return
+    try:
+        import quiz_db as _qdb
+        _qdb.init_quiz_tables()
+        _quiz_tables_inited = True
+    except Exception as e:
+        print(f"Quiz DB init warning: {e}")
+
 @app.before_request
 def _init_auth_db():
     init_auth_tables_once()
+    _init_quiz_tables_once()
 
 
 @app.route('/')
@@ -1645,6 +1669,146 @@ def api_delete_transcription():
             'success': False,
             'error': f'Delete failed: {str(e)}'
         }), 500
+
+# ─── Quiz routes ─────────────────────────────────────────────────────────────
+
+@app.route('/api/quiz/count')
+def api_quiz_count():
+    try:
+        import quiz_db as qdb
+        counts = qdb.count_active_questions()
+        return jsonify({'success': True, 'counts': counts})
+    except Exception as e:
+        return jsonify({'success': True, 'counts': {}})
+
+
+@app.route('/api/quiz/questions')
+def api_quiz_questions():
+    qtype      = request.args.get('type', 'facts')
+    difficulty = request.args.get('difficulty', 'easy')
+    mode       = request.args.get('mode', 'random')
+    count      = min(int(request.args.get('count', 10)), 100)
+    skip       = request.args.get('skip_answered', 'true').lower() == 'true'
+
+    if qtype not in ('facts', 'content') or difficulty not in ('easy', 'hard'):
+        return jsonify({'success': False, 'error': 'Invalid type or difficulty'}), 400
+
+    try:
+        import quiz_db as qdb
+        uid = getattr(current_user, 'id', None) if auth_configured() and getattr(current_user, 'is_authenticated', False) else None
+        questions = qdb.get_questions(qtype, difficulty, mode, count, uid, skip)
+        # Strip server-side fields before sending to client
+        safe = [{k: v for k, v in q.items() if k not in ('correct_answer', 'explanation', 'error_rate')} for q in questions]
+        return jsonify({'success': True, 'questions': safe, 'total': len(safe)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/quiz/answer', methods=['POST'])
+def api_quiz_answer():
+    data        = request.get_json() or {}
+    question_id = data.get('question_id')
+    user_answer = (data.get('answer') or '').strip()
+
+    if not question_id or not user_answer:
+        return jsonify({'success': False, 'error': 'question_id and answer required'}), 400
+
+    try:
+        import quiz_db as qdb
+        row = qdb.get_question_by_id(question_id)
+        if not row:
+            return jsonify({'success': False, 'error': 'Question not found'}), 404
+
+        is_correct = user_answer.strip() == (row['correct_answer'] or '').strip()
+
+        uid = getattr(current_user, 'id', None) if auth_configured() and getattr(current_user, 'is_authenticated', False) else None
+        if uid:
+            qdb.record_attempt(uid, question_id, is_correct)
+
+        return jsonify({
+            'success': True,
+            'correct': is_correct,
+            'correct_answer': row['correct_answer'],
+            'explanation': row.get('explanation') or '',
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/quiz/stats')
+@login_required
+def api_quiz_stats():
+    try:
+        import quiz_db as qdb
+        stats = qdb.get_user_quiz_stats(current_user.id)
+        return jsonify({'success': True, 'stats': stats})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/quiz/add-question', methods=['POST'])
+@login_required
+def api_quiz_add_question():
+    data          = request.get_json() or {}
+    qtype         = (data.get('type') or '').strip()
+    difficulty    = (data.get('difficulty') or '').strip()
+    question_text = (data.get('question_text') or '').strip()
+    options       = data.get('options') or []
+    correct_answer = (data.get('correct_answer') or '').strip()
+    explanation   = (data.get('explanation') or '').strip()
+
+    if qtype not in ('facts', 'content'):
+        return jsonify({'success': False, 'error': 'type must be facts or content'}), 400
+    if difficulty not in ('easy', 'hard'):
+        return jsonify({'success': False, 'error': 'difficulty must be easy or hard'}), 400
+    if not question_text:
+        return jsonify({'success': False, 'error': 'question_text required'}), 400
+    if not isinstance(options, list) or len(options) < 2:
+        return jsonify({'success': False, 'error': 'At least 2 options required'}), 400
+    if correct_answer not in options:
+        return jsonify({'success': False, 'error': 'correct_answer must be one of the options'}), 400
+
+    try:
+        import quiz_db as qdb
+        status = 'active' if is_admin_user(current_user) else 'pending'
+        qid = qdb.add_question(
+            qtype=qtype, difficulty=difficulty,
+            question_text=question_text, options=options,
+            correct_answer=correct_answer, explanation=explanation,
+            created_by=current_user.id, status=status,
+        )
+        msg = 'Question added.' if status == 'active' else 'Submitted for review.'
+        return jsonify({'success': True, 'question_id': qid, 'message': msg})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/quiz/admin/pending')
+@admin_required
+def api_quiz_admin_pending():
+    try:
+        import quiz_db as qdb
+        return jsonify({'success': True, 'questions': qdb.get_pending_questions()})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/quiz/admin/review', methods=['POST'])
+@admin_required
+def api_quiz_admin_review():
+    data        = request.get_json() or {}
+    question_id = data.get('question_id')
+    action      = data.get('action', '')
+    if action not in ('approve', 'reject'):
+        return jsonify({'success': False, 'error': 'action must be approve or reject'}), 400
+    try:
+        import quiz_db as qdb
+        status = 'active' if action == 'approve' else 'rejected'
+        ok = qdb.update_question_status(question_id, status)
+        return jsonify({'success': ok})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

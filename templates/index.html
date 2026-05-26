@@ -852,6 +852,64 @@
                 padding-bottom: 10px;
             }
         }
+        /* ── Quiz styles ─────────────────────────────────── */
+        .quiz-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+        .quiz-section { margin-bottom: 20px; }
+        .quiz-section label { display: block; font-weight: 600; color: var(--accent-bright); margin-bottom: 8px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; }
+        .quiz-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+        .quiz-opt { padding: 8px 16px; border: 1px solid var(--bg-gray); background: var(--bg-dark); color: #c0c0c0; border-radius: 20px; cursor: pointer; font-size: 0.9em; transition: all 0.15s; }
+        .quiz-opt:hover { border-color: var(--accent-gold); color: var(--accent-bright); }
+        .quiz-opt.active { background: var(--accent-gold); color: var(--bg-dark); border-color: var(--accent-gold); font-weight: 600; }
+        .quiz-counts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .quiz-count-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; background: var(--bg-gray); color: #a0a0a0; }
+        .quiz-count-badge.has-q { color: #6fcf97; background: rgba(111,207,151,0.12); }
+        .quiz-count-badge.no-q { color: #eb5757; background: rgba(235,87,87,0.12); }
+        .quiz-start-btn { margin-top: 8px; width: 100%; padding: 14px; font-size: 1.05em; font-weight: 700; border-radius: 10px; }
+
+        .quiz-progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 0.9em; color: #a0a0a0; }
+        .quiz-progress-dots { display: flex; gap: 5px; }
+        .quiz-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--bg-gray); transition: background 0.2s; }
+        .quiz-dot.done-right { background: #6fcf97; }
+        .quiz-dot.done-wrong  { background: #eb5757; }
+        .quiz-dot.current { background: var(--accent-gold); }
+
+        .quiz-card { background: var(--bg-dark); border: 1px solid var(--bg-gray); border-radius: 12px; padding: 24px; }
+        .quiz-q-text { font-size: 1.1em; color: #e0e0e0; line-height: 1.6; margin-bottom: 20px; }
+        .quiz-options-grid { display: flex; flex-direction: column; gap: 10px; }
+        .quiz-opt-btn { padding: 12px 16px; border: 1px solid var(--bg-gray); background: rgba(255,255,255,0.03); color: #d0d0d0; border-radius: 8px; cursor: pointer; text-align: left; font-size: 0.95em; transition: all 0.15s; }
+        .quiz-opt-btn:hover:not(:disabled) { border-color: var(--accent-gold); color: var(--accent-bright); background: rgba(254,174,2,0.05); }
+        .quiz-opt-btn.correct { border-color: #6fcf97 !important; background: rgba(111,207,151,0.12) !important; color: #6fcf97 !important; }
+        .quiz-opt-btn.wrong   { border-color: #eb5757 !important; background: rgba(235,87,87,0.12) !important; color: #eb5757 !important; }
+        .quiz-opt-btn:disabled { cursor: default; }
+
+        .quiz-feedback { margin-top: 16px; padding: 12px 14px; border-radius: 8px; font-size: 0.9em; line-height: 1.5; }
+        .quiz-feedback.correct { background: rgba(111,207,151,0.1); border-left: 3px solid #6fcf97; color: #a8e6c1; }
+        .quiz-feedback.wrong   { background: rgba(235,87,87,0.1);  border-left: 3px solid #eb5757; color: #f0a0a0; }
+        .quiz-next-btn { margin-top: 16px; width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; }
+
+        .quiz-summary-card { background: var(--bg-dark); border: 1px solid var(--bg-gray); border-radius: 12px; padding: 32px; text-align: center; }
+        .quiz-final-score { font-size: 3em; font-weight: 700; color: var(--accent-bright); margin: 12px 0; }
+        .quiz-final-label { color: #a0a0a0; font-size: 0.95em; }
+        .quiz-stars { font-size: 1.6em; margin: 8px 0; }
+        .quiz-summary-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+
+        .quiz-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin: 16px 0; }
+        .quiz-stat-box { background: var(--bg-gray); border-radius: 8px; padding: 14px; text-align: center; }
+        .quiz-stat-val { font-size: 1.5em; font-weight: 700; color: var(--accent-bright); }
+        .quiz-stat-lbl { font-size: 0.78em; color: #909090; margin-top: 2px; }
+
+        .quiz-add-form { background: var(--bg-dark); border: 1px solid var(--bg-gray); border-radius: 10px; padding: 20px; margin-top: 24px; }
+        .quiz-add-form h4 { margin-bottom: 14px; color: var(--accent-bright); }
+        .quiz-field { margin-bottom: 12px; }
+        .quiz-field label { display: block; font-size: 0.85em; color: #a0a0a0; margin-bottom: 4px; }
+        .quiz-field input, .quiz-field textarea, .quiz-field select { width: 100%; padding: 8px 10px; background: #1a1a1a; border: 1px solid var(--bg-gray); border-radius: 6px; color: #e0e0e0; font-size: 0.9em; box-sizing: border-box; }
+        .quiz-field textarea { resize: vertical; min-height: 70px; }
+
+        .quiz-admin-list { margin-top: 24px; }
+        .quiz-pending-item { border: 1px solid var(--bg-gray); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+        .quiz-pending-item .q-text { font-weight: 500; margin-bottom: 6px; }
+        .quiz-pending-item .q-meta { font-size: 0.8em; color: #909090; margin-bottom: 8px; }
+        .quiz-pending-item .q-actions { display: flex; gap: 8px; }
     </style>
 </head>
 <body>
@@ -866,6 +924,7 @@
                 <button type="button" class="tab" data-tab="1" onclick="switchTab(1)">📝 Transcriptions</button>
                 <button type="button" class="tab" data-tab="2" onclick="switchTab(2)">🕸️ GraphRAG</button>
                 <button type="button" class="tab" id="tabHistoryBtn" data-tab="3" onclick="switchTab(3)" style="display: none;">📋 History</button>
+                <button type="button" class="tab" data-tab="4" onclick="switchTab(4)">📚 Test</button>
             </nav>
         </aside>
         <div class="main-area">
@@ -913,21 +972,23 @@
                 <button class="filter-btn" onclick="filterByStatus('pending')">⏳ Pending</button>
                 <button class="filter-btn" onclick="filterByStatus('failed')">❌ Failed</button>
                 <button class="filter-btn" onclick="filterByStatus('skipped')">⏭️ Skipped</button>
+                <button class="filter-btn" id="sortDateBtn" onclick="toggleSortByDate()" style="margin-left:auto;">上傳日期 ↓</button>
             </div>
 
             <table class="videos-table" id="videosTable">
                 <thead>
                     <tr>
                         <th>Title</th>
+                        <th style="white-space:nowrap;">Upload Date</th>
                         <th>Status</th>
-                        <th>WAV File</th>
-                        <th>Transcription</th>
+                        <th>WAV</th>
+                        <th>Transcript</th>
                         <th>URL</th>
                     </tr>
                 </thead>
                 <tbody id="videosTableBody">
                     <tr>
-                        <td colspan="5" style="text-align: center; padding: 40px;">
+                        <td colspan="6" style="text-align: center; padding: 40px;">
                             <div class="loading"></div>Loading videos...
                         </td>
                     </tr>
@@ -1009,6 +1070,144 @@
                 <p style="color: #a0a0a0;">Log in to see your transcription edit history and query history.</p>
             </div>
         </div>
+
+        <!-- Test Tab -->
+        <div class="tab-content" id="tab4">
+          <div class="quiz-wrap">
+
+            <!-- Setup Screen -->
+            <div id="quizSetup">
+              <h2 style="margin-bottom:20px;">📚 Knowledge Test</h2>
+
+              <div class="quiz-section">
+                <label>Question Type</label>
+                <div class="quiz-opts">
+                  <button class="quiz-opt active" data-g="type" data-v="facts" onclick="quizPick(this)">Facts (T/F &amp; MCQ)</button>
+                  <button class="quiz-opt" data-g="type" data-v="content" onclick="quizPick(this)">Content (MCQ &amp; Cloze)</button>
+                </div>
+              </div>
+
+              <div class="quiz-section">
+                <label>Level</label>
+                <div class="quiz-opts">
+                  <button class="quiz-opt active" data-g="diff" data-v="easy" onclick="quizPick(this)">Easy</button>
+                  <button class="quiz-opt" data-g="diff" data-v="hard" onclick="quizPick(this)">Hard</button>
+                </div>
+              </div>
+
+              <div class="quiz-section">
+                <label>Selection</label>
+                <div class="quiz-opts">
+                  <button class="quiz-opt active" data-g="mode" data-v="random" onclick="quizPick(this)">Random</button>
+                  <button class="quiz-opt" data-g="mode" data-v="hard" onclick="quizPick(this)">Hardest First</button>
+                </div>
+              </div>
+
+              <div class="quiz-section">
+                <label>Count</label>
+                <div class="quiz-opts">
+                  <button class="quiz-opt" data-g="count" data-v="5" onclick="quizPick(this)">5</button>
+                  <button class="quiz-opt active" data-g="count" data-v="10" onclick="quizPick(this)">10</button>
+                  <button class="quiz-opt" data-g="count" data-v="20" onclick="quizPick(this)">20</button>
+                  <button class="quiz-opt" data-g="count" data-v="50" onclick="quizPick(this)">50</button>
+                </div>
+              </div>
+
+              <div class="quiz-section" id="skipAnsweredRow" style="display:none;">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;">
+                  <input type="checkbox" id="skipAnswered" checked style="width:auto;">
+                  Skip already-answered questions
+                </label>
+              </div>
+
+              <div class="quiz-counts" id="quizCounts"></div>
+
+              <button class="btn btn-primary quiz-start-btn" onclick="startQuiz()" style="margin-top:20px;">Start Test</button>
+
+              <!-- User Stats (logged in) -->
+              <div id="quizUserStats" style="display:none; margin-top:28px;">
+                <h3 style="color:var(--accent-bright);margin-bottom:12px;">Your Stats</h3>
+                <div class="quiz-stats-grid" id="quizStatsGrid"></div>
+              </div>
+
+              <!-- Admin: pending review -->
+              <div id="quizAdminSection" style="display:none; margin-top:24px;">
+                <h3 style="color:var(--accent-bright);margin-bottom:12px;">Pending Review <span id="pendingCount" style="color:#a0a0a0;font-size:0.85em;"></span></h3>
+                <div id="quizPendingList" class="quiz-admin-list"></div>
+              </div>
+
+              <!-- Add Question Form (logged in) -->
+              <div id="addQFormWrap" style="display:none;">
+                <button class="btn btn-secondary" style="margin-top:20px;" onclick="toggleAddForm()">+ Add Question</button>
+                <div class="quiz-add-form" id="addQForm" style="display:none;">
+                  <h4>Submit a Question</h4>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="quiz-field">
+                      <label>Type</label>
+                      <select id="aqType"><option value="facts">Facts</option><option value="content">Content</option></select>
+                    </div>
+                    <div class="quiz-field">
+                      <label>Difficulty</label>
+                      <select id="aqDiff"><option value="easy">Easy</option><option value="hard">Hard</option></select>
+                    </div>
+                  </div>
+                  <div class="quiz-field">
+                    <label>Question</label>
+                    <textarea id="aqText" placeholder="Enter question text..."></textarea>
+                  </div>
+                  <div id="aqOptionsWrap">
+                    <div class="quiz-field"><label>Option 1</label><input id="aqOpt0" type="text"></div>
+                    <div class="quiz-field"><label>Option 2</label><input id="aqOpt1" type="text"></div>
+                    <div class="quiz-field"><label>Option 3 (optional)</label><input id="aqOpt2" type="text"></div>
+                    <div class="quiz-field"><label>Option 4 (optional)</label><input id="aqOpt3" type="text"></div>
+                  </div>
+                  <div class="quiz-field">
+                    <label>Correct Answer (must match one option exactly)</label>
+                    <input id="aqCorrect" type="text" placeholder="Paste the correct option here">
+                  </div>
+                  <div class="quiz-field">
+                    <label>Explanation (optional)</label>
+                    <textarea id="aqExplain" placeholder="Why is this the correct answer?"></textarea>
+                  </div>
+                  <div id="aqError" style="color:#eb5757;font-size:0.85em;margin-bottom:8px;display:none;"></div>
+                  <button class="btn btn-primary" onclick="submitAddQuestion()">Submit</button>
+                  <button class="btn btn-secondary" onclick="toggleAddForm()" style="margin-left:8px;">Cancel</button>
+                </div>
+              </div>
+            </div><!-- /quizSetup -->
+
+            <!-- Question Screen -->
+            <div id="quizQuestion" style="display:none;">
+              <div class="quiz-progress-row">
+                <span id="qProgressText" style="color:var(--accent-bright);font-weight:600;"></span>
+                <span id="qScoreText"></span>
+              </div>
+              <div class="quiz-progress-dots" id="qDots" style="margin-bottom:16px;flex-wrap:wrap;gap:5px;"></div>
+              <div class="quiz-card">
+                <div class="quiz-q-text" id="qText"></div>
+                <div class="quiz-options-grid" id="qOptions"></div>
+                <div class="quiz-feedback" id="qFeedback" style="display:none;"></div>
+                <button class="btn btn-primary quiz-next-btn" id="qNextBtn" style="display:none;" onclick="nextQuestion()">Next →</button>
+              </div>
+            </div>
+
+            <!-- Summary Screen -->
+            <div id="quizSummary" style="display:none;">
+              <div class="quiz-summary-card">
+                <div style="font-size:1.1em;color:#a0a0a0;">Test Complete</div>
+                <div class="quiz-final-score" id="qFinalScore"></div>
+                <div class="quiz-final-label" id="qFinalPct"></div>
+                <div class="quiz-stars" id="qStars"></div>
+                <div class="quiz-summary-actions">
+                  <button class="btn btn-primary" id="retryWrongBtn" onclick="retryWrong()">Retry Wrong</button>
+                  <button class="btn btn-secondary" onclick="showQuizSetup()">New Test</button>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /quiz-wrap -->
+        </div><!-- /tab4 -->
+
             </div>
         </div>
     </div>
@@ -1021,6 +1220,7 @@
     <script>
         let allVideos = [];
         let currentStatusFilter = 'all';
+        let sortDateAsc = false;
         let allTranscriptions = [];
 
         // Sidebar (hamburger) toggle
@@ -1046,6 +1246,7 @@
             if (index === 0) loadDownloadStatus();
             else if (index === 1) loadTranscriptions();
             else if (index === 3) loadHistory();
+            else if (index === 4) initQuizTab();
         }
 
         function updateRefreshButtonVisibility(activeIndex) {
@@ -1180,19 +1381,29 @@
         // Render videos table
         function renderVideos(videos) {
             const tbody = document.getElementById('videosTableBody');
-            
+
             if (videos.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">No videos found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px;">No videos found</td></tr>';
                 return;
             }
 
-            tbody.innerHTML = videos.map(video => {
-                // If transcription exists, mark as completed (transcription = completed)
+            const sorted = [...videos].sort((a, b) => {
+                const da = a.upload_date || '';
+                const db = b.upload_date || '';
+                if (da === db) return 0;
+                return sortDateAsc ? (da < db ? -1 : 1) : (da > db ? -1 : 1);
+            });
+
+            tbody.innerHTML = sorted.map(video => {
                 const displayStatus = video.transcription_exists ? 'completed' : video.status;
-                
+                const d = video.upload_date || '';
+                const dateDisplay = d.length === 8
+                    ? `${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6)}`
+                    : (d || '—');
                 return `
                 <tr>
                     <td>${escapeHtml(video.title)}</td>
+                    <td style="white-space:nowrap; color:#a0a0a0;">${dateDisplay}</td>
                     <td><span class="status-badge status-${displayStatus}">${displayStatus}</span></td>
                     <td>
                         <span class="file-indicator ${video.wav_exists ? 'file-exists' : 'file-missing'}"></span>
@@ -1206,6 +1417,13 @@
                 </tr>
             `;
             }).join('');
+        }
+
+        function toggleSortByDate() {
+            sortDateAsc = !sortDateAsc;
+            const btn = document.getElementById('sortDateBtn');
+            btn.textContent = `上傳日期 ${sortDateAsc ? '↑' : '↓'}`;
+            filterVideos();
         }
 
         // Filter by status
@@ -1824,6 +2042,285 @@
         loadDownloadStatus();
         refreshAuthState();
         updateRefreshButtonVisibility(0);
+
+        // ── Quiz ──────────────────────────────────────────────────────────────
+
+        const qzCfg = { type: 'facts', difficulty: 'easy', mode: 'random', count: 10 };
+        const qzSess = { questions: [], idx: 0, score: 0, results: [], wrongQuestions: [] };
+        let qzUser = null;  // populated from auth state
+
+        function quizPick(btn) {
+            const g = btn.dataset.g, v = btn.dataset.v;
+            btn.closest('.quiz-opts').querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (g === 'type')  qzCfg.type       = v;
+            if (g === 'diff')  qzCfg.difficulty  = v;
+            if (g === 'mode')  qzCfg.mode        = v;
+            if (g === 'count') qzCfg.count       = parseInt(v, 10);
+        }
+
+        async function initQuizTab() {
+            // Load question counts
+            try {
+                const r = await fetch('/api/quiz/count');
+                const d = await r.json();
+                const wrap = document.getElementById('quizCounts');
+                const types = ['facts_easy','facts_hard','content_easy','content_hard'];
+                const labels = {'facts_easy':'Facts Easy','facts_hard':'Facts Hard','content_easy':'Content Easy','content_hard':'Content Hard'};
+                wrap.innerHTML = types.map(k => {
+                    const n = (d.counts || {})[k] || 0;
+                    return `<span class="quiz-count-badge ${n>0?'has-q':'no-q'}">${labels[k]}: ${n}</span>`;
+                }).join('');
+            } catch(e) {}
+
+            // Load user stats if logged in
+            const me = await fetch('/api/auth/me').then(r=>r.json()).catch(()=>({success:false}));
+            qzUser = (me.success && me.user) ? me.user : null;
+
+            const skipRow = document.getElementById('skipAnsweredRow');
+            const addWrap = document.getElementById('addQFormWrap');
+            const statsDiv = document.getElementById('quizUserStats');
+            const adminSec = document.getElementById('quizAdminSection');
+
+            if (qzUser) {
+                skipRow.style.display = '';
+                addWrap.style.display = '';
+                loadQuizStats();
+                if (qzUser.is_admin) { adminSec.style.display = ''; loadPendingQuestions(); }
+            } else {
+                skipRow.style.display = 'none';
+                addWrap.style.display = 'none';
+                statsDiv.style.display = 'none';
+                adminSec.style.display = 'none';
+            }
+        }
+
+        async function loadQuizStats() {
+            try {
+                const r = await fetch('/api/quiz/stats');
+                const d = await r.json();
+                if (!d.success) return;
+                const s = d.stats;
+                const pct = s.total_attempts > 0 ? Math.round(s.total_correct / s.total_attempts * 100) : 0;
+                document.getElementById('quizStatsGrid').innerHTML = `
+                    <div class="quiz-stat-box"><div class="quiz-stat-val">${s.total_attempts}</div><div class="quiz-stat-lbl">Total Attempts</div></div>
+                    <div class="quiz-stat-box"><div class="quiz-stat-val">${pct}%</div><div class="quiz-stat-lbl">Accuracy</div></div>
+                    <div class="quiz-stat-box"><div class="quiz-stat-val">${s.questions_attempted}</div><div class="quiz-stat-lbl">Questions Seen</div></div>
+                `;
+                document.getElementById('quizUserStats').style.display = '';
+            } catch(e) {}
+        }
+
+        async function loadPendingQuestions() {
+            try {
+                const r = await fetch('/api/quiz/admin/pending');
+                const d = await r.json();
+                if (!d.success) return;
+                const list = document.getElementById('quizPendingList');
+                document.getElementById('pendingCount').textContent = `(${d.questions.length})`;
+                if (!d.questions.length) { list.innerHTML = '<p style="color:#606060;">No pending questions.</p>'; return; }
+                list.innerHTML = d.questions.map(q => `
+                    <div class="quiz-pending-item" id="pq-${q.id}">
+                        <div class="q-meta">[${q.type}/${q.difficulty}] submitted by ${escapeHtml(q.submitted_by||'?')}</div>
+                        <div class="q-text">${escapeHtml(q.question_text)}</div>
+                        <div style="font-size:0.8em;color:#a0a0a0;margin:4px 0;">${(q.options||[]).map(o=>`<em>${escapeHtml(o)}</em>`).join(' / ')} → <strong style="color:#6fcf97;">${escapeHtml(q.correct_answer)}</strong></div>
+                        <div class="q-actions">
+                            <button class="btn btn-primary" style="padding:4px 12px;font-size:0.8em;" onclick="reviewQuestion(${q.id},'approve')">Approve</button>
+                            <button class="btn btn-secondary" style="padding:4px 12px;font-size:0.8em;" onclick="reviewQuestion(${q.id},'reject')">Reject</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch(e) {}
+        }
+
+        async function reviewQuestion(qid, action) {
+            const r = await fetch('/api/quiz/admin/review', {
+                method: 'POST', headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({question_id: qid, action})
+            });
+            const d = await r.json();
+            if (d.success) {
+                const el = document.getElementById(`pq-${qid}`);
+                if (el) el.remove();
+            }
+        }
+
+        async function startQuiz(questionsOverride) {
+            const loading = `<div style="text-align:center;padding:40px;color:#a0a0a0;"><div class="loading"></div> Loading questions...</div>`;
+            document.getElementById('quizSetup').style.display = 'none';
+            document.getElementById('quizQuestion').style.display = '';
+            document.getElementById('quizSummary').style.display = 'none';
+            document.getElementById('qOptions').innerHTML = loading;
+
+            let questions = questionsOverride;
+            if (!questions) {
+                const skip = qzUser && document.getElementById('skipAnswered')?.checked;
+                const url = `/api/quiz/questions?type=${qzCfg.type}&difficulty=${qzCfg.difficulty}&mode=${qzCfg.mode}&count=${qzCfg.count}&skip_answered=${skip?'true':'false'}`;
+                const r = await fetch(url);
+                const d = await r.json();
+                questions = d.success ? d.questions : [];
+            }
+
+            if (!questions.length) {
+                document.getElementById('quizSetup').style.display = '';
+                document.getElementById('quizQuestion').style.display = 'none';
+                alert('No questions available for this selection. Try different settings or generate questions first.');
+                return;
+            }
+
+            qzSess.questions  = questions;
+            qzSess.idx        = 0;
+            qzSess.score      = 0;
+            qzSess.results    = [];
+            qzSess.wrongQuestions = [];
+            renderDots();
+            showQuestion(0);
+        }
+
+        function renderDots() {
+            const n = qzSess.questions.length;
+            document.getElementById('qDots').innerHTML = Array.from({length: n}, (_, i) => {
+                let cls = 'quiz-dot';
+                if (i < qzSess.idx) {
+                    const r = qzSess.results[i];
+                    cls += r ? ' done-right' : ' done-wrong';
+                } else if (i === qzSess.idx) {
+                    cls += ' current';
+                }
+                return `<span class="${cls}"></span>`;
+            }).join('');
+        }
+
+        function showQuestion(idx) {
+            const q = qzSess.questions[idx];
+            const n = qzSess.questions.length;
+            document.getElementById('qProgressText').textContent = `${idx + 1} / ${n}`;
+            document.getElementById('qScoreText').textContent = `Score: ${qzSess.score}`;
+            document.getElementById('qText').textContent = q.question_text;
+            document.getElementById('qFeedback').style.display = 'none';
+            document.getElementById('qNextBtn').style.display = 'none';
+            document.getElementById('qOptions').innerHTML = (q.options || []).map(opt =>
+                `<button class="quiz-opt-btn" onclick="submitAnswer(this, ${JSON.stringify(opt)})">${escapeHtml(opt)}</button>`
+            ).join('');
+        }
+
+        async function submitAnswer(btn, answer) {
+            // Disable all option buttons
+            document.querySelectorAll('.quiz-opt-btn').forEach(b => b.disabled = true);
+
+            const q = qzSess.questions[qzSess.idx];
+            let correct, correctAnswer, explanation;
+
+            // Always verify with server to get correct answer + log attempt
+            try {
+                const r = await fetch('/api/quiz/answer', {
+                    method: 'POST', headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({question_id: q.id, answer})
+                });
+                const d = await r.json();
+                correct = d.correct;
+                correctAnswer = d.correct_answer;
+                explanation = d.explanation || '';
+            } catch(e) {
+                correct = false; correctAnswer = ''; explanation = '';
+            }
+
+            // Highlight buttons
+            document.querySelectorAll('.quiz-opt-btn').forEach(b => {
+                const bText = b.textContent.trim();
+                if (bText === (correctAnswer || '').trim()) b.classList.add('correct');
+                else if (b === btn && !correct) b.classList.add('wrong');
+            });
+
+            // Feedback
+            const fb = document.getElementById('qFeedback');
+            fb.className = `quiz-feedback ${correct ? 'correct' : 'wrong'}`;
+            fb.innerHTML = `<strong>${correct ? '✓ Correct!' : '✗ Wrong'}</strong>${explanation ? ' — ' + escapeHtml(explanation) : ''}`;
+            fb.style.display = '';
+
+            if (correct) qzSess.score++;
+            else qzSess.wrongQuestions.push({...q});
+            qzSess.results.push(correct);
+            renderDots();
+            document.getElementById('qNextBtn').style.display = '';
+        }
+
+        function nextQuestion() {
+            qzSess.idx++;
+            if (qzSess.idx >= qzSess.questions.length) {
+                showSummary();
+            } else {
+                showQuestion(qzSess.idx);
+            }
+        }
+
+        function showSummary() {
+            document.getElementById('quizQuestion').style.display = 'none';
+            document.getElementById('quizSummary').style.display = '';
+            const n = qzSess.questions.length;
+            const s = qzSess.score;
+            const pct = Math.round(s / n * 100);
+            document.getElementById('qFinalScore').textContent = `${s} / ${n}`;
+            document.getElementById('qFinalPct').textContent = `${pct}% accuracy`;
+            const stars = pct >= 90 ? '⭐⭐⭐' : pct >= 60 ? '⭐⭐' : '⭐';
+            document.getElementById('qStars').textContent = stars;
+            const retryBtn = document.getElementById('retryWrongBtn');
+            if (qzSess.wrongQuestions.length > 0) {
+                retryBtn.style.display = '';
+                retryBtn.textContent = `Retry Wrong (${qzSess.wrongQuestions.length})`;
+            } else {
+                retryBtn.style.display = 'none';
+            }
+            loadQuizStats();
+        }
+
+        function retryWrong() {
+            startQuiz([...qzSess.wrongQuestions]);
+        }
+
+        function showQuizSetup() {
+            document.getElementById('quizSummary').style.display = 'none';
+            document.getElementById('quizQuestion').style.display = 'none';
+            document.getElementById('quizSetup').style.display = '';
+            initQuizTab();
+        }
+
+        function toggleAddForm() {
+            const f = document.getElementById('addQForm');
+            f.style.display = f.style.display === 'none' ? '' : 'none';
+        }
+
+        async function submitAddQuestion() {
+            const opts = [0,1,2,3].map(i => (document.getElementById(`aqOpt${i}`)?.value||'').trim()).filter(Boolean);
+            const payload = {
+                type:          document.getElementById('aqType').value,
+                difficulty:    document.getElementById('aqDiff').value,
+                question_text: (document.getElementById('aqText').value||'').trim(),
+                options:       opts,
+                correct_answer:(document.getElementById('aqCorrect').value||'').trim(),
+                explanation:   (document.getElementById('aqExplain').value||'').trim(),
+            };
+            const errEl = document.getElementById('aqError');
+            if (!payload.question_text) { errEl.textContent='Question text required'; errEl.style.display=''; return; }
+            if (opts.length < 2) { errEl.textContent='At least 2 options required'; errEl.style.display=''; return; }
+            if (!payload.correct_answer) { errEl.textContent='Correct answer required'; errEl.style.display=''; return; }
+            errEl.style.display = 'none';
+            try {
+                const r = await fetch('/api/quiz/add-question', {
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const d = await r.json();
+                if (d.success) {
+                    alert(d.message);
+                    toggleAddForm();
+                    initQuizTab();
+                } else {
+                    errEl.textContent = d.error || 'Failed';
+                    errEl.style.display = '';
+                }
+            } catch(e) { errEl.textContent = 'Network error'; errEl.style.display = ''; }
+        }
     </script>
 </body>
 </html>
