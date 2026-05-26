@@ -93,3 +93,18 @@ VODs/*.wav
 # Neo4j dumps
 neo4j/
 *.dump
+
+# Sensitive credentials
+VODs/www.youtube.com_cookies.txt
+
+# Temporary debug/generation output
+_dbg.txt
+_gen_hard.txt
+_gen_hard_view.txt
+_gen_out.txt
+_gen_result.txt
+_test_out.txt
+claude_session.txt
+
+# Cloudflare Wrangler internal
+.wrangler/
