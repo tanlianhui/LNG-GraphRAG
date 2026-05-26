@@ -16,7 +16,7 @@ load_dotenv()
 
 # OPENAI_API_KEY is required for concept generation (LLM) and for --embedding openai|both
 if "OPENAI_API_KEY" not in os.environ:
-    print("⚠️  OPENAI_API_KEY not set (needed for concept generation and for --embedding openai|both)")
+    print("[WARN] OPENAI_API_KEY not set (needed for concept generation and for --embedding openai|both)")
     print("   Set it in .env or export; use --embedding nomic if you only need nomic embeddings.")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
