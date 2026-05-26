@@ -186,25 +186,32 @@ def cleanup_temp_file(temp_path, temp_dir):
     except Exception as e:
         print(f"Warning: Could not clean up temporary files: {e}")
 
-def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_name, output_dir, start_time, end_time):
+def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_name, output_dir, start_time, end_time, prompt_ids=None):
     """Process the entire audio chunk (full timespan) with ASR. No truncation of input or output."""
     chunk, sample_rate = chunk_data
     duration = len(chunk) / sample_rate
     print(f"Processing chunk {chunk_index+1} (duration: {duration:.2f}s, time: {start_time:.2f}s - {end_time:.2f}s)")
-    
+
     try:
         # Process entire chunk: full waveform for this timespan
         with torch.no_grad():
             inputs = processor(chunk, sampling_rate=16000, return_tensors="pt")
             inputs = {k: v.to(device) for k, v in inputs.items()}
             # Allow full-length output for the whole segment (~25 tokens/sec of speech; cap for memory)
-            max_tokens = min(4096, max(448, int(duration * 25)))
-            generated_ids = model.generate(
-                inputs["input_features"],
+            # Add prompt token count to budget so content length is not reduced
+            prompt_len = prompt_ids.shape[-1] if prompt_ids is not None else 0
+            max_tokens = min(4096, max(448, int(duration * 25))) + prompt_len
+            generate_kwargs = dict(
                 max_length=max_tokens,
                 num_beams=1,
                 do_sample=False,
                 temperature=None,
+            )
+            if prompt_ids is not None:
+                generate_kwargs["prompt_ids"] = prompt_ids
+            generated_ids = model.generate(
+                inputs["input_features"],
+                **generate_kwargs,
             )
             transcription = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
         
@@ -224,18 +231,28 @@ def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_
         print(f"Error processing chunk {chunk_index+1}: {e}")
         return error_msg, chunk_index, start_time, end_time
 
-def process_audio_file(audio_file_path, keep_audio=False):
+def process_audio_file(audio_file_path, keep_audio=True, output_suffix='_combined'):
     """Process a single audio file with ASR, saving after each chunk.
-    If keep_audio=True, do not delete the source WAV after success (e.g. for batch from VODs).
+    WAV is kept by default; pass keep_audio=False only if you explicitly want deletion.
+    output_suffix controls the output filename (default: _combined → <title>_combined.txt).
     """
     print("Loading ASR model...")
-    
+
     # Load model and processor
     processor = WhisperProcessor.from_pretrained("MediaTek-Research/Breeze-ASR-25")
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Using device: {device}")
-    
+
     model = WhisperForConditionalGeneration.from_pretrained("MediaTek-Research/Breeze-ASR-25").to(device).eval()
+
+    # Build keyword initial_prompt for vocabulary biasing
+    try:
+        from asr_keywords import INITIAL_PROMPT
+        prompt_ids = processor.get_prompt_ids(INITIAL_PROMPT, return_tensors="pt").to(device)
+        print(f"Keyword prompt loaded ({prompt_ids.shape[-1]} tokens)")
+    except Exception as e:
+        print(f"Warning: could not load keyword prompt ({e}), proceeding without it")
+        prompt_ids = None
     
     print(f"Loading audio file: {audio_file_path}")
     
@@ -296,17 +313,18 @@ def process_audio_file(audio_file_path, keep_audio=False):
             # Submit all chunk processing tasks
             future_to_index = {
                 executor.submit(
-                    process_chunk_async, 
-                    chunk_data, 
-                    processor, 
-                    model, 
-                    device, 
-                    i, 
-                    base_name, 
+                    process_chunk_async,
+                    chunk_data,
+                    processor,
+                    model,
+                    device,
+                    i,
+                    base_name,
                     output_dir,
                     chunk_times[i][0],  # start_time
-                    chunk_times[i][1]   # end_time
-                ): i 
+                    chunk_times[i][1],  # end_time
+                    prompt_ids,
+                ): i
                 for i, chunk_data in enumerate(chunk_data_list)
             }
             
@@ -342,7 +360,7 @@ def process_audio_file(audio_file_path, keep_audio=False):
         cleanup_temp_file(safe_path, temp_dir)
     
     # Save combined transcription
-    combined_file = f"{output_dir}/{base_name}_combined.txt"
+    combined_file = f"{output_dir}/{base_name}{output_suffix}.txt"
     with open(combined_file, "w", encoding="utf-8") as f:
         for i, transcription in enumerate(all_transcriptions):
             start_time, end_time = chunk_time_info[i]
