@@ -8,6 +8,12 @@
 set -e
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Force UTF-8 output for Python on non-UTF-8 terminals (e.g., cp950 on Windows)
+export PYTHONIOENCODING=utf-8
+
+# Ollama: port 11434 is in Windows excluded range on this machine; use 11700
+export OLLAMA_HOST=http://0.0.0.0:11700
+
 TUNNEL_NAME="lng-graphrag"
 APP_URL="https://your-domain.example.com"
 CRED_FILE="$HOME/.cloudflared/lng-graphrag-tunnel.json"
@@ -151,7 +157,9 @@ for candidate in ollama "D:/Ollama/ollama.exe"; do
     fi
 done
 if [ -n "$OLLAMA" ]; then
-    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+    OLLAMA_PORT="${OLLAMA_HOST##*:}"
+    OLLAMA_PORT="${OLLAMA_PORT:-11700}"
+    if curl -s "http://localhost:${OLLAMA_PORT}/api/tags" >/dev/null 2>&1; then
         echo "  [OK] Ollama already running"
     else
         echo "  Launching Ollama    (embeddings)  ..."
@@ -170,6 +178,13 @@ fi
 echo "  Launching Web App   (Flask)      ..."
 cd "$ROOT"
 "$PYTHON" launch_web.py &
+PIDS+=($!)
+
+# ---------------------------------------------------------------------------
+# Launch VOD scheduler (fetch new live stream replays periodically)
+# ---------------------------------------------------------------------------
+echo "  Launching Scheduler (VOD fetch)  ..."
+"$PYTHON" "$ROOT/scheduler.py" &
 PIDS+=($!)
 
 # ---------------------------------------------------------------------------
