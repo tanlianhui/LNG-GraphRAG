@@ -103,25 +103,23 @@ def get_all_videos(channel_url, max_retries: int = 3):
 def update_csv_status(video_title, status):
     """Update the CSV file with the completion status of a video"""
     try:
-        # Read existing CSV
         rows = []
+        fieldnames = None
         with open(OUTPUT_CSV, 'r', newline='', encoding="utf-8-sig") as f:
-            reader = csv.reader(f)
+            reader = csv.DictReader(f)
+            detected = reader.fieldnames or ['title', 'url', 'status']
+            fieldnames = [f for f in detected if f is not None]
             for row in reader:
-                if len(row) >= 2 and row[0] == video_title:
-                    # Update the status column
-                    if len(row) >= 3:
-                        row[2] = status
-                    else:
-                        row.append(status)
-                rows.append(row)
-        
-        # Write updated CSV
+                cleaned = {k: v for k, v in row.items() if k is not None}
+                if cleaned.get('title') == video_title:
+                    cleaned['status'] = status
+                rows.append(cleaned)
         with open(OUTPUT_CSV, 'w', newline='', encoding="utf-8-sig") as f:
-            writer = csv.writer(f)
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
+            writer.writeheader()
             writer.writerows(rows)
     except Exception as e:
-        print(f"⚠️  Could not update CSV for {video_title}: {e}")
+        print(f"[WARN] Could not update CSV for {video_title}: {e}")
 
 
 def normalize_youtube_url(url: str) -> str:
@@ -135,32 +133,33 @@ def normalize_youtube_url(url: str) -> str:
     return url
 
 
-def ensure_video_in_csv(url: str, title: str) -> None:
+def ensure_video_in_csv(url: str, title: str, upload_date: str = '') -> None:
     """Ensure a video row exists in CSV; update title if row had a placeholder."""
     url = normalize_youtube_url(url)
     try:
         rows = []
-        with open(OUTPUT_CSV, 'r', newline='', encoding="utf-8-sig") as f:
-            reader = csv.reader(f)
-            header = next(reader, None)
-            if not header:
-                return
-            rows.append(header)
-            found = False
-            for row in reader:
-                if len(row) >= 2 and row[1].strip() == url:
-                    # Update title so CSV matches downloaded filename
-                    row[0] = title
-                    if len(row) >= 3:
-                        row[2] = "pending"
-                    else:
-                        row.append("pending")
-                    found = True
-                rows.append(row)
-            if not found:
-                rows.append([title, url, "pending"])
+        fieldnames = ['title', 'url', 'status', 'upload_date']
+        found = False
+        if os.path.exists(OUTPUT_CSV):
+            with open(OUTPUT_CSV, 'r', newline='', encoding="utf-8-sig") as f:
+                reader = csv.DictReader(f)
+                if reader.fieldnames:
+                    fieldnames = list(reader.fieldnames)
+                    if 'upload_date' not in fieldnames:
+                        fieldnames.append('upload_date')
+                for row in reader:
+                    if normalize_youtube_url(row.get('url', '').strip()) == url:
+                        row['title'] = title
+                        row['status'] = 'pending'
+                        if 'upload_date' in fieldnames and upload_date:
+                            row['upload_date'] = upload_date
+                        found = True
+                    rows.append(row)
+        if not found:
+            rows.append({'title': title, 'url': url, 'status': 'pending', 'upload_date': upload_date})
         with open(OUTPUT_CSV, 'w', newline='', encoding="utf-8-sig") as f:
-            writer = csv.writer(f)
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
+            writer.writeheader()
             writer.writerows(rows)
     except Exception as e:
         print(f"⚠️  Could not update CSV: {e}")
@@ -577,10 +576,10 @@ def main():
     # Write to CSV
     with open(OUTPUT_CSV, "w", newline='', encoding="utf-8-sig") as f:
         writer = csv.writer(f)
-        writer.writerow(["title", "url", "status"])
+        writer.writerow(["title", "url", "status", "upload_date"])
         for v in filtered:
             url = f"https://www.youtube.com/watch?v={v.get('id')}"
-            writer.writerow([v.get("title", ""), url, "pending"])
+            writer.writerow([v.get("title", ""), url, "pending", v.get("upload_date", "")])
 
     print(f"Saved {len(filtered)} videos to {OUTPUT_CSV}")
     print("Starting downloads...")
