@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 import csv
 import os
+import unicodedata
 from pathlib import Path
 import json
 import asyncio
@@ -203,9 +204,21 @@ def update_csv_file(rows: List[Dict], fieldnames: List[str]):
     except Exception as e:
         print(f"⚠️  Error updating CSV file: {e}")
 
+def _normalize_title(s: str) -> str:
+    """Normalize a title for a robust join by keeping only alphanumerics + CJK.
+    Transcription FILENAMES substitute filesystem-illegal chars (e.g. '/' -> '⧸' U+29F8, a math
+    SYMBOL not punctuation), so an exact string match against videos.csv misses ~30% of rows.
+    Dropping every non-alphanumeric char (punctuation, symbols, brackets, spaces) bridges that
+    drift while keeping digits, so e.g. '… - 1 / 2' and '… - 2 / 2' stay distinct."""
+    s = unicodedata.normalize('NFKC', s or '').lower()
+    return ''.join(c for c in s if c.isalnum())
+
+
 def get_title_to_url_map() -> Dict[str, dict]:
-    """Build title -> {url, upload_date} from VODs/videos.csv."""
+    """Build title -> {url, upload_date} from VODs/videos.csv.
+    Includes normalized-title keys as fallbacks (exact keys always win)."""
     out = {}
+    norm_fallback = {}
     if not os.path.exists(VODS_CSV):
         return out
     try:
@@ -216,7 +229,12 @@ def get_title_to_url_map() -> Dict[str, dict]:
                 url = row.get('url', '').strip()
                 upload_date = row.get('upload_date', '').strip()
                 if title and url:
-                    out[title] = {'url': url, 'upload_date': upload_date}
+                    meta = {'url': url, 'upload_date': upload_date}
+                    out[title] = meta
+                    norm_fallback.setdefault(_normalize_title(title), meta)
+        # add normalized keys that don't collide with an exact title
+        for nkey, meta in norm_fallback.items():
+            out.setdefault('\x00norm\x00' + nkey, meta)
     except Exception as e:
         print(f"Error reading videos.csv for URL map: {e}")
     return out
@@ -238,7 +256,7 @@ def get_transcription_files() -> List[Dict]:
                         char_count = len(f.read())
                 except Exception:
                     char_count = 0
-                meta = title_map.get(title, {})
+                meta = title_map.get(title) or title_map.get('\x00norm\x00' + _normalize_title(title), {})
                 transcriptions.append({
                     'filename': file,
                     'title': title,
@@ -304,8 +322,35 @@ def _init_auth_db():
 
 @app.route('/')
 def index():
-    """Main page"""
-    return render_template('index.html')
+    """Main page (Download Status tab)."""
+    return render_template('index.html', active_tab=0)
+
+
+# Per-tab pages — same SPA shell, different active tab + URL.
+# (Tabs are client-side; these give each one a real, shareable URL.)
+@app.route('/downloads')
+def page_downloads():
+    return render_template('index.html', active_tab=0)
+
+
+@app.route('/transcriptions')
+def page_transcriptions():
+    return render_template('index.html', active_tab=1)
+
+
+@app.route('/graphrag')
+def page_graphrag():
+    return render_template('index.html', active_tab=2)
+
+
+@app.route('/history')
+def page_history():
+    return render_template('index.html', active_tab=3)
+
+
+@app.route('/test')
+def page_test():
+    return render_template('index.html', active_tab=4)
 
 
 @app.route('/login')
@@ -711,17 +756,26 @@ def api_graphrag_nl_query():
         
         load_dotenv()
         
-        # LLM for NL → Cypher and answer: openai (API, costs tokens) or ollama (local, no API cost)
-        nl_llm_backend = os.getenv("NL_QUERY_LLM", "openai").strip().lower()
-        ollama_model = os.getenv("OLLAMA_NL_MODEL", "llama3.2").strip()
+        # LLM backend: ollama (local, default) or openai. Retrieval mode:
+        # hybrid (vector search + concepts, default) or cypher (LLM writes Cypher, legacy).
+        nl_llm_backend = os.getenv("NL_QUERY_LLM", "ollama").strip().lower()
+        nl_mode = os.getenv("NL_QUERY_MODE", "hybrid").strip().lower()
+        ollama_model = os.getenv("OLLAMA_NL_MODEL", "huihui_ai/gemma-4-abliterated:31b").strip()
         openai_model = os.getenv("OPENAI_NL_MODEL", "gpt-4o-mini").strip()
-        
+
         if nl_llm_backend == "ollama":
             from langchain_ollama import ChatOllama
-            llm = ChatOllama(model=ollama_model, temperature=0)
+            # base_url is required: langchain defaults to :11434, but Ollama runs on
+            # :11700 (host.docker.internal:11700 from inside the container).
+            # keep_alive holds the model in memory between queries so users don't pay
+            # the cold-load (~100s+) each time — important under Cloudflare's ~100s
+            # tunnel response limit.
+            llm = ChatOllama(model=ollama_model, temperature=0,
+                             base_url=os.getenv("OLLAMA_HOST", "http://localhost:11700"),
+                             keep_alive=os.getenv("OLLAMA_KEEP_ALIVE", "60m"))
         else:
             from langchain_openai import ChatOpenAI
-            llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+            llm = ChatOpenAI(model=openai_model, temperature=0)
         
         # Get database schema information
         NEO4J_URI = os.getenv('NEO4J_URI', 'bolt://localhost:7687')
@@ -755,7 +809,68 @@ def api_graphrag_nl_query():
             actual_db_name = "neo4j"
         else:
             actual_db_name = DB_NAME
-        
+
+        # ---- Hybrid retrieval: nomic vector search over chunks + linked concepts,
+        #      answered by the local LLM. No Cypher generation. ----
+        if nl_mode == "hybrid":
+            driver.close()
+            ctx = retrieve_hybrid_context(nl_query, actual_db_name, k=8)
+            chunks = ctx.get("chunks", [])
+            if not chunks:
+                return jsonify({
+                    'success': True, 'query': nl_query,
+                    'answer': 'No relevant transcript content was found for that question.',
+                    'results_count': 0, 'llm_backend': nl_llm_backend,
+                    'cypher_query': '', 'sources': [],
+                })
+            ctx_lines = []
+            for c in chunks:
+                if c.get('start') is not None and c.get('end') is not None:
+                    tc = f" [{c['start']:.0f}s-{c['end']:.0f}s]"
+                else:
+                    tc = ""
+                ctx_lines.append(f"[{c.get('doc', '?')}{tc}] {c.get('text', '')}")
+            concept_line = ""
+            concepts = ctx.get("concepts", [])
+            if concepts:
+                cs = []
+                for con in concepts[:30]:
+                    rel = f" (related: {', '.join(con['related'])})" if con.get('related') else ""
+                    cs.append(f"{con['name']}[{con.get('type', '')}]" + rel)
+                concept_line = "\n\nKey concepts in this context: " + "; ".join(cs)
+            context_text = "\n\n".join(ctx_lines) + concept_line
+
+            answer_prompt = f"""You answer questions about LNG live-stream transcripts using ONLY the context below.
+
+User Question: {nl_query}
+
+Context (retrieved transcript chunks, each tagged with [document timecode]):
+{context_text}
+
+Instructions:
+- Answer from the transcript text above; be specific and synthesize across chunks.
+- Cite the document name (and timecode if present) for key facts.
+- The "Key concepts" list shows related topics from the knowledge graph — use it to connect ideas.
+- If the context does not contain the answer, say so plainly.
+- Answer in the user's language (use Chinese if the question is in Chinese).
+
+Answer:"""
+            if nl_llm_backend == "ollama":
+                answer = ollama_chat(answer_prompt)            # think=False, fast
+            else:
+                answer = llm.invoke([{"role": "user", "content": answer_prompt}]).content.strip()
+            if auth_configured() and getattr(current_user, 'is_authenticated', False):
+                auth_record_query(current_user.id, 'nl', nl_query, result_count=len(chunks))
+            sources = [{'doc': c.get('doc'), 'start': c.get('start'), 'end': c.get('end'),
+                        'score': c.get('score'), 'via': c.get('via'), 'cid': c.get('cid'),
+                        'text': c.get('text')} for c in chunks]
+            return jsonify({
+                'success': True, 'query': nl_query, 'answer': answer,
+                'results_count': len(chunks), 'llm_backend': nl_llm_backend,
+                'cypher_query': '', 'sources': sources,
+            })
+        # ---- end hybrid; below is the legacy text2cypher path ----
+
         # Get schema information
         schema_info = ""
         try:
@@ -884,6 +999,131 @@ Answer:"""
             'error': f'Natural language query failed: {str(e)}',
             'query': nl_query
         }), 500
+
+
+def embed_query_nomic(text: str):
+    """Embed a query string with nomic-embed-text (768-dim) via the direct ollama
+    client. langchain's OllamaEmbeddings ignores OLLAMA_HOST (hits :11434), so use
+    the same direct-client pattern as graphrag/local_concepts.py."""
+    import ollama
+    host = os.getenv("OLLAMA_HOST", "http://localhost:11700").replace("0.0.0.0", "localhost")
+    if not host.startswith("http"):
+        host = "http://" + host
+    resp = ollama.Client(host=host).embed(model="nomic-embed-text", input=[text])
+    embs = resp.get("embeddings") if isinstance(resp, dict) else resp.embeddings
+    return embs[0] if embs else None
+
+
+def ollama_chat(prompt: str, model: str = None) -> str:
+    """Local chat via Ollama with thinking DISABLED (think=False). qwen3.5 etc. otherwise
+    burn 800+ reasoning tokens per call → slow → Cloudflare 100s timeouts / blank answers.
+    Uses the direct ollama client (honours OLLAMA_HOST :11700, unlike langchain async)."""
+    import ollama
+    host = os.getenv("OLLAMA_HOST", "http://localhost:11700").replace("0.0.0.0", "localhost")
+    if not host.startswith("http"):
+        host = "http://" + host
+    model = model or os.getenv("OLLAMA_NL_MODEL", "qwen3.5:latest")
+    client = ollama.Client(host=host)
+    msgs = [{"role": "user", "content": prompt}]
+    try:
+        r = client.chat(model=model, messages=msgs, think=False, options={"temperature": 0})
+    except TypeError:
+        # older ollama client without the `think` kwarg
+        r = client.chat(model=model, messages=msgs, options={"temperature": 0})
+    return (r["message"].get("content") or "").strip()
+
+
+def _cosine(a, b):
+    """Cosine similarity of two equal-length vectors (no numpy dependency)."""
+    if not a or not b:
+        return 0.0
+    import math
+    dot = sum(x * y for x, y in zip(a, b))
+    na = math.sqrt(sum(x * x for x in a))
+    nb = math.sqrt(sum(y * y for y in b))
+    return dot / (na * nb) if na and nb else 0.0
+
+
+def retrieve_hybrid_context(question: str, db_name: str, k: int = 8):
+    """Hybrid retrieval:
+      (a) concept-anchored — chunks linked (MENTIONS) to a Concept whose name appears in
+          the question; precise for topic words (麥塊, 戴帽子, ...) that pure vector search
+          misses by ranking generic one-liners high.
+      (b) vector — nomic similarity over Chunk embeddings; semantic coverage.
+    Union (concept hits first), drop tiny/generic chunks, cap to k. Returns chunks +
+    the Concepts those final chunks MENTION (with CONCEPT_RELATION neighbours)."""
+    import neo4j
+
+    NEO4J_URI = os.getenv('NEO4J_URI', 'bolt://localhost:7687')
+    NEO4J_USERNAME = os.getenv('NEO4J_USERNAME', 'neo4j')
+    NEO4J_PASSWORD = os.getenv('NEO4J_PASSWORD', 'lng-graphrag-password')
+    MIN_LEN = 15  # drop generic one-liner chunks that vector search over-ranks
+
+    vec = embed_query_nomic(question)
+
+    driver = neo4j.GraphDatabase.driver(
+        NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD), connection_timeout=30)
+    try:
+        with driver.session(database=db_name) as session:
+            picked = {}  # nid -> chunk dict (preserves first/best occurrence)
+
+            # (a) concept-anchored (real cosine computed vs the query embedding)
+            crows = session.run(
+                """
+                MATCH (con:Concept) WHERE toLower($q) CONTAINS toLower(con.name)
+                WITH con LIMIT 20
+                MATCH (con)<-[:MENTIONS]-(c:Chunk)
+                RETURN id(c) AS nid, c.text AS text, c.document_name AS doc, c.id AS cid,
+                       c.start_time AS start, c.end_time AS end, c.nomic_embeddings AS emb
+                LIMIT 60
+                """, q=question)
+            for r in crows:
+                if r['nid'] not in picked and r['text'] and len(r['text']) >= MIN_LEN:
+                    picked[r['nid']] = {'nid': r['nid'], 'text': r['text'], 'doc': r['doc'],
+                                        'cid': r['cid'], 'start': r['start'], 'end': r['end'],
+                                        'score': _cosine(r['emb'], vec) if vec else 0.0,
+                                        'via': 'concept'}
+
+            # (b) vector (fetch extra to survive the length filter)
+            if vec:
+                vrows = session.run(
+                    """
+                    CALL db.index.vector.queryNodes('chunk_nomic_embeddings', $k, $vec)
+                    YIELD node, score
+                    RETURN id(node) AS nid, node.text AS text, node.document_name AS doc,
+                           node.id AS cid, node.start_time AS start, node.end_time AS end, score
+                    """, k=k * 3, vec=vec)
+                for r in vrows:
+                    if r['nid'] not in picked and r['text'] and len(r['text']) >= MIN_LEN:
+                        picked[r['nid']] = {'nid': r['nid'], 'text': r['text'], 'doc': r['doc'],
+                                            'cid': r['cid'], 'start': r['start'], 'end': r['end'],
+                                            'score': r['score'], 'via': 'vector'}
+
+            # concept hits first, then vector by score; cap to k
+            chunks = sorted(picked.values(),
+                            key=lambda c: (0 if c['via'] == 'concept' else 1, -c['score']))[:k]
+            nids = [c['nid'] for c in chunks]
+
+            concepts = []
+            if nids:
+                rows = session.run(
+                    """
+                    MATCH (c:Chunk)-[:MENTIONS]->(con:Concept)
+                    WHERE id(c) IN $nids
+                    OPTIONAL MATCH (con)-[:CONCEPT_RELATION]-(con2:Concept)
+                    RETURN con.name AS name, con.type AS type,
+                           collect(DISTINCT con2.name)[..5] AS related
+                    """, nids=nids)
+                seen = set()
+                for r in rows:
+                    name = r['name']
+                    if name and name not in seen:
+                        seen.add(name)
+                        concepts.append({'name': name, 'type': r['type'],
+                                         'related': [x for x in (r['related'] or []) if x]})
+            return {'chunks': chunks, 'concepts': concepts}
+    finally:
+        driver.close()
 
 
 def execute_cypher_query_for_context(query: str, db_name: str):

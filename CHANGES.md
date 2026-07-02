@@ -1,5 +1,12 @@
 # Changes
 
+## 2026-05-26 — ASR: fix CUDA race condition and add per-file subprocess isolation
+
+- **`simple_asr.py`** — removed `ThreadPoolExecutor` (threads sharing one CUDA model caused race conditions → `device-side assert triggered`). Processing is now sequential. Added pre-chunk validation (empty/all-zero/NaN audio). Added CUDA error recovery: on `RuntimeError` with "CUDA" in the message, clears GPU cache and retries the chunk on CPU, then moves the model back to GPU for subsequent chunks.
+- **`run_batch_asr.py`** — each WAV is now processed in a fresh `subprocess` so a CUDA crash in one file cannot poison the CUDA context for subsequent files (was the cause of `no kernel image is available for execution on the device` appearing on all chunks of the second file). Removed `safe_execute` import of `process_audio_file` from same process; now calls `simple_asr.py` via `subprocess.run`.
+
+---
+
 ## 2026-05-26 — Scheduler: daily 8 AM dry-run check with service health gates
 
 - **`scheduler.py`** — rewritten. Changed from 6-hour full-pipeline runs to a daily 08:00 dry-run check.
@@ -139,3 +146,119 @@ python generate_quiz_questions.py --max-files 3 --per-chunk 2
 
 - `launch_web.py`: added `sys.stdout.reconfigure(encoding="utf-8")` to avoid cp950 UnicodeEncodeError; removed emoji from print statements.
 - `boot.sh`: updated Python lookup to prefer `.venv/Scripts/python` before falling back to system Python.
+
+## 2026-07-02 — UI refactor Phase 0 + shared kit (feature/ui-refresh)
+
+- **De-monolith `templates/index.html`** (2367 → 322 lines): extracted inline `<style>`
+  (901 lines) → `static/css/app.css` and inline `<script>` (1143 lines) → `static/js/app.js`.
+  Linked both via `url_for('static', …)`. Zero visual change intended.
+- Kept the one Jinja token inline: `<script>window.INITIAL_TAB = {{ active_tab|default(0) }}</script>`
+  before `app.js`; `app.js` reads it with `?? 0` fallback.
+- **Shared UI kit** added: `static/css/kit.css` + `static/js/kit.js` — `toast.{success,error,info}()`
+  and `confirmDialog() -> Promise<boolean>`, plus skeleton classes. Gold/dark themed.
+- **Replaced native dialogs** in `app.js`: `confirm()` (delete chunk) → `confirmDialog({danger})`;
+  7× `alert()` → `toast.error/info` + `toast.success` (chunk save, quiz add).
+- Added `KIT_SPEC.md` — cross-repo visual spec (tokens, Toast/ConfirmDialog/Skeleton/Button/
+  EmptyState, per-repo accent map, React port checklist).
+- Verified: `node --check` on both JS files, Jinja render smoke test (asset links + load order).
+  Live app smoke test (Neo4j/MySQL up) still recommended before merge.
+
+## 2026-07-02 — UI Phase 2: pipeline-rail shell + Ask-as-chat + graph viz
+
+- **Shell redesign** (`static/css/redesign.css`, new): replaced legacy sidebar/header/stats-bar
+  with a pipeline **rail** (Ingest · Library · ★Ask · Test) + **topbar** (breadcrumb, ⌘K omni,
+  user chip). Stats moved into the rail as contextual count badges (Ingest=pending, Library=transcriptions).
+- **Ask is now a chat surface**: `executeNLQuery` appends user/AI message bubbles, streams a
+  thinking state, renders the answer with **citation chips** (click → opens Library + toast).
+  Cypher demoted to a `⟩ developer` disclosure. NL/Cypher IDs (`nlQuery`, `cypherQuery`,
+  `queryResults`) preserved.
+- **Graph mini-viz**: cytoscape (CDN) renders a concentric graph of the answer's sources
+  (query center → concept/chunk nodes); node/chip click opens the source.
+- **Command palette (Ctrl/⌘K)**: fuzzy jump to any stage or run an Ask query; arrow/enter/esc nav.
+- **User menu**: History + Admin 2FA + Logout moved into the rail user dropdown (History is no
+  longer a hidden tab). Login/Register shown when logged out.
+- JS fixes from the restructure: `toggleSidebar` no longer depends on removed hamburger button;
+  `switchTab` targets `.rail-item` + toggles content by id + sets breadcrumb; `refreshAll` reads
+  the active rail item; removed a duplicate Enter handler that double-sent NL queries.
+- Verified: `node --check` clean, Jinja render, unique IDs, balanced tags, and a rebuilt Docker
+  test container on :5001 (isolated, no cloudflared) serving the new shell (HTTP 200 on page + assets).
+
+## 2026-07-02 — Chunk → YouTube timestamp seek (A+B+C, IFrame API)
+
+- **A — controllable player**: replaced the static transcription `<iframe>` with a YouTube
+  **IFrame API** player. Loaded `https://www.youtube.com/iframe_api`; added `onYouTubeIframeAPIReady`,
+  a lazy `ytPlayer`, `loadVideoInPlayer(videoId, start)` (queues if API not ready), and
+  `seekPlayer(seconds)`. `setTranscriptionYoutubeVideo(url, startSeconds)` now drives the player
+  (loads at a native start offset) instead of setting `iframe.src`.
+- **B — chunk seek**: `renderChunksWithEdit` now renders a ▶ button per chunk with a `start_time`;
+  clicking it calls `seekPlayer(chunk.start_time)` to jump the player. (Timecodes were previously
+  dead labels — no seek existed.)
+- **C — Ask deep-open**: citation chips now call `openSource(i)` →
+  `openTranscriptionByDoc(doc, start)`: fuzzy-matches the source's `doc` to a Library transcription
+  (`findTranscriptionIndex`), opens it (loads chunks + video at the timestamp), scrolls it into
+  view, and seeks. Falls back to a toast if the doc can't be matched. `switchTab` gained a
+  `skipLoad` flag so the controlled open isn't clobbered by the tab's auto-refresh.
+- Verified: `node --check`, Jinja render (IFrame API + player div present), rebuilt :5001 test
+  container (HTTP 200). Live seek needs a transcription with a YouTube URL + Neo4j data to confirm end-to-end.
+
+## 2026-07-02 — Fix: right-panel video blank in Docker (videos.csv not in container)
+
+- **Root cause**: `get_transcription_files()` maps each transcription → its YouTube `url` by joining
+  against `VODs/videos.csv`, but `.dockerignore` excludes `VODs/`, so the CSV was absent in every
+  container — `/api/transcriptions` returned `url: ''` for all 398 rows. No url → no player created →
+  chunk ▶ hit "no player". (Pre-existing; only surfaced now that the player consumes `url`.)
+- **Fix**: mount the CSV read-only into the app container — added
+  `./VODs/videos.csv:/app/VODs/videos.csv:ro` to the compose `app` service. With it mounted,
+  281/398 transcriptions resolve a URL (remaining 117 are a title↔csv-title mismatch, separate data issue).
+- **Frontend hardening**: `getYoutubeId` now parses watch/youtu.be/shorts/embed, bare ids, and
+  `watch?…&v=` (v not first param). `renderChunksWithEdit` only renders the ▶ seek button when the
+  transcription actually has a playable video (`hasVideo`), so no misleading ▶ on url-less rows.
+
+## 2026-07-02 — ASR quality: beam search, self-consistency, richer keyword prompt, Taiwan-LLM cleanup
+
+Reduce ASR typos without human labelling. Four changes:
+
+1. **Beam search (`simple_asr.py`)** — decoding was greedy (`num_beams=1`); now defaults to
+   beam width 5 via `ASR_NUM_BEAMS` env. Fewer acoustic errors at some speed cost.
+2. **Self-consistency (`simple_asr.py`)** — set `ASR_SELF_CONSISTENCY=1` to also run a greedy
+   pass per chunk. Where beam and greedy disagree, both candidates are written to a
+   `transcriptions/<title>_candidates.txt` sidecar (`<<BEAM>>` / `<<GREEDY>>` blocks) for the
+   cleanup step to reconcile. `_combined.txt` stays the beam result (backward compatible).
+3. **Richer keyword prompt (`asr_keywords.py`)** — `INITIAL_PROMPT` rebuilt as a natural
+   Traditional-Chinese sentence listing all 14 member handles + more game titles (kept under
+   Whisper's ~224-token prompt cap; slang dropped from the acoustic prompt since the LLM pass
+   fixes it better).
+4. **Taiwan-LLM cleanup (`postprocess_transcriptions.py`)** — correction pass now defaults to a
+   local transformers backend running Taiwan-LLM-7B-v2.0-chat (`yentinglin/...`, best Taiwanese
+   Mandarin). The model ships safetensors only (no GGUF), so it's run via `transformers.pipeline`
+   with the tokenizer's chat template, not Ollama. New `TransformersChat` adapter exposes the same
+   `.invoke(messages) → .content` interface; pipeline loads lazily and is reused. Backend is
+   selectable via `ASR_CLEAN_BACKEND=transformers|ollama|openai` (default transformers),
+   model via `ASR_CLEAN_MODEL`. New `--use-candidates` flag reconciles the self-consistency
+   sidecar (`llm_reconcile_chunk`) before cleaning.
+
+**Deps**: already in `requirements.txt` (transformers 4.57.1, accelerate 1.10.1, torch 2.5.1).
+
+**Recommended run**:
+```
+set ASR_SELF_CONSISTENCY=1 && python run_batch_asr.py
+python postprocess_transcriptions.py --use-candidates
+```
+(cleanup auto-downloads the Taiwan-LLM weights on first run; needs GPU/VRAM for the 7B model.)
+
+Verified: `py_compile` on all three modules; `INITIAL_PROMPT` renders at 154 chars (under cap).
+Not yet run end-to-end against audio (needs GPU + first-run model download).
+
+## 2026-07-02 — Recover all 117 "missing" transcription URLs (normalized join)
+
+- **Recreated live `lng-app`** with the videos.csv mount (`docker compose up -d app`, existing image):
+  live right-panel video works again (281/398 via exact match).
+- **Root cause of the 117**: transcription FILENAMES substitute filesystem-illegal chars — `/` becomes
+  `⧸` (U+29F8, a math *symbol*) — so exact string match against `videos.csv` titles missed them.
+  None were actually absent from the CSV.
+- **Fix**: `get_title_to_url_map` now also indexes titles by a normalized key, and
+  `get_transcription_files` falls back to it. `_normalize_title` keeps only alphanumerics + CJK
+  (drops punctuation/symbols/brackets/spaces), so `⧸`≡`/`. Digits kept → "1/2" vs "2/2" stay distinct.
+- **Result**: 398/398 transcriptions resolve their URL in the rebuilt test container. Verified each of
+  the 3 hardest matched the exact CSV row, and **0 normalized keys map to >1 distinct URL** (no
+  collisions) — so the fuzzy join is unambiguous. No online/YouTube lookup was needed.

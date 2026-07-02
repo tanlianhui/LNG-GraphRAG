@@ -1,5 +1,15 @@
 # Decision Log
 
+## 2026-05-26 — ASR sequential processing and subprocess isolation
+
+**Decision:** Replace `ThreadPoolExecutor(max_workers=4)` in chunk processing with a sequential loop; run each WAV file in a subprocess from the batch runner.
+
+**Why:** `ThreadPoolExecutor` with 4 threads sharing one CUDA model is not thread-safe — concurrent CUDA kernel launches from multiple threads trigger device-side assertions. CUDA errors are also "sticky": once `device-side assert triggered` fires (e.g. chunk 139 of 2026 MAY), the CUDA context is poisoned and every subsequent CUDA call in the same process returns `no kernel image is available for execution on the device` — this is why 2026 APR failed on all chunks in the same run. Subprocess isolation gives each file a clean CUDA context.
+
+**How to apply:** Do not re-introduce `ThreadPoolExecutor` for CUDA inference. If parallelism is needed, use separate processes (`multiprocessing` or `subprocess`), not threads.
+
+---
+
 ## 2026-05-26 — Scheduler changed to daily 8 AM dry-run with health gates
 
 **Decision:** Replace 6-hour interval full-pipeline scheduler with a daily 08:00 dry-run check gated on Docker + Ollama health.
@@ -206,3 +216,100 @@ User wants LNG-GraphRAG accessible at `your-domain.example.com` whenever the PC 
 ### Decision 3 — Startup via Windows Startup folder VBScript
 
 Same rationale as screenshot-meme-qa: user-writable, no admin rights needed.
+
+### Decision — Extract CSS/JS from index.html before any redesign (Phase 0)
+
+**Why:** The 2367-line single-file template made every UI change high-risk and unreviewable.
+Splitting CSS/JS into `static/` first (pure move, no behavior change) shrinks the template to
+markup only, enables browser caching, and lets later phases (graph viz, chat panel) land as
+small diffs. Kept `INITIAL_TAB` inline because it is the only Jinja-injected value the JS needs.
+
+**Alternatives rejected:** (a) redesign in place — too risky in one giant file; (b) rewrite the
+dashboard in React — out of scope, Flask/Jinja stack works and the task is UI/UX, not a rebuild.
+
+### Decision — Copy-in shared kit, vanilla reference in lng
+
+**Why:** User chose copy-in over a published package (repos stay independent, no monorepo/registry
+setup). lng is Jinja/vanilla so its kit is plain JS+CSS; that same API (`toast.*`, `confirmDialog`)
+is the contract the React repos re-implement. Native `alert/confirm/prompt` removed because they
+block the main thread, can't be themed, and break the mobile flow on the other apps.
+
+### Decision — Phase 2 layout: pipeline rail + Ask-as-hero (over "keep tabs")
+
+**Why:** The app's payoff is asking the knowledge graph, but GraphRAG was tab 3 of 5 flat tabs
+behind a tall header + a global stats bar that only meant anything on the Download tab. Reframing
+the nav as the actual pipeline (Ingest→Library→Ask→Test), moving stats into the rail where they're
+contextual, and turning Ask into a chat with source-linking citations puts the value front-and-center
+and reclaims vertical space. User picked this over the lower-risk "restyle in place" option.
+
+**Alternatives rejected:** (a) keep 5-tab shell, restyle only — less rethink but preserves the
+buried-hero + noisy-global-stats problems; (b) Ask-first landing that hides the pipeline — loses the
+ingest/library workflow that feeds the graph.
+
+**Graph viz:** chose cytoscape (CDN, no build step) for the Ask result mini-graph. The NL endpoint
+returns chunks, not edges, so v1 draws a derived star (query→sources); real concept↔concept graph
+stays on the Cypher path as a follow-up. Citation-chip → source currently switches to Library +
+toasts the doc/timestamp; deep-seek into the exact chunk/player is a planned follow-up.
+
+### Decision — YouTube IFrame API (not URL start-param) for chunk seek
+
+**Why:** Chunks already carry start/end times but nothing used them to move the video — no seek
+function existed. Chose the IFrame API over reloading `…/embed?start=<sec>` because the API seeks
+in-place (`player.seekTo`) with no reload/re-buffer flicker, and lets a reused player jump between
+timestamps smoothly as the user clicks different chunks or Ask citations. Cost: an async API-ready
+handshake (handled via `onYouTubeIframeAPIReady` + a pending-video queue) and swapping the static
+iframe for an API-managed element.
+
+**Ask→source mapping:** the NL endpoint returns `doc` names, not Library indices, so matching is
+fuzzy (filename/title, extension-stripped, substring fallback). If a source's `doc` has no matching
+transcription (or that transcription has no YouTube URL), the chip degrades to an informational toast
+rather than failing silently. A stricter chunk-id-level anchor would need the NL endpoint to return
+the source chunk id — a possible backend follow-up.
+
+### Decision — mount videos.csv (not bake it into the image)
+
+**Why:** The web app needs `VODs/videos.csv` for the transcription→YouTube-URL join, but `VODs/` is
+`.dockerignore`d (host-only media). Chose a read-only bind mount over un-ignoring the file in the
+build context so the CSV stays live — the ASR pipeline appends rows as new videos download, and a
+mount reflects that without an image rebuild. The 117 transcriptions still lacking a URL are a
+title-normalisation mismatch between the transcription filename and the csv `title` column — a
+separate data-cleanup task, not a packaging one.
+
+### Decision — ASR quality improvements without human labelling (2026-07-02)
+
+**Context:** ASR output (Breeze-ASR-25 / Whisper) had homophone typos and no punctuation. Goal:
+better transcripts without manual labelling.
+
+**Why beam search over greedy:** `num_beams=1` was leaving easy accuracy on the table. Beam=5 is
+the standard zero-labelling accuracy bump; per-chunk audio is ≤30s so the dynamic `max_new_tokens`
+budget (448 − prompt − 8) still leaves ample room. Left configurable (`ASR_NUM_BEAMS`) to trade
+speed back on slow hardware.
+
+**Why self-consistency as a sidecar, not inline:** picking the better of two candidates needs
+world/context knowledge → an LLM job, not an acoustic one. Emitting `_candidates.txt` alongside
+the unchanged `_combined.txt` keeps every existing consumer (ingest, Neo4j load) working, and lets
+the reconciliation happen in the cleanup pass where the channel glossary already lives. Only
+divergent chunks are stored, so the sidecar stays small.
+
+**Why Taiwan-LLM-7B-v2.0-chat for cleanup, served via transformers:** user requested it for best
+Taiwanese-Mandarin handling of homophones/slang. Initially planned Ollama, but the HF repo ships
+only safetensors (no GGUF), so an Ollama Modelfile path was dropped. Run instead via
+`transformers.pipeline` using the tokenizer's built-in chat template (the model's documented usage).
+A small `TransformersChat` adapter exposes the same `.invoke(messages) → .content` interface the
+script already used, so `llm_clean_chunk` / `llm_reconcile_chunk` are untouched. GPU pressure is a
+non-issue because cleanup runs as a separate pass after ASR finishes — Whisper isn't resident.
+Backend stays swappable (`ASR_CLEAN_BACKEND`) so Ollama/OpenAI remain fallbacks.
+
+**Alternatives rejected:** Ollama serving (no GGUF available for this model);
+temperature-sampled N-way voting for self-consistency (more compute, greedy-vs-beam already
+surfaces most divergences cheaply).
+
+### Decision — recover missing URLs by normalized join, not by editing videos.csv or scraping YouTube
+
+**Why:** All 117 "missing" URLs were already present in videos.csv — the mismatch was purely the
+`/`→`⧸` filename substitution (plus minor punctuation drift). Normalizing the join (alphanumeric+CJK
+only) recovers 100% with zero data edits and no risk of grabbing the wrong video from a web search.
+Verified safe: 0 normalized keys collide to multiple URLs. Rejected: (a) editing videos.csv — mutates
+source data, fragile; (b) YouTube search per title — unnecessary and error-prone (could bind a wrong
+video). Digits are preserved in the normal form specifically so multi-part streams ("- 1 / 2" vs
+"- 2 / 2") don't collapse together.
