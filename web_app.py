@@ -251,8 +251,11 @@ def get_transcription_files() -> List[Dict]:
             if file.endswith('_combined.txt'):
                 file_path = os.path.join(TRANSCRIPTIONS_DIR, file)
                 title = file.replace('_combined.txt', '')
+                # Count the file actually served (edit > postprocessed > combined)
+                # so the listing reflects the cleaned text when it exists.
+                served_path = get_transcription_file_path(file) or file_path
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(served_path, 'r', encoding='utf-8') as f:
                         char_count = len(f.read())
                 except Exception:
                     char_count = 0
@@ -274,18 +277,25 @@ def get_transcription_files() -> List[Dict]:
     return transcriptions
 
 def get_transcription_file_path(filename: str) -> Optional[str]:
-    """Get the path to transcription file, checking edit file first if it exists"""
-    # Check for edit file first
+    """Resolve which file to serve for a transcription id (a *_combined.txt name).
+    Priority: manual edit > LLM-cleaned (_postprocessed) > raw (_combined)."""
+    # 1. Manual edits win — highest-authority human corrections.
     edit_filename = filename.replace('_combined.txt', '_combined_edit.txt')
     edit_path = os.path.join(EDIT_DIR, edit_filename)
     if os.path.exists(edit_path):
         return edit_path
-    
-    # Fall back to original file
+
+    # 2. LLM-cleaned version (Taiwan-LLM postprocess + CJK spacing) if present.
+    postprocessed_path = os.path.join(
+        TRANSCRIPTIONS_DIR, filename.replace('_combined.txt', '_postprocessed.txt'))
+    if os.path.exists(postprocessed_path):
+        return postprocessed_path
+
+    # 3. Fall back to the raw ASR output.
     original_path = os.path.join(TRANSCRIPTIONS_DIR, filename)
     if os.path.exists(original_path):
         return original_path
-    
+
     return None
 
 def get_transcription_content(filename: str) -> Optional[str]:

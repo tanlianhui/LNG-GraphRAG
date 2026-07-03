@@ -313,3 +313,55 @@ Verified safe: 0 normalized keys collide to multiple URLs. Rejected: (a) editing
 source data, fragile; (b) YouTube search per title — unnecessary and error-prone (could bind a wrong
 video). Digits are preserved in the normal form specifically so multi-part streams ("- 1 / 2" vs
 "- 2 / 2") don't collapse together.
+
+### Decision — CJK↔Latin spacing as a separate idempotent pass (2026-07-02)
+
+**Context:** Taiwan-LLM cleanup output loses spaces between Chinese and English/numbers because the
+model's BPE tokenizer applies `clean_up_tokenization_spaces` (destructive for BPE). User did not want
+to stop the in-flight 398-file run.
+
+**Why a separate script, not a fix inside postprocess:** the run was already underway and reloading
+the pipeline with `clean_up_tokenization_spaces=False` would have discarded progress. A post-hoc,
+idempotent spacing pass fixes finished files without touching the running job and can be re-run freely
+(a boundary that already has a space is skipped). Also keeps concerns separate: spacing is
+deterministic regex, not LLM work.
+
+**Why digits are spaced by default (with `--letters-only` opt-out):** matches the common "pangu"
+convention and handles cases like versioned titles; but Chinese measure-word phrases ("5顆") read
+fine tight, so the opt-out exists.
+
+**Follow-up noted:** `_postprocessed.txt` is invisible to the web UI (`get_transcription_files` reads
+only `_combined.txt`) and to Neo4j (separate ingest). Wiring the cleaned files into the site/graph is
+a deliberate, still-pending step — not automatic.
+
+### Decision — web UI prefers _postprocessed, keyed by the _combined id (2026-07-02)
+
+**Decision:** Serve `_postprocessed.txt` when it exists (below manual edits, above raw `_combined`),
+without changing the transcription id the frontend uses.
+
+**Why:** Keeps the raw ASR output as on-disk ground truth (per the earlier no-in-place-overwrite
+decision) while still showing the cleaner text to users. Keying the lookup on the existing
+`_combined.txt` filename means no frontend or edit-flow changes — the resolver swaps the backing file
+transparently. Chose this over promoting/renaming `_postprocessed`→`_combined` (destructive, loses
+ground truth) and over a frontend toggle (extra UI for no clear benefit).
+
+### Decision — full re-ASR rebuild of broken transcriptions (2026-07-02)
+
+**Context:** User chose the full-rebuild option after learning 382/398 transcriptions are truncated by
+pre-cap giant chunks. Fix requires re-transcribing, which requires the source WAV (289 were deleted).
+
+**Decisions:**
+- **Rebuild via a dedicated resumable script** (`rebuild_transcriptions.py`) rather than ad-hoc
+  commands: 382 files × multi-hour audio is a multi-hour/day job that will hit YouTube download
+  failures (SABR/nsig, private/deleted videos), so it must survive restarts (skip already-rebuilt
+  files by re-checking max chunk seconds) and continue past per-file failures.
+- **Re-use `_normalize_title` (NFKC + alnum-only)** for the filename→videos.csv URL match — exact
+  match misses ~30% because filenames substitute `/`→`⧸` (U+29F8) etc.
+- **beam=5, self-consistency OFF for the bulk run** — beam is the quality win; self-consistency would
+  double an already-huge compute bill for marginal gain at this scale.
+- **Cleanup kept as a separate later stage** (Taiwan-LLM postprocess + CJK spacing) — decouples the
+  slow GPU ASR from the LLM pass and lets each be re-run independently.
+
+**Env correction:** all ASR/GPU/cleanup must run under `.venv/Scripts/python.exe`. The bare `python`
+(`C:\Python314`) is CPU-only torch with no torchaudio; it had been silently running the Taiwan-LLM
+cleanup on CPU (the apparent hang). Recorded in memory so it isn't rediscovered the hard way.

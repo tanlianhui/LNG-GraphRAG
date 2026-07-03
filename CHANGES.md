@@ -262,3 +262,65 @@ Not yet run end-to-end against audio (needs GPU + first-run model download).
 - **Result**: 398/398 transcriptions resolve their URL in the rebuilt test container. Verified each of
   the 3 hardest matched the exact CSV row, and **0 normalized keys map to >1 distinct URL** (no
   collisions) — so the fuzzy join is unambiguous. No online/YouTube lookup was needed.
+
+## 2026-07-02 — fix_cjk_spacing.py: restore CJK↔Latin spaces after LLM cleanup
+
+- **`fix_cjk_spacing.py`** (new) — the Taiwan-LLM cleanup runs through a BPE tokenizer
+  (`clean_up_tokenization_spaces`) that drops the space between Chinese and English/number runs
+  ("google他" → should be "google 他", "random的" → "random 的"). This standalone pass reinserts
+  spaces at CJK↔Latin boundaries. Idempotent (safe to re-run, and safe to run on files the
+  postprocess job already finished while it's still processing others). Skips `=== Chunk N [..s] ===`
+  headers so timestamps aren't mangled. Flags: `--filter`, `--suffix` (default `_postprocessed`),
+  `--letters-only` (leave digit+CJK tight, e.g. keep "5顆"), `--dry-run`.
+- Run after the postprocess job finishes: `python fix_cjk_spacing.py`
+- Verified: unit-tested on google/random/mixed-English/digit cases + header preservation + idempotency.
+
+**Note (not a change, discovered):** cleaned `_postprocessed.txt` does NOT surface on the website —
+`web_app.py:get_transcription_files` lists only `_combined.txt`; Neo4j/GraphRAG is a separate ingest.
+Surfacing the cleaned text is a pending follow-up (promote to `_combined`, or point the app/ingest at
+`_postprocessed`).
+
+## 2026-07-02 — Web UI serves cleaned transcriptions when present
+
+- **`web_app.py`** — `get_transcription_file_path()` resolution priority is now
+  manual edit > `_postprocessed.txt` (Taiwan-LLM cleaned + CJK-spaced) > raw `_combined.txt`.
+  Previously it only checked edit then combined, so LLM-cleaned text never surfaced on the site.
+  `get_transcription_files()` char-count now measures the served file so the listing reflects the
+  cleaned length. Transcription id stays the `_combined.txt` name (frontend unchanged); only the
+  served content changes. Neo4j/GraphRAG ingest is still separate (unchanged).
+
+## 2026-07-02 — rebuild_transcriptions.py + full re-ASR of broken transcriptions
+
+- **Audit finding**: 382/398 `_combined.txt` were transcribed before the 30s chunk cap → whole
+  streams as one chunk → Whisper's ~448-token cap truncated them (worst: 4.8h chunk → text `你`).
+  Only 16 files structurally sound. `_postprocessed.txt` presence ≠ good (many were cheap_clean
+  copies; real cleaning = has CJK punctuation).
+- **`rebuild_transcriptions.py`** (new) — finds files with any chunk >`--threshold` (60s),
+  ensures the WAV (downloads from `videos.csv` URL via `download_from_youtube` if missing, reusing
+  web_app's NFKC+alnum title normalization to bridge filename↔csv drift), then re-runs
+  `simple_asr.py` (beam=5). Resumable (skips files already ≤threshold). Flags: `--threshold`,
+  `--no-download`, `--filter`, `--limit`, `--dry-run`. Of 382: 93 had WAV, 289 needed download, all
+  mapped to a URL.
+- **Env fix (important)**: ASR/GPU work must use `.venv/Scripts/python.exe` (Py3.12, torch cu128,
+  torchaudio, CUDA True). Bare `python` = `C:\Python314` (torch CPU, no torchaudio) — it silently
+  ran the Taiwan-LLM cleanup on CPU (the earlier "hang"). Documented in project memory.
+- Smoke-tested: `LNG日常：LOL拳擊節` 61.81s/103chars → 30s chunks/308chars of real content.
+- Full rebuild launched in background (`rebuild.log`). After it finishes: delete stale
+  `_postprocessed.txt`, re-run `postprocess_transcriptions.py` (via venv), then `fix_cjk_spacing.py`.
+
+## 2026-07-02 — 16 structurally-good files: quality audit
+
+- Verified the 16 files with all chunks ≤60s. 11 are LLM-cleaned (readable; residual homophones are
+  game-jargon-level, e.g. Lux champion name, `下路`); 5 recent files (2025DEC–2026APR) are chunked
+  correctly but were never cleaned (contain `嗯嗯嗯…` hallucinations + `[Error in chunk]` markers) —
+  they need the cleanup pass, not re-ASR.
+
+## 2026-07-03 — Correct LNG member roster (6 constant + guests) across ASR + cleanup
+
+- Confirmed roster: 6 CONSTANT members 小六、六探、鳥屎、Leggy、八毛、老王; rare guests
+  展邱、奶哥、悅悅、顏顏、蕾蕾、探探、天神. Prior list had wrong guesses (乃哥→奶哥; 大毛/梁兄/阿旺/托老師/素雲 not real).
+- **`asr_keywords.py`** — split into `CONSTANT_MEMBERS`/`GUEST_MEMBERS`, added `MISHEARD={'巴毛':'八毛'}`.
+  `INITIAL_PROMPT` now leads with the 6 constant ("固定成員") then guests ("偶爾會提到") for stronger biasing.
+- **`postprocess_transcriptions.py`** — cleanup `SYSTEM_PROMPT` glossary updated to the real roster with an
+  explicit 巴毛→八毛 correction; `cheap_clean` now applies `MISHEARD` deterministically (not via the LLM).
+- In-flight rebuild picks this up per new file (each simple_asr subprocess re-imports asr_keywords).
