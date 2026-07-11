@@ -1,49 +1,66 @@
 === Chunk 1 [0.00s - 30.00s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我要去面試大學的時候因為我有申請東海然後我媽就開車載我下台中這樣晚上晚上開車下去然後我就在路上打了六隻熊火龍打了四顆龍玉太瘋狂了
 
 === Chunk 2 [30.00s - 60.00s] ===
-[Error in chunk 2: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我現在都還看過這波外掛的遊戲真的假的而且官方還不太敢抓我有看過外掛可是我不知道怎麼檢舉耶完全找不到檢舉的地方啊然後我就生氣我就不檢就只能拍照檢舉啊拍照去他們官方可是官方也不見得會理你對啊這樣就很北爛啊為什麼為什麼沒有檢舉
 
 === Chunk 3 [60.00s - 90.00s] ===
-[Error in chunk 3: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+剛參加了超級拉水人大戰
 
 === Chunk 4 [90.00s - 120.00s] ===
-[Error in chunk 4: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+獲得冠軍你用那個那個白草丸快吃啊白草丸喔對齁對啊好晚一點21代後面我就沒在玩了喔幾乎就沒在玩了劍靈我到現在還沒辦法玩沒關係啊不要玩啊爛遊戲啊我不會玩啊我絕對不玩媽的
 
 === Chunk 5 [120.00s - 150.00s] ===
-[Error in chunk 5: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+以前玩魔物獵人玩到很熟結果現在很久沒玩了一回鍋又變成新手變成被魔物獵人要打了嗎
 
 === Chunk 6 [150.00s - 180.00s] ===
-[Error in chunk 6: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+去排啊他有頭像可以拿耶來啊不過要 15 勝啦有夠多沒關係啦他 5 勝跟好像 5 勝 10 勝 15 勝都有吧5 勝可以拿福袋吧我覺得這裡很爛嗎我覺得遊戲不錯啊代理公司是廢物啊他們原廠直營啊是喔
 
-=== Chunk 7 [180.00s - 647.72s] ===
-[Error in chunk 7: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 7 [180.00s - 210.00s] ===
+我最近不是在研究股票嗎我前幾天就有在看目前的股市這樣就是國外的跟台灣的都有這樣然後看看結果就看到 Twitch 的股票連巴菲特都有買耶哇賽他真的是不愧是股神耶真的不是浪得虛名的股票都有買
+
+=== Chunk 8 [210.00s - 240.00s] ===
+猛的欸你沒有看最近 YouTube 有YouTube 你看影片都會有一個 Seven 的一系列廣告就是單身教我的七件事嗎不知道反正最近 Seven 有推出一系列廣告就是關於就是單身的男子女子這樣然後是 Seven 的廣告然後拍那一系列廣告的那家 Seven就是我之前說的拉丁美洲很好笑拉丁美洲店對面的 Seven 耶
+
+=== Chunk 9 [240.00s - 270.00s] ===
+喔你覺得他寫得很好嗎我不知道耶他們就在那邊拍因為有一次我就看那個廣告看看到一半然後就嗯旁邊怎麼有那拉丁美洲的那個招牌你覺得怎麼叫附近酷但那個廣告我覺得拍得沒有很好你真的是故現太現了還沒曬完嘛海邊的電影極光之愛嗎不會
+
+=== Chunk 10 [270.00s - 300.00s] ===
+因為我覺得演員不是很喜歡有人說你們一邊誰知道裡面那麼爛所以我才說都花下去了就乾脆把它玩完
+
+=== Chunk 11 [300.00s - 330.00s] ===
+你說這一個月嗎味道精油的味道是不就是無印良品那個突然好重怎麼弄掉啊我出門前沒有那麼重啊
+
+=== Chunk 12 [330.00s - 360.00s] ===
+你要說要看明年或者明天見嗎不太算是舞台劇大法官我覺得還不錯然後我另外看了一部叫我上次就是跟六三吃完飯然後在家裡然後就是
+
+=== Chunk 13 [360.00s - 390.00s] ===
+美國鬼才導演我覺得因為我隔了太久了就是中間斷一段時間斷太久所以有一點看不太懂但整體來講蠻有趣的
+
+=== Chunk 14 [390.00s - 420.00s] ===
+J.J. Abraham你要是想看格雷的武士道英雄嗎想啊感覺是一部表演非常厲害的的片那一部為什麼這麼有名啊是因為他的小說好像就是很多成人議題吧然後寫得很前衛很露骨這樣我不知道啦我沒有看小說但我覺得他的表演
+
+=== Chunk 15 [420.00s - 450.00s] ===
+鳥屎你什麼時候有空想約你拍影片歡迎到粉絲團我的粉絲團私訊我聯絡任何
+
+=== Chunk 16 [450.00s - 480.00s] ===
+任何工作或是合作的事項歡迎聯絡我們比較少在LNG一起開台的時候回答一些自己純個人的這種問題所以就是去我們自己個人的粉絲團問就好了好好吃喔 我在吃德州薯條我也覺得那一包超好吃的
+
+=== Chunk 17 [480.00s - 510.00s] ===
+一輩子最好看的電腦乘坐絕對一輩子不看可惜的我其實好像想不到耶因為我覺得很多不看都很可惜啊不開自訂嗎不開因為我們要拿頭像我們先拿一下那個你一講守勝就一定打不贏這個我說這個越來守勝還好啦我晚上都有在打
+
+=== Chunk 18 [510.00s - 540.00s] ===
+好多新英雄喔至少有半個月沒上線了新英雄嗎克里斯達拜託克里斯達OK的這是什麼聲音啊有嗎又到那邊了Sorry有呼呼呼呼的聲音是不是洗衣機現在沒了吧
+
+=== Chunk 19 [540.00s - 570.00s] ===
+沒了我在轉椅子肚子磨到桌子大哥太磨啦你肚子磨到桌子的聲音也太劇烈的空洞聲了吧是這樣嗎你肚子是一個寒洞嗎是這樣嗎我的肚子就是一個寒洞你的褲子就是你的褲子就是一個我的褲子就是一個寒洞我的造型的禮包的名字嗎
+
+=== Chunk 20 [570.00s - 600.00s] ===
+在這裡耶有嗎它寫的是有好多好多葡萄在這裡耶我的鼻子好痛喔救命啊你就打給你看啊你確定是新有的味道嗎你拿桌上綠色那瓶起來聞一聞是不是一樣的味道對為什麼
+
+=== Chunk 21 [600.00s - 630.00s] ===
+救命好啦你把那個你把白色那個瓷瓶馬上放到廁所裡面去然後把門關起來好真的是可以推薦大家去看一下下流行境今年看過最好看的片一拿進去馬上
+
+=== Chunk 22 [630.00s - 647.72s] ===
+Doshin' J
 

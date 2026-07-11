@@ -1,7 +1,9 @@
-=== Chunk 1 [0.00s - 80.16s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+這遊戲變得有點像是線上遊戲突然就來到這個層位不知道為什麼但是我任務應該像是解完了OMG 玩世界帝國還要點技能
+
+=== Chunk 2 [30.00s - 60.00s] ===
+太誇張了還有跟我收錢回去你真正的組成裡面加任務然後看書好安逸喔我快要睡著了
+
+=== Chunk 3 [60.00s - 80.16s] ===
+今天就這樣玩到這邊我也不知道為什麼 是不是忘記了咧
 

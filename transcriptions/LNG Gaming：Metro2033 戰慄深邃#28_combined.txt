@@ -1,7 +1,42 @@
-=== Chunk 1 [0.00s - 400.38s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+Somehow I have a bad feeling about this.歐盟還在開玩笑他真的是一顆不怕死的傢伙It was hard to believe that we'd found the legendary command center.But was it worth so many lives?Soon we'd know the answer.總算要達到這個傳說中的 D6
+
+=== Chunk 2 [30.00s - 60.00s] ===
+找到這個地方真的值得這麼多條人命犧牲嗎戰鬥了主角到了 D6 到了快下車囉哇塞這什麼地方啊這真的是軍事基地嗎
+
+=== Chunk 3 [60.00s - 90.00s] ===
+Holman Vladimir stay here and cover our asses.We never know what's coming.Artyom, come with me.好 弗拉丁米爾你掩護我們你自己留在這邊我們要去因為你會死掉 我不會拜拜
+
+=== Chunk 4 [90.00s - 120.00s] ===
+You know, I imagined everything just as it is, descended by these objects.他說這個建築最上方有一個空氣濾鏡系統他說那個東西是
+
+=== Chunk 5 [120.00s - 150.00s] ===
+整個設施裡面最後建造的東西所以它還有很大的機會還可以使用你可以走快一點嗎你是老人嗎out of light嗯這什麼微微
+
+=== Chunk 6 [150.00s - 180.00s] ===
+Come here, what's up?Nothing good, blin.We gave these machines too much credit.All these mechanisms had to be fixed by hand.Artyom, there is an auxiliary startup system.Go upstairs to that ledge, I'll tell you.把它打開Press the button on
+
+=== Chunk 7 [180.00s - 210.00s] ===
+What's bottom?Almost there.Come back here.
+
+=== Chunk 8 [210.00s - 240.00s] ===
+欸這裡的頭啊我差點摔死了你還在跟我開玩笑啊又在跟我恭聲笑恭聲笑是什麼恭聲球Go on, starting up.喔還可以動耶Not a chance.Try again.How hopeless.Shit, Colonel, what's up? We almost fell off.剛剛大叔拜託
+
+=== Chunk 9 [240.00s - 270.00s] ===
+大叔康康大叔好 不關啦 上電梯我先上啦GO聲控 聲控沒有啦 它在按喔 下面好恐怖喔它真的是一個
+
+=== Chunk 10 [270.00s - 300.00s] ===
+Correct, we need to go there. But how can we open this gate, huh?Any ideas? Let's hope.這個門嗎 有沒有什麼電線啊看一下 電線都斷掉了
+
+=== Chunk 11 [300.00s - 330.00s] ===
+什麼聲音啊我看看喔這裡還有電線欸車車怎麼這麼好還有子彈太棒了
+
+=== Chunk 12 [330.00s - 360.00s] ===
+這台應該是 Google 吧欸什麼聲音Excellent 你們在搞什麼飛機啊Metro 2033 小說原來你們在這啊真是的現在在幹嘛現在大家在幹嘛
+
+=== Chunk 13 [360.00s - 390.00s] ===
+Canal DS 22I always said the army was a work in progress too.這 Vladimir 不簡單耶It's working.Now that's part of the input.還有一個太棒了What the hell?There's a lift just one level down, but there's a slight problem.To power it up, we need to calm the sons of the apocalypse.Warman, change of plans.You stay with Vladimir and defend this position.If anything happens, I will send Artyom good luck to us all.
+
+=== Chunk 14 [390.00s - 400.38s] ===
+所以我們少一個人手了這台嗎
 

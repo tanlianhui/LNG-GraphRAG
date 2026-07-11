@@ -1,7 +1,51 @@
-=== Chunk 1 [0.00s - 506.66s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+一戰我們會加油的Goodbye 康康大樹Weapons in the Metro were made.There had been an arms factory located above, but after the nukes fell, many of the workers
+
+=== Chunk 2 [30.00s - 60.00s] ===
+I was looking for Andrew the Smith, but he found me first.
+
+=== Chunk 3 [60.00s - 90.00s] ===
+事件的時候很多工人就下來然後躲到了這一個車站裡面所以這個車站算是一個就是製造武器的車站那我要進去找那個鐵匠他叫做 Andrew 這樣子他說但是他哇這邊也太臭的感覺了吧要怎麼下去啊好
+
+=== Chunk 4 [90.00s - 120.00s] ===
+Careful, kid. Our free is still the radar, you understand?Just in front of your device.他說說 free 是 free 耶但事實上這個這個地鐵還是被
+
+=== Chunk 5 [120.00s - 150.00s] ===
+我也不知道 red 是什麼應該是一個紅軍吧所以現在是要做一個什麼抽查他叫我們大家回自己的房間可是我沒有房間啊怎麼辦
+
+=== Chunk 6 [150.00s - 180.00s] ===
+都沒有人啊Oh 天啊為什麼我被逮捕了他們應該就是 Red 吧 紅軍怎麼打人我還沒機會
+
+=== Chunk 7 [180.00s - 210.00s] ===
+Be careful, idiot.再來一次Be careful, idiot.硬要撿子彈我不行 我要想撿子彈了我再跑 我再跑 我再跑我跌了
+
+=== Chunk 8 [210.00s - 240.00s] ===
+If there is still a god left in our world, that day he was with me. I had been rescued by Han's friend.But the only way goes to Nero.
+
+=== Chunk 9 [240.00s - 270.00s] ===
+好他已經不會發現我了手推車在哪裡呢這裡可以買東西
+
+=== Chunk 10 [270.00s - 300.00s] ===
+One of a kind這什麼隱秘裝太貴了吧我 jump 了
+
+=== Chunk 11 [300.00s - 330.00s] ===
+哪裡啊其實我很好奇耶康康大叔是怎麼跟 Andrew 聯絡的讓他來幫我
+
+=== Chunk 12 [330.00s - 360.00s] ===
+Andrew is dead if he stays.It becomes straight to the Bianca, and that's a one-way ticket.他說Andrew在這下面真的安全嗎總比待在這裡就死掉好了是不是It's okay. It's all up to you now. Good luck.靠夭 又是放我一個人可以再恐怖一點
+
+=== Chunk 13 [360.00s - 390.00s] ===
+恐怖喔所以現在應該是吊車把我現在在的這個手推車吊到鐵軌上讓他們才走這樣子
+
+=== Chunk 14 [390.00s - 420.00s] ===
+到鐵軌了到鐵軌了所以現在是紅軍現在是紅軍在坐我的車子AttentionThe train is ready to departAll troops under travel orders must board without delayAny front line soldier who remains on the platform after the train has left the station will political beliefsAs for me, I'm here for the dome.
+
+=== Chunk 15 [420.00s - 450.00s] ===
+How about you?Me?Older, and his father as well.It's the family tradition.So tell me what?Is it also yourWhat is that, an antibiotic?No, it's cyanide, in case the enemy captures you.What?But God forbids suicide.I'd go straight to it.Who then robbed one of their stalagmites?他說我牙齒裡面是什麼東西啊反正就是他們如果被當成戰俘的話他就吃下那個毒他們就會死掉他說可是可是這樣違背上帝的意思啊
+
+=== Chunk 16 [450.00s - 480.00s] ===
+Even the apocalypse didn't stop us from killing one another over ideology.I was about to go through the front line between the Nazis and the Communists.I've heard they once fought another war, and that the Nazis lost.
+
+=== Chunk 17 [480.00s - 506.66s] ===
+納粹軍很有趣喔紅軍也是以前蘇聯的納粹就是德國的可是他們現在在地鐵上面地鐵下面的這個小世界好像也是有兩軍所以他們也是有交戰的這樣子好那今天差不多就錄到這邊啦謝謝大家的收看那我們下次見我上一集講成明天見太緊張了太太太蠢了我們下次見大家拜拜
 

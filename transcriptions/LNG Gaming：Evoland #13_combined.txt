@@ -1,7 +1,21 @@
-=== Chunk 1 [0.00s - 202.94s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+Belt of Legend 加 10 grinding speed grinding is 什麼 grinding stuffflame giant's pinky cover of the pony don't askring of luck 加 5% chance to get an item you could actually push加 10% damage versus other players these paints will also prove your worthtyrannical gladiators griefs加 10% 減保速度
+
+=== Chunk 2 [30.00s - 60.00s] ===
+十七八 damage against cowsyou never know when that's gonna come in handy是在講暗黑破壞神嗎the master has ordered me to stop youyou got whoopsseems like you should not have opened this onehe will soon rule the world and I will be the chief of this army
+
+=== Chunk 3 [60.00s - 90.00s] ===
+我的 boss 叫我來阻止你他將會成為統治這個世界的王而我會成為他的國防部長類似的The power of the crystal will not protect you this time.水晶這次沒辦法入準備受死 bar硬 a 無敵我怕打完你就進劇情還會吃不到成功啦
+
+=== Chunk 4 [90.00s - 120.00s] ===
+在哪裡咧啊我知道在哪邊應該是所以再也不會有那個了讀取時間了real card是我的紀錄啦叔叔我來囉拿到項鍊囉oh shit看看這邊有沒有地方可以過沿著河走就知道了
+
+=== Chunk 5 [120.00s - 150.00s] ===
+有趣耶糟糕了猛哥猛哥謝謝我覺得走出走沉的好了啦我這邊浪費時間了
+
+=== Chunk 6 [150.00s - 180.00s] ===
+可是我真的不知道要往哪邊走要不然看可不可以欸這遇怪機率也太高了吧反正我喜歡練哇 45 耶 超強的
+
+=== Chunk 7 [180.00s - 202.94s] ===
+燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燈燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉燉�
 

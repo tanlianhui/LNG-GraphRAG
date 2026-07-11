@@ -1,7 +1,96 @@
-=== Chunk 1 [0.00s - 950.25s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩恩
+
+=== Chunk 2 [30.00s - 60.00s] ===
+What are you doing here? It's late.Go back to bed.Don't be sad, Daddy.Oh, no.But it didn't hurt.Stop it, Judy.It didn't hurt at all.Talk to me again.
+
+=== Chunk 3 [60.00s - 90.00s] ===
+Jody, make them come back, make them come back again.I can't, they've gone.Please, don't leave me, don't leave me.好可憐喔哪時候了
+
+=== Chunk 4 [90.00s - 120.00s] ===
+This situation opens up new strategic and military perspectives.Now we're going to launch new programs to discover possible energy resources and develop military applications.We've already found ways of linking entities to human soldiers, but this is just the beginning.Now this is more of a new world.A world for us to
+
+=== Chunk 5 [120.00s - 150.00s] ===
+It's a little late for regrets.That mess my life has been so full.And what about you?CIA has it all mapped out for me.Top tier big car.Oh, you know what?I got a single malt in my office that needs sharing.Meet you in a few.No, I don't think I come home.Don't make me drink it alone.
+
+=== Chunk 6 [150.00s - 180.00s] ===
+Waste of a good bottle?I'll tell you what, I'll find you, okay?This way, Jody.Some decisions are hard to make, huh, Jody?All right, here we are. But when you're done, I'll come pick you up.
+
+=== Chunk 7 [180.00s - 210.00s] ===
+根本就已經變了這什麼最好給我支票啊You're now Elizabeth North, no identity and no life.太好了我可以跟我媽媽通信了
+
+=== Chunk 8 [210.00s - 240.00s] ===
+I don't want anything that reminds me of the old one.Before you go, there's one last thing I'd like to ask.When my wife and daughter disappeared in that accident,
+
+=== Chunk 9 [240.00s - 270.00s] ===
+Fifteen years ago, I wanted to die too. I cried a lot.一千五百萬台幣在美國本來就沒有多多好吧But then you came along, and I realized they were still here all the time, near me. I just couldn't see.
+
+=== Chunk 10 [270.00s - 300.00s] ===
+所以他就是只想要叫他們家人回來而已這什麼靈魂具象化是嗎那他可不可以幫我把 A 等具象化
+
+=== Chunk 11 [300.00s - 330.00s] ===
+I miss you so much.Do you want to help me talk to them?I want to hear their voices.I want to tell them what I'm doing.Don't ask me that.I haven't heard their voices for fifteen years.Since that day, I heard them through a little girl.You.I'm begging you.
+
+=== Chunk 12 [330.00s - 360.00s] ===
+Toddy, do this for me.唉他還是同意了如果我是他的妻子我應該會叫他不要再做這種神經的行為了吧
+
+=== Chunk 13 [360.00s - 390.00s] ===
+記憶也太稀疏了吧給我Fine, Helen didn't say that you did.You're keeping them here.They're being torn apart between two of us.Goodbye, Nathan.他不相信耶講話好小聲喔
+
+=== Chunk 14 [390.00s - 420.00s] ===
+拜託你醒醒吧他剛剛一瞬間臉變了一下
+
+=== Chunk 15 [420.00s - 450.00s] ===
+Excuse me.啊靠么啊我還被揍幾次啊We can't kill you either.We don't know what you'll do on the other side.
+
+=== Chunk 16 [450.00s - 480.00s] ===
+他們要把我變得跟我媽媽一樣嗎靠北我就知道
+
+=== Chunk 17 [480.00s - 510.00s] ===
+We will always be grateful for your help.Help me.
+
+=== Chunk 18 [510.00s - 540.00s] ===
+華人已經瘋了華人已經瘋了Be just fine.You need to trust me.Everything is gonna turn out fine.
+
+=== Chunk 19 [540.00s - 570.00s] ===
+他們可能已經幫我打藥了艾登艾登原來已經在外面了艾登動得好慢啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+
+=== Chunk 20 [570.00s - 600.00s] ===
+救我我怎麼樣才可以引起他們注意啊I've got a couple of emails I need to send.You mind if I do that before we crack the bottle?No problem.啊有了好多把你們酒打壞
+
+=== Chunk 21 [600.00s - 630.00s] ===
+是我
+
+=== Chunk 22 [630.00s - 660.00s] ===
+You keep entities in this lab?Good god, no. They're all trapped behind it.Is that you, Aiden?This is a joke, it's not funny.What is it, Aiden? Where's Jody?啊 這裡這裡This way.OK
+
+=== Chunk 23 [660.00s - 690.00s] ===
+快來喔You want us to take the elevator, is that it?拜託快來救我
+
+=== Chunk 24 [690.00s - 720.00s] ===
+Shit, a guard. Leave it to me.Can I help you?Cole Freeman, I have a level three authorization. He's with me.I'm sorry, Mr. Freeman, you do not have the correct authorization for this level.Maybe you could make an exception. I just want to show him.Sorry, sir.This area is level four classified.You do not have the right credential.
+
+=== Chunk 25 [720.00s - 750.00s] ===
+You gotta get us past him, Aiden.他把它加進去了He's done it.有耶
+
+=== Chunk 26 [750.00s - 780.00s] ===
+I'm sorry, you are on the list. My apologies. Go on through.Thank you.Hurry, Aiden. Take us to Jody.Jody, Jody, Jody, Jody, Jody, Jody.Something moved.
+
+=== Chunk 27 [780.00s - 810.00s] ===
+欸我是不是走錯了啊是這一間嗎啊這裡吧快來
+
+=== Chunk 28 [810.00s - 840.00s] ===
+快來快點對啊快點
+
+=== Chunk 29 [840.00s - 870.00s] ===
+已經開了You need help?No, I'm okay.快跑啊This way! Hurry up!Don't stay here!救命啊
+
+=== Chunk 30 [870.00s - 900.00s] ===
+好恐怖喔火災的時候可以坐電梯嗎好混亂
+
+=== Chunk 31 [900.00s - 930.00s] ===
+The scene isn't working.Nothing the Infoworld needs is a son of a bitch like you. Get out of my way.Hey!Get me out of here immediately, Clayton!Hey you, Clayton, that's an order!揍他Consider that my resignation.You're all gonna die here.
+
+=== Chunk 32 [930.00s - 950.25s] ===
+Stay close, okay?It's not working. I can't stop the condenser or reactivate the fields.There's nothing we can do. Let's get out of here while we still can.Wait, who is this guy?It's one more guy in the truck.
 

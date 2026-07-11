@@ -40,6 +40,12 @@ _REP_CJK  = re.compile(r'([一-鿿＀-￯])\1{3,}')
 _REP_NAGE = re.compile(r'(那個){3,}')
 
 
+try:
+    from asr_keywords import MISHEARD
+except Exception:
+    MISHEARD = {}
+
+
 def cheap_clean(text: str) -> str:
     """Rule-based pre-clean before hitting the LLM (saves tokens, reduces noise)."""
     # Collapse runs of the same CJK char → max 2
@@ -48,26 +54,94 @@ def cheap_clean(text: str) -> str:
     text = _REP_NAGE.sub('那個那個', text)
     # Strip stray ASCII error messages that slipped through
     text = re.sub(r'\[Error in chunk \d+:.*?\]', '', text, flags=re.DOTALL)
+    # Deterministic member-name mishear fixes (e.g. 巴毛 → 八毛) — more reliable than
+    # relying on the LLM. Safe because these tokens aren't real words otherwise.
+    for wrong, right in MISHEARD.items():
+        text = text.replace(wrong, right)
     return text.strip()
 
 
 # ── LLM setup ─────────────────────────────────────────────────────────────────
 
+class _Resp:
+    """Minimal stand-in for a LangChain message so callers can read .content."""
+    __slots__ = ('content',)
+    def __init__(self, content: str):
+        self.content = content
+
+
+class TransformersChat:
+    """Local HF text-generation model with a .invoke(messages) → _Resp interface,
+    matching how the rest of this script calls the LLM.
+
+    Default model: Taiwan-LLM-7B-v2.0-chat (yentinglin) — best Taiwanese Mandarin,
+    ships only safetensors (no GGUF), so it's run via transformers rather than
+    Ollama. The pipeline is loaded lazily on first invoke and reused.
+    """
+    def __init__(self, model_id: str):
+        self.model_id = model_id
+        self._pipe = None
+
+    def _ensure(self):
+        if self._pipe is not None:
+            return
+        import torch
+        from transformers import pipeline
+        print(f'  Loading {self.model_id} via transformers (first call is slow)...')
+        use_cuda = torch.cuda.is_available()
+        # Use `device=` (not `device_map='auto'`) so we don't hard-require accelerate;
+        # a 7B model fits a single GPU. `dtype` (torch_dtype is deprecated in 4.5x).
+        self._pipe = pipeline(
+            'text-generation',
+            model=self.model_id,
+            dtype=torch.bfloat16 if use_cuda else torch.float32,
+            device=0 if use_cuda else -1,
+        )
+
+    def invoke(self, messages):
+        self._ensure()
+        tok = self._pipe.tokenizer
+        prompt = tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        out = self._pipe(
+            prompt,
+            # Chunks are <=30s of speech (~a few hundred tokens). Cap kept modest so a
+            # looping/hallucinating generation can't pad the output with redundant fill.
+            max_new_tokens=int(os.getenv('ASR_CLEAN_MAX_NEW_TOKENS', '512')),
+            do_sample=False,           # deterministic cleanup, not creative generation
+            return_full_text=False,    # only the newly generated text, not the prompt
+        )
+        return _Resp(out[0]['generated_text'].strip())
+
+
 def get_llm():
-    backend = os.getenv('NL_QUERY_LLM', 'openai').strip().lower()
+    # ASR cleanup backend. Taiwan-LLM ships safetensors only, so the default path is
+    # transformers. Set ASR_CLEAN_BACKEND=ollama|openai to override.
+    # NOTE: intentionally does NOT inherit NL_QUERY_LLM — that's the RAG query
+    # backend (often ollama on a non-loopback host), which is unrelated to and
+    # would hijack ASR cleanup.
+    backend = os.getenv('ASR_CLEAN_BACKEND', 'transformers').strip().lower()
+    if backend == 'transformers':
+        return TransformersChat(os.getenv('ASR_CLEAN_MODEL',
+                                          'yentinglin/Taiwan-LLM-7B-v2.0-chat'))
     if backend == 'ollama':
         from langchain_ollama import ChatOllama
-        mdl = os.getenv('OLLAMA_NL_MODEL', 'llama3.2')
-        return ChatOllama(model=mdl, temperature=0.1,
-                          timeout=int(os.getenv('OLLAMA_TIMEOUT', '120')),
-                          num_ctx=int(os.getenv('OLLAMA_NUM_CTX', '8192')))
+        mdl = os.getenv('OLLAMA_ASR_CLEAN_MODEL') or os.getenv('OLLAMA_NL_MODEL', 'llama3.2')
+        kwargs = dict(model=mdl, temperature=0.1,
+                      timeout=int(os.getenv('OLLAMA_TIMEOUT', '120')),
+                      num_ctx=int(os.getenv('OLLAMA_ASR_NUM_CTX', '4096')))
+        base_url = os.getenv('OLLAMA_BASE_URL')
+        if base_url:
+            kwargs['base_url'] = base_url
+        return ChatOllama(**kwargs)
     from langchain_openai import ChatOpenAI
     return ChatOpenAI(model=os.getenv('OPENAI_NL_MODEL', 'gpt-4o-mini'), temperature=0.1)
 
 
 SYSTEM_PROMPT = """\
 你是LNG Gaming頻道直播字幕的後製專家。
-頻道成員（常見名字）：小六、六探、鳥屎、Leggy、巴毛、八毛、老王、大毛、展邱、梁兄、乃哥、阿旺、托老師、素雲、天神、Fick、FIG。
+固定成員（6位，幾乎每次都出現）：小六、六探、鳥屎、Leggy、八毛、老王。
+偶爾出現的名字：展邱、奶哥、悅悅、顏顏、蕾蕾、探探、天神。
+常見誤聽修正：「巴毛」應為「八毛」。
 常見遊戲：英雄聯盟、快打旋風、暗黑破壞神、派對動物、TFT、Valorant、魔獸世界。
 內容為台灣華語直播對話，夾雜英文、台語。
 
@@ -99,6 +173,70 @@ def llm_clean_chunk(llm, text: str) -> str:
     except Exception as e:
         print(f'    LLM error: {e} — keeping pre-cleaned text')
         return pre
+
+
+# ── Self-consistency reconciliation (#4) ────────────────────────────────────────
+# When ASR ran with ASR_SELF_CONSISTENCY=1 it emits two candidates per uncertain
+# chunk (beam + greedy). Where they disagree, one usually has the right word. The
+# LLM picks/merges the correct reading using channel context, then cleans as usual.
+
+RECONCILE_TEMPLATE = (
+    "同一段語音有兩種ASR辨識結果，可能在人名、遊戲名或用詞上不同。\n"
+    "請依上下文與頻道背景，判斷哪個較正確，融合成一個最正確的版本，"
+    "並套用上述清理規則（修正名稱、加標點、保留語氣）。\n\n"
+    "版本A（beam）：\n{a}\n\n版本B（greedy）：\n{b}\n\n最正確且清理後的版本："
+)
+
+
+def llm_reconcile_chunk(llm, beam: str, greedy: str) -> str:
+    """Reconcile two ASR candidates into one corrected, cleaned reading."""
+    beam_c, greedy_c = cheap_clean(beam), cheap_clean(greedy)
+    if not beam_c and not greedy_c:
+        return ''
+    if not greedy_c or beam_c == greedy_c:
+        return llm_clean_chunk(llm, beam_c or greedy_c)
+    prompt = RECONCILE_TEMPLATE.format(a=beam_c[:1500], b=greedy_c[:1500])
+    try:
+        resp = llm.invoke([
+            {'role': 'system', 'content': SYSTEM_PROMPT},
+            {'role': 'user',   'content': prompt},
+        ])
+        result = re.sub(r'<think>.*?</think>', '', resp.content, flags=re.DOTALL).strip()
+        return result or beam_c
+    except Exception as e:
+        print(f'    LLM reconcile error: {e} — keeping beam candidate')
+        return llm_clean_chunk(llm, beam_c)
+
+
+def parse_candidates(path: Path) -> dict[int, tuple[str, str]]:
+    """Parse a <title>_candidates.txt sidecar → {chunk_index: (beam, greedy)}.
+    chunk_index is 1-based to match the '=== Chunk N ===' headers in _combined.txt.
+    """
+    if not path.exists():
+        return {}
+    header = re.compile(r'=== Chunk (\d+) \[')
+    out: dict[int, tuple[str, str]] = {}
+    idx, which, beam_lines, greedy_lines = None, None, [], []
+
+    def _flush():
+        if idx is not None:
+            out[idx] = ('\n'.join(beam_lines).strip(), '\n'.join(greedy_lines).strip())
+
+    for line in path.read_text(encoding='utf-8').splitlines():
+        m = header.match(line)
+        if m:
+            _flush()
+            idx, which, beam_lines, greedy_lines = int(m.group(1)), None, [], []
+        elif line.strip() == '<<BEAM>>':
+            which = 'beam'
+        elif line.strip() == '<<GREEDY>>':
+            which = 'greedy'
+        elif idx is not None and which == 'beam':
+            beam_lines.append(line)
+        elif idx is not None and which == 'greedy':
+            greedy_lines.append(line)
+    _flush()
+    return out
 
 
 # ── File helpers ───────────────────────────────────────────────────────────────
@@ -156,6 +294,9 @@ def main() -> None:
     parser.add_argument('--skip-existing', action='store_true', help='Skip if _postprocessed.txt exists')
     parser.add_argument('--source',        default='combined',  choices=['combined', 'merged'],
                         help='Prefer _combined.txt or _merged.txt as input')
+    parser.add_argument('--use-candidates', action='store_true',
+                        help='If a <title>_candidates.txt sidecar exists (from ASR '
+                             'self-consistency), reconcile beam+greedy per chunk')
     parser.add_argument('--dry-run',       action='store_true')
     args = parser.parse_args()
 
@@ -201,9 +342,18 @@ def main() -> None:
 
         try:
             chunks = parse_chunks(src)
+            candidates = {}
+            if args.use_candidates:
+                candidates = parse_candidates(TRANSCRIPTIONS / f'{title}_candidates.txt')
+                if candidates:
+                    print(f'  Candidates sidecar: {len(candidates)} chunk(s) to reconcile')
             cleaned = []
             for ci, (s, e, text) in enumerate(chunks, 1):
-                result = llm_clean_chunk(llm, text)
+                if ci in candidates:
+                    beam, greedy = candidates[ci]
+                    result = llm_reconcile_chunk(llm, beam or text, greedy)
+                else:
+                    result = llm_clean_chunk(llm, text)
                 cleaned.append((s, e, result))
                 print(f'  Chunk {ci}/{len(chunks)}: {result[:70]}')
 

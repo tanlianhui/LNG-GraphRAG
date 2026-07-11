@@ -1,7 +1,108 @@
-=== Chunk 1 [0.00s - 1052.93s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+哈囉安安啦今天禮拜天下午繼續打
+
+=== Chunk 2 [30.00s - 60.00s] ===
+而且昨天其實打電動一直打到今天早上才睡覺可是中午不知道幹嘛就突然醒來了就去吃個飯然後下午就開台了今天早上八點才睡覺
+
+=== Chunk 3 [60.00s - 90.00s] ===
+OK好啦我們繼續繼續繼續最後應該這個時間軸應該會填滿吧好久喔
+
+=== Chunk 4 [90.00s - 120.00s] ===
+喝口水好了我聲音也有點沙啞太好了有點忘記怎麼玩了再然後他就可以他就可以吹了
+
+=== Chunk 5 [120.00s - 150.00s] ===
+小屋了小屋了
+
+=== Chunk 6 [150.00s - 180.00s] ===
+我是來幫你的寫什麼我按錯了啦怎麼都是 crop
+
+=== Chunk 7 [180.00s - 210.00s] ===
+An entity massacred the soldier.這裡還有鬼斯好恐怖喔這顆
+
+=== Chunk 8 [210.00s - 240.00s] ===
+哦這裡陰涼哦進不去我沒有 lost 了啦我還在還在找啦這個 go
+
+=== Chunk 9 [240.00s - 270.00s] ===
+有沒有靈魂There's nothing here.挖到時光膠囊是骨頭耶是祖靈的面具耶
+
+=== Chunk 10 [270.00s - 300.00s] ===
+不妙啦 時光膠囊造反啦一樣耶可是這個沒有護身符那我看一下右邊這個有沒有什麼玄機好了Oh no 是小孩子嗎不是護身符放在小孩子身上然後小孩子被送走了
+
+=== Chunk 11 [300.00s - 330.00s] ===
+所以看一下這個湖神符的記憶醍醐灌頂靠夭啊他們召喚出惡靈了是不是根本不知道往哪裡跑那裡有個屋子是要去躲在那屋子裡嗎Oh my god, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up, hurry up,
+
+=== Chunk 12 [330.00s - 360.00s] ===
+Oh no他受傷了他被二林抓傷了不愧是二林二林十一那我進來了你還出去了那我出去了
+
+=== Chunk 13 [360.00s - 390.00s] ===
+天啊我想看一下這到底是三小不行跟阿嬤講一下It's the one that was on that baby.Her mother gave it to me.
+
+=== Chunk 14 [390.00s - 420.00s] ===
+Like her mother before.阿嬤講話了She also give me this.喔天啊是第五個護身符耶所以那嬰兒是阿嬤還是阿嬤的媽媽啊來我來把這五個護身符一起看一下
+
+=== Chunk 15 [420.00s - 450.00s] ===
+This is where it all began.You need to watch carefully.Remember every detail.他們在地上畫了一個火柴人的身體然後五個人站在他各個五個地方然後開始召喚了
+
+=== Chunk 16 [450.00s - 480.00s] ===
+然後他們就召喚出惡靈了他們打開了那個時空門耶Oh my god阿嬤可以再多跟我講一下嗎Your ancestors, they summoned Yeh Tzu here.They were lost, full of hatred for the white man.
+
+=== Chunk 17 [480.00s - 510.00s] ===
+The Green Spirit kill their enemies and gain revenge.He fought against them.He was still hungry, hungry for blood.Yay, it's all is back.He has come to take our lives.We're your ancestors.They're the guardians who protect the house, right?They know they were wrong, so they return to protect us from the evil they
+
+=== Chunk 18 [510.00s - 540.00s] ===
+They released.If they brought the entity here, I mean there's gotta be some way to send it back to its own world.They used a ritual to open the passage.I still remember the incantation, but the ritual is lost in the past.I saw it.I saw the ritual in my vision.我們剛好有五個人耶 我們也可以啊You can help me with the incantation.
+
+=== Chunk 19 [540.00s - 570.00s] ===
+GaryHe is coming.可是爸爸倒在那邊耶他沒辦法幫我嗎Oh no它是綠色的它快掛了
+
+=== Chunk 20 [570.00s - 600.00s] ===
+愛登補第五果然是魔法陣咕嚕咕嚕魔法陣
+
+=== Chunk 21 [600.00s - 630.00s] ===
+喔 怎麼生火啊 excuse me喔 這麼隨便好煙啊 弄到眼睛了放屁 這麼好燒啊
+
+=== Chunk 22 [630.00s - 660.00s] ===
+你不要吵啦快快快阿嬤這麼十幾年沒講話一講話就這麼大聲了
+
+=== Chunk 23 [660.00s - 690.00s] ===
+人呢直接用護身符就可以了阿嬤快過來唱愛登啊快出來交給我就是我
+
+=== Chunk 24 [690.00s - 720.00s] ===
+開得了嗎啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+
+=== Chunk 25 [720.00s - 750.00s] ===
+祖靈來幫忙了祖靈來幫忙拿我 PS3 好累個阿嬤跌倒了進去好我來幫進去
+
+=== Chunk 26 [750.00s - 780.00s] ===
+可是阿嬤跌倒了耶Excuse me.No.喔阿嬤不阿嬤勒阿嬤勒
+
+=== Chunk 27 [780.00s - 810.00s] ===
+在那邊你阿嬤都疊在那邊太扯了Sashimi怎麼辦結果爸爸在裡面假裝受傷掛網啊
+
+=== Chunk 28 [810.00s - 840.00s] ===
+My people have buried our dead there for many hundreds of years.怎麼不能衝啊這一段好吧不衝了慢慢走可以救爸爸不救我害死兩個人啊我又不知道啊我想說趕快出去畫魔法陣啊
+
+=== Chunk 29 [840.00s - 870.00s] ===
+哇這裡好漂亮喔
+
+=== Chunk 30 [870.00s - 900.00s] ===
+是他們的毛阿婆耶
+
+=== Chunk 31 [900.00s - 930.00s] ===
+These are the bones of your ancestors.I'm sure they would have wanted to be buried alongside their own people.
+
+=== Chunk 32 [930.00s - 960.00s] ===
+要不然這樣一直躲也不是辦法喔Don't blame yourself.My father is with Shimazane and his ancestors.艱難過
+
+=== Chunk 33 [960.00s - 990.00s] ===
+祖靈耶欸 祖靈剛剛在哪個方向啊
+
+=== Chunk 34 [990.00s - 1020.00s] ===
+這裡沒有亮亮的地方啊
+
+=== Chunk 35 [1020.00s - 1050.00s] ===
+噢呃沒有啊不知道哪裡啊我根本沒看到
+
+=== Chunk 36 [1050.00s - 1052.93s] ===
+不是哪裡
 

@@ -1,7 +1,120 @@
-=== Chunk 1 [0.00s - 1181.36s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+雞杯我看Deal two damage to all enemy with two health to all friends 一票我先出這個好了他打我出這個有 taunt 他只能打我這個 taunt 對不對好了吃吃飯
+
+=== Chunk 2 [30.00s - 60.00s] ===
+For the crusade!Divine shield 你沒有盾You suck!In your opponent's hand into your handDid it?Give me that!Oh 好耶 coolThe duelist play three game in play mode
+
+=== Chunk 3 [60.00s - 90.00s] ===
+OK OK 雷Riceman 一直唱吹我 我跟你講我下一場還是會贏啦I go first.我沒有擺人品我都沒看到好不好
+
+=== Chunk 4 [90.00s - 120.00s] ===
+打我啊I'm not gonna tell you what ethnic am I忘了 end好酷喔
+
+=== Chunk 5 [120.00s - 150.00s] ===
+再給你兩滴超猛耶這隻 knife 講個啦After you summon a minion, deal one damage to a random enemy.Good他瘋啦Winds Fury
+
+=== Chunk 6 [150.00s - 180.00s] ===
+他應該不會殺掉我吧Hello還在說哇不好不妙不好怎麼辦放這個被打兩下就死啦
+
+=== Chunk 7 [180.00s - 210.00s] ===
+只有一張對不對來 spawn放這張好了隨便I don't have enough mana.這樣他至少可以換啦WindfuryEnemy has greater IQ than previous.
+
+=== Chunk 8 [210.00s - 240.00s] ===
+欸屁啦屁啦算了啊靠北喔No my charge哇塞還輸啦哇操
+
+=== Chunk 9 [240.00s - 270.00s] ===
+哇都抽到這種沒有救了為什麼 select a friendly character
+
+=== Chunk 10 [270.00s - 300.00s] ===
+不是啊我有時要存一下卡片
+
+=== Chunk 11 [300.00s - 330.00s] ===
+都流行先讓自己噴四滴血啊怎麼那麼酷啊他們
+
+=== Chunk 12 [330.00s - 360.00s] ===
+Divine Spirit有了有了不是 inner fire 是 divine spirit 才對有可能啊有可能他在清啊
+
+=== Chunk 13 [360.00s - 390.00s] ===
+對啊 類似像這樣哇 沒了Not good
+
+=== Chunk 14 [390.00s - 420.00s] ===
+Using Chrome auto-translate but the translations are not the best.The Google translate cannot really translate the Chinese.What are you looking at?反正他打什麼都贏
+
+=== Chunk 15 [420.00s - 450.00s] ===
+不要不要先把這每回合回一滴血然後幫我自己補血就差不多了
+
+=== Chunk 16 [450.00s - 480.00s] ===
+給我一個掃台吧
+
+=== Chunk 17 [480.00s - 510.00s] ===
+那有範圍攻擊也有群體補血完全浪費了群補啊那我要等到很多隻我的怪物很多隻在上場的時候我才放那隻但那之前我就已經被打死啦而且我能早一點生手機響了43會打掉
+
+=== Chunk 18 [510.00s - 540.00s] ===
+Job done.Do you have any keys to give away? Nope.靠么啦Take control of an enemy
+
+=== Chunk 19 [540.00s - 570.00s] ===
+Well played, thank you.
+
+=== Chunk 20 [570.00s - 600.00s] ===
+剛剛新控的為什麼不打
+
+=== Chunk 21 [600.00s - 630.00s] ===
+不能打啊他怎麼這麼屁啦沒了沒救了太厲害太厲害太厲害GG
+
+=== Chunk 22 [630.00s - 660.00s] ===
+One more loss and I'm out.Anduin versus Lugh.I will fight with all.
+
+=== Chunk 23 [660.00s - 690.00s] ===
+Priest is probably the worst arena hero to pick.Priest cards are mostly dead.I didn't know that.This is my first time play arena.And my second time play Hearthstone, so it's okay.
+
+=== Chunk 24 [690.00s - 720.00s] ===
+應該沒比遊戲往難純粹只是你英文不好吧沒有啊我沒有說
+
+=== Chunk 25 [720.00s - 750.00s] ===
+So, 16 year old in TW and linked to US server, yes, that's right.
+
+=== Chunk 26 [750.00s - 780.00s] ===
+直接用這個給他勒超級煩躁
+
+=== Chunk 27 [780.00s - 810.00s] ===
+Let me think.他們怎麼講話我也想講話How can I talk?
+
+=== Chunk 28 [810.00s - 840.00s] ===
+Use Holy Nova and Mind Control in your deck.Yes, but other than those two cards, I have all like Merla have the two Merena cards.22 喔他都不打我
+
+=== Chunk 29 [840.00s - 870.00s] ===
+它會 destroy any minion 掉有 charge 耶
+
+=== Chunk 30 [870.00s - 900.00s] ===
+什麼 secretWhen your opponent plays good, reduce health by one.I don't care.欸 他怎麼沒有死啊Play the cobra and double the health.好不
+
+=== Chunk 31 [900.00s - 930.00s] ===
+Put an apple on your head!沒有 taunt 這巨人根本是人形力牌我也覺得欸真的欸他沒有 taunt 超鳥的欸就不要打他就好啦
+
+=== Chunk 32 [930.00s - 960.00s] ===
+What does the future hold?We must cleanse the sun well.
+
+=== Chunk 33 [960.00s - 990.00s] ===
+屁啦他又放 secret 了啦怎麼辦怎麼辦丟魚人去死一死
+
+=== Chunk 34 [990.00s - 1020.00s] ===
+Murlocs are cards to stay away from in arena also.I shouldn't listen to my viewer.He said I should try the race cards, like a combo.
+
+=== Chunk 35 [1020.00s - 1050.00s] ===
+打哪一隻勒啊這個Yes, I will save Nova next round.
+
+=== Chunk 36 [1050.00s - 1080.00s] ===
+Mamma Mamma Mamma Mamma MammaMamma MammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMammaMam
+
+=== Chunk 37 [1080.00s - 1110.00s] ===
+嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼嗯哼
+
+=== Chunk 38 [1110.00s - 1140.00s] ===
+Just me and Mr. Brighton.Reporting for duty.終於
+
+=== Chunk 39 [1140.00s - 1170.00s] ===
+1242唉哇他會直接把我的那個把我的哇結束了他傻掉了他傻掉了
+
+=== Chunk 40 [1170.00s - 1181.36s] ===
+太多了吧What of an enemy minion?
 

@@ -1,322 +1,561 @@
 === Chunk 1 [0.00s - 30.00s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我也是昨天才關掉的啊你也是復古一派啊遊戲裡面也藏你現在怎樣現在怎樣現在怎樣現在怎樣救命啊居然沒有人可以跟我講血包沒有人可以欸欸欸笛子笛子不要在那邊 care
 
 === Chunk 2 [30.00s - 60.00s] ===
-[Error in chunk 2: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+不會抽血包, I'm not king.I'm so lucky.我要出現干你娘What are you doing?哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇
 
 === Chunk 3 [60.00s - 90.00s] ===
-[Error in chunk 3: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+小心啊血包血包血包我快六了我快六了我快六了趕快趕快趕快換人來換人來媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的媽的
 
 === Chunk 4 [90.00s - 120.00s] ===
-[Error in chunk 4: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打打
 
 === Chunk 5 [120.00s - 150.00s] ===
-[Error in chunk 5: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+小心喔笛子在前面笛子拖子小心誰啊笛子啊看得懂的人很多啦沒有差開什麼台都會這樣啊就算開唱歌台他們也說你剛剛那個轉音應該要用日式來發才對啊
 
 === Chunk 6 [150.00s - 180.00s] ===
-[Error in chunk 6: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我以前練好弄爛的時候也是這個樣子難過難過 like diamond小心喔 後面還有人他的微刀兵已經止不住了欸 我也黏住了欸 我差 6000 塊 我在家裡等一下
 
 === Chunk 7 [180.00s - 210.00s] ===
-[Error in chunk 7: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你都換給我啊因為你玩得比較好啊玩到變成判證高手啦因為都變寶二超長打手槍那你有我長嗎你看我那你看我那這是鳥屎的視角小心小心小心小心小心小心他沒中他沒中他打中我了他打中我了欸水對面是什麼
 
 === Chunk 8 [210.00s - 240.00s] ===
-[Error in chunk 8: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+有觀眾說我是桐山然後他們就說桐山過台灣
 
 === Chunk 9 [240.00s - 270.00s] ===
-[Error in chunk 9: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+繼續打可以可以你鳥被秒了抱歉我失誤啦沒有失誤啦衝啊血包血包好大的普羅衛線胖子逃過一劫真不愧是中午都叫人家去買麵包的胖子啊
 
 === Chunk 10 [270.00s - 300.00s] ===
-[Error in chunk 10: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+有砲台 小心大砲台走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走走
 
 === Chunk 11 [300.00s - 330.00s] ===
-[Error in chunk 11: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+他們要唱主題曲他就會變這樣咖啡老王快跑時候的狀況優點是不是什麼東西啊
 
 === Chunk 12 [330.00s - 360.00s] ===
-[Error in chunk 12: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+不行啊 沒錢啊看我的鮮刷多人鮮刷多人欸不要不要我還在前面他掉了 我無法立剛狂哥血秒掉了就還可以再坦一陣子小心啊六探小心啊
 
 === Chunk 13 [360.00s - 390.00s] ===
-[Error in chunk 13: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+撿到一個微刀貪財貪財六探小心啊我每次看那個都覺得好像瓦斯爐的那個不愧是霸凌胖子啊小心啊他要 Q 了分開一點分開一點他沒 Q 了
 
 === Chunk 14 [390.00s - 420.00s] ===
-[Error in chunk 14: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+欸他也太痛了吧射他射他沒辦法射他再射他一槍可以可以帶走一個太棒啦帶走一個啦帶誰啊帶
 
 === Chunk 15 [420.00s - 450.00s] ===
-[Error in chunk 15: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+為什麼有一個人說了一句好過分的話拿沖天炮射胖子太過分了為什麼為什麼要拿沖天炮射老王為什麼你小心小心我去我怕他又框你我們來啦小心被框為什麼我在這裡看得到狼人的位置他做了什麼
 
 === Chunk 16 [450.00s - 480.00s] ===
-[Error in chunk 16: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好餓喔吃壽司果然很容易餓我肚子二十四小時都好餓好痛喔幫你補血真歹假的不應該開這我沒看到他就被打死了太可惜了想碰太多了我想說好像是一個好機會恭喜天涯聖啊來不及了
 
 === Chunk 17 [480.00s - 510.00s] ===
-[Error in chunk 17: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你愛彈彈你彈你問這個大絕是刷到是一個刷到一個什麼樣的概念呢我以為刷到了耶我做角色了馬上認清欸結果都沒有人吃這個血包還是怎麼回事去哪裡啊
 
 === Chunk 18 [510.00s - 540.00s] ===
-[Error in chunk 18: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我想說要保護鳥屎結果自己什麼都沒有
 
 === Chunk 19 [540.00s - 570.00s] ===
-[Error in chunk 19: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+太強啦剩一格血在那邊擋肉哥也很爆耶超厲害耶他完全不屌你
 
 === Chunk 20 [570.00s - 600.00s] ===
-[Error in chunk 20: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+他全部重生了耶我們要退了你們回來啦回來等我復活啦直接退了啦走小兵隊快跑啊有人 R 物他跑超快的關我啊他會關你退退退我們哪不停射他幹打不死啊幹太坦啦
 
 === Chunk 21 [600.00s - 630.00s] ===
-[Error in chunk 21: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+TitanfallGGGG英英根據我的經驗這兩個人會不停的洗溫泉然後不打他不行他一定要爆了正常啦我出這什麼裝難怪會輸馬上買是不是馬上換裝是不是如果我照正常路線出裝應該可以再殺更多人了本來想說
 
 === Chunk 22 [630.00s - 660.00s] ===
-[Error in chunk 22: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+這個裝備就殺夠多人沒想到還是殺不夠本來以為你會換成六雙異己血本來想說以我的操作這個裝應該輸出就夠了對不起讓大家失望了你是開台的人大家都看到你賣裝了對不起讓大家失望而且我畫面還沒進我畫面還沒出來沒辦法讓大家看到我出什麼裝我的裝呢
 
 === Chunk 23 [660.00s - 690.00s] ===
-[Error in chunk 23: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+老王老王老王有一件事我一定要跟你講快點啦老王好啦好啦怎樣啦蒙波蒙波蒙波我剛剛不小心講成說蒙波蒙波冠軍獎盃楊樂波多霸你知道我今天要跟他講什麼嗎因為我今天要跟他講說地上難道都是玻璃嗎
 
 === Chunk 24 [690.00s - 720.00s] ===
-[Error in chunk 24: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+地上都是割離嗎為什麼因為我們一直想說割到你的腳是不是老王所以你們有去看那個嗎你們有去看那個波吉拉煩死了割多也協議都已經是自己講的了還要被吐槽是怎樣咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳
 
 === Chunk 25 [720.00s - 750.00s] ===
-[Error in chunk 25: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+波爸欺負波抽的不是煙波是亞洲統神波包皮割皮療我們必須要吐槽一個朋友波爸欺負有人說割是大離家那是對的割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割皮割
 
 === Chunk 26 [750.00s - 780.00s] ===
-[Error in chunk 26: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+蕭敬騰的按公教廣告我真的要在這裡呼籲大家要看到最後一秒那我先講前面好了老王你要配合我喔公教手工燈讓你唉唉叫還好我有按公教這個這個這個想看的話一定要看到最後一秒喔
 
 === Chunk 27 [780.00s - 810.00s] ===
-[Error in chunk 27: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你是布朗姆你是布朗姆我沒有進遊戲我沒有進去喔應該沒差吧你是鋼門朗克我是鋼門朗克你畫我當小法師耶我要骰嗎那我不要試問我跟你畫好不好好啊你要把摔老換讓人那我把試問骰掉囉好
 
 === Chunk 28 [810.00s - 840.00s] ===
-[Error in chunk 28: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+關鍵字你就去找 Zenfone 蕭敬騰暗光照片
 
 === Chunk 29 [840.00s - 870.00s] ===
-[Error in chunk 29: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+其實打那個你在 youtube 打暗光鳥就會出現的啦一刀未剪版然後看到最後一定要看到最後一幕喔暗光師這邊要死了這邊要死是很好笑的我沒有進遊戲耶我要重開遊戲了那你重開還好我有暗光將最後真的太好笑了一定要看到最後這邊太誇張了
 
 === Chunk 30 [870.00s - 900.00s] ===
-[Error in chunk 30: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好煩喔我剛剛最後還是笑到超好笑的對面 AP 喔不行幹好難打喔超難打耶而且我不會玩牛喔牛就是狂 E 就好啦還好我有按工作我可以出水滴嗎要嗎不用不用不用你可以出他不會沒魔嗎你出聖杯聖杯嗎
 
 === Chunk 31 [900.00s - 930.00s] ===
-[Error in chunk 31: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+張杯這樣張杯然後開始狂撐彈撐 AP 彈就可以了好的你說殯葬那些的嗎殯葬時光之類的嗎時光不錯了老王聊天室已經有人說了什麼再見啊什麼東西什麼東西我再貼在我們群組裡面你可以直接拉到可能 50 秒開始看就可以了超好笑最後一秒真的是我真的直接走秀出來了
 
 === Chunk 32 [930.00s - 960.00s] ===
-[Error in chunk 32: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+See you again.而且他嘴巴先抽了一下一定是忘詞這樣對啊我們昨天討論我說我說他一定是忘詞或者是他那邊本來要講什麼但他忘記了或者是導演導演導演想要他講什麼但是沒有溝通好然後導演就一直 cue 他一直 cue 他
 
 === Chunk 33 [960.00s - 990.00s] ===
-[Error in chunk 33: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+他就嘴巴臭了一下之後說再見而且不行我一定要模仿一下你是故意是為民開始再見我覺得他感覺是很木訥的因為他拍這個一定很突破沒有我覺得那個停頓一下然後那個鏡頭還有拉那個景你知道嗎他嘴角臭一下超吵的
 
 === Chunk 34 [990.00s - 1020.00s] ===
-[Error in chunk 34: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+要嘛是導演沒有跟她溝通好然後導演一直在 cue 她所以她就很緊張然後她就說了一句再見超好笑再見還好我有按公交還好我是黑色猛牛
 
 === Chunk 35 [1020.00s - 1050.00s] ===
-[Error in chunk 35: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好像直接出無盡了再見而且他那個再見是真的很中氣十足的再見超可愛欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸
 
 === Chunk 36 [1050.00s - 1080.00s] ===
-[Error in chunk 36: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+他在我們眼前看到的這個什麼公主不是公主她是一種豬籠草豬籠草還好我有口香糖彈出來了
 
 === Chunk 37 [1080.00s - 1110.00s] ===
-[Error in chunk 37: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+幹我不會玩牛啊幹你就補血補血補血補血補血他沒挨得及補血就死了太殘了牛就是撐坦補血然後抓空檔你可以不用主動 Q你可以大家打到大混戰的時候再撞一個進來不過呢我的意見也不是很準因為我也非常不會玩牛幹我怎麼不會玩這種勒
 
 === Chunk 38 [1110.00s - 1140.00s] ===
-[Error in chunk 38: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+有看到有聽出嗎我明明就按了我慢他一秒然後就被抓走了那靠邀我怎麼閃現還好我有按工作想抓誰幹你還被抓到了
 
 === Chunk 39 [1140.00s - 1170.00s] ===
-[Error in chunk 39: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+還好我有按鍵好再講一下我們推薦這個影片你們不要去那裡留言給我刪掉我全部檢舉了幹你真的以後不要推薦了啦可是就很好笑就想講一下啊可是現在 LNG 真的都白痴了拜託不要說什麼朝聖什麼拜託不要這樣子為我們想一想吧
 
 === Chunk 40 [1170.00s - 1200.00s] ===
-[Error in chunk 40: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+可是我覺得越忘記越是很好笑不然我們改團名好了我們以後團名就叫麥卡貝我們叫麥卡貝 love 直播我們叫麥卡貝 make love 直播麥卡貝 love 直播
 
 === Chunk 41 [1200.00s - 1230.00s] ===
-[Error in chunk 41: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我們叫麥卡貝廖哥好了不要啦什麼團名啊不要啦你是別人了這樣大家就不會 gan 我們了反正我全部檢舉了我注意我真的是全部檢舉了大家也不要去那個影片下面嗆你們檢舉就好
 
 === Chunk 42 [1230.00s - 1260.00s] ===
-[Error in chunk 42: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我才 4 等耶怎麼那麼快就上 6 了哇他有那個耶算得真準啊不然以後我們就叫魯蛋好了太壞了還是我們就叫兩金堪奇這樣超無聊的啦
 
 === Chunk 43 [1260.00s - 1290.00s] ===
-[Error in chunk 43: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+巴毛離開我們
 
 === Chunk 44 [1290.00s - 1320.00s] ===
-[Error in chunk 44: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+哈哈 揍你哈哈 開槍小心啊 小心啊 cd 一下再 c 一下
 
 === Chunk 45 [1320.00s - 1350.00s] ===
-[Error in chunk 45: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+這是一句好話再試一下再拍一次一拍再拍拍不成我快掛了還好我有按更掉反正全部檢舉就好乖喔
 
-=== Chunk 46 [1350.00s - 5583.47s] ===
-[Error in chunk 46: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 46 [1350.00s - 1380.00s] ===
+這會是你的堅持洞這會是你的老二大勇敢去做不要怕引進正大叔為什麼要說引進正大叔因為這會是你的老二大每次都把她撞哭讓我飛啊
+
+=== Chunk 47 [1380.00s - 1410.00s] ===
+只要全部的檢舉人
+
+=== Chunk 48 [1410.00s - 1440.00s] ===
+我完全沒有錢出裝了好可憐喔我來了我來了哇 鳥屎你活下來耶好棒喔我是載Q一下啦這個就不是載Q一下啦這個是你要被衝啊這個就是 Q 不出第二下啊這個是你的圈圈就要 Q 起來了剛剛炸雞這樣還有點錯招天啊
+
+=== Chunk 49 [1440.00s - 1470.00s] ===
+再見了再見了很高興認識你很高興認識你們全部的人See you later欸欸六探你看我把爐石帶在身上耶你不覺得他的盾很像爐石嗎可以退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退了退
+
+=== Chunk 50 [1470.00s - 1500.00s] ===
+我想說幫忙撐一下力Q 錢阿綠肯定可以把那個把不要的人撞走啦不一定要撞回來我都要啊就是那種比較麻煩的角色先撞走啊卡薩丁那種的卡薩丁那種要很近身的那種造型不錯造型不錯
+
+=== Chunk 51 [1500.00s - 1530.00s] ===
+這是一句好話再試一下試試不成再試一下這會使你的長度變長再試一下再試一下完全在賣那個什麼吸引器真空吸引器
+
+=== Chunk 52 [1530.00s - 1560.00s] ===
+這會是你的當機啦
+
+=== Chunk 53 [1560.00s - 1590.00s] ===
+站立時空 4 什麼時候要出那個時候我們還活著嗎誰知道啊我應該會活著啊但你說不定下個月就掛了對不對不是啊他的意思應該是說可能 100 年後才要出之類的吧這回是你的龜頭我 jitter 它這 error 當掉啦我跟巴毛今天去那個保雅看到一個氣泡水叫做 jitter 耶
+
+=== Chunk 54 [1590.00s - 1620.00s] ===
+Ginter提防誰Ginter是什麼Ginter龜臉把趙星撞走趙星又把我們撞回來好壞喔他我沒有輸出啦不好打擱子也太大了吧
+
+=== Chunk 55 [1620.00s - 1650.00s] ===
+欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸
+
+=== Chunk 56 [1650.00s - 1680.00s] ===
+這會是你的電視通我好像每次閃到牛都換給別人
+
+=== Chunk 57 [1680.00s - 1710.00s] ===
+通常是換給我啦但是我剛沒有進遊戲啊雖然我牛也玩得很爛但是我應該給你換你感覺你布朗姆應該比較收一點這十一局他們的等級太高了不能打十三等對十一等超級肉身檔我四十秒才要帶喔
+
+=== Chunk 58 [1710.00s - 1740.00s] ===
+大家站在這裡快點站一排歡迎他們請大家跟我一起跳歡迎之舞歡迎
+
+=== Chunk 59 [1740.00s - 1770.00s] ===
+我再三秒兩秒一秒一個秒鐘小心小心你們分開打了巴毛看著我一刀沒有辦法放下他
+
+=== Chunk 60 [1770.00s - 1800.00s] ===
+噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗�
+
+=== Chunk 61 [1800.00s - 1830.00s] ===
+我們昨天三連勝真的太順了所以我才說我們昨天三連勝今天一定會大爆輸所以呢好險我們這麼早就開始拿手順了我想問一下黑名單的功能是不是不見了我不知道耶可是我再也找不到黑名單這個按鈕了耶不知道耶我去樓下拿一下水好好好休息一下
+
+=== Chunk 62 [1830.00s - 1860.00s] ===
+等我 20 分鐘看來我們今天是不用跟觀眾玩了有人說我有人說懶熊對我很好精華都把我的髒話剪掉因為我的髒話不好笑啊我自己 mad mad 的而已還有什麼怎麼不開自訂呢因為我們每一次開到四五點之後然後再拿手信都要打到六點拜託讓我們先拿一下手信吧我們要打到早上六點才有手信啊隔天晚上的時間就拿不到手信了啊各位大大
+
+=== Chunk 63 [1860.00s - 1890.00s] ===
+在這邊再跟大家講一下我們平常不是討厭人家某些觀眾做某些事情嗎你們看到就不要吵啊吵了你們如果在那邊又吵起來的話感覺他們會更困擾啦就算了吧有辦法檢舉就檢舉就是說我們不是叫你們都不可以留言但是就是如果你看了覺得好好笑你只要寫哈哈真的好好笑喔但是後面不用寫聽 LNG 來的喔
+
+=== Chunk 64 [1890.00s - 1920.00s] ===
+有一個帳號是 xerxysscrow它已經說了大概 100 萬次鳥屎後面有一個人嗎你想要嚇我的毅力真的很堅強那我給你嚇一下好了我後面有人嗎真是嚇死我了我全身都在打冷顫天啊你看我的雞皮疙瘩
+
+=== Chunk 65 [1920.00s - 1950.00s] ===
+已經跑出來有沒有我真的是快要嚇到不行我真的好害怕我全身都在顫抖有沒有聽到我的牙齒在顫抖的聲音真是嚇死我了什麼東西沒有就是一直有人一直說他後面有一個人一直要講個十幾次而且還是同一個人你可以出來了嗎
+
+=== Chunk 66 [1950.00s - 1980.00s] ===
+結果等一下一轉過去還真的有一個人然後陳為民在後面聽說你剛剛 cosplay 我聽阿公聽說你剛剛 cosplay 我穿泳裝還有求恐怖的生日快樂那位大概也洗了十萬次了真的可是我真的沒看到耶他說什麼我也沒看到我剛有看到他說他生日希望可以唱一個恐怖版的生日快樂
+
+=== Chunk 67 [1980.00s - 2010.00s] ===
+笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑笑
+
+=== Chunk 68 [2010.00s - 2040.00s] ===
+送五月天門票不要送五月天門票啦這麼好的東西隨便按啦可以送我啊可以送我然後我再去賣老王不要送他啦不要賣啊拒絕荒謬啊LNG有想過停水跟停電哪個比較糟嗎我覺得都非常糟啊停水不行耶停電就沒有電腦可以玩了我覺得停電比較糟耶我覺得應該要說多久收到三分鐘
+
+=== Chunk 69 [2040.00s - 2070.00s] ===
+如果是一個月的話我覺得停電當然是最恐怖的啊我要換掉我有一個骰子可以幫忙骰欸欸欸我沒有進遊戲就算你是惡殺師好耶可是我不知道我是不是可是你的符文你上一場是什麼有啊幹我這一批耶我自己骰掉囉好怎麼會這樣啊那我也要骰掉囉有人要玩艾西嗎所以我是 AP 惡殺師嗎
+
+=== Chunk 70 [2070.00s - 2100.00s] ===
+好 OK 啦巴毛你要骰嗎我不骰那我要骰囉那我跟你換好可是我這樣不能選造型那我要骰囉你要選造型你骰你骰你骰我還沒買你可以一直有人講到重點耶停電的時候馬達不會動也會停水
+
+=== Chunk 71 [2100.00s - 2130.00s] ===
+所以好像是停電不可吧因為看你拉長多久的時間啊這麼熱whatwhat我覺得看拉長多久你們以前有碰到淋水然後去那個嗎去人家家洗澡嗎有我有耶小時候也有但是那時候都要抱著那個就是衣服跟沐浴乳
+
+=== Chunk 72 [2130.00s - 2160.00s] ===
+不好意思請問遊戲開始了嗎開始了在讀取了嗎你可以重登了你可以關掉對面有一個未連結不關有人說鳥屎如果要換麥克風的話可以換 mxl 的機器領片又好用謝謝你不過我剛換大概不到一個月所以他現在要換的不是麥克風是線我覺得他的線很有問題因為這個麥克風是欸等一下為什麼
+
+=== Chunk 73 [2160.00s - 2190.00s] ===
+你今天聲音悶悶的是因為你很小聲離麥克風很近嗎應該是吧因為你怕吵到別人這樣創辦家可是而且我覺得他線路有問題他的線很鬆我最近也在看那個東京食屍鬼啊然後就一直幻想說大便的時候在邊大便邊抽菸然後想說如果我也是食屍鬼的話如果我也是肯種的話我就可以跑去隔壁然後把鄰居吃掉啦就可以安心開餐了
+
+=== Chunk 74 [2190.00s - 2220.00s] ===
+什麼東西為了這種小事情還要變成食屍鬼可以飽餐一頓又可以安心開台太無聊了遊戲打不開停水不能洗澡你可以去公園啊公園也沒水啦那是說哪一種範圍不是它的停水範圍是到世界末日那個規格還是是喔我是說是哪一個啊那就只好當貓幫別人舔身體啊太噁了太鹹了太鹹世界末日
+
+=== Chunk 75 [2220.00s - 2250.00s] ===
+有電就不叫世界末日啦沒停電的話就多花一點錢去林森北啊然後叫他們把你身體舔乾淨就好好餓喔好臭喔世界末日誰還要賺你錢啊SN58唱現場專用麥不是的用來說還好啦我覺得不錯啊而且我們也會唱歌啊看人吧
+
+=== Chunk 76 [2250.00s - 2280.00s] ===
+就是那樣吧一定要唱搖滾先唱這樣你知道我有個朋友他是在日本就是學那種專門的那種音樂學校他是做演唱會的然後我就一直跟他說我要換麥克風他就跟我說SM58在我們學校就當垃圾隨便丟來丟去可惡可惡你有看過SM58的耐用度測試嗎就是它用力摔啊什麼的都還可以用然後去泡水啊什麼的高溫低溫都超強真的還他媽假的
+
+=== Chunk 77 [2280.00s - 2310.00s] ===
+而且我一定要講一下剛剛那個想嚇我的那個他到現在還在努力欸欸我想問一下艾希要出跳拳刀嗎我的核心裝備是那個無盡嗎無盡啊鵝羽啊都可以啊快來喔我要死囉你出一個水滴比較好
+
+=== Chunk 78 [2310.00s - 2340.00s] ===
+我的人物頭像是一片藍耶你的人物頭像一片藍沒關係啊我等一下幫你截圖我的視訊幫你放上去你那邊看我是正常的吧
+
+=== Chunk 79 [2340.00s - 2370.00s] ===
+剩你一圈剩你一圈是什麼火焰球我就知道我剛剛想說我想快跑的時候應該就關於你的關於他的呂先生關於你的歌
+
+=== Chunk 80 [2370.00s - 2400.00s] ===
+他們超級 poke而且我手很短出去就會被打得亂七八糟等一下那個音樂怎麼出來的血超多他也直接一個腰帶啊我也是直接一個腰帶怎麼看血很多看他格子數非常的大一格是 100
+
+=== Chunk 81 [2400.00s - 2430.00s] ===
+不知道真厲害吧我連砍小兵回血都沒辦法啊太痛苦了好痛苦喔這個陣如果直接幹會不會贏啊不會他們前期很強他們前期很強伊瑞雅會幹爆我們的屁眼會先幹爆我們的屁眼吧不然還好啦不然前期變怎麼樣他射三下我們再加增傷已經直接往生了沒那麼誇張啦前面那個也沒有點很高
+
+=== Chunk 82 [2430.00s - 2460.00s] ===
+這三項我們的網路線直接斷掉了反正你的重點是你的萬箭齊發可是因為十三秒才一次你那個點滿才四秒耶超奇怪的但是就是要等啊翻過來幹嘛什麼時候才升級啊幹
+
+=== Chunk 83 [2460.00s - 2490.00s] ===
+欸欸欸真的還他媽假的幹幹幹不要不要不要不要不要不要我們跟不上你會被電槍啦不要緊張我只是去嚇嚇他而已他媽的嚇到了啦我先在這邊喘一喘喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁喔齁
+
+=== Chunk 84 [2490.00s - 2520.00s] ===
+我剛剛真的是有點斷線了而且我剛剛一停住然後我就跳出去看OBS還是正常的
+
+=== Chunk 85 [2520.00s - 2550.00s] ===
+學長你不要跟上來我可以復活一次啊 shit 被打到了你果然欲欲先看你啊咧太遠了啦哇這 cd媽的好痛喔媽的媽的媽的喔好 poke 喔打中了心煩意亂好啦快死你可以補血我們至少要上 6 才有打一波的本錢可能很難他們全部會把我們封陣到屁眼爛掉我會先丟兵線6 等 6 等 6 等 6 等 6 等
+
+=== Chunk 86 [2550.00s - 2580.00s] ===
+欸這小兵調皮啊欸我覺得這個烏尔加特很好看小心小心小心我也覺得蠻好看的完全是從肥宅晉升到另外一個世界完全從肥宅晉升到一個機器肥宅200 多吧變成一個中產階級的概念哇操糟糕欸痛他要射光線了他是個賤人小心
+
+=== Chunk 87 [2580.00s - 2610.00s] ===
+快了快了快上6了快吃快吃oh fuck 我知道了對不起對不起沒關係無所謂我會加血沒錯他們6了天啊好難打喔真的真的
+
+=== Chunk 88 [2610.00s - 2640.00s] ===
+巴毛退!好險我剛好上六
+
+=== Chunk 89 [2640.00s - 2670.00s] ===
+70秒大可是愛心手太短了完全是被皺夾的
+
+=== Chunk 90 [2670.00s - 2700.00s] ===
+喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔
+
+=== Chunk 91 [2700.00s - 2730.00s] ===
+等我一下等我一下我還沒到幫你補血我還有 15 秒水啦水啦太美啦大便都差點大出來了各種漂亮他們如果要衝的話我直接射冰箭小心但他們沒有那個意思我趕快補血
+
+=== Chunk 92 [2730.00s - 2760.00s] ===
+注意喔我要去買一台暗公教了買一台什麼暗公教再見怎麼感覺我沒大都不能打啊而且我有大也不一定打得贏
+
+=== Chunk 93 [2760.00s - 2790.00s] ===
+可以可以可以再推一點再推一點再推一點我會直接射冰箭喔有機會的話射了我不求你開玩笑的開玩笑的啦白癡喔小心小心欸我叫不出去攻速太慢了我現在範圍是只有這個圈裡面
+
+=== Chunk 94 [2790.00s - 2820.00s] ===
+就是你要用那個去沾然後沾到人的話時間會延長你現在那個圈是有我聽出了幹謝啦太慘啦
+
+=== Chunk 95 [2820.00s - 2850.00s] ===
+要結束了 幹你娘29 分鐘耶不會啊 一定會再拖很久 這雙塔很難爆然後一瞬間我們打了 20 分鐘就被爆雙塔就跟那個有禮貌運動一樣果然啊 只要我們齊心協力小心啊小心啊然後我們就要開始贏家啦好煩啊
+
+=== Chunk 96 [2850.00s - 2880.00s] ===
+有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有
+
+=== Chunk 97 [2880.00s - 2910.00s] ===
+他怎麼那麼弱他超強的耶瞬間被秒了可以可以可以可以可以可以小心喔小心好可以可以可以快 Q 啦痛死了可以可以可以死光死光哇賽他怎麼 Q 啊太好了要被 W 弄死了要被 W 弄死了你這個電電刺殺玩工的傢伙開玩笑太電啦你是 AD 嗎對他玩 AD他三顆都玩 AD
+
+=== Chunk 98 [2910.00s - 2940.00s] ===
+我好像不能死耶可以可以可以可以可以可以可以可以成功成功大成功欸可以了可以了很強了很強欸想幹嘛超慢的欸欸欸欸幹什麼嚇我我差點把你舔出去啊超好欸血包血包血包血包欸慢點慢點沒有沒有沒有丟一個 W 就要跑過來還好我有按公教
+
+=== Chunk 99 [2940.00s - 2970.00s] ===
+腳腳腳腳屁屁在嚇小朋友屁屁在嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友嚇小朋友�
+
+=== Chunk 100 [2970.00s - 3000.00s] ===
+小心喔哇哇哇哇差不多可以上了啊走走走走走真挺一個讓我吸個血先
+
+=== Chunk 101 [3000.00s - 3030.00s] ===
+超級神鐵謝謝爆Q吃自殺Q吃一邊播卡Q衰老Q要被打死 要被吹死Q我想要被打死我想要被打死要出耳語太早了吧好可以直接出爆那個無盡耶出無盡好了啦真空展真空展都出來了
+
+=== Chunk 102 [3030.00s - 3060.00s] ===
+幹 怎麼打不死啊 幹 這麼多盾來來來 夥伴們其實我也只有一點點威嚇的作用
+
+=== Chunk 103 [3060.00s - 3090.00s] ===
+在 10 秒我就可以出來按公教了我要出來按公教囉快快快快按我 50 秒 50 秒大等一下等一下等一下他們都跑啦我沒大了我沒大了中小心小心我清家裡的冰我清家裡的冰摩拉小心你會被秒喔
+
+=== Chunk 104 [3090.00s - 3120.00s] ===
+還好我有按公教雖然我們塔全部爆光了可是我們人頭數贏三個這是怎麼回事呢他們要爆就爆得很快因為他們全部都輸出了
+
+=== Chunk 105 [3120.00s - 3150.00s] ===
+少囉嗦啦欸欸欸欸欸還好我有按公教巴毛小心巴毛教關於他的呂先生閃現的叫叫叫幹好痛喔太扯了吧欸沒有沒閃啊Shit省鐵欸欸欸等一下
+
+=== Chunk 106 [3150.00s - 3180.00s] ===
+為什麼我打不死他啊小心啊他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血他滿血
+
+=== Chunk 107 [3180.00s - 3210.00s] ===
+那我是哪一種我剛只有自己在旁邊按公教按公教你真的是沒有在參與遊戲的人跟別人視訊媽的按公教咧媽的教
+
+=== Chunk 108 [3210.00s - 3240.00s] ===
+他們很愛上盾耶煩耶每次都差那麼一點超他媽的真的還好我有暗攻角快跑啊哇你要死了我要死了還好不要不要不要快逃回來快逃回來你還射你幹嘛射不是欸我想說逃不回來啦一定逃不回來的啊
+
+=== Chunk 109 [3240.00s - 3270.00s] ===
+不如再用暴擊揍他一拳暗攻教啊 回來了 幹Q他 BAN他 PUNK他砍他暗攻教暗攻教轉一圈快暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻教暗攻
+
+=== Chunk 110 [3270.00s - 3300.00s] ===
+射到了射到了我沒射到幹你騙我為什麼還好我有按公教你他媽沒教教教教教怎麼那麼難打啊不合理啊再等 70 秒啊等一下就有按公教可以用了我還要等 40 秒才有孝敬人可以再見了還好我有按公教再見超好笑的
+
+=== Chunk 111 [3300.00s - 3330.00s] ===
+吸個血啊各位先滿血啊大大剛剛才吸滿了大大不要不要不要草叢一定有廢物直接叫人家廢物因為普羅跑進去了小心小心小心你補好多喔他有帶增值他是要防誰防巴毛應該是在威寇之身上5 秒大也太多了吧 5 秒大 5 秒大5 秒就可以按攻就好了30 秒
+
+=== Chunk 112 [3330.00s - 3360.00s] ===
+好快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快
+
+=== Chunk 113 [3360.00s - 3390.00s] ===
+幹沒辦法啦幹我沒有看到藍盾欸欸我直接被暈到底不行啊我大剛好大剛轉好而已沒辦法啊我大剛轉好就丟直接趕快射了沒辦法啊這沒辦法還好我有跳跳跳跳跳跳跳 ABC蕭敬騰又來看台是什麼
+
+=== Chunk 114 [3390.00s - 3420.00s] ===
+相信人如果來看台的話一定會說我們相信人來看台的話我們就把他 ban 掉然後 ban 掉之前就說再見那我們就要被 ban 了耶加油再見趕快出去喔媽的每次停在這站被超久的
+
+=== Chunk 115 [3420.00s - 3450.00s] ===
+我們也差不多輸三場了吧昨天的仗也夠了吧讓我們拿出勝各位朋友我一定要說你在遊戲裡面一直不停的笑一直不停的做動作的時候下一場一定會遭遇報應人生一定會遭遇報應不會吧在外面騎車的時候
+
+=== Chunk 116 [3450.00s - 3480.00s] ===
+我覺得蕭敬騰他不錯的地方就是他拍的廣告都蠻好笑的比如說那個面膜你們有看到他那個梅子綠茶嗎超爛梅子綠茶真的是
+
+=== Chunk 117 [3480.00s - 3510.00s] ===
+這個是真的嗎他說戰敗解決方法不要按結束按 auto 加 f4這樣不會關機嗎這樣會被判公理吧應該會直接把遊戲整個關掉吧會比較快嗎我小時候有被 auto f4 騙過耶有人在 RO 的那個稱號裡面就這樣寫 auto f4 可以賺錢
+
+=== Chunk 118 [3510.00s - 3540.00s] ===
+按 auto f4 可以看到本文隱藏內容超級的超級爽他們說你可不可以把椅背上的毛巾拿下來他被嚇到兩次毛巾還嚇到可是還是會啊如果說他眼中看著他覺得是別的東西了他等很他等太久我等很久我先去拿個水好的
+
+=== Chunk 119 [3540.00s - 3570.00s] ===
+毛巾變成這樣應該可以了吧就有一種我在哈薩克這邊你在那邊巴魯的感覺我在這邊你在那邊相逢正義條件我透過天窗萬歲來到你的身邊在我的心裡面的自己我在這邊你在那邊我有兩個馬言騙人
+
+=== Chunk 120 [3570.00s - 3600.00s] ===
+不要害怕有時候你們以為的錯覺不是錯覺
+
+=== Chunk 121 [3600.00s - 3630.00s] ===
+這個都不行啊這個領尾也不行啊還好剛剛什麼都沒聽到他說有時候鳥屎口會變回胖胖的身材我被嚇了兩次鳥屎胖胖的身材不是已經逐漸轉型中了嗎鳥屎聽不清楚大聲點他沒有辦法大聲一點因為現在很晚
+
+=== Chunk 122 [3630.00s - 3660.00s] ===
+他的歌音非常差超爆肝的等你上線耶馬上來啊好你是點小二嗎馬上來啊馬上上好像選個 AT 啊來吧每次綠茶送 VV送 V 啊送 V
+
+=== Chunk 123 [3660.00s - 3690.00s] ===
+喔幹放毛巾拉到背了好痛鳥屎跟房東的問題解決了嗎我跟房東沒有問題啊對啊他只是會一直建議他一些事情而已我會建議你喔一毛刮一刮啦那是我的特色啊
+
+=== Chunk 124 [3690.00s - 3720.00s] ===
+我最近發現一個很好的運動網站然後那個健身教練的羿毛超少的拉近的時候都會看到他的羿毛你叫做光羿夏健身中心怎樣光羿夏聽起來很臭耶可能羿毛越來越少也是他運動的一個成果不對吧太貴了吧經費有限用 Beta 58 可是我們全部都已經是 SN58 了喔
+
+=== Chunk 125 [3720.00s - 3750.00s] ===
+我有一個骰子我有一個骰子可以救人我有骰子救人要龍女我要骰掉喔救我喔我把我骰掉好那你骰你骰那我骰那我骰我把蓋倫骰掉囉那換我骰囉好多人那換我骰囉那換我骰囉凱爾有好多了嗎凱爾不錯啊也算一個輸出啦
+
+=== Chunk 126 [3750.00s - 3780.00s] ===
+那我幫你骰嗎不用啦你還有骰子喔好吧那我用那我們好震撼喔是怎麼回事啊看來這場就是靠鳥屎了沒問題啊交給我啊我帶兩個超強技能好啊我給你換
+
+=== Chunk 127 [3780.00s - 3810.00s] ===
+那張照片的確是非常久以前的事情有人問說那個專訪裡面那張照片是我多久以前的照片我說是很久以前的事情應該有八年前了吧什麼專訪啊
+
+=== Chunk 128 [3810.00s - 3840.00s] ===
+但是你要表達什麼意思啊這場太不談得很不妙可是我們很奶啊看對面對面根本不用打不會啦就靠吃大便當雙補的話奶大力先吃死
+
+=== Chunk 129 [3840.00s - 3870.00s] ===
+再看別的沒了攀升上一個我們就掰了真的怎麼都那麼難打啊我們不可以這樣子我們要很樂觀我們一定會我們下一場會贏的我們下一場就會贏了他們明天會大獲全勝沒錯某個角度跟傻逼那很像你是說把整個臉都扛起來的時候嗎你說對面怎樣
+
+=== Chunk 130 [3870.00s - 3900.00s] ===
+誰說話了What巴毛剛剛不是說對面怎樣他失憶了他失憶了失憶了失憶男我說對面有一個叫 forever uglyforever ugly我只想用我這一輩子
+
+=== Chunk 131 [3900.00s - 3930.00s] ===
+從今以後你會是 my own幸福的君侯幸福的君侯是誰啊你會踩到夾子超級故意踩的欸 丟了毛時間小心
+
+=== Chunk 132 [3930.00s - 3960.00s] ===
+他沒一隻綠茶生VV啊幹哇塞你剛講那句話也太快了吧你是印度人喔他沒一隻綠茶生VV啊你可惡應該可以隨便 poke 吧反正可以補魔可以補血不是嗎可以可以可以欸為什麼大家都不往後退呢為什麼呢有一個觀眾說我真希望你要是可以說一個關於太監的笑話從前有一個太監太監的笑話就只有那個啊從前有一個太監他跌到水溝裡然後就死了
+
+=== Chunk 133 [3960.00s - 3990.00s] ===
+超不好笑完全不是笑話是超級悲劇啊他一定會以為我會說然後呢就沒有了下面呢沒有了但是我們以前講的太監笑話就是從前有個太監他去美而美買了一個火腿蛋吐司結果老闆給他培根蛋吐司好下面呢好下面上面沒有在洗所以都很不夠我要勾嗎你可以等我弄到的時候不用勾
+
+=== Chunk 134 [3990.00s - 4020.00s] ===
+他們打一波比較強應該說你勾起來你勾之後可以讓我把他 q 起來你不要飛就好了因為你勾的時候他會被牽制住可以打啊好啊那我勾啊我是中立神勾好你可以勾小兵過來給我們吃沒關係好啊還是他媽要還是飛啦爸爸我害怕嘛
+
+=== Chunk 135 [4020.00s - 4050.00s] ===
+他們說                                      
+
+=== Chunk 136 [4050.00s - 4080.00s] ===
+超好笑鳥屎出賣啊你們是偽刀病患啊偽刀這種事交給我吧
+
+=== Chunk 137 [4080.00s - 4110.00s] ===
+超級蠢超級蠢有機會喔有機會首勝喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔
+
+=== Chunk 138 [4110.00s - 4140.00s] ===
+你眼睛裡看到了尾刀嗎我不是應該很有功勞嗎啊我撿到一個尾刀啊貪財貪財我們愛你愛的不知天高地厚唯你在我耳後我頭上這個表情是幹嘛就是有會那個奶大力看的到你的視野的意思哇直接一棍把他尻爆怎麼會這樣
+
+=== Chunk 139 [4140.00s - 4170.00s] ===
+還是你 Q 太晚了當自己家去我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了我上六了
+
+=== Chunk 140 [4170.00s - 4200.00s] ===
+把福報還完就沒事啦好想要投喔媽的為了毀滅了以後我就不想玩了不提醒到底喔沒有我都不玩對面會重生啊不要這樣嘛小心小心我被他打了沒有開什麼玩笑
+
+=== Chunk 141 [4200.00s - 4230.00s] ===
+可是上路曾經殺過何氏啊他不是從山過台灣了嗎哇 超級傳我從山過台灣爬不上去從來沒有經過比歐山可是我覺得你很衰耶我覺得你蠻衰的我看你打十場裡面遇到好多不是善類的善類非善類
+
+=== Chunk 142 [4230.00s - 4260.00s] ===
+以女技術這幾場應該都不應該輸了啊我看你就是隊友很不是說想要牽拖隊友但是你的隊友真的是沒有關係啦我很樂意帶在衝上過颱灣爬坡上去從來沒有打過比歐賽我也要助攻我沒有大加速逃掉了
+
+=== Chunk 143 [4260.00s - 4290.00s] ===
+喂當我毀滅了以後
+
+=== Chunk 144 [4290.00s - 4320.00s] ===
+我吃一個我沒摸了哇操我沒寫了耶補一下補一下有了有了有了好痛好痛好痛雙補雙奶媽桐山過太單我們兩天從來沒有打過比歐山我也覺得我碰到他超難過而且那個時候他不是說要補他兒子嗎我都快哭了他跟陸正寶生了
+
+=== Chunk 145 [4320.00s - 4350.00s] ===
+上上禮拜才看一次夠囉夠了夠了夠了欸我還有治癒啊有炸彈太誇張了太誇張了太誇張了我的有人要死了這邊有香菇不要靠近
+
+=== Chunk 146 [4350.00s - 4380.00s] ===
+太誇張了某半點起哇塞你唱得好有味道喔我到現在還沒回家我也還沒回家欸欸欸完了完了完了再見啦再見啦他會不會突然變身然後射我毛呢欸六探欸六探你再唱一次你唱得好有味道什麼東西你再唱一次你唱得好有味道我沒辦法重複可以啦
+
+=== Chunk 147 [4380.00s - 4410.00s] ===
+來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來
+
+=== Chunk 148 [4410.00s - 4440.00s] ===
+希望這輩子都不要踩到香菇躺上郭台銘
+
+=== Chunk 149 [4440.00s - 4470.00s] ===
+你這樣好有味道 你是客家人嗎笑屁啦一直被讚美是因為很直不好意思真的有這麼有味道嗎超有味道我都聞到野薑花粽跟麻糬的味道了笑成這樣我都聞到那個吉巴的味道了
+
+=== Chunk 150 [4470.00s - 4500.00s] ===
+啊媽的咧唉唷這個驚人太神啦超級殺爆到底會不會你不死啊所以你就可以唱了可以唱了可以唱了唱什麼唱什麼你一笑我一咪沒事啦快點啦快點啦快點唱一下野薑花粽跟
+
+=== Chunk 151 [4500.00s - 4530.00s] ===
+起爬的哥啦你也太高興了吧很慢動作耶剛剛注意 我有 5600 塊
+
+=== Chunk 152 [4530.00s - 4560.00s] ===
+要是當掉了不給我開商店啊那你趕快唱野薑花粽的歌啊有人留言說我是客家人樂特唱的真的很有味道快點啦客家精神耶你的客家精神耶一點都沒有客家精神他才沒有客家精神啊我沒有我來了啦馬你終於來了你說唱歌嗎
+
+=== Chunk 153 [4560.00s - 4590.00s] ===
+大家現在只期待你的唐山過台灣啊唐山過台灣超有味道喔都可以聞到那個你一唱那個客家小炒跟那個悶筍的味道都出來了我覺得我剛剛嘴巴裡面都吃到悶筍啊
+
+=== Chunk 154 [4590.00s - 4620.00s] ===
+我跟你講不只燒燜蠢我還吃到一點芹菜跟豆干還有那個魷魚啊到底是怎麼回事啊超級殺人魔喔我哇靠 太扯了吧
+
+=== Chunk 155 [4620.00s - 4650.00s] ===
+同聲郭台銘超有味道耶很中立小中耶有人說我也是客家人六探唱得很像我奶奶在唱的腔六探六探靠過來一點六探六探唱大聲一點唱大聲一點我們要 cue 她 1 2
+
+=== Chunk 156 [4650.00s - 4680.00s] ===
+這學不來耶我卡住了啦都在裡面躺著過來玩啊媽的欸自癒欸普通蠻邪的對啊普通蠻邪的自癒的嚇一跳欸我有針織你們不要不要喔終於收身欸趕快往旁邊趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕快趕
+
+=== Chunk 157 [4680.00s - 4710.00s] ===
+來啦我要 1 挑 2你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊你要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要幹嘛啊要
+
+=== Chunk 158 [4710.00s - 4740.00s] ===
+為了慶祝我們拿到首勝六探來唱一下客家本色來唱一下客家小巢已經有一家客家餐廳準備聘請六探成為主唱歌手真樣可惡來來來 5 6 7 8
+
+=== Chunk 159 [4740.00s - 4770.00s] ===
+快點啦你的唐山過台灣咧你的悶筍野薑花粽跟奇葩咧好餓喔欸快點啦欸快點欸六探我好想喝擂茶喔快點唱一下擂茶是吃的不是嗎擂茶是喝的擂茶才是打排球的啦擂茶是吃的吧擂茶是喝的啦
+
+=== Chunk 160 [4770.00s - 4800.00s] ===
+一個很大的波然後一直一直一直倒一直倒最後再喝嗎那個料很多耶那個料很多應該算是用吃的吧是嗎我們終於拿到首勝了耶感覺就很多氣泡耶那個擂茶應該應該要一直慶祝一下擂茶是打排球的擂茶是擂抓嗎
+
+=== Chunk 161 [4800.00s - 4830.00s] ===
+好久沒去啊所以他叫你唱歌你就可以讓他同遊戲玩起來看起來這也太好吃了吧擂茶我只有吃過一次而已我覺得蠻好喝的耶我蠻喜歡的它裡面就會有很多那個什麼爆米香米香我記得它是一些穀類啊什麼葵花籽啊芝麻啊什麼
+
+=== Chunk 162 [4830.00s - 4860.00s] ===
+我不知道倒水還倒茶耶反正就是把它變成像抹茶那種東西嗎我不知道耶但是也會加料啊也有時候會加料在裡面但是會有抹茶的味道嗎我記得好像沒有耶不然就是每個人的擂茶不一樣吧茶葉芝麻花生等原料乾擂磨成粉後再加水泡成飲水
+
+=== Chunk 163 [4860.00s - 4890.00s] ===
+有一個觀眾說今天看實況彷彿帶我回到苗栗老家苗栗老家苗栗市到底怎麼唱啊我怎麼唱都像陳雷啊我不是客家人啊我怎麼唱都是猴猴雷啊
+
+=== Chunk 164 [4890.00s - 4920.00s] ===
+我先然後再蓋老王再蓋巴毛再蓋Leggy再蓋六探誰都要屌你欸你們還打嗎統戰國臺灣冒犯兩千蓋老王統戰國臺灣冒犯兩千蓋巴毛統戰國臺灣冒犯兩千蓋Leggy蓋Leggy統戰國臺灣冒犯兩千人讓我們歡迎六探
+
+=== Chunk 165 [4920.00s - 4950.00s] ===
+你根本只是想 cue 她而已明明老王馬上就要該我了還要不要打啦你先唱再打啦你沒唱啊我不想唱我不會你這樣怎麼我們節目進行不下去突然之間變得很害羞我剛剛笑得太大力了害我牙齒撞到麥克風
+
+=== Chunk 166 [4950.00s - 4980.00s] ===
+快點啦客家人趕快來要不要打我們這裡真的有客家人嗎除了我觀眾可能有喔觀眾當然有這麼多人我們要打自訂嗎怎麼知道自己是不是客家人
+
+=== Chunk 167 [4980.00s - 5010.00s] ===
+就是看你會不會唱客家粉色啊就是看你能不能嘴巴一打開就有那個芹菜豆干跟魷魚的味道飄出來這只是沒刷牙而已好不好怎麼是客家小炒啊好吃死了我超喜歡吃客家菜的耶我覺得客家菜真的是好吃到不行耶我媽最喜歡炒就是客家小炒
+
+=== Chunk 168 [5010.00s - 5040.00s] ===
+客家小炒飯還好因為我不太喜歡吃芹菜可是悶筍啊薑絲炒大腸超好吃耶請問一下客家人是神嗎我要表達我對客家人的尊重請我的表哥唱一首客家本色我不要我不喜歡吃薑絲炒大腸讚
+
+=== Chunk 169 [5040.00s - 5070.00s] ===
+是不是那個豬腳還是什麼也是客家菜啊你說那叫什麼什麼肉啊客家豬炒豬炒是什麼豐肉豐肉我想到了豐肉你在罵誰啊客家豬炒你在罵誰啊野薑花這種也超好吃啊天啊客家菜真的太棒了
+
+=== Chunk 170 [5070.00s - 5100.00s] ===
+福菜白肉福菜白肉福菜白肉福菜白肉福菜白肉梅干扣肉梅干扣肉太好吃了吧我們請六探唱一下客家本色我真的覺得還好沒有很好吃是嗎六探六探殭屍炒大腸只有大腸好吃而已殭屍又不好吃是嗎
+
+=== Chunk 171 [5100.00s - 5130.00s] ===
+因為一直被大家捧起來之後唱真的有一點尷尬因為效果不如預期那不然為了避免這種情況發生我們先一人唱一輪好了好不好我先唱然後老王唱然後巴毛唱然後 Leggy 唱你再唱好不好好來我先唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷唷�
+
+=== Chunk 172 [5130.00s - 5160.00s] ===
+統戰過臺灣不分兩全統戰過臺灣不分兩全統戰過臺灣不分兩全統戰過臺灣不分兩全讓我們歡迎六探讓我們鄭重歡迎讓我們看看快點喂喂剛發生什麼事喂唱快唱因為六探比較怯場不然我們再幫他唱一輪好了
+
+=== Chunk 173 [5160.00s - 5190.00s] ===
+你好你好喂不好意思我們歡迎杰宏他很擅長唱一首歌叫客家本歌杰宏快點我已經忘記我的藝名了杰宏快點不要 man我不想唱逼我唱歌我就怕別人逼我了最討厭的是那種就是如果長輩在他說啊掌聲不夠大聲啊當然是要掌聲很大聲才要唱
+
+=== Chunk 174 [5190.00s - 5220.00s] ===
+有人說聽六探唱歌真的懷念以前年輕的時候穿著藍衫跟著田的時光屁咧屁咧我們還有該聊天室耶超好笑睡著了嗎他睡著了那我們來唱一首歌讓他提起精神我的精神很好哇我真的沒辦法叫他唱這麼有味道可是我真的已經忘記
+
+=== Chunk 175 [5220.00s - 5250.00s] ===
+對啊根本就沒什麼我跟你講他簡直就是活肉郎不是活肉郎客家人是泉州人還是福佬人啊不知道耶突然之間問我我有點忘記了應該是客家人是拜開張聖王嗎開張聖王是泉州嘛開張聖王就是漳州啊漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州漳州�
+
+=== Chunk 176 [5250.00s - 5280.00s] ===
+福老人是 sin sin cos 負 4 sin sin 嗎不對耶反正對啦你們想聽的人去看精華啦我覺得一定會有啦說實在的懶熊應該會把它獨立剪出來吧聽沒有辦法可以為 2454 個觀眾省下去一趟苗栗的火車票錢
+
+=== Chunk 177 [5280.00s - 5310.00s] ===
+什麼啊什麼啊等一下苗栗市客家人喔苗栗市吧很多啊很多客家人你可以問一下家人啊我覺得你可以問問看可是他們都不會講客家話啊不一定啊我跟你講會不會講客家話不是重點會不會上客家本色才是重要的啊好不好我們請六探示範一下
+
+=== Chunk 178 [5310.00s - 5340.00s] ===
+該不會又是我吧欸怎麼還沒叫我對啊美濃也是啊美濃也是因為 Fick 就是客家人啊啊那那我們請 634 把你解決哇靠完全沒有關係什麼時候找到關台啊我想玩活潑唉還要打嗎應該差不多了吧你們還要打嗎差不多囉
+
+=== Chunk 179 [5340.00s - 5370.00s] ===
+今天關台歌就是由客家粉絲帶來的客家粉絲由六探帶來的客家粉絲如果六探唱客家粉絲會缺唱那我們請他唱別的歌好了請六探唱一首唐山過台灣煩不煩啊走啊我們去夜唱啊我們點 12 次客家粉絲不要啦好浪費錢喔而且我們只會唱一句啦
+
+=== Chunk 180 [5370.00s - 5400.00s] ===
+沒關係啦 給六探朋友啊欸六探那你不要用唱的你用唸的唸的然後帶一點唐山過台灣的精神他根本可以去死如果現在就是我的生日我要許一個願我想唐山過台灣這條歌在我的腦海中
+
+=== Chunk 181 [5400.00s - 5430.00s] ===
+我覺得你就把你的粉絲團名字改成客家粉絲團好了啊不要啦以後你就叫唐三了啊6 堂堂你改名叫 3 堂3 堂
+
+=== Chunk 182 [5430.00s - 5460.00s] ===
+你今天這樣子開玩一定有一堆在那邊看紀錄的那些白痴會來問我的分數先跟我說欸 3 檔 3 檔掉了先把他 ban 掉了以後這裡就改成唐山 workshop為什麼我們就叫 TS workshop唐山唐山的意義
+
+=== Chunk 183 [5460.00s - 5490.00s] ===
+我們就叫唐 shop 好了唐 shop go 台灣好啊我現在就寫信申請啊那我們就再改編一首歌來唱好了唐山 go 台灣各位只會關你們好嗎唐山 go 台灣我們現在就把分散改成唐山 workshop 以後人家 G2 下面傳言人家 G2 又是誰啊
+
+=== Chunk 184 [5490.00s - 5520.00s] ===
+馬上忘記變成唐山嘉義那就沒有關係了人家就覺得喔喔柯家仁在網路上很團結唐山嘉義喔三山國王嘉義喔三山國王嘉義不行啦我們不能娶三山國王啊因為一定會有三山國王的粉絲團啊
+
+=== Chunk 185 [5520.00s - 5550.00s] ===
+唐三軒唐三軒後援會好啦差不多啦晚安啦晚安啦大家晚安啦
+
+=== Chunk 186 [5550.00s - 5580.00s] ===
+什麼事情很多人都一直私訊我叫我希望他們做什麼希望大家可以多關心一下澎湖之前是不是附近航空的那個 corner好像最近很多事情發生了大家就忘記了大家多關心一下就這樣了什麼關心我也不知道但是他就是說多關心點好那就這樣
+
+=== Chunk 187 [5580.00s - 5583.47s] ===
+拜拜
 
