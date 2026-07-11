@@ -1,7 +1,45 @@
-=== Chunk 1 [0.00s - 425.97s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+Connect囉Arcane ConnectArcaneFighterHunterShamanSwitchblade你要玩哪一個我一定是玩女的真的假的我也一定是玩女的Fighter跟 Hunter 感覺就超無聊的啊醜死了不然 Hunter 還好啊
+
+=== Chunk 2 [30.00s - 60.00s] ===
+那我想用 wishblade 呢因為我討厭純法師感覺 wishblade 至少可以戰鬥一下那我用 shaman 吧欸 wishblade 有夠希望欸你最喜歡的被發現了高跟鞋的字你就不喜歡了唉唷好爛喔這個角色好算了我用 phase two 病容裝我最愛保證好不好我跟你講我是弄的保證是黑美人真的嗎媽媽都不認識了
+
+=== Chunk 3 [60.00s - 90.00s] ===
+正到歪掉好不好大哥拜託一下正啊你怎麼那麼正少女革命你的插圖一定要這麼大片嗎我的媽咪啊我跟你講一定是我比較正你真的草屁一定是我比較正我只是裝聾一點而已
+
+=== Chunk 4 [90.00s - 120.00s] ===
+很濃妝就已經輸了草屁啊用那個用瀏海概述他就是正妹了你輸定了背後有個雌星好漂亮喔我想要變成它超不切實際的想法喔好正喔他的 tattoo是佈滿整個臉的耶它 tattoo 可以調 size 它可以變很小一個它 tattoo 太多了啦我反而不想挑了不要 tattoo 了啦全部點 挑最胖也還好喔有兩個太胖
+
+=== Chunk 5 [120.00s - 150.00s] ===
+Chess 等於什麼Chess 的胸部你喜歡大胸部嗎我已經全滿了可是也沒多大真的喔喔不對 差很多耶 我好了吵屁啊 我一定比你正好 create characterdo you want to create this characteryes耶我一定比你正我已經比你正了我跟你講
+
+=== Chunk 6 [150.00s - 180.00s] ===
+開頭是說迪亞布羅如何崛起的嗎開始了SuccessStop right there, Witchblade, you don't belong here, go back home, we've got enough什麼沒看完
+
+=== Chunk 7 [180.00s - 210.00s] ===
+水質等級升級了level up才能一起玩呢我也不知道我們好像兩個不同世界的人該不提一下到底誰比較美吧一定是我
+
+=== Chunk 8 [210.00s - 240.00s] ===
+我來我們兩個站在一起誰比較漂亮明明就我比較漂亮當然是我比較漂亮啊屁啦為什麼我嘴巴開開了好我來拍照然後上傳圖讓問人家誰比較漂亮好誰比較漂亮我問他們說我跟 Leggy 誰漂亮
+
+=== Chunk 9 [240.00s - 270.00s] ===
+The Lost Pendant好無聊喔這些 RPG 都不會想到新的嗎
+
+=== Chunk 10 [270.00s - 300.00s] ===
+Find your weakness and crush it under pressure.You can't see what you're made of.
+
+=== Chunk 11 [300.00s - 330.00s] ===
+那個不是古早的那個絲襪的顏色嗎他怎麼那麼帥啊他閃現耶欺負小矮人啊白雪公主在後面哭了哇魔法陣照片然後就說明明就是我比較正什麼屁你已經贏了不要再羞辱我了你到底想要怎樣
+
+=== Chunk 12 [330.00s - 360.00s] ===
+別忘了我們的絕招可以踢箱子耶這邊還有一個箱子我踢我踢我打掉了給我踢這邊在冒紅氣耶我的我的我的我的我的我的不要搶他還在追他的 sister 他真的沒空耶 fort
+
+=== Chunk 13 [360.00s - 390.00s] ===
+要不是有六探你早就死了什麼這邊寫的是 Leggy好大一坨錢喔我要選最後的六號箱也太爛了吧紅色不是壞掉啦不然咧紅色是有不能Hunter這不是使用的我打到下面了啦搞屁啊該不會這遊戲是打不到自己裝備的那種遊戲吧
+
+=== Chunk 14 [390.00s - 420.00s] ===
+你接了什麼告訴我這邊啊一個那個 b 什麼的啊什麼的我一定就是按啊好吧那我去接嘛反正反正那個流浪我剛剛以為紅色信號是不能接啊反正流浪他還會叫我們再接一個任務這個也真的啊那我再給你打一次啊喂好那我先 quit 囉好不要偷打我好
+
+=== Chunk 15 [420.00s - 425.97s] ===
+馬上接下一個副本
 

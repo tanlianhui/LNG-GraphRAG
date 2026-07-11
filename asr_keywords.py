@@ -5,24 +5,17 @@ Whisper uses this as decoder context before generation, biasing recognition
 toward channel-specific terms without forcing them.
 """
 
-MEMBERS = [
-    # Core LNG Gaming members (handles used on stream)
-    "小六", "六探",          # Xiao Liu / Six
-    "鳥屎",                  # Niao Shi
-    "Leggy",                 # Leggy
-    "巴毛", "八毛",           # Ba Mao
-    "老王",                  # Lao Wang
-    "大毛",                  # Da Mao
-    "展邱",                  # Zhan Qiu
-    "梁兄",                  # Liang Xiong
-    "乃哥",                  # Nai Ge
-    "阿旺",                  # A Wang
-    "托老師",                # Tuo Laoshi
-    "素雲",                  # Su Yun
-    "天神",                  # Tian Shen
-    "Fick", "FIG",           # Fick / FIG
-    "Pasta", "Yakisoba",     # mentioned in older streams
-]
+# The 6 CONSTANT members (appear in almost every stream). Bias hardest toward these.
+CONSTANT_MEMBERS = ["小六", "六探", "鳥屎", "Leggy", "八毛", "老王"]
+
+# Names that come up occasionally (guests / less-frequent handles). Rare.
+GUEST_MEMBERS = ["展邱", "奶哥", "悅悅", "顏顏", "蕾蕾", "探探", "天神"]
+
+# Known ASR mishears → correct handle (for the cleanup glossary, NOT the ASR prompt,
+# so we don't bias toward the wrong spelling). 八毛 is frequently heard as 巴毛.
+MISHEARD = {"巴毛": "八毛"}
+
+MEMBERS = CONSTANT_MEMBERS + GUEST_MEMBERS
 
 BRAND = ["LNG", "LNG Gaming", "LNG Workshop", "廢物工作室"]
 
@@ -56,10 +49,13 @@ SLANG = [
 ]
 
 # Build the initial_prompt string — natural-sounding so Whisper uses it as context.
-# Keep under ~224 tokens; Whisper's prompt window is limited.
+# Keep under ~224 tokens; Whisper's prompt window is limited. A fuller, natural
+# Traditional-Chinese sentence biases recognition better than a bare keyword list.
+# 6 constant members lead (strongest bias); guests mentioned as occasional.
 INITIAL_PROMPT = (
-    "LNG Gaming頻道直播內容，台灣華語。"
-    "頻道成員：" + "、".join(MEMBERS[:12]) + "等。"
-    "常見遊戲：英雄聯盟、快打旋風、暗黑破壞神、派對動物、TFT、Valorant。"
-    "平台：Twitch、YouTube。"
+    "以下是LNG Gaming頻道的台灣華語遊戲直播內容，對話夾雜英文與台語。"
+    "固定成員有" + "、".join(CONSTANT_MEMBERS) + "。"
+    "偶爾會提到" + "、".join(GUEST_MEMBERS) + "。"
+    "常玩的遊戲包括英雄聯盟、快打旋風、暗黑破壞神、派對動物、雲頂之弈、"
+    "Valorant、魔獸世界、Metro 2033、Evoland。"
 )

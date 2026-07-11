@@ -1,7 +1,33 @@
-=== Chunk 1 [0.00s - 304.83s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+他是番茄水呀尿尿水尿尿是誰呀尿尿就是水沒變到卡特喔對面有嗎沒有有變卡特啊有嗎有啊是喔對面這陣還好啦
+
+=== Chunk 2 [30.00s - 60.00s] ===
+他們的陣好像平常打 AI 會出的陣可是不強啦只要趙信硬一點就把他們戳死了塔隆可以直接把他們全部收成肢障然後我就負責在這邊跳舞給你們看誰要跟我牽手牽手我覺得趙信跟我牽手好了
+
+=== Chunk 3 [60.00s - 90.00s] ===
+開始了耶沒有發現打中一個打中兩個
+
+=== Chunk 4 [90.00s - 120.00s] ===
+巴毛你有用過我這支嗎他們就像變莫菲特的大絕一樣太遠太遠區比區
+
+=== Chunk 5 [120.00s - 150.00s] ===
+9％比 89％比 99％比 8說是我就會是我啊不用想太多啊巴毛你可以直接從 F 回來等我一下我這要接多少招啊我才想問你啊我可以把站放在普羅嗎
+
+=== Chunk 6 [150.00s - 180.00s] ===
+幫忙啊慢慢的打出一個大破口救命啊
+
+=== Chunk 7 [180.00s - 210.00s] ===
+一到界面上他就會 R 到後面了你是智慧吃雜嗎差一點我沒把它炸爆啊忘記買東西了白癡喔
+
+=== Chunk 8 [210.00s - 240.00s] ===
+你不飛過去了喔我還沒有那個沒有任何招飛過去被他打死了嗎我剛被你吃進去了因為你要死啦你要死的時候我幫你吃一下你就不會補血囉
+
+=== Chunk 9 [240.00s - 270.00s] ===
+吃掉吃掉中好球三分球好球我讓你馬上走了算了爛耶
+
+=== Chunk 10 [270.00s - 300.00s] ===
+你這個死定了買這個會不會得兩百一百五還很遠啊 ok 吧來啊來啊來啊飛過來啊是可以重訂但是我要再買一支刀子
+
+=== Chunk 11 [300.00s - 304.83s] ===
+他會帶一身炸彈我們來不及了來不及放到這一袋
 

@@ -1,7 +1,603 @@
-=== Chunk 1 [0.00s - 6018.75s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+
+=== Chunk 2 [30.00s - 60.00s] ===
+嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯嗯umumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumumum
+
+=== Chunk 3 [60.00s - 90.00s] ===
+Hello Hi 大家晚上好
+
+=== Chunk 4 [90.00s - 120.00s] ===
+延遲一分鐘的問題依舊不會改善
+
+=== Chunk 5 [120.00s - 150.00s] ===
+原因是因為 YouTube 它就是說它在處理我們上傳的這個直播的時候它它會把它先轉換成就是影片收看的格式這個是友台實況主老皮跟我講的不是原度一那老皮對他跟我說因為這樣子所以他們在看那個實況的時候還可以往回拉
+
+=== Chunk 6 [150.00s - 180.00s] ===
+所以延遲一分鐘是必然的我也不知道這個可不可以調掉目前是沒辦法關掉啦那我想我想等這個系列結束之後我再考慮要不要繼續用 YouTube 實況還是說回到 Twitch然後想辦法把那個影片上傳到 YouTube 上面這樣子但是這個系列就
+
+=== Chunk 7 [180.00s - 210.00s] ===
+在 YouTube 實況的話就大家多擔待一下我會繼續在這邊這個 YouTube 平台把它給實況完畢這樣子那基本上大家可以把它當成就是你們就先先看先看 YouTube 的瘦肉這樣子因為基本上來講我會比較難跟大家互動因為大家都是一方面 YouTube 聊天室更新也很滿然後一方面也有一分鐘延遲所以你們可能說
+
+=== Chunk 8 [210.00s - 240.00s] ===
+走那邊走這邊撿什麼撿那個的時候可能已經是就是一分鐘以後的事情了所以對就差不多這樣子啦那上次實況到最後的時候突然就斷掉了發現是我時間設定的關係今天我多設定了十分鐘就是一點緩衝不要太那個不過上次是還好差不多我要關掉的時候它才斷掉這樣子那我們就繼續上次的故事最後是
+
+=== Chunk 9 [240.00s - 270.00s] ===
+主角那個 Artyom 他差一點就是他差點就被殺掉但是最後是被那個將軍的小孩偷偷放出去然後我們就成功的逃出去了這樣子那現在我看一下I was able to send a report back to the order via my old acquaintance, Andrew the blacksmith.At least Miller will know that I'm alive, that I haven't completed the mission, but haven't resigned from it either.
+
+=== Chunk 10 [270.00s - 300.00s] ===
+所以他現在就逃出去了他想要趕快把這個情況回報給他的就是以前的好戰友這樣子That's one serious pickle you're in.But I can help.因為我逃出來終於逃到一個地方然後剛好遇到他是我的好戰友所以他救了我這樣子So now you must return home to Polis?Well, there's no direct route, everything's cordoned off here.But I believe the order has an outpost nearby, on the surface.
+
+=== Chunk 11 [300.00s - 330.00s] ===
+The church and the marshes.Try that place.If we can get word to your people, they might meet you there.所以我現在想辦法回去我自己的 police stationAs for me, I started life anew, left Kuznetsky most.The Reds completely subverted the place, looking for traitors and spies, sending people to camps or just shooting them, all because of the coming war.People are fleeing from Kuznetsky most and their whole red line.
+
+=== Chunk 12 [330.00s - 360.00s] ===
+Did you see the armored train the Reds are building?Well, we build something too, with the stuff the refugees are bringing.Here, take a look.And this baby, the boys even gave her a name.You can't help but fall in love with her.She did a swell job running refugees.But hell, you can't save everyone.So, take it.We have people in Venice too.
+
+=== Chunk 13 [360.00s - 390.00s] ===
+When you get there, find Woodpecker and tell him where you left our baby.Climb aboard.所以他說反正紅軍也有研發很多 Masaburu 的東西但是我們這邊也有研發這一台這個其實我也不知道叫什麼Get in, Arty. You won't break it.好吧我進去了怎麼這麼好直接讓我開All right, start the engine.Gentlemen, start the engine.
+
+=== Chunk 14 [390.00s - 420.00s] ===
+怎麼 start 你沒有教我Excuse me.Come on, start it.怎麼 start剛冒了一點煙What's taking you so long?Start the damn thing.你沒教我啊白痴也沒有新手教學我要發文上網問一下教我啊怎麼有煙啊是不是壞掉了
+
+=== Chunk 15 [420.00s - 450.00s] ===
+We're still tinkering with her, so the controls aren't perfect, but the lights are first class, no need to fear the spider bugs around her, and there's a lot of those in the far tunnels.You should go, it's a long way, so you shouldn't waste any time.
+
+=== Chunk 16 [450.00s - 480.00s] ===
+這怪物超噁的啦這樣就下車啦到了是不是是有一點快啦我覺得是有一點快啦髒髒的夭壽喔
+
+=== Chunk 17 [480.00s - 510.00s] ===
+這裡有什麼嗎什麼都沒有那我到底進來幹嘛無理了有聲音了
+
+=== Chunk 18 [510.00s - 540.00s] ===
+上車Go不用手就可以開真的是非常高科技真的是非常高科技不愧是2033年什麼聲音啊有門就要去看一下
+
+=== Chunk 19 [540.00s - 570.00s] ===
+這什麼直接拿起來不用不好意思我看一下超噁啦髒髒的有點卡這個蛋感覺就是隨時會爆炸啊直接照你燙燙喔
+
+=== Chunk 20 [570.00s - 600.00s] ===
+這麼多喔不好意思不好意思好像有點太多太多了太多了我真不夠多你們不要這樣兄弟們不要這樣王八蛋王八蛋王八蛋啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+
+=== Chunk 21 [600.00s - 630.00s] ===
+能不能這樣吃雞皮肉的來啊啊屁啦救命救命好多好多好多好多欸好好好不玩了不玩了我走了我走了好囉夠囉沒禮貌欸啊喔屁啦欸好噁啊
+
+=== Chunk 22 [630.00s - 660.00s] ===
+屁啦 根本打不死嘛我真的要死了
+
+=== Chunk 23 [660.00s - 690.00s] ===
+我真的會死我真的會死我沒有在跟你開玩笑而且我真的好像要迷路了欸欸等一下等一下我還沒拿下
+
+=== Chunk 24 [690.00s - 720.00s] ===
+欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸
+
+=== Chunk 25 [720.00s - 750.00s] ===
+要了一圈什麼都沒有啊天啊完全浪費我子彈的時間抽箱子幹嘛閃開啊幹嘛幹嘛幹嘛
+
+=== Chunk 26 [750.00s - 780.00s] ===
+真的有夠噁爛的耶等一下我看一下地圖要去哪好我決定還是不要去任何地方了因為實在是太危險了 you know雖然裡面可能會有什麼子彈啊武器什麼的可是我還是不要去看什麼看看什麼看電動車子來來來來來唉唷唷唷要學我什麼東西啊
+
+=== Chunk 27 [780.00s - 810.00s] ===
+什麼東西啊我幹嘛戴面罩啊我有病了什麼東西砸到我的車嗎是嗎這裡有個東西把壞掉的放上去好看一下喔
+
+=== Chunk 28 [810.00s - 840.00s] ===
+指向這邊那應該是要把這拉開我拉它是壞的它是壞的那我們就走這裡好了唉一看就知道不太行幹什麼天啊這裡也太髒了吧
+
+=== Chunk 29 [840.00s - 870.00s] ===
+What?I'm watching you.等一下 那個蟲也太強了吧
+
+=== Chunk 30 [870.00s - 900.00s] ===
+我都照他了怎麼這樣怎麼這樣好想放大絕了我真的要死了啦
+
+=== Chunk 31 [900.00s - 930.00s] ===
+去死去死啊在哪裡啊恐怖啦唉唷欸我就是不在合唱裡
+
+=== Chunk 32 [930.00s - 960.00s] ===
+他有好戰他一定有好戰我真的沒辦法殺他我真的不知道怎麼殺他我罩著他耶該死我罩著他他竟然這樣沒辦法快走快走快走
+
+=== Chunk 33 [960.00s - 990.00s] ===
+屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁屁�
+
+=== Chunk 34 [990.00s - 1020.00s] ===
+不是這樣啊太強了吧啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+
+=== Chunk 35 [1020.00s - 1050.00s] ===
+壞蛋來了救命你可以走嗎不行有燈了我趕快出去不被你們消耗好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了好了可以了可以了
+
+=== Chunk 36 [1050.00s - 1080.00s] ===
+糾子彈都快射光了GO等一下錯錯錯錯等一下這又是怎麼回事前面的路又幹嘛了
+
+=== Chunk 37 [1080.00s - 1110.00s] ===
+這是要去哪裡這直走這去左邊可是我要去哪一邊我怎麼知道這什麼我看一下我要去我要去左邊啦對所以這樣是對的這車燈怎麼不亮沒理由走what
+
+=== Chunk 38 [1110.00s - 1140.00s] ===
+喔唷老朋友看這裡有沒有什麼東西可以撿撿欸等一下這裡面有東西可以撿耶剛剛應該過去那裡了
+
+=== Chunk 39 [1140.00s - 1170.00s] ===
+算了來不及了趕快通過這邊好了我的防毒面具不多了等一下我想想看沒錯不好意思這位大哥
+
+=== Chunk 40 [1170.00s - 1200.00s] ===
+怎麼回事可以把他撞出去喔好吧有點恐怖快點快點不好意思
+
+=== Chunk 41 [1200.00s - 1230.00s] ===
+那裡有房租面具我先去換一下
+
+=== Chunk 42 [1230.00s - 1260.00s] ===
+這裡好像有東西可以撿有嗎有點恐怖但是好像有物資所以我要先撿什麼啦有鬼有槍耶什麼聲音啊這裡有幻覺啦不行了不行了要出去了出去了
+
+=== Chunk 43 [1260.00s - 1290.00s] ===
+有幻覺就不要久留了這邊對身體不好
+
+=== Chunk 44 [1290.00s - 1320.00s] ===
+哇塞他停住了你怎麼會這樣你喜歡我對不對停住了我們可以仔細看他身上實在有點噁心有朋友也停住了
+
+=== Chunk 45 [1320.00s - 1350.00s] ===
+是要到了沒啊我要殺幾隻啊我沒子彈了耶我沒辦法換耶怎麼就一直停在這邊啊先下車一下
+
+=== Chunk 46 [1350.00s - 1380.00s] ===
+撞得過去嗎衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝衝
+
+=== Chunk 47 [1380.00s - 1410.00s] ===
+Pavel's group is advancing towards Tretikovskaya, also known as Venice.They have a few hours lead on me and are moving via frequently used tunnels.But I will catch up.I can't afford not to.
+
+=== Chunk 48 [1410.00s - 1440.00s] ===
+Pavlo的團體正在去這個 Tchaikovskaya反正很長啦但是也叫 Venus他說Pavlo 他們比我提早幾小時去這樣子然後他們是從那個隧道過去的他說 Artem 說他必須要追上他們我們可以追上讓我們做他的入神耶開什麼玩笑我的房租
+
+=== Chunk 49 [1440.00s - 1470.00s] ===
+防毒面具那是破的王八糕子好我們先走不要亂拿打火機出來卡住了怎麼過去啊
+
+=== Chunk 50 [1470.00s - 1500.00s] ===
+還有蒼蠅是往回走嗎應該是啦還有不是超噁啊都是蒼蠅欸這裡可以走原來努奇都是蒼蠅啦好噁啊BBB是怎麼回事
+
+=== Chunk 51 [1500.00s - 1530.00s] ===
+喔好恐怖的地方喔不過我一定會趕上我一定會趕上我一定會趕上我一定會死路好完全走錯方向來沒關係大家不要緊張好看一下BBB怎麼回事
+
+=== Chunk 52 [1530.00s - 1560.00s] ===
+有別的路可以走嗎還是這車還可以用還可以開是不是我看看喔屁啦這樣還可以開不要跟我開玩笑囉發動
+
+=== Chunk 53 [1560.00s - 1590.00s] ===
+撞撞撞還撞得過去嗎不知道還撞不撞得過去這樣子感覺就是有東西欸怎麼燈關了燈不要關啊
+
+=== Chunk 54 [1590.00s - 1620.00s] ===
+好耶想說難得帥氣的一次找到路邊的箱子讓大家觀眾刮目相看結果不能開啊好啊都可以這樣沒關係要快一點才撞得了倒退加速你們好
+
+=== Chunk 55 [1620.00s - 1650.00s] ===
+Stand still or we shoot, we're armed.We're armed, swear by Lenin's name.He doesn't look like a GB, I don't recognize the uniform.Could he be one of ours?Look at all his weapons.Don't shoot, we're civilians, there are women and children here, leave and let leave, okay?We're refugees from the Red Line.I'm in charge here basically, though there's nobody under my command.All the battle-worthy men went with the other caravan.
+
+=== Chunk 56 [1650.00s - 1680.00s] ===
+好可憐啊這群人這群人進退難
+
+=== Chunk 57 [1680.00s - 1710.00s] ===
+下車了哎呀可憐的傢伙啊我們幫我那我幫你是可以的哎呀對我們要有子彈啊要用買的是不是這個勢力耶ammo secondaryammo 買一下
+
+=== Chunk 58 [1710.00s - 1740.00s] ===
+用這個好了It could be worse.These are great spices.You can't carry that much.If ignorance is bliss, you're the happiest guy around.This is just a thing for better consumption.我的東西好少喔 一下子就買滿了SecondaryIf they're pinned down, we could flank the bandits.Let's get ready then.These knives are the best weapon if we want to protect the women and children.Come again, but we can't let the bandits kill our guys.
+
+=== Chunk 59 [1740.00s - 1770.00s] ===
+Ranger is going to help us.Looks like he is worth twenty of you anyway.他們這群人是群超級大 bar car 耶他們覺得我很強啊我可以No bad, you can't hit them.我是他們的強他們的三比他們強三倍You're trying to take too much.Hey, come on, buy these, you can find them anywhere else.有沒有別的東西可以買啊這群真的是一群大 bar car看來我要解救他們了看你買什麼
+
+=== Chunk 60 [1770.00s - 1800.00s] ===
+Stuck 還有 4N改造的 AK 好了這好像不錯
+
+=== Chunk 61 [1800.00s - 1830.00s] ===
+But then, I was summoned to do it.I said with my luck, I'd bite the dust the second I hit the front lines.So, she got me into this caravan, which seems like a mistake now.You're still young.If you need a weapon, come back.I'm not going anywhere anywhere.But me, I served them for twenty years.They gave me attention.I found grams of mushrooms and then put it again, and they don't let me pay, saying it's a disgrace.
+
+=== Chunk 62 [1830.00s - 1860.00s] ===
+Let me go, please, I beg you.Shut your trap, bitch.Enough of your whining, nobody's coming.Well, perhaps, if you do a personal one, I'll spend one.
+
+=== Chunk 63 [1860.00s - 1890.00s] ===
+算了 不多管閒事我要摸黑行動What the fuck are you doing there for so long?We searched everything already.They had a lot of shit here. I'd have missed some bullets up on it.Well, move your ass.The other guys are probably back home already and have dropped.Shit, he's dead!
+
+=== Chunk 64 [1890.00s - 1920.00s] ===
+我應該幫 AK 也裝聲音管的感覺比較好
+
+=== Chunk 65 [1920.00s - 1950.00s] ===
+不過沒關係啦哈哈哈這裏也太黑了看來我的確是要往那邊走好來來
+
+=== Chunk 66 [1950.00s - 1980.00s] ===
+好黑啊 我看不到哪裡有黑哪裡啊啊 我看到了你們好準啊
+
+=== Chunk 67 [1980.00s - 2010.00s] ===
+哎呀怎麼會這樣呢你們眼睛怎麼這麼好啊我都看不見了我看見了差不多了應該沒什麼人了
+
+=== Chunk 68 [2010.00s - 2040.00s] ===
+我還有耶仔細看啊我真的看不清楚啊不好意思喔有沒有眼鏡啊看不清楚啊近一點應該我看到了He was a good guy.I'm a good guy, too.Fuck you, you.差不多了吧
+
+=== Chunk 69 [2040.00s - 2070.00s] ===
+搞定了嗎搞不定也不行啦也不管啦幫你解開不要多嘴了啦他要開車載我們怎麼好意思
+
+=== Chunk 70 [2070.00s - 2100.00s] ===
+先不用戴面罩了欸你要開什麼車啊載我啊好酷欸不好意思欸不好意思你不是要載我嗎我看一下我要去哪裡喔好我自己走好了我不理你
+
+=== Chunk 71 [2100.00s - 2130.00s] ===
+臭臭嗎噢臭臭換一個新的
+
+=== Chunk 72 [2130.00s - 2160.00s] ===
+不能亂開燈他們會看見我把它關掉我自己都快看不見自己了來啊什麼豬的聲音
+
+=== Chunk 73 [2160.00s - 2190.00s] ===
+對面還是有人吧哈哈以為我看不見嗎怎麼亮鑰匙了好黑喔我都不知道往哪裡走了有沒有人可以看
+
+=== Chunk 74 [2190.00s - 2220.00s] ===
+你們都不用燈來照我是不是我一直有聽到有人在打呼耶來來來差不多了
+
+=== Chunk 75 [2220.00s - 2250.00s] ===
+後面有沒有人啊有耶上來一點我才看啊你這樣躲起來我看不到了出來一點出來一點出來一點出來一點欸人不少呢哇神槍手嗎我
+
+=== Chunk 76 [2250.00s - 2280.00s] ===
+他看到我了吧哇好多人哇這裡不好打先走走為上策換
+
+=== Chunk 77 [2280.00s - 2310.00s] ===
+Man down!This could be worse.哎呀這把真是好用真是不好等一下他們都沒有戴面罩我應該也不用戴吧真是的這邊這麼亮這邊好一些不行啊我要把他們殺光啊因為我是殺手啊我才不要偷偷摸摸的
+
+=== Chunk 78 [2310.00s - 2340.00s] ===
+I see you.你在哪裡沒問題頂得住
+
+=== Chunk 79 [2340.00s - 2370.00s] ===
+好唉我最喜歡這種橋段了好爽啊繼續往前囉不理任何人不對往右邊啊這裡欸真的耶這裡擋住了那我們換條路走走啦
+
+=== Chunk 80 [2370.00s - 2400.00s] ===
+地圖要我去哪裡我就去哪裡不要隨便拿打火機出來整間關起來我覺得會有壞人啊
+
+=== Chunk 81 [2400.00s - 2430.00s] ===
+好黑喔等下前面有燈前面有燈就代表要殺路了兩個我想想看好
+
+=== Chunk 82 [2430.00s - 2460.00s] ===
+It's 殺人 time是有差異我沒有車啊我是不是要開車過來啊哇靠這地方也太恐怖了吧他是要我去左邊啊還是去右邊他要我去這邊
+
+=== Chunk 83 [2460.00s - 2490.00s] ===
+可是這邊感覺很酷耶我應該要進去看一下才對There are the children, please!有女生的聲音Kill us, but let the children go!No!Shut up, the lot of you, or I'm gonna slice you good!這邊應該也是壞人吧怎麼那麼 lag 啊
+
+=== Chunk 84 [2490.00s - 2520.00s] ===
+誰欺負女生爭氣王大殺特殺才不管
+
+=== Chunk 85 [2520.00s - 2550.00s] ===
+女生女生我要救那個女生
+
+=== Chunk 86 [2550.00s - 2580.00s] ===
+法拉法拉再再再再一次我要從哪邊開始啊Heal us, but let the children go!No!Shut up, all of you!
+
+=== Chunk 87 [2580.00s - 2610.00s] ===
+我早知道你們在哪邊了這群小人也想逃離我的法眼
+
+=== Chunk 88 [2610.00s - 2640.00s] ===
+一樣的膝蓋 一樣的頭We gonna make them pay!好 殺光了吧女生勒
+
+=== Chunk 89 [2640.00s - 2670.00s] ===
+叫女生不知道去哪裡了
+
+=== Chunk 90 [2670.00s - 2700.00s] ===
+欸 其他人咧啊 哪一邊啊女生應該在這邊Oh no I'm wrong唉唷我繞出來了
+
+=== Chunk 91 [2700.00s - 2730.00s] ===
+不對啊蛤 我沒救到那女生喔欸 這是什麼 不可以開嗎不行 刷我算了
+
+=== Chunk 92 [2730.00s - 2760.00s] ===
+沒關係 至少我是走出來了我是有點餓啦你也是有點餓啦你那滴血是怎麼回事啊怎麼過去啊命中紅金
+
+=== Chunk 93 [2760.00s - 2790.00s] ===
+Use the railcar to reach Venus.Use the railcar to break through the...啊?那 railcar 在哪裡?這裡有嗎?這裡有 railcar 嗎?
+
+=== Chunk 94 [2790.00s - 2820.00s] ===
+所以我剛剛是沒有用 railcar 是不是好像我白癡了這裡有一台車啦怎麼都是死人啊哎呀臭臭啊
+
+=== Chunk 95 [2820.00s - 2850.00s] ===
+不能開了等等我想想看喔
+
+=== Chunk 96 [2850.00s - 2880.00s] ===
+我剛剛是一路從這裡來的可能我要回去找車子吧找車子撞過去這什麼地方這我來過了對不對
+
+=== Chunk 97 [2880.00s - 2910.00s] ===
+哎呀超級大迷路啊糟糕為什麼這些地方長出來了啊我想到了Railcar我應該要開我自己最一開始自己開心的那台吧是嗎因為好像也沒有別台Railcar這麼多
+
+=== Chunk 98 [2910.00s - 2940.00s] ===
+I don't need.這邊求求求求的你在這啊原來你一直在等我是不好意思啊可是我要怎麼
+
+=== Chunk 99 [2940.00s - 2970.00s] ===
+準備考駕照是不是我真的不懂耶好啦我回去最前面開我自己的車好了應該是我自己的車啦真的有點後悔了
+
+=== Chunk 100 [2970.00s - 3000.00s] ===
+He's down.怎麼會有人這裡我剛剛沒來嗎好
+
+=== Chunk 101 [3000.00s - 3030.00s] ===
+看來不是什麼大不了的好沒關係哈囉我成功把前面的人都嚇光囉謝謝我吧感謝我吧你的眼睛怎麼了欸你這個白內障你聽我講話啊算了我自己開我自己的車
+
+=== Chunk 102 [3030.00s - 3060.00s] ===
+蘿蔔囉蘿但是還是我的車我先走啦掰掰等一下呃沒錯
+
+=== Chunk 103 [3060.00s - 3090.00s] ===
+喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔
+
+=== Chunk 104 [3090.00s - 3120.00s] ===
+快到了吧好漫長啊這段其實應該是要先走了要不然我車子開過這邊早就被他們射成大便了
+
+=== Chunk 105 [3120.00s - 3150.00s] ===
+好安靜喔一路上可是車子好像已經好像比我走的還慢好可怕喔這裡好像那種六福村還是什麼的那種
+
+=== Chunk 106 [3150.00s - 3180.00s] ===
+那種鬼屋對不對臭臭臭臭撞撞欸車子壞了車子壞了這次真的壞了因為已經沒軌道了哇喔完全打壞掉了真的唉爛車車
+
+=== Chunk 107 [3180.00s - 3210.00s] ===
+沒關係充個電再次上路走再次迷路看啊直走沒錯啊啊這裡這裡這裡這裡可以上車吧不行這裡這裡這裡這裡這裡進不去啊好黑啊
+
+=== Chunk 108 [3210.00s - 3240.00s] ===
+欸什麼聲音啊壞蛋不是啊我要怎麼還是這裡可以開不行啊這裡可以開嗎欸怎麼一直有怪物的聲音啊有點沒禮貌喔啊這邊可以上這邊可以上啊有盒子有盒子欸我覺得
+
+=== Chunk 109 [3240.00s - 3270.00s] ===
+我知道我不是很用心找盒子的那種人什麼聲音啊沒禮貌吃東西不可以發出聲音啊看來你們沒有敵意啊就是近期的巨人一樣那我就一路往前走一路狂飆
+
+=== Chunk 110 [3270.00s - 3300.00s] ===
+欸 太棒了 有個構子哇 前面好像很臭不要走那邊欸 這什麼這什麼叮叮等一下拉了是要害我死掉是不是小人啊走上面好了誰
+
+=== Chunk 111 [3300.00s - 3330.00s] ===
+什麼聲音啊需要一點點的尊重嗎哎呀夭壽啊嚇死我了啊怎樣怎樣怎樣來啊哇等下等下哇塞哇塞哇塞活躍活躍太活躍了我要死了
+
+=== Chunk 112 [3330.00s - 3360.00s] ===
+好強喔我應該不要拉 0 了吧我應該不要拉 0 我直直往前走不就好了嗎
+
+=== Chunk 113 [3360.00s - 3390.00s] ===
+過不去啊
+
+=== Chunk 114 [3390.00s - 3420.00s] ===
+哎靠么啊不要等一下他就是要我拉 0 耶他就是要我拉 0唉好啦然後勒在這裡等嗎
+
+=== Chunk 115 [3420.00s - 3450.00s] ===
+躲這裡好了他過來接我了他過來接我之前我要死守吧
+
+=== Chunk 116 [3450.00s - 3480.00s] ===
+過來過來我要死了啊是要來回不能換子彈不不能換子彈啊
+
+=== Chunk 117 [3480.00s - 3510.00s] ===
+大大快點啊天啊太硬了吧哇沒子彈了真的要沒子彈了真的要沒子彈了可以再久一點沒關係
+
+=== Chunk 118 [3510.00s - 3540.00s] ===
+太多了這真的太多了我跟你講喔你們喔不要來不要來不要來不死了我的天啊
+
+=== Chunk 119 [3540.00s - 3570.00s] ===
+欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸 heyhey you are not here you damn fucker好靠欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸
+
+=== Chunk 120 [3570.00s - 3600.00s] ===
+看飛刀是哪一個CB好再一次再一次好認真
+
+=== Chunk 121 [3600.00s - 3630.00s] ===
+這種顏色一槍一支這種顏色三槍一支然後不要浪費子彈
+
+=== Chunk 122 [3630.00s - 3660.00s] ===
+1. 玩家可以選擇 1.2.3.4.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.5.
+
+=== Chunk 123 [3660.00s - 3690.00s] ===
+快點喔欸屁啦這什麼太強了吧
+
+=== Chunk 124 [3690.00s - 3720.00s] ===
+子彈欸幹什麼欸為什麼射不出來喔天啊為什麼要這麼難啊喔真的很煩耶煩耶哪裡啦喔
+
+=== Chunk 125 [3720.00s - 3750.00s] ===
+好別的地方這裡會不會好一點咚叮將
+
+=== Chunk 126 [3750.00s - 3780.00s] ===
+看來這裡不是比較好的選擇夠了啦
+
+=== Chunk 127 [3780.00s - 3810.00s] ===
+他也太活躍了吧什麼聲音啊
+
+=== Chunk 128 [3810.00s - 3840.00s] ===
+太弱了啦完了這次又捨不住了超難活的唉唷這也太難了啦怎麼會這樣啊我有什麼地方玩錯嗎不會吧靠今天就卡在這邊好了唉
+
+=== Chunk 129 [3840.00s - 3870.00s] ===
+再一次怎麼辦呢這邊該怎麼辦呢
+
+=== Chunk 130 [3870.00s - 3900.00s] ===
+沒有別的武器啊煩耶
+
+=== Chunk 131 [3900.00s - 3930.00s] ===
+咚叮將
+
+=== Chunk 132 [3930.00s - 3960.00s] ===
+有病啊
+
+=== Chunk 133 [3960.00s - 3990.00s] ===
+不行啊
+
+=== Chunk 134 [3990.00s - 4020.00s] ===
+角落是最好守的點喔戰術真的會不夠耶怎麼會這樣玩 ranger mode 這段不可能有對啊因為他們會一直抓我太難了吧麻煩死了煩耶
+
+=== Chunk 135 [4020.00s - 4050.00s] ===
+有什麼東西可以用有沒有芭樂什麼之類的可惡想像可能只能拿這個了先把這個留在這邊可是這樣等一下是不是就不能上來拿了
+
+=== Chunk 136 [4050.00s - 4080.00s] ===
+想到了敲了鐘之後再往上走就好了
+
+=== Chunk 137 [4080.00s - 4110.00s] ===
+可是又沒有準星好難耶屁啦這太爛了吧這把
+
+=== Chunk 138 [4110.00s - 4140.00s] ===
+好用啦好用算好用啦他快到了我再下去換左輪下去最好開支槍就
+
+=== Chunk 139 [4140.00s - 4170.00s] ===
+他只能開兩次槍耶跟我開玩笑
+
+=== Chunk 140 [4170.00s - 4200.00s] ===
+我的小槍也沒了
+
+=== Chunk 141 [4200.00s - 4230.00s] ===
+是吧秀了個頭啊啊我的小槍不我的小槍
+
+=== Chunk 142 [4230.00s - 4260.00s] ===
+The snow on the surface starts melting.The familiar rail cars are now joined with boats and fishermen.One of them appeared just in the nick of time.Soon will be docked at Venice.Pavel is most probably already there.所以我們到了威尼斯啦終於到了威尼斯啦
+
+=== Chunk 143 [4260.00s - 4290.00s] ===
+回家問題是可能是因為地下都是噁心的毒水居然還有魚啊好噁啊 底下有屍體
+
+=== Chunk 144 [4290.00s - 4320.00s] ===
+會不會開船啊好噁啦
+
+=== Chunk 145 [4320.00s - 4350.00s] ===
+Stay quiet now.They don't like noise, and this is their world.See how they just rest there?這些才是蝦子吧Nobody knows what they mutated from.We call them shrimps.Ugly as hell.
+
+=== Chunk 146 [4350.00s - 4380.00s] ===
+Specially with beer.好吃耶 我也想吃吃看太多了吧 我的天啊感覺又好像超噁啦欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸ayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayay
+
+=== Chunk 147 [4380.00s - 4410.00s] ===
+超噁啦你不是說不會傷害我們嗎白癡他會把我們弄到翻船啊欸酸民啊去死啊
+
+=== Chunk 148 [4410.00s - 4440.00s] ===
+A for the head!A for the head! 哪裡啊?Put it down!啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+
+=== Chunk 149 [4440.00s - 4470.00s] ===
+糟糕了怎麼後援天啊天啊天啊臭蝦子我死了嗎請問一下蝦子來了
+
+=== Chunk 150 [4470.00s - 4500.00s] ===
+哇 它從這邊開始啊白癡 我要直接開槍打他們了唉唷 不要叫啦 我在忙啦
+
+=== Chunk 151 [4500.00s - 4530.00s] ===
+We've got to get out of here!Don't let them aboard!They might turn us over!怎麼抓東西啊Get this you bitches!
+
+=== Chunk 152 [4530.00s - 4560.00s] ===
+我想問一下等一下如果有 log 的話我應該怎麼辦
+
+=== Chunk 153 [4560.00s - 4590.00s] ===
+Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on! Hold on!
+
+=== Chunk 154 [4590.00s - 4620.00s] ===
+That shrimp is gone.有病喔
+
+=== Chunk 155 [4620.00s - 4650.00s] ===
+哇 超多炸藥真的還假的啦超多耶海嘯來了
+
+=== Chunk 156 [4650.00s - 4680.00s] ===
+Wow, these dogs are jumping off me. Looks like we're locked out.The subterranean Venice, an island on the dark waters of underground rivers, you always hear rough stories circulating about this place.
+
+=== Chunk 157 [4680.00s - 4710.00s] ===
+I hear it is all one huge den of thieves.But there is something I know for sure.Pavel reached Venice, and if I'm not late, he's still here.Finding the Dark One is still my main mission.But now I see I must also uncover Corbett's plans, so that I can warn the Order about them.現在 we need slow wowSeems like we made it.Hey, are you asleep there?
+
+=== Chunk 158 [4710.00s - 4740.00s] ===
+But you think of the local fish, huh? Aren't they charming?They seem moody though.Looks like somebody went through there before us and angered them.所以他說有一組人已經穿越過那邊所以讓那些蝦子生氣了Yeah, I see all right. And who might that be?I picked the guy up in the tunnel. You don't think I should have left him there, do you?What, and make my life easy? Of course not.
+
+=== Chunk 159 [4740.00s - 4770.00s] ===
+And I keep raising and lower the gate, you can bring a girl for once.And what would you do with one if I brought her, Semenovich, huh?You're way too old for that stuff.By the way, you better lower the gate, or else a woman might actually come, the one dressed in black and bearing a scythe.Never fear, Semenovich is gonna outlive you all.Hey, Fidor, how's fishing?
+
+=== Chunk 160 [4770.00s - 4800.00s] ===
+Not even a bite, unless you count the shrimps, and they got a few more out of me than I'd like.I was saved by this lad, Artyom.Artyom.Nice to meet you, Artyom. Thanks for your help.So what exactly did happen?The shrimps were all over us as soon as we got to the fork, almost took my raft apart.What the hell gives?I wonder.Oh, that's easy.The Reds pass through here, going to meet our
+
+=== Chunk 161 [4800.00s - 4830.00s] ===
+他說維尼斯都是一些壞人黑社會什麼的所以比較惹事
+
+=== Chunk 162 [4830.00s - 4860.00s] ===
+Look, do you know where might our red guests be?In the brothel, of course.所以紅軍那些也是在這邊This is Artyom, the scourge of the shrimps.You should see him shoot. I never met anyone quite as good as him.A gunslinger, eh? Would you help me take out a few bad guys?Simon, I freaking knew it. This is getting old.But almost all of them are gathered at the storage facility.Look.
+
+=== Chunk 163 [4860.00s - 4890.00s] ===
+If this isn't the right time, I don't know what is.Between the two of us, we might be able to take them out.I told you countless times already, and I'm going to tell you again, no, I don't need this shit around here.他想要我幫他殺幾個人可是旁邊這個老頭不希望我鬧事這樣但是他還是會要我幫忙抹菜想說什麼In a station of criminals, how is it he's in charge?Hey, Simon, you're good with engines, aren't you?
+
+=== Chunk 164 [4890.00s - 4920.00s] ===
+Yeah, what's up?Oh, 不理他了你在找隱形眼鏡喔哇 還要處理蝦子耶感覺還蠻好吃的幹嘛啊 兇屁啊 白痴Papa, when is it going to buy?Wait a bit.
+
+=== Chunk 165 [4920.00s - 4950.00s] ===
+釣魚城耶好酷喔不知道那些紅巾在哪裡我想先找可以買彈藥的地方上班打瞌睡了這是什麼餐廳賣魚的
+
+=== Chunk 166 [4950.00s - 4980.00s] ===
+Oh 這裡是賣槍的把妹這些人是紅軍嗎
+
+=== Chunk 167 [4980.00s - 5010.00s] ===
+讓他們背上有十字真是恐怖啊我看到槍墊了wow 裡面有多 U哈囉閃彈喔我想去換一把好一點的閃彈槍
+
+=== Chunk 168 [5010.00s - 5040.00s] ===
+這個散彈槍我不想用我不想用我就不想聽你講話不要吵啊你在看什麼沒有女生耶Oh 對不起 我以為我想說看你在看什麼啊
+
+=== Chunk 169 [5040.00s - 5070.00s] ===
+Are you mute or what?You've no business with me, please, step aside.太機車了吧不給我看擋住了白痴我直接上去看這些是 rats 嗎Hey, what about the money?
+
+=== Chunk 170 [5070.00s - 5100.00s] ===
+有東西可以撿喔這麼好我也可以坐喔不好意思啊Hello guysI好寫實喔旁邊是逢迪索爾
+
+=== Chunk 171 [5100.00s - 5130.00s] ===
+算了 我去找子彈欸 什麼東西啊欸 Powerful Powerful 耶等一下 我要先去買子彈 我覺得等一下要打架了喔 槍耶
+
+=== Chunk 172 [5130.00s - 5160.00s] ===
+別改啦Crooks, killers, bandits, does anyone need a gun? I have all kinds of guns for sale.
+
+=== Chunk 173 [5160.00s - 5190.00s] ===
+裝個雷射好了 不然射不準這個就要裝效應了我們要用這一把
+
+=== Chunk 174 [5190.00s - 5220.00s] ===
+They make this real good here, you should get some.好 走還在看 色鬼蛇羊這個啦 有病喔All right, we had some fun, now it's time for work.
+
+=== Chunk 175 [5220.00s - 5250.00s] ===
+So, first thing, we pay Kinsley a new Harry to Comrade Corbett, tell him the virus container's been successfully delivered to Oktyabrskaya, okay?Hey, pretty boy, why are you just standing there?Bitch!Hey, why so unhappy? You just don't feel it. You basically signed that death sentence.真是傻人Can't wait to touch me, can you, Daragoy?Well, if you want it that bad.
+
+=== Chunk 176 [5250.00s - 5280.00s] ===
+What kind of dance would you like, sweetie?Tell me, don't be shy.I'm quite shy.打死你打死你Make yourself comfy, sweetie.
+
+=== Chunk 177 [5280.00s - 5310.00s] ===
+快速回我的頻道我的頻道啊這是 YouTube 啊不要鬧啦躲不掉可以了可以了可以了夠了夠了夠了
+
+=== Chunk 178 [5310.00s - 5340.00s] ===
+可以了可以了你很棒你很棒走不掉 救命啊So how do you like the dance that I was doing?I like it I like it thank you thank youI see you liked it pretty muchYes thank you very muchI have to go啦或我買頻道變啦 bye byeIf you decide to come back, I'm always down.The fuck do you want here?Damn, you're looking good.
+
+=== Chunk 179 [5340.00s - 5370.00s] ===
+Hey man, you look like a real gunslinger to me, so why not put those skills to some use?And here are the sticky credits.Come on in, take positions.Supplies are limited.Anyone knows where they are?I've got them here.I bet he's not hitting anything.
+
+=== Chunk 180 [5370.00s - 5400.00s] ===
+What's with that? Have a real account of it.I'm even older, man.He ain't kidding shit.All right, it's a deal.現在勒 射完了Great, here's your winning.How about the race?I got some great knives here.The targets are waiting.Good for shaving.
+
+=== Chunk 181 [5400.00s - 5430.00s] ===
+多少顆子彈我根本就看不見啊太扯了啊不玩了啦浪費子彈
+
+=== Chunk 182 [5430.00s - 5460.00s] ===
+How about the race?拜拜我去看一下我賺了多少子彈Does anyone need a gun?沒賺嘛My friend, if you need something, I'm always here.Special menu prices, huge discounts.我要走了Shoot straight, shoot far, shoot at our range.What's the getting trouble?
+
+=== Chunk 183 [5460.00s - 5490.00s] ===
+打架是不是這麼快是不是
+
+=== Chunk 184 [5490.00s - 5520.00s] ===
+不能瞄準
+
+=== Chunk 185 [5520.00s - 5550.00s] ===
+喔對不起對不起你好準哇你們的姿勢好美麗耶beautiful狂撿狂撿狂撿撿
+
+=== Chunk 186 [5550.00s - 5580.00s] ===
+Man, the bitch is here!I got this, bitch!
+
+=== Chunk 187 [5580.00s - 5610.00s] ===
+唉唷好強好強太強了來來來
+
+=== Chunk 188 [5610.00s - 5640.00s] ===
+Why do you eat some of this, bitch?
+
+=== Chunk 189 [5640.00s - 5670.00s] ===
+這麼厲害喔哇塞有病喔敵方火力強大
+
+=== Chunk 190 [5670.00s - 5700.00s] ===
+哇靠哇塞穿牆啊大哥
+
+=== Chunk 191 [5700.00s - 5730.00s] ===
+後面還有人啊原來我又吃到軍規是不是
+
+=== Chunk 192 [5730.00s - 5760.00s] ===
+白痴喔我看到他頭燒起來就設好軍規了吧對不對
+
+=== Chunk 193 [5760.00s - 5790.00s] ===
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8
+
+=== Chunk 194 [5790.00s - 5820.00s] ===
+為什麼你們這麼厲害看得到我
+
+=== Chunk 195 [5820.00s - 5850.00s] ===
+結束了吧打完了吧到底有多少人還有啊沒了吧
+
+=== Chunk 196 [5850.00s - 5880.00s] ===
+Drop your weapon, boyo.Hands behind your head.Well, well, well, what an unexpected encounter.Looking for the Dark One, huh?Well, maybe there's a hope for you and Polis.But then...壞人就是習慣在殺人前講特別多話Comrade Corbett had an eye on them for a long time.Just imagine them domesticated, then
+
+=== Chunk 197 [5880.00s - 5910.00s] ===
+hey hey hey steady steady now all right all right you are on top d'artagnan you are on top what now you were looking for the dark one right well he is nearby at oktyabrskaya i can take you there no tricks this time you have my word everyone on the ground now no
+
+=== Chunk 198 [5910.00s - 5940.00s] ===
+哇這個白痴喔Why did you attack the storage alone?You could have tried to call me.不要吵啦都是你這個白痴害我There's a swamp, but it's traversable. Let's go.怎麼走啦現在
+
+=== Chunk 199 [5940.00s - 5970.00s] ===
+把門打開喔還有些面壁是不是
+
+=== Chunk 200 [5970.00s - 6000.00s] ===
+哪裡好吧哇超帥耶這是潛水裝嗎好啦好啦今天差不多就實況到這邊啦這個時間剛剛好要預防他等一下就直接把我斷掉呢就在這邊先跟大家說掰掰啦我們下禮拜三如果沒有問題的話應該還是 9 點鐘
+
+=== Chunk 201 [6000.00s - 6018.75s] ===
+這個遊戲玩完了好那大家拜拜晚安拜拜The dark one is there.
 

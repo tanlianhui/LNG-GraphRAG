@@ -1,7 +1,9 @@
-=== Chunk 1 [0.00s - 61.81s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+哇他要打嗎結果他打 600 多你要不要打一拳我不要
+
+=== Chunk 2 [30.00s - 60.00s] ===
+剛剛外面有人在跳街舞太吵了受不了啦今天吃流音拉麵啦
+
+=== Chunk 3 [60.00s - 61.81s] ===
+[Error in chunk 3: invalid audio (empty/silent/NaN)]
 

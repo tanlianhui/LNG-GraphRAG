@@ -1,420 +1,186 @@
 === Chunk 1 [0.00s - 14.85s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+所以同樣的道理啦之類就是不要有這種想法你會在職場上會比較快樂一點
 
 === Chunk 2 [16.05s - 30.56s] ===
-[Error in chunk 2: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+哪一對你說是什麼棒球嗎棒球和我支持火腿很喜歡楊岱鋼耶他真的好棒喔他最近是不是結婚了他已經結婚了他有小孩啊可是他就是一個很善良然後又很風趣又很愛家的人
 
 === Chunk 3 [31.81s - 43.51s] ===
-[Error in chunk 3: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+有沒有遇過不會玩踩地雷的人然後覺得自己很厲害沒有因為踩地雷的世界是不需要跟任何人交流的
 
 === Chunk 4 [45.27s - 75.27s] ===
-[Error in chunk 4: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+接受姊弟嗎接受啊然後剛好生計嘛我們就各可以抽兩次我就說那不然我們幫對方抽好了然後我們就交換抽然後我就說可是都不能說是金蛋還是什麼就是結局就是最後的狀況可是我不知道那是什麼神好像希臘還是什麼就是一個翅膀然後說要拿一個法杖這樣可是是金蛋我想說欸還不錯然後我看巴毛的表情就是一副那種很高興這樣然後我看他轉回來多拉隆
 
 === Chunk 5 [75.27s - 94.14s] ===
-[Error in chunk 5: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+然後就幫他抽代行者我就哇操他該不會又抽一個什麼美化龍給我吧結果他就一臉得意說我幫你抽的超棒結果他也幫我抽到代行者雙代行可是代行者是誰的那個啊替代啊它是白盾的強化版
 
 === Chunk 6 [97.11s - 107.46s] ===
-[Error in chunk 6: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我現在是目前是有收到火龍女所以我已經心滿意足了這次暑假去日本有什麼小的能夠帶回來給你們的嗎不用啦這麼客氣是不是
 
 === Chunk 7 [109.73s - 122.98s] ===
-[Error in chunk 7: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+就是那個 unicorn就是那些萌夯的 ut 啊運氣有但是你要在那個搜尋的地方打採地點就會出現
 
 === Chunk 8 [125.30s - 141.94s] ===
-[Error in chunk 8: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我現在大二升大三大三開始想要加入社團這樣好嗎會不會有什麼缺點誰知道鳥屎燒餅睡了嗎還沒啊鳥屎雷神喜歡吃嗎我的文法怎麼了喜歡吃雷神嗎還不錯啊
 
 === Chunk 9 [143.33s - 173.33s] ===
-[Error in chunk 9: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你要是我國一教女友會太早嗎不會啊有在看世足嗎有特別喜歡哪一隊帥哥嗎我非常非常討厭有肌肉的男生有在看世足我有在 follow 世足以前現在沒有今年的我到現在一場都還沒看開幕我什麼運動項目都沒有看我今年開幕的時候他們就說什麼今年沒有煙火今年沒有什麼我心裡就在想拜託沒有爆炸就好了好不好我心裡就是覺得拜託
 
 === Chunk 10 [173.33s - 203.33s] ===
-[Error in chunk 10: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+聽說他們今年的案件好像沒有很嚴格和爆炸案發生我就很高興不用有什麼煙火啦拜託大家開開心心把球賽看一看然後安全的回家就對我來說就很精彩了我和韓不我也現在很討厭韓國以前很喜歡 super junior現在就是無感我現在只就是你要是你有看總選舉嗎你說 AKB 嗎
 
 === Chunk 11 [203.33s - 233.33s] ===
-[Error in chunk 11: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+巴毛兩個人在看我一直哭只要有一個人上台哭我就跟著哭就算不認識他我也哭所以他們好努力他們都是努力家很辛苦這樣我剛為了想高中畢業的出社會有什麼意見嗎沒有意見我在這邊要再次大聲的激呼自己的人生要自己做決定然後
 
 === Chunk 12 [233.33s - 263.33s] ===
-[Error in chunk 12: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你要問身邊的人有你的什麼以前的記錄還是什麼樣的東西具體的東西可以參考我們能夠參考的只有你的帳號而已我們能夠參考的只有你的帳號跟你發問的方式而已有個人問我說請問極客鄉經濟學靈魂這部鳥屎會去看哪一場呢我還沒有確定耶但我應該是會去看啦因為我的時間還不一定 ok
 
 === Chunk 13 [263.33s - 293.33s] ===
-[Error in chunk 13: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+然後變個魔術給你看哇好厲害喔我這樣翻牌然後你看一張我那天就有看沒白吃喔再看一次嘛好快快快好紅心A
 
 === Chunk 14 [293.33s - 320.51s] ===
-[Error in chunk 14: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+再看一次沒有看到我看三張耶怎麼辦看一張就好了啦我看不到一張耶我一直換啊可能視訊比較累的我好看到了看到了確定了喔確定了確定了我來找我告訴你你告訴我你告訴我你的牌不要please
 
 === Chunk 15 [322.16s - 351.62s] ===
-[Error in chunk 15: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+不要那我猜你的牌是這張錯錯對爆抽筋好痛他有按錯了啦破解魔術對不對當然不行啊請問怎麼樣讓別人看牌看到那一張牌而且這個魔術是我自己破解的喔
 
 === Chunk 16 [352.83s - 367.61s] ===
-[Error in chunk 16: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+是不是算了就在這邊問好了這個魔術是我看我可以給大家提示我是看大衛布萊恩的一個在 youtube 上的其中一集的影片的開頭他有做這個魔術然後這是我一直看一直看重複看很久之後破解
 
 === Chunk 17 [368.69s - 398.69s] ===
-[Error in chunk 17: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔
 
 === Chunk 18 [398.69s - 428.69s] ===
-[Error in chunk 18: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你點到第一格爆掉過來不會第一格永遠不會爆但是第二格開始就會爆而且我發現四個角落都點的話爆的機率超高的還沒爆有點尷尬好不好好那我再變個魔術好了鳥屎你會想要嘗試布丁加泡麵吃嗎我其實不會不想可是我覺得我完全可以想像它什麼味道啊所以我也不會去吃啊它其實就是麵粉
 
 === Chunk 19 [428.69s - 458.69s] ===
-[Error in chunk 19: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+因為它而且我覺得它對我來說一定會太甜因為我沒有很喜歡太甜的可是大家都說就是要把焦糖挖掉布丁不能買大的布丁然後捏一起現在我要把等一下我先清理一下我的桌面因為等一下會用到桌子好你先聽一下我回答問題看過擁抱2014版的MV嗎還沒我還沒有看
 
 === Chunk 20 [458.69s - 488.69s] ===
-[Error in chunk 20: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好我現在把牌攤開然後欸靠被掉牌了好那回答問題30 歲哪裡30 幾歲的女但是我覺得 30 幾歲的女生通常比較實際我可以給點意見
 
 === Chunk 21 [488.69s - 518.69s] ===
-[Error in chunk 21: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你真的不知道要送她什麼的話你就好好的請她吃一個好一點的餐廳可是我覺得這非常看女生的性格耶她是務實的人但是送請她去吃個好一點的餐廳就是一定是最安全的可是有些人是比較喜歡紀念性的就是如果說你有請她吃飯可是沒有留下一些沒有什麼年齡的差別啦重點就是要有誠意啦
 
 === Chunk 22 [518.69s - 548.69s] ===
-[Error in chunk 22: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+從這邊數過來你選一張你告訴我第幾張從這邊可是你這樣不就可以看我的實況嗎白痴喔沒有我不看我這樣子我臉這樣擋著好13456789101111好第 11 張2 3 4 5 6 7 11這張嗎
 
 === Chunk 23 [548.69s - 578.69s] ===
-[Error in chunk 23: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+不對 12 好了這張這一張好再選一張一二三四這張第八張不對啊他的十二十一十九八所以是這張好啦好啦隨便啦好就這張一二三四五六七八對啊這第八張啊八跟十二
 
 === Chunk 24 [578.69s - 608.69s] ===
-[Error in chunk 24: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+關起來喔我都沒有看喔騙人資訊要掉囉一定有人頭暈囉大家都說這張超舊的啊鳥屎你剛剛是 8 跟 12 嘛對不對現在 1 2 3 4 5 6 7 8這張是你剛剛的第 8 張我把它放到中間
 
 === Chunk 25 [608.69s - 638.69s] ===
-[Error in chunk 25: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+然後再繼續數9 10 11 12這是第二張再把它放到中間然後你給我看你要講幾秒我就可以在幾秒把這兩張牌找出來1 秒好那我數到 3 你就可以數 1 秒 1 2 1 秒那麼厲害等一下等一下等一下我剛剛看到一個英文的那個
 
 === Chunk 26 [638.69s - 668.69s] ===
-[Error in chunk 26: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦
 
 === Chunk 27 [668.69s - 698.69s] ===
-[Error in chunk 27: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+真的很像我貼的那個你真的很像蘑菇或者是紅菇你要嘛就是壞香菇要嘛就是紅菇好不好所以那個 OC 我以為長知識長知識就沒有壞蘑菇你白痴喔
 
 === Chunk 28 [698.69s - 709.72s] ===
-[Error in chunk 28: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好上班的加油囉拜拜
 
 === Chunk 29 [711.38s - 741.38s] ===
-[Error in chunk 29: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+這個是我要扮女裝要戴的帽子欸為什麼為什麼你要這樣講話好啦我不想要這樣掉我不想可以解釋一下嗎我也不知道耶因為我根本不會寫 report那你會 gpsupport 嗎我們再一個 gpsupport然後就變成你是偽小寶耶變成小六子
 
 === Chunk 30 [741.38s - 761.57s] ===
-[Error in chunk 30: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你是那個時代的遊民在澳洲看你們台這裡 3.16還是說完全差整整一天老王那我來幫你算塔羅
 
 === Chunk 31 [762.60s - 784.05s] ===
-[Error in chunk 31: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+可是你知道我是傳說中的詹姆士嗎少囉嗦我幫你撐塔羅牌好麻煩喔可以用設定版文化學學到我知道可是因為我昨天清完 cookie 之後還是清什麼東西我忘了還是更新 chrome 之後它這樣我就有點懶得改反正我已經很久沒有看聊天我是說別台的聊天
 
 === Chunk 32 [786.53s - 812.82s] ===
-[Error in chunk 32: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+在 LNG 裡面知道鳥屎做劇場例如他在手機遊戲公司上班那我能做什麼說什麼我在做什麼工作當然不能講啊求求 LNG 大家給我解答我一生二十年來最好的兩個朋友被人在中間挑撥離間其中一個被說在背後說另外一個人的壞話另外一個以為我也有不理我我該怎麼處理就講啊一生中最好的兩個朋友發生嫌隙就只有你們三個可以解決而已啊
 
 === Chunk 33 [814.19s - 826.77s] ===
-[Error in chunk 33: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你就去講清楚啊三個人約出來還要講清楚把誤會解開就好了啊是不是是不是鳥屎是不是
 
 === Chunk 34 [831.02s - 847.76s] ===
-[Error in chunk 34: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+喜歡一個女生一年半前有一天我勇氣勇氣跟她告白可是我失敗了我好難過好怕怕加油會遇到更好
 
 === Chunk 35 [849.12s - 861.03s] ===
-[Error in chunk 35: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+但是我這個時候真的非常非常想要推薦一直不停的有情商的人聽一首歌就是陳奕迅的新歌叫做你給我聽好
 
 === Chunk 36 [862.09s - 892.09s] ===
-[Error in chunk 36: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我真是覺得感觸良多我覺得那首歌很棒耶我突然有點忘記我之前的那個算法怎麼算所以我就算了喔你好爛喔我幫你算好不好我幫你算我用生命靈數幫你算欸我也會算生命靈數我幫你算可是我不知道我本來那本書丟掉了沒有我不用輸我可以直接算來我幫你算你的生命靈數
 
 === Chunk 37 [892.09s - 922.09s] ===
-[Error in chunk 37: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你的出生年月日然後我來算你的生命年數可是我有點忘記就是一直不停地加一直不停地加加到最後加不起來沒有沒有我有點忘記 123456789 是哪些了我知道我記得 1 是自我 2 是什麼啊不知道啊來幫姊姊算好了姊姊告訴我你的出生年月日那這邊是大解析姊姊的
 
 === Chunk 38 [922.09s - 936.65s] ===
-[Error in chunk 38: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+你不要叫大家給你啦你這喜讓你知道鬼誰啦等一下 2 是什麼我忘了然後 3 是欸 3 點什麼我忘了這樣喔那你要怎麼用 slow mode
 
 === Chunk 39 [937.74s - 957.61s] ===
-[Error in chunk 39: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+讓我看一下知道啊好 直接這樣就好了我算姊姊的姊姊你貼好 skype 給我好他貼了他貼了有人說楊岱鋼是他叔叔在台灣都姓這個楊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊姊
 
 === Chunk 40 [959.24s - 973.44s] ===
-[Error in chunk 40: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+生命靈數是 88 是什麼 我有點忘了 8 好像是你忘了啦你就不要算了啦那你記不記得嗎
 
 === Chunk 41 [974.88s - 995.22s] ===
-[Error in chunk 41: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好我先來算一下子之的生命靈數的連線因為我忘記 8 是什麼了我看到了哇欸等一下不對喔我不要用 slow mode 就好啦可以用
 
 === Chunk 42 [997.34s - 1011.07s] ===
-[Error in chunk 42: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+欸那個在哪裡啊那個那個指令表在哪裡我怎麼忘了哇隻有三個 e 耶
 
 === Chunk 43 [1012.51s - 1024.77s] ===
-[Error in chunk 43: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+然後兩個 8哇你的很怪耶喔有耶它有一條線耶它有 159
 
 === Chunk 44 [1025.86s - 1055.86s] ===
-[Error in chunk 44: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+剛剛有等到的觀眾們很抱歉我也是臨時真的是非常臨時才換到我的台梓梓的連線是 159 然後 1 是自我5 我忘記 5 好像是冒險所以梓梓連線是不是那我們要送她大娃娃嗎連線送大娃娃連線送大娃娃
 
 === Chunk 45 [1055.86s - 1084.34s] ===
-[Error in chunk 45: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+然戰上是冒險然後 9 好像是可是我不是這樣算耶可是我輸就掉了我記得 9 好像是就是那個所以它是所以只在工作事業上應該會就是會是努力會是積極的然後你有一個 8然後 8 好像是我忘記 8 是什麼了
 
 === Chunk 46 [1085.64s - 1104.85s] ===
-[Error in chunk 46: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+8好像是領導還是我不知道我沒有輸就是沒有辦法因為已經隔很久我忘記了幹我真的忘了算了不想算了算了算了我們聊別的話題嘛好不好算了算了算了算了算了有人說他想要開台大家要注意什麼嗎很少跟別人一起玩
 
 === Chunk 47 [1105.98s - 1116.78s] ===
-[Error in chunk 47: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+祝福你啊但相關要注意什麼反正就一定要規範看清楚嘛你不要播一些版權污瓜然後
 
 === Chunk 48 [1118.04s - 1148.04s] ===
-[Error in chunk 48: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+然後該注意就注意嘛然後就差不多這樣啊沒有什麼好注意的啊老王你有下載那個麥當勞鬧鐘對不對已經結束了真的假的今天結束了早就結束了那 6 月 5 號而已哪有啊我昨天還有設他還送我咧他還送我大麥克馬一送一耶把他刪掉了 what the fuck我現在就可以拿給你 care可是這樣說起來不知道
 
 === Chunk 49 [1148.04s - 1174.03s] ===
-[Error in chunk 49: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+6 月 5 號嗎可是我今天還是他還是有給我耶真的這麼好嗎我都很生氣我每天都好氣喔有時候是那種海灘風的不要按掉我按掉了你要送我東西了送我東西我已經按了
 
 === Chunk 50 [1175.67s - 1187.15s] ===
-[Error in chunk 50: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+喔抽錢的是 6 月 5 號是不是喔原來如此負責要錢而已啊然後昨天拿到的是大麥克麥一送一喔那不錯啊
 
 === Chunk 51 [1189.95s - 1219.95s] ===
-[Error in chunk 51: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+明天去買個麥當勞還可以到麥當勞買一送一好隨便你好我是巫妖王請問你有特別喜歡的打火機系列嗎沒有巫妖王是送打火機那個嗎對啊你不要再送我打火機了啦真的拜託不要在這個人身上花這麼多錢好不好不是啊你送我東西我很開心可是你一直送不是啦你送我東西我很開心可是你一直送我打火機沒有那個啊你不要花那麼多錢送我一樣但是就是覺得你們一直花錢還蠻浪費的
 
 === Chunk 52 [1219.95s - 1249.95s] ===
-[Error in chunk 52: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+想要送個禮物聊不了心意那當然沒關係就送一些小物就可以了像這個 UTI 就太貴了啦就也不用這樣子我真的覺得大家送 30 塊以下的東西好不好就送小物就像觀眾朋友會送說比如說他朋友在做餅乾啊然後他就跟他買了一兩包就送我們這樣就可以啦可是打火機送我打火機我真的很開心啦但是你一次送我兩個我也是就是
 
 === Chunk 53 [1249.95s - 1279.95s] ===
-[Error in chunk 53: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+一個就夠了不是啦真的是捨不得大家花那麼多錢啊就是大家怎麼講啊看實況就有願意支持就很高興了真的花那麼多錢我看了就覺得哇塞你們一定要投資太多錢在這兩個人身上了吧反正送東西我們是很開心啊可是如果太貴的東西我們真的也會很不好意思所以如果真的很想送的話就小東西聊表情意就可以了那我想問你我答應他們我會吃喔
 
 === Chunk 54 [1279.95s - 1309.95s] ===
-[Error in chunk 54: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+要給我吃掉喔你是設定是同一個音效是不是它每天可以隨機捏對啊對啊我是每天隨機啊有人說你要是我想考試遊戲我要準備什麼呢準備一顆即將去面試的心情有人說為什麼會有五千個人在這邊看一個 chinese man playbecause we are so funnyyeah we are totally funny
 
 === Chunk 55 [1309.95s - 1339.95s] ===
-[Error in chunk 55: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+We are so funny.City 是誰?City walk.好兇喔要是我前男友跟我分手不到一個月我昨天就在他脖子上看到一顆草莓我覺得很傷心你可以以一個男人角度他是什麼心態嗎什麼什麼心態你都跟他分手了為什麼他不能跟別人搞不好他是不是可是我最近
 
 === Chunk 56 [1339.95s - 1369.95s] ===
-[Error in chunk 56: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我常常在想一件事我先去尿個尿好大家回來再跟你聊這件事你們先等一下我把視訊關一下下啊關錯了好打開了按錯了
 
 === Chunk 57 [1369.95s - 1399.95s] ===
-[Error in chunk 57: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+喜歡影翅蟲嗎 誰喜歡影翅蟲我還蠻喜歡看別人的人生的然後我就會開始感覺到所有的人想不愛了沒感覺無法經營下去我覺得我們沒有未來通常就代表他跟另外一個人有未來了我也覺得啊然後我就會開始在想
 
 === Chunk 58 [1399.95s - 1429.95s] ===
-[Error in chunk 58: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+但是就是有什麼真的有可能是什麼事情都沒有發生然後你就突然覺得我沒有辦法跟這個人走下去了對啊對啊可是這種事情真的就會發生啊我是說是不是這是不太可能就是沒有任何一個外力出現然後你突然感覺到我不愛他了我覺得也會有因為我高中升大學交女朋友
 
 === Chunk 59 [1429.95s - 1459.95s] ===
-[Error in chunk 59: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+就說就是突然可是我覺得那是不是一個突然知道就是好像在一起沒有什麼意義福利發南方公園那集那個我是真的幫你怎麼講啊我是快速回答你之後我就幫你想起來因為我覺得什麼東西沒有就有一點那個啦你也可以跟大家分享一下說
 
-=== Chunk 60 [1459.95s - 1540.09s] ===
-[Error in chunk 60: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 60 [1459.95s - 1489.95s] ===
+有一個人說你要是講話太多了啦啦啦別人分手還這樣喔哪有什麼太多這是事實吧就分手了為什麼他不能跟別人怎麼樣如果有感覺還喜歡就不要分啊分了你管他分了就不關你事分手那一刻開始你們就行了就算當著你的面跟別人做愛你都不能管他如果是在一個適當的場合可是我可以體會你的心情
+
+=== Chunk 61 [1489.95s - 1519.95s] ===
+應該是沒有分手因為說你們沒有分手多久對不對所以你可能還覺得可能可以復合或者是說你還沒有想起你已經失去對這個人的掌控權這件事情可是反正我覺得我也能體會這種心情啊因為這就是失戀啊但是如果你要問我說請問他這是什麼心態你可以因為他做了這件事情難過那沒有問題但你沒有資格去
+
+=== Chunk 62 [1519.95s - 1540.09s] ===
+他這件事情是錯的或者是他不好或者是你就說他劈腿No沒有這種事因為你們就是分開了你們就是分手你們就是形同陌生人所以這個不關你的事你要難過歸難過那是你的事情但是你不可以去干涉他怎麼去淡化這種感覺我真的只能說時間然後你自己要
 

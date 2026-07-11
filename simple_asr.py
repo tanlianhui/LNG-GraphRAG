@@ -11,8 +11,6 @@ import numpy as np
 import shutil
 import tempfile
 import psutil
-import asyncio
-import concurrent.futures
 from pathlib import Path
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from utils import setup_path, safe_execute, log_error, handle_unicode_encoding
@@ -88,8 +86,27 @@ def split_audio_at_silence(waveform, sample_rate, min_duration=10, max_duration=
             end_time = len(waveform) / sample_rate
             chunks.append(waveform[current_start:])
             chunk_times.append((start_time, end_time))
-    
-    return chunks, sample_rate, chunk_times
+
+    # Hard cap: guarantee NO chunk exceeds max_duration. Silence detection can
+    # leave huge segments (e.g. game streams with constant audio = zero silence →
+    # the whole multi-hour file as one chunk), which OOMs the GPU. Sub-split any
+    # oversized segment into <=max_duration pieces.
+    capped_chunks, capped_times = [], []
+    for data, (cs, ce) in zip(chunks, chunk_times):
+        if len(data) <= max_samples:
+            capped_chunks.append(data)
+            capped_times.append((cs, ce))
+            continue
+        off = 0
+        while off < len(data):
+            piece = data[off:off + max_samples]
+            ps = cs + off / sample_rate
+            pe = cs + min(off + max_samples, len(data)) / sample_rate
+            capped_chunks.append(piece)
+            capped_times.append((ps, pe))
+            off += max_samples
+
+    return capped_chunks, sample_rate, capped_times
 
 def get_emptiest_drive():
     """Find the drive with the most free space"""
@@ -186,56 +203,107 @@ def cleanup_temp_file(temp_path, temp_dir):
     except Exception as e:
         print(f"Warning: Could not clean up temporary files: {e}")
 
-def process_chunk_async(chunk_data, processor, model, device, chunk_index, base_name, output_dir, start_time, end_time, prompt_ids=None):
-    """Process the entire audio chunk (full timespan) with ASR. No truncation of input or output."""
+def process_chunk(chunk_data, processor, model, device, chunk_index, base_name, output_dir, start_time, end_time, prompt_ids=None, num_beams=5, self_consistency=False):
+    """Process one audio chunk sequentially. Falls back to CPU on CUDA error.
+
+    num_beams: beam-search width for the primary transcription (>1 = beam search,
+        markedly fewer acoustic errors than greedy at some speed cost).
+    self_consistency: if True, ALSO produce a greedy candidate. The two candidates
+        (beam + greedy) are returned so the LLM post-correction step can reconcile
+        them; divergence between them flags low-confidence spans.
+
+    Returns (transcription, chunk_index, start_time, end_time, alt_candidate).
+    alt_candidate is the greedy text when self_consistency is on, else None.
+    """
     chunk, sample_rate = chunk_data
     duration = len(chunk) / sample_rate
     print(f"Processing chunk {chunk_index+1} (duration: {duration:.2f}s, time: {start_time:.2f}s - {end_time:.2f}s)")
 
-    try:
-        # Process entire chunk: full waveform for this timespan
+    # Validate chunk before sending to GPU
+    if len(chunk) == 0 or np.all(chunk == 0) or np.any(np.isnan(chunk)):
+        error_msg = f"[Error in chunk {chunk_index+1}: invalid audio (empty/silent/NaN)]"
+        print(error_msg)
+        return error_msg, chunk_index, start_time, end_time, None
+
+    def _infer(target_device, mdl, beams):
         with torch.no_grad():
             inputs = processor(chunk, sampling_rate=16000, return_tensors="pt")
-            inputs = {k: v.to(device) for k, v in inputs.items()}
-            # Allow full-length output for the whole segment (~25 tokens/sec of speech; cap for memory)
-            # Add prompt token count to budget so content length is not reduced
+            inputs = {k: v.to(target_device) for k, v in inputs.items()}
             prompt_len = prompt_ids.shape[-1] if prompt_ids is not None else 0
-            max_tokens = min(4096, max(448, int(duration * 25))) + prompt_len
+            # Whisper's decoder is capped at max_target_positions (448) INCLUDING the
+            # prompt + special tokens. Requesting more indexes past the positional
+            # embedding table → CUDA device-side assert. Budget new tokens under 448.
+            max_new = max(1, 448 - prompt_len - 8)  # 8 = margin for special tokens
             generate_kwargs = dict(
-                max_length=max_tokens,
-                num_beams=1,
+                max_new_tokens=max_new,
+                num_beams=beams,
                 do_sample=False,
                 temperature=None,
             )
             if prompt_ids is not None:
-                generate_kwargs["prompt_ids"] = prompt_ids
-            generated_ids = model.generate(
-                inputs["input_features"],
-                **generate_kwargs,
-            )
-            transcription = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
-        
-        print(f"Chunk {chunk_index+1} transcription: {transcription[:100]}...")
-        
-        # Save individual chunk transcription with time info
-        chunk_file = f"{output_dir}/{base_name}_chunk_{chunk_index+1:03d}.txt"
-        with open(chunk_file, "w", encoding="utf-8") as f:
-            f.write(f"[{start_time:.2f}s - {end_time:.2f}s]\n")
-            f.write(transcription)
-        print(f"Saved chunk {chunk_index+1} to: {chunk_file}")
-        
-        return transcription, chunk_index, start_time, end_time
-        
+                # prompt_ids must be on same device
+                generate_kwargs["prompt_ids"] = prompt_ids.to(target_device)
+            generated_ids = mdl.generate(inputs["input_features"], **generate_kwargs)
+            return processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+
+    def _infer_safe(beams):
+        """Run inference with CUDA→CPU fallback. Raises on unrecoverable error."""
+        try:
+            return _infer(device, model, beams)
+        except RuntimeError as e:
+            err_str = str(e)
+            if "CUDA" in err_str or "cuda" in err_str:
+                print(f"Chunk {chunk_index+1}: CUDA error — clearing cache and retrying on CPU: {err_str[:120]}")
+                if device != "cpu":
+                    torch.cuda.empty_cache()
+                cpu_model = model.to("cpu")
+                try:
+                    out = _infer("cpu", cpu_model, beams)
+                    print(f"Chunk {chunk_index+1}: CPU fallback succeeded")
+                    return out
+                finally:
+                    model.to(device)  # restore device for next chunks
+            raise
+
+    try:
+        transcription = _infer_safe(num_beams)
     except Exception as e:
         error_msg = f"[Error in chunk {chunk_index+1}: {e}]"
-        print(f"Error processing chunk {chunk_index+1}: {e}")
-        return error_msg, chunk_index, start_time, end_time
+        print(error_msg)
+        return error_msg, chunk_index, start_time, end_time, None
+
+    alt_candidate = None
+    if self_consistency:
+        try:
+            alt = _infer_safe(1)  # greedy second opinion
+            if alt.strip() and alt.strip() != transcription.strip():
+                alt_candidate = alt
+        except Exception as e:
+            print(f"Chunk {chunk_index+1}: self-consistency greedy pass failed ({e}) — using beam result only")
+
+    print(f"Chunk {chunk_index+1} transcription: {transcription[:100]}...")
+
+    chunk_file = f"{output_dir}/{base_name}_chunk_{chunk_index+1:03d}.txt"
+    with open(chunk_file, "w", encoding="utf-8") as f:
+        f.write(f"[{start_time:.2f}s - {end_time:.2f}s]\n")
+        f.write(transcription)
+
+    return transcription, chunk_index, start_time, end_time, alt_candidate
 
 def process_audio_file(audio_file_path, keep_audio=True, output_suffix='_combined'):
     """Process a single audio file with ASR, saving after each chunk.
     WAV is kept by default; pass keep_audio=False only if you explicitly want deletion.
     output_suffix controls the output filename (default: _combined → <title>_combined.txt).
+
+    Decoding is controlled by env vars (so batch runs stay uniform):
+      ASR_NUM_BEAMS        beam width for primary transcription (default 5)
+      ASR_SELF_CONSISTENCY 1 = also emit a greedy candidate per chunk into a
+                           <title>_candidates.txt sidecar for LLM reconciliation
     """
+    num_beams = max(1, int(os.getenv("ASR_NUM_BEAMS", "5")))
+    self_consistency = os.getenv("ASR_SELF_CONSISTENCY", "0").strip().lower() in ("1", "true", "yes")
+    print(f"Decoding: num_beams={num_beams}, self_consistency={self_consistency}")
+
     print("Loading ASR model...")
 
     # Load model and processor
@@ -302,58 +370,33 @@ def process_audio_file(audio_file_path, keep_audio=True, output_suffix='_combine
     chunk_time_info = chunk_times.copy()  # Initialize with chunk times
     
     try:
-        # Process chunks asynchronously using ThreadPoolExecutor
-        print(f"Processing {len(audio_chunks)} chunks asynchronously...")
-        
-        # Prepare chunk data for async processing
-        chunk_data_list = [(chunk, sample_rate) for chunk in audio_chunks]
-        
-        # Use ThreadPoolExecutor for async processing
-        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-            # Submit all chunk processing tasks
-            future_to_index = {
-                executor.submit(
-                    process_chunk_async,
-                    chunk_data,
-                    processor,
-                    model,
-                    device,
-                    i,
-                    base_name,
-                    output_dir,
-                    chunk_times[i][0],  # start_time
-                    chunk_times[i][1],  # end_time
-                    prompt_ids,
-                ): i
-                for i, chunk_data in enumerate(chunk_data_list)
-            }
-            
-            # Collect results as they complete
-            results = [None] * len(audio_chunks)
-            chunk_time_info = [None] * len(audio_chunks)
-            completed_chunks = 0
-            
-            for future in concurrent.futures.as_completed(future_to_index):
-                try:
-                    transcription, chunk_index, start_time, end_time = future.result()
-                    results[chunk_index] = transcription
-                    chunk_time_info[chunk_index] = (start_time, end_time)
-                    completed_chunks += 1
-                    print(f"Completed chunk {chunk_index+1}/{len(audio_chunks)} ({completed_chunks}/{len(audio_chunks)} total completed)")
-                except Exception as e:
-                    chunk_index = future_to_index[future]
-                    error_msg = f"[Error in chunk {chunk_index+1}: {e}]"
-                    results[chunk_index] = error_msg
-                    chunk_time_info[chunk_index] = chunk_times[chunk_index]
-                    completed_chunks += 1
-                    print(f"Error in chunk {chunk_index+1}: {e} ({completed_chunks}/{len(audio_chunks)} total completed)")
-        
-        # Collect all transcriptions in order
+        # Process chunks sequentially — CUDA is single-device serial; threads sharing
+        # one model cause race conditions and poison the CUDA context on error.
+        print(f"Processing {len(audio_chunks)} chunks sequentially...")
+
+        results = [None] * len(audio_chunks)
+        alt_results = [None] * len(audio_chunks)
+        chunk_time_info = [None] * len(audio_chunks)
+
+        for i, chunk in enumerate(audio_chunks):
+            transcription, chunk_index, start_time, end_time, alt_candidate = process_chunk(
+                (chunk, sample_rate),
+                processor, model, device,
+                i, base_name, output_dir,
+                chunk_times[i][0], chunk_times[i][1],
+                prompt_ids, num_beams, self_consistency,
+            )
+            results[chunk_index] = transcription
+            alt_results[chunk_index] = alt_candidate
+            chunk_time_info[chunk_index] = (start_time, end_time)
+            print(f"Completed chunk {i+1}/{len(audio_chunks)}")
+
         all_transcriptions = results
-        
+
     except Exception as e:
         print(f"Error during processing: {e}")
         all_transcriptions = [f"[Processing error: {e}]"] * len(audio_chunks)
+        alt_results = [None] * len(audio_chunks)
         # chunk_time_info already initialized before try block
     finally:
         # Always clean up temporary file
@@ -369,7 +412,25 @@ def process_audio_file(audio_file_path, keep_audio=True, output_suffix='_combine
             f.write("\n\n")
     
     print(f"All transcriptions saved to: {combined_file}")
-    
+
+    # Self-consistency sidecar: for chunks where beam and greedy disagreed, store
+    # both candidates so the LLM correction pass can reconcile them. Same suffix
+    # base as combined so postprocess can locate it. Only written if any chunk
+    # produced a differing greedy candidate.
+    if any(alt_results):
+        candidates_file = f"{output_dir}/{base_name}_candidates.txt"
+        with open(candidates_file, "w", encoding="utf-8") as f:
+            for i, alt in enumerate(alt_results):
+                if not alt:
+                    continue
+                start_time, end_time = chunk_time_info[i]
+                f.write(f"=== Chunk {i+1} [{start_time:.2f}s - {end_time:.2f}s] ===\n")
+                f.write("<<BEAM>>\n")
+                f.write((all_transcriptions[i] or "").strip() + "\n")
+                f.write("<<GREEDY>>\n")
+                f.write(alt.strip() + "\n\n")
+        print(f"Self-consistency candidates saved to: {candidates_file}")
+
     # Clean up individual chunk files after combined transcription is saved
     chunk_files_cleaned = 0
     for i in range(len(audio_chunks)):
@@ -409,18 +470,20 @@ def main():
     setup_path()
     handle_unicode_encoding()
     
-    if len(sys.argv) != 2:
-        print("Usage: python simple_asr.py <audio_file_path>")
+    import argparse as _ap
+    p = _ap.ArgumentParser()
+    p.add_argument("audio_file_path")
+    p.add_argument("--suffix", default="_combined",
+                   help="Output filename suffix (default: _combined)")
+    a = p.parse_args()
+
+    if not os.path.exists(a.audio_file_path):
+        print(f"File not found: {a.audio_file_path}")
         sys.exit(1)
-    
-    audio_file_path = sys.argv[1]
-    
-    if not os.path.exists(audio_file_path):
-        print(f"File not found: {audio_file_path}")
-        sys.exit(1)
-    
-    success, result, error = safe_execute(process_audio_file, audio_file_path)
-    
+
+    success, result, error = safe_execute(process_audio_file, a.audio_file_path,
+                                          True, a.suffix)
+
     if success:
         print("Success!")
     else:

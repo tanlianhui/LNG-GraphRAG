@@ -1,7 +1,45 @@
-=== Chunk 1 [0.00s - 427.08s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+隨時他被補血了是不是好沒關係沒難度耶要那麼多錢給我到底要幹嘛有小地圖了爽爽等一下有道具嗎
+
+=== Chunk 2 [30.00s - 60.00s] ===
+太多格子可以裝了吧還是沒辦法我把下面的地圖探索完好了我的血不會回好鳥要我多錢還賣配用啊
+
+=== Chunk 3 [60.00s - 90.00s] ===
+夭壽啊好耶好爽喔我喜歡哎呀臭小子以為我沒看到是不是double 卡片
+
+=== Chunk 4 [90.00s - 120.00s] ===
+好像把全身的裝備都打滿了大黃瓜30塊好的馬上拿到寶箱棒棒Multiple kills for when you are in a killing frenzy state of mind連殺獎勵
+
+=== Chunk 5 [120.00s - 150.00s] ===
+multi kill 謝謝你告訴我double kill沒有嗎
+
+=== Chunk 6 [150.00s - 180.00s] ===
+RampageDominate me好黑喔不好意思不好意思不要搶不要吃
+
+=== Chunk 7 [180.00s - 210.00s] ===
+GodlikeYepYepYep好好好棒棒愛吃我的好厲害的遊戲
+
+=== Chunk 8 [210.00s - 240.00s] ===
+Killing Spree不知道大家知不知道這個幻境這個設計遊戲當年那個時候那個時候在網咖玩的魔力幻境那個放的很大聲真的是超爽不少錢耶最後回程不知道可以買多少東西好爽喔可是都沒有等級
+
+=== Chunk 9 [240.00s - 270.00s] ===
+哇 太多了吧垃圾車太大聲了吧血都滿了好爽
+
+=== Chunk 10 [270.00s - 300.00s] ===
+Unstoppable滾滾滾哇好多裝備啊差兩個裝備就神裝了滿裝了
+
+=== Chunk 11 [300.00s - 330.00s] ===
+Creeper Diffuse Kit allows you to prevent creeper from exploding if you are quick enough.Undead will now take sunburns as normal people do.喂好無聊啊這些道具好有梗喔慢慢看好了Hero Relic 英雄
+
+=== Chunk 12 [330.00s - 360.00s] ===
+加 0.001% 暴擊機率 撇得更不行嗎Stonebreaker 加 300% damage to stones and walls對石頭跟牆壁造成 300% 的傷害額外傷害Helmet of Twilight 暮光之盔State of the art solar powered helmet grants night vision to its wearer提供夜視能力加 0.1 defense on ears耳環提供 0.1 的耳
+
+=== Chunk 13 [360.00s - 390.00s] ===
+Double XP gains just in case.You just become the first gangster fantasy hero.Diamond necklace of shining bling.你將會成為奇幻世界的第一個 spirit of typhoon 加 5 damage against mythological creatures.加 5 對神話怪物造成加 5 傷害
+
+=== Chunk 14 [390.00s - 420.00s] ===
+加 2% dodge chance 加 2% 迴避率 lightbringer pole drums 加 3 坨 chivalry also great for disco night會發亮這夜總會有 disco 也好用revive you with 20% hp when you are killed by a unicorn如果你被獨角獸殺死的話你就會復活了就以 20% hp 的姿態復活可是根本就沒有獨角獸啊
+
+=== Chunk 15 [420.00s - 427.08s] ===
+turns its user into a dragon twelve months cooldown
 

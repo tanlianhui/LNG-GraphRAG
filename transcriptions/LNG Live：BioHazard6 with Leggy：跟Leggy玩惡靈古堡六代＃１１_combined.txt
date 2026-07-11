@@ -1,7 +1,102 @@
-=== Chunk 1 [0.00s - 996.09s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+一起爆炸一起爆炸可以嗎可以齁你 ok 嗎好給我打好了快死了後面有炸彈小心喔OK 嗎
+
+=== Chunk 2 [30.00s - 60.00s] ===
+要吃幾顆有幾顆狂吃好太好了very good走走走這裡胖子小心
+
+=== Chunk 3 [60.00s - 90.00s] ===
+欸欸欸不行他也要搶他也要鳥屎出現哇靠剛剛大混亂超多人在跟我講話誰啊我爸媽好不要緊我們快成 girl 了好欸我就一直死掉然後你還可以幫我順便消耗藥啊你不要故意一直死
+
+=== Chunk 4 [90.00s - 120.00s] ===
+OK的前面又是胖子可惡我要先開槍打他差不多了吧他的頭都快他死了
+
+=== Chunk 5 [120.00s - 150.00s] ===
+Leon笨蛋行動了啦討厭不會很快很快好你知道嗎我很快就下去了我也要下去啦LeonI need your help.那你要不要幫我射一下後面的殭屍呢好
+
+=== Chunk 6 [150.00s - 180.00s] ===
+OKOKOKOK我被炸彈他引爆了你要小心炸彈啊炸彈要怎麼打啊你就不要射炸彈就好啊我沒有射我剛剛是踢他他爆炸了沒踩到怎樣我來啦我來啦我來啦我來啦我來啦孔明了孔明了孔明了
+
+=== Chunk 7 [180.00s - 210.00s] ===
+後面有人喔
+
+=== Chunk 8 [210.00s - 240.00s] ===
+我們噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴噴
+
+=== Chunk 9 [240.00s - 270.00s] ===
+打死他們就好啦你怎麼過去的你怎麼過來的我過不來啊那你沒辦法過
+
+=== Chunk 10 [270.00s - 300.00s] ===
+有的沒工作喔你不要再下來快快快快我們復活了我如果先過來它會提早開始顫動或會提早穿好不會不會不會你就一直跑
+
+=== Chunk 11 [300.00s - 330.00s] ===
+大遊水八仙樂園耶滑水道躺著玩坐著玩那個蝙蝠效果也太差了吧這裡有洞耶這裡這裡這裡有洞啊靠邀啊怎麼不見了我覺得有啊我給你有真的超美的
+
+=== Chunk 12 [330.00s - 360.00s] ===
+oh my god 有人要咬我們的腳了有人要脫我們的褲子了頭髮太大隻了吧等一下這是要分開行動的意思嗎這是要分開行動的意思嗎沒有吧再來
+
+=== Chunk 13 [360.00s - 390.00s] ===
+臭屁咖爆屁爆屁好噁他肚子裡面有東西加油他肚子裡有什麼很大一塊東西超噁心的東西我為什麼換我在嘴巴裡面
+
+=== Chunk 14 [390.00s - 420.00s] ===
+你可能就要一直游吧還是你有辦法找到地方可以上來有嗎我這個地方你被卡住了是不是對好我來我來交給我了I think this might be it.
+
+=== Chunk 15 [420.00s - 450.00s] ===
+哪裡我掩護你我掩護你你游你游你一直游欸你剛剛有一直按嗎我是一直按我是一直按
+
+=== Chunk 16 [450.00s - 480.00s] ===
+哪裏哪裏哪裏他一定是看了我們的影片啊可以嗎好像可以這邊有梯子我來了我來了嚇到嚇到有什麼好嚇 是我開門
+
+=== Chunk 17 [480.00s - 510.00s] ===
+躺著玩坐著玩好像有無線子彈可以拿是不是
+
+=== Chunk 18 [510.00s - 540.00s] ===
+Aim for the dynamite!你 aim 嗎 我 aim我不能開槍我也不能啊 為什麼好冷喔鼻涕流出來了
+
+=== Chunk 19 [540.00s - 570.00s] ===
+你射我我行不行直接沒吃啦你的設計技術很差我在射來人
+
+=== Chunk 20 [570.00s - 600.00s] ===
+Hello為什麼黑掉了讀取讀取
+
+=== Chunk 21 [600.00s - 630.00s] ===
+這樣鼻子不會進水嗎當然不會啊Excuse me欸有炸車機耶欸對不對為什麼會蹦核爆我不知道啊不是惡靈古堡的飛機永遠都會爆炸嗎喔是這樣嗎它不是飛機爆炸那飛機投蛋吧不知道耶
+
+=== Chunk 22 [630.00s - 660.00s] ===
+He's sterilizing the area.And destroying the evidence.How could he?然後我們就會變成通緝犯了Thank god you're still alive.Where's Simmons?After speaking with you he left, in a hurry.Shit.Where did he go?Don't worry, I've got a tail on him, he's on his way to the airport right now where his private jet is preparing to leave for China.
+
+=== Chunk 23 [660.00s - 690.00s] ===
+What happened?Another bioterrorism attack.The BSAA confirmed it was the same one used in Eastern Europe six months ago called the C-virus.C-virus?We saw cocoons just like that here.We need to stop Simmons and take him into custody right away.We have no evidence, and right now, you two are on the top of their list of suspects.
+
+=== Chunk 24 [690.00s - 720.00s] ===
+Listen, Hunnigan,I need you to fake our deaths.Can you do that?What?Of course, but they'll figure it out eventually.What are you going to do?We're going to China.
+
+=== Chunk 25 [720.00s - 750.00s] ===
+S來看我們有沒有好好的裝備東西而且我死兩次了為什麼我沒有死啊我死兩次應該是被鯊魚咬死之類的那為什麼我沒有對啊為什麼
+
+=== Chunk 26 [750.00s - 780.00s] ===
+啊 應該是因為我沒開槍所以鯊魚咬我了OK 不重要啦GoExcuse me 指甲哥哥趕快按 goYou can purchase new skills.耶有裝備耶有裝備這次有嗎我沒有耶
+
+=== Chunk 27 [780.00s - 810.00s] ===
+你不可以這麼快就直接因為上次我有先進遊戲再關掉管他的不重要啦管他的你這次買不買沒什麼好買的啊我要買那個物品掉落率增加Zombie has increased strength of attacks on a zombie.
+
+=== Chunk 28 [810.00s - 840.00s] ===
+所以我打 zombie 會比較痛這樣子感覺還不錯啊哪一個 zombie hunter 嗎買買買買買都買level two喜歡我都買給你zombie hunter level twoexcuse me 不能裝為什麼
+
+=== Chunk 29 [840.00s - 870.00s] ===
+為什麼不能裝喔 R 啦 夭壽啊哈哈哈哈我裝完了耶好就這樣吧我也不知道要買什麼我沒錢買裝裝OK
+
+=== Chunk 30 [870.00s - 900.00s] ===
+裡面的妖怪不是每一個都是殭屍真的假的來不及了管他得我也買了一點了那我現在要幹嘛我現在按 eescape 的 quit 對不對有人說之後沒殭屍了我知道有一種是那種就是我們前面不是有打過一種就是會變
+
+=== Chunk 31 [900.00s - 930.00s] ===
+打爆牠的頭牠會變成牠會伸出觸手嗎有這個嗎那種好像不是殭屍耶那種是寄生蟲啊五代有的應該是吧管牠的不管牠連香L殭屍
+
+=== Chunk 32 [930.00s - 960.00s] ===
+We just entered Chinese airspace.Good.How are you holding up?V水已滯留He could have cleared your name.Maybe.Besides, he's starting to growl me a little bit.
+
+=== Chunk 33 [960.00s - 990.00s] ===
+力量座的飛機一定會墜機 一想玩就墜機你不覺得其實這種時候墜機死掉也好嗎才不會呢 我要先處理他們三隻群殺光長生的機長好大隻喔放屁怪放屁怪
+
+=== Chunk 34 [990.00s - 996.09s] ===
+在這邊開槍一不小心射到玻璃我們就死了
 

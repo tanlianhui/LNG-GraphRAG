@@ -1,7 +1,102 @@
-=== Chunk 1 [0.00s - 1005.68s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+等一下那些衛星也太詭異了吧Parachute ready!Tank brought!Oh天啊前面的快快快快快降落降落我不能 fire 我也很想啊Hang on! I'm releasing the tank!Releasing the tank!哇靠! Go!我也要開喔
+
+=== Chunk 2 [30.00s - 60.00s] ===
+哇靠噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔噔
+
+=== Chunk 3 [60.00s - 90.00s] ===
+拿 band
+
+=== Chunk 4 [90.00s - 120.00s] ===
+go看不見啊mortar哪裡啊衝過去wow在那邊啊
+
+=== Chunk 5 [120.00s - 150.00s] ===
+欸欸卡住卡住我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我卡住了我
+
+=== Chunk 6 [150.00s - 180.00s] ===
+OK哇還有這個來保護我們真是我根本不能喔 missile ok發射Time to impact.Command copies all.Good work, General.
+
+=== Chunk 7 [180.00s - 210.00s] ===
+Hear this?It's Warp.He's here.They're evacuating on the transistor below.Meric, missiles away.We're gonna lead on Warp.不要再守啦太盡忠直屬M24就這麼大一支給鬼用耶啊不不不啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+
+=== Chunk 8 [210.00s - 240.00s] ===
+Fireteam suppressed the three one advancing to the loading bay.There's one straight, straight ahead!
+
+=== Chunk 9 [240.00s - 270.00s] ===
+Ghost have secured the sector, missile is inbound.Convert all forces to primary objective.Fort elements of B Company will have air support at the ground array.The AA gun will destroy anything in the sky.OK, go!Talk, what's the strike effect?
+
+=== Chunk 10 [270.00s - 300.00s] ===
+喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔喔
+
+=== Chunk 11 [300.00s - 330.00s] ===
+嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶嗶�
+
+=== Chunk 12 [330.00s - 360.00s] ===
+Go太快了
+
+=== Chunk 13 [360.00s - 390.00s] ===
+後座力飛走我也覺得很奇妙但是因為我們每個人都有噴射飛包吧可能有差吧在哪裡看不到敵人耶整鍋的感覺Thompson stick with the squad!Stand formation!
+
+=== Chunk 14 [390.00s - 420.00s] ===
+打得出去啦因為我之前一看到一看到那個燒起來了燒起來了 excuse me你這麼開為什麼不能動
+
+=== Chunk 15 [420.00s - 450.00s] ===
+Thompson, we can't stop now, let's move!Tank goes to up high!Takers, be advised, we've lost the carrier fleet. Give me a sit-rep.Near the control room, we're taking the direct approach now.We'll have to breach the exterior wall.
+
+=== Chunk 16 [450.00s - 480.00s] ===
+Contact on Clark!砰砰砰砰遊戲這不是在不在意的問題這是大家討論一件事情跟這是不是遊戲沒有關係啊
+
+=== Chunk 17 [480.00s - 510.00s] ===
+槍在太空中到底可不可以擊發這個問題為什麼一直叫大家不要認真呢
+
+=== Chunk 18 [510.00s - 540.00s] ===
+找不到敵人耶不是啊這不是認不認真這只是在討論而已啊這有什麼好認不認真就是在聊天啊那你那你那你直接那你比如說你問你朋友事情比如說這個衣服我應該買這個顏色還是這個顏色然後人家就會說只是買衣服而已你在認真什麼
+
+=== Chunk 19 [540.00s - 570.00s] ===
+平常看得到子彈的痕跡嗎你說軌跡還是痕跡
+
+=== Chunk 20 [570.00s - 600.00s] ===
+Clear! Take the control console.他們拿的槍是我最喜歡的槍耶是 SCAR 耶 感覺很像 SCAR跑掉了我走錯了嗎We're waiting on you, Thompson.
+
+=== Chunk 21 [600.00s - 630.00s] ===
+We're waiting on you, Thompson!Hey!Clear! Take the control console!Mirror, be advised, we have control of the station.Copy, Icarus, we're sending you enemy positions. Hit them hard!All coasts have three, four, and eight loaded and ready.Thompson, you're the best!我沒有 death
+
+=== Chunk 22 [630.00s - 660.00s] ===
+我沒有帶 我只是脫隊了哪算不算這也算死掉啊太過分了飛飛在飛啊哪裡 heavy armor battalion do it
+
+=== Chunk 23 [660.00s - 690.00s] ===
+Do it!太惡劣了Southern reinforcements neutralized.Icarus actual, ghosts are on the train moving southwest through your targeting area.Hold your fire. Repeat, friendlies are on the train. Check your fire.Icarus now feeding you local Federation armor columns. Be careful, they're right on top of our guys.Blocking your target coordinates.No problem, so 精準
+
+=== Chunk 24 [690.00s - 720.00s] ===
+Nice job, Icarus.我曾是,我就是,蔡瑞兒.Visual confirmed, targeting now.Local units can clean up remaining hostile forces.Prepare to target remaining Federation naval vessels.Location atHold, Icarus, incoming traffic.
+
+=== Chunk 25 [720.00s - 750.00s] ===
+Icarus Actuals, you still have eyes on the southwest train?Affirmative.Belay previous order. Target the train and fire on it.Sir, there are ghosts on that train.The order comes from the ghosts. You're confirmed. Repeat, confirmed. Fire on that train.No, 我不要 fire on that train.Fire when ready.一定要射嗎 可是上面不是有 ghost 嗎
+
+=== Chunk 26 [750.00s - 780.00s] ===
+可是上面不是有 ghost 嗎可是上面有 ghost 啊他說的煩耶長官那是上面有 ghost 啊
+
+=== Chunk 27 [780.00s - 810.00s] ===
+It comes from the ghosts. You're confirmed. Repeat, confirmed.Dad taught us many things, but one lesson always stood out.Good men are defined by the choices they make.Logan and I made a choice, a promise, to the fallen ghosts before us, to Dad.We'd fight or I can't stop it.
+
+=== Chunk 28 [810.00s - 840.00s] ===
+No matter the cost.Why don't you just tell me yourself?You're done, Rourke.
+
+=== Chunk 29 [840.00s - 870.00s] ===
+Let's finish this.太生氣了吧Looks like Icarus got control of the ride.Oh天啊他們開始炸飛彈了所以我們等一下Let's go.他就要炸我們的火車了Oh no oh no oh noBrock must be in the front of the train.
+
+=== Chunk 30 [870.00s - 900.00s] ===
+有壘有壘有壘有壘有壘有壘Let's try not to shoot hatch this time.Too hard!He looks like exactly the enemy.太難了啦
+
+=== Chunk 31 [900.00s - 930.00s] ===
+喔 搖搖搖我跟搖搖我跳
+
+=== Chunk 32 [930.00s - 960.00s] ===
+要死了
+
+=== Chunk 33 [960.00s - 990.00s] ===
+有我最搖擺有我最搖擺我不敢過去Hash你可以先過去給我看嗎Hash你在哪裡啊你怎麼過去的oh fucktake the jump個屁HashHash你怎麼過去的
+
+=== Chunk 34 [990.00s - 1005.68s] ===
+Jump to the roof!He's coming!Are you okay, Logan?
 

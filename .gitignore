@@ -107,4 +107,4 @@ _test_out.txt
 claude_session.txt
 
 # Cloudflare Wrangler internal
-.wrangler/
+.wrangler/scratchpad_audit_done.txt

@@ -1,7 +1,30 @@
-=== Chunk 1 [0.00s - 293.64s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+我已經卡關了耶還是有什麼選擇這裡嗎還是這裡呢No複雜耶沒了耶沒有這樣的地方了
+
+=== Chunk 2 [30.00s - 60.00s] ===
+看一下喔酷喔鼻子好癢你可以嗎不行啊好那就不要再回來了好記得好然後走到右邊那邊沒東西啊可是沒有東西好沒東西沒東西
+
+=== Chunk 3 [60.00s - 90.00s] ===
+這裏沒路好沒路但是要記錄煩耶我現在好想快轉喔沒路啊要不要開槍啊
+
+=== Chunk 4 [90.00s - 120.00s] ===
+You got the place's name, you will learn the name of the place.
+
+=== Chunk 5 [120.00s - 150.00s] ===
+我看一下 先看看有沒有路可以走短彎就出其不意講哎哎哎哎先生 又在哪裡啊有城鎮了You got village. Why do villages always have such?What are you doing here? Children should go to bed.在這裡幹嘛小孩要上床睡覺啊
+
+=== Chunk 6 [150.00s - 180.00s] ===
+If you are not a nice boy, the evil Kafka's ghost will come and eat you.如果你不是一個好男孩, Kafka 的鬼會來吃掉你歧視小孩啊這個城鎮終於有小孩了But those are not funny, they always complain about us children.If only I could eat the growth seed, I would no longer be a child.他說大人很煩耶
+
+=== Chunk 7 [180.00s - 210.00s] ===
+那個對我們不好但是如果我吃了成長種子的話我就可以長大更大的人了But the seed I found has fallen down the well.但是我找到的種子掉到井裡面了I'm too scared to get it back.It's too dark down there.我很害怕他不敢下去拿那裡面太黑了那就是我拿啦沒有問題井在這
+
+=== Chunk 8 [210.00s - 240.00s] ===
+Be careful, it's very dark down there.好啊 我不怕You got a secret place.What the hell are you doing in this place?找到秘密的地方這一口井也太詭異了吧得到什麼蟲蟲卡好 沒關係
+
+=== Chunk 9 [240.00s - 270.00s] ===
+You found a strange seed.Do you want to eat?No.No 就不能進去 Yes.You gotta grow taller.What with all the kids in the video games anyway.I heard a lot of strange sounds coming out of the North Caves.又是北邊洞窟的傳說
+
+=== Chunk 10 [270.00s - 293.64s] ===
+He visited us earlier. Is she a friend of yours?No.他說早先有一個女生有拜訪過我們不知道她是不是我的朋友Welcome to the Papunica Village, please in.講一樣的話嘛你已經是大人了啦You can now freely invade people's privacy.他說你可以進入
 

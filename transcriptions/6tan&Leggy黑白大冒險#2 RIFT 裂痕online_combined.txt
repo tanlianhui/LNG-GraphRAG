@@ -1,7 +1,15 @@
-=== Chunk 1 [0.00s - 144.20s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+哈囉大家好我是六探哈囉我是 Leggy哈囉我們今天要試玩一個新的線上遊戲啦叫做 Rift 列練防禦者那我要練到誰超萌大眼蘿莉真假的那我要用高挑美女高挑小眼美女算了不要了轉過來一點你要轉過來一點
+
+=== Chunk 2 [30.00s - 60.00s] ===
+你要轉過來一點點救不到男朋友太高了呀我要跳下去了他們扣了 40 滴血艾登不會死艾登不會扣血為什麼我們頭亮亮的不知道啊我們好像發光版的那個你看不到啊真的他們幹嘛去吃墳墓啊我找他們去瘋子啊這邊好多
+
+=== Chunk 3 [60.00s - 90.00s] ===
+好多 muffin 蛋糕喔屁啦我們會像烤豬一樣烤了你我一次才打 2 而已耶你一次打多少好高喔我可以穿過他的骨尖耶穿滾
+
+=== Chunk 4 [90.00s - 120.00s] ===
+我們不用打這些啊要被圍了被圍了拖回去先拖回去安全的地方打come come come come不用 殺了這裡是露營區營火晚會上 15 來來來
+
+=== Chunk 5 [120.00s - 144.20s] ===
+什麼上15啦不是才藝表演嗎為什麼我突然不見了你看它的中央不會是綠色的小心那些墮落的魔龍小心那些墮落的綠毛
 

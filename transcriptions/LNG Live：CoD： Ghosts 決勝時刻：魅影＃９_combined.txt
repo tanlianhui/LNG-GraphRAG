@@ -1,7 +1,108 @@
-=== Chunk 1 [0.00s - 1058.13s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+哈囉哈囉下午好下午好
+
+=== Chunk 2 [30.00s - 60.00s] ===
+哈囉終於可以繼續玩 COD 啦先跟大家講一下最近我的電腦自從上次水潑到之後啊就不知道幹嘛就很容易當機這樣所以假如你們假如你們等一下看就突然就關台了還是幹嘛的話
+
+=== Chunk 3 [60.00s - 90.00s] ===
+好我們繼續玩喔
+
+=== Chunk 4 [90.00s - 120.00s] ===
+Our worst fears are confirmed.The Federation has reverse engineered it.How long until it's operational?Unclear.The dip will rendezvous with the Vegas safehouse at twelve hundred hours tomorrow.Jay Sock's gonna wanna move fast on this, so load up before you get any shut-eye.We got six hours till Keegan gets back.Hold up!
+
+=== Chunk 5 [120.00s - 150.00s] ===
+但是因為過敏嘛所以沒有辦法也不是感冒啦狗狗不知道有沒有事對啊我會過敏啊
+
+=== Chunk 6 [150.00s - 180.00s] ===
+Oh my god 是 Roker.Do it yourself.Ah, you're awake.Good.Nice to have the family back together, isn't it?把我們綁起來了We're just missing our quiet friend.Where's Keegan?You were never one of us.You're not a ghost.Well, that's just cause I'm better than you.I've always been better than you.
+
+=== Chunk 7 [180.00s - 210.00s] ===
+You're nothing. You and your sons are dead. Your name dies with you.Boy, he's still got a little life in him.Didn't he ever tell you not to aim guns at people?They could go off!That's it. Just a little more.
+
+=== Chunk 8 [210.00s - 240.00s] ===
+Captain, you could learn something from him, Elias.He's my son.And he's gonna get to watch you die.I'm proud of you, Logan.Everything's gonna be okay.
+
+=== Chunk 9 [240.00s - 270.00s] ===
+The boss wants the youngest one alive.哇塞 太猛了吧去死!You okay, Merrick?Ribs broke, but we need to make it to the west side of the building.It's our best chance of getting out of here.
+
+=== Chunk 10 [270.00s - 300.00s] ===
+那個要不然等下會噗啾噗啾噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗噗
+
+=== Chunk 11 [300.00s - 330.00s] ===
+Logan, get in here.我來了,我來了.Down, get down.Get get down.Shh, shh.Hey, el ruido venía de ahí.Revisen las esquinas, no dejen nada a la suerte.Rodrigo, mira ahí, ahora mismo.還真的是滿會找的啦.OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK,
+
+=== Chunk 12 [330.00s - 360.00s] ===
+Oh, no.他們來抓我了OK, they're gone.Good luck.居然跟我哭 luckThanks for the shout out, asshole.丟了不露出來嗎我都出馬腳啦18 last
+
+=== Chunk 13 [360.00s - 390.00s] ===
+Keegan對不起 oh my godoh low ammo我要換槍了沒有子彈wow useless 踹你屁股
+
+=== Chunk 14 [390.00s - 420.00s] ===
+換槍了啦 搞屁啊Baldog holographicHotluck人你們在哪裡Oh no這裡Logan, Logan, you okay?
+
+=== Chunk 15 [420.00s - 450.00s] ===
+對阿我滑鼠也會亂飄耶超詭異
+
+=== Chunk 16 [450.00s - 480.00s] ===
+Oh my god 又是 KeeganKeegan 非常容易的走到我用開槍的地方靠 我沒子彈了啦有沒有槍槍
+
+=== Chunk 17 [480.00s - 510.00s] ===
+沒事了沒事了跟我走不要怕我保護你
+
+=== Chunk 18 [510.00s - 540.00s] ===
+Go go我是不是要換滑鼠了His remains are placed face down, with his head pointed in the direction of his home, his weapon next to him.We do it this way, so that when our fallen are taken to the other side, they can watch over us and keep an eye on our
+
+=== Chunk 19 [540.00s - 570.00s] ===
+Dad was gone, nothing could change that.But Logan and I, we were still here.The federation was still here.我不知道為什麼會這樣子Goodbye, Dad.I'll never take your place.But I'll die trying to fill it.帥USS Liberator this isHow to go after him.I want Rourke.Negative, Hesh.The Federation satellites are moving into position.If they go live, the feds can strike target.
+
+=== Chunk 20 [570.00s - 600.00s] ===
+So what's the plan?Turn off everything we have left, including our last killer.不過我好像有直播好像也不行It's all or nothing.Lieutenant Max, please report some blood.Nope.When the assault starts, we need a ghost team on the ground.
+
+=== Chunk 21 [600.00s - 630.00s] ===
+Riley!We'll be ready.And you'll be leading this one, Hesh.You're not coming?I'll be in Elias' seat, coordinating your resources.Your father was a great man, a great leader.He saw the same potential in both of you.Here, lover, this belongs to you.我們終於 Sorry, boy, your job's done. You're going with Merrick.He'll be safe.Riley 跟 Merrick 所以我就
+
+=== Chunk 22 [630.00s - 660.00s] ===
+Forces have entered our airspace.Report to your stations, launching alert five aircraft to intercept.Hit us anywhere, anytime, don't wipe us out.We've got to hold them off and deliver the invasion force.Tango's on deck!What?Tango on deck? 喔 甲板很多The Cranberries fans.哪裡我都看不見 自己是不是太低了Sergeant Taylor, Corporal Young,Sergeant Captain Davis.
+
+=== Chunk 23 [660.00s - 690.00s] ===
+Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don't Don
+
+=== Chunk 24 [690.00s - 720.00s] ===
+壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壞壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘壘�
+
+=== Chunk 25 [720.00s - 750.00s] ===
+告訴我第二把比較穩OK誰捨我太大陣仗了吧
+
+=== Chunk 26 [750.00s - 780.00s] ===
+我可以用 Osprey Gunner了好難用這個怎麼那麼難用啊
+
+=== Chunk 27 [780.00s - 810.00s] ===
+OK又可以 Osprey 好棒再一次
+
+=== Chunk 28 [810.00s - 840.00s] ===
+All squads be advised, a Federation gunship is in the AO.哪裡Take out 啊這麼大台怎麼打啊喔結束了I'm coming.I'm coming.I'm coming.別倒嚕走嚕OK當得完做得完
+
+=== Chunk 29 [840.00s - 870.00s] ===
+28 線好玩來不及了笨蛋不好意思
+
+=== Chunk 30 [870.00s - 900.00s] ===
+Chopper 來不及啊好忙啊去死
+
+=== Chunk 31 [900.00s - 930.00s] ===
+Gunship damaged.Damaged.Damaged.Oh, oh, fuck.太多了吧,這個什麼意思Right.Gunship making another run.Gunship to the left.到底是 left 還是 right.OK.Go.Yeah, yeah, yeah, yeah.Gunship is down.Down.
+
+=== Chunk 32 [930.00s - 960.00s] ===
+Nice shooting Logan, the carrier is safe.Time to join the main assault.Command, have you got our ride?Affirmative, Viper Six inbound.GoNorad has multiple inbound rods entering the atmosphere.The satellites are operational.All hands brace for impact.No no no no 車車來了
+
+=== Chunk 33 [960.00s - 990.00s] ===
+All hands brace for impact, alert!我要跟他走 我不要走別的地方我沒事 我沒事 我沒事來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來
+
+=== Chunk 34 [990.00s - 1020.00s] ===
+衝啊我也要翻得過去coming down coming downwatch out get to the heli
+
+=== Chunk 35 [1020.00s - 1050.00s] ===
+We'll strike two targets at the same time.The assault team's launch is headed for the Federation space station.The mission is to breach the station and take control of its orbital weapons.
+
+=== Chunk 36 [1050.00s - 1058.13s] ===
+We have to destroy the space station's early warning array on the ground.Hesh, you lead a team to seize control of their command center.
 

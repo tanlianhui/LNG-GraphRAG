@@ -1,7 +1,114 @@
-=== Chunk 1 [0.00s - 1113.75s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+嗯我覺得你這樣子子彈子彈很多啊反正我都找不到好像都不在這兒了對在這兒來來來理解呢為什麼要來來來應該都在這裡所以你繼續在你繼續在那條路繞沒有用有屍體掉下來可以開兩邊起來就可以了
+
+=== Chunk 2 [30.00s - 60.00s] ===
+我幫你開門我幫你開門可以開了裡面是什麼啊快出來了有箱子耶走吧不要浪費子彈了在對面
+
+=== Chunk 3 [60.00s - 90.00s] ===
+我猜在剛剛那個地方這裡這裡喔好帥喔我又回到這條路了我來找找
+
+=== Chunk 4 [90.00s - 120.00s] ===
+蘇羅沒有因為那邊剛剛掉下來一隻我趕上去在那邊是不是啊要兩個人啊我來了
+
+=== Chunk 5 [120.00s - 150.00s] ===
+過頭了OK對了在這裡好來我來我來我沒辦法開那個門要兩個人才能開我要在哪裡開我要在哪裡找你下面下面有門可以可以開這個門可是我沒辦法開啊那要兩個人才能開
+
+=== Chunk 6 [150.00s - 180.00s] ===
+有兩隻有超多隻好嗎我看一下走吧不用打 繞過去就好這裡箱子開走走走直接拿不要理這隻開開還有三把鑰匙喔白癡白癡喔靠北我要死了好開開Oh my god
+
+=== Chunk 7 [180.00s - 210.00s] ===
+Looks all clear now.它沒有骨頭啊它沒有骨頭啊看一下有沒有東西可以撿啊
+
+=== Chunk 8 [210.00s - 240.00s] ===
+我聲音會不會很小啊
+
+=== Chunk 9 [240.00s - 270.00s] ===
+你要開門還是往下走我開我開看來要往下走走吧好啊我最喜歡打人了不對吧好像死了我也沒聽到為什麼根本過不了啊喔爆了爆走走走快通過等一下他們那邊也有一團耶
+
+=== Chunk 10 [270.00s - 300.00s] ===
+哪裡短01我們現在要幹嘛要開這個是不是好現在先開大點好來快點現在要幹嘛我已經灌了三分之一了
+
+=== Chunk 11 [300.00s - 330.00s] ===
+We've been conducting such fascinating work lately.Why don't you have some fun with the new program?地上有地雷機器人是地雷啊你在哪裡啊What the hell is she think I get, but see if you can bypass it manually.那用手槍其實就可以了我用手槍我一直都用手槍我用手槍愛好者可是地上那麼多散彈槍有咩有啊
+
+=== Chunk 12 [330.00s - 360.00s] ===
+吸塵器電腦上會有那種氣洞球靠夭 旁邊有一個電腦我們在那邊打你趕快射他我解了我還繼續解太多了
+
+=== Chunk 13 [360.00s - 390.00s] ===
+Security breach detected in room one.Security breach detected in room one.Yes.Ada感覺很笨不是很笨很壞 我要講什麼藍色大雕好多箱子耶
+
+=== Chunk 14 [390.00s - 420.00s] ===
+最好有立體機動裝置啦
+
+=== Chunk 15 [420.00s - 450.00s] ===
+開門There she is, cut her off.咦 誰啊是不是 crazy 他們穿那個他們兩個一臉
+
+=== Chunk 16 [450.00s - 480.00s] ===
+我直接開了白痴剛打死劇回來最好先不直接開槍是朋友嗎還真的是耶
+
+=== Chunk 17 [480.00s - 510.00s] ===
+No, it wasn't her, it was Simmons, the national security advisor.I lost all my men because of her.And I lost over seventy thousand people, including the president, because of Simmons.Oh my god.然後等下兩個人聊天師傅與燃燒中好深情喔真的是女人
+
+=== Chunk 18 [510.00s - 540.00s] ===
+壞男人不愛喔所以 BSAA 會去追那個就是 Chris 他們會去追 Ada我們就去追 SimmonsAre you sure we can rely on him?He's been in this as long as I have.I trust him.All right.
+
+=== Chunk 19 [540.00s - 570.00s] ===
+Come on, let's find Simmons.這裡咧有罐罐要不要噴好啊我噴你也漏很多血嗎我看著你的乳溝按錯囉
+
+=== Chunk 20 [570.00s - 600.00s] ===
+為什麼我有回血啊你該不會連吃藥我在旁邊都有用吧等一下等我一下等我一下Leon, Helena, come in.come in 哪裡If Sherry's intel is on the money, Simmons should be just up ahead.Be careful.Honey, get out.哪裡這裡
+
+=== Chunk 21 [600.00s - 630.00s] ===
+.50 Action Pressure Magnum Auto這個 ammo 比較我要把我要把這個藥草丟掉那是剛剛拿到手槍的子彈OK我有位置了送快小就是小手上就是 Nighthawk 啊是 Nighthawk 嗎Lightning Hawk 啊Lightning Hawk 這超強的耶Leon, are you really sure you're okay with this?
+
+=== Chunk 22 [630.00s - 660.00s] ===
+We'll have to worry about Ada later.Lightning Hawk.Right now, we need to focus on Simmons.All right, let's go get this son of a bitch.欸 路這麼大有點詭異幹嘛好想過關喔
+
+=== Chunk 23 [660.00s - 690.00s] ===
+我滾我剛剛聽到誰叫喘一聲你有聽到嗎是門吧是嗎是我聽剛剛聽到的噢一聲耶
+
+=== Chunk 24 [690.00s - 720.00s] ===
+喔! 什麼呢?Carrie!OK.
+
+=== Chunk 25 [720.00s - 750.00s] ===
+Well, we had Leon to thank for that.哇塞 射得真的是蠻準的啦Hold your fire.Those two are still of use to us.You need to be more careful.Alright, so what's the plan, hero?Sherry是總統的女兒嗎我不知道耶我記得他是大人物 可是被我忘記了
+
+=== Chunk 26 [750.00s - 780.00s] ===
+Too long to re-wrap this up, I do have better things to do.What are you two gonna do?Finish Simmons.有些資訊在這裡可以阻止 C-VirusSimmons wants it.Thanks.I put a call on that phone and it was his rejection.他說解除 Type-CNow move!解掉 C-Virus 的東西Alert the men outside.
+
+=== Chunk 27 [780.00s - 810.00s] ===
+是 Army of Two 嗎Army of SixShe got me.She got me. 是 Ada 嗎He's getting away.Come on.我們有這麼多大支的槍為什麼要射下去呢
+
+=== Chunk 28 [810.00s - 840.00s] ===
+為什麼 ADA 要給他病毒不給他那個啊一些毒藥什麼的啊要不然這樣我們就沒東西玩啦很好啊觀眾說 Steven 表示玩得不錯什麼東西唉唷如實啊
+
+=== Chunk 29 [840.00s - 870.00s] ===
+讓你知道勝利或死亡殺了他GoHelloWe can't let him escape.We won't or any of us now.不要有殭屍喔這一球漂亮
+
+=== Chunk 30 [870.00s - 900.00s] ===
+We're coming for your city.你不撿子彈求求你撿彈或死亡這裡有我裝不下啦我也不需要啊 我還有 6 顆耶我還有 18 顆我要把東西丟掉 不行我要他們說是文湖線車廂耶真的耶或死亡
+
+=== Chunk 31 [900.00s - 930.00s] ===
+開門掛門報告LeonLeonLeonLeonLeonLeonLeon我不能回頭啦我就想說因為我不能回頭看我不知道你在我後面是誰啊
+
+=== Chunk 32 [930.00s - 960.00s] ===
+I'm just giving you exactly what you need, Simmons.At first, you'll be afraid, but don't worry, because it's becoming more and more common for you and everyone else on the planet.
+
+=== Chunk 33 [960.00s - 990.00s] ===
+You still chase me, while that woman is on the loose?What woman?That traitor, Ada Wong!Who knows what she's got in store?Another team was sent after her.You, Simmons, you're all ours.趕快開箱廢話太多了你就是因為不開箱我們才要打一個類似魔王的東西Had he disclosed the truth behind Raccoon City, the US would have lost all its authority and the global political order
+
+=== Chunk 34 [990.00s - 1020.00s] ===
+So to avoid one possible disaster, you create another, no matter how many people die.He had to be stopped.He was leading my country and this world.It's a complete mess.他臉上長的拉麵That woman, how dare she do this to me.他需要解藥
+
+=== Chunk 35 [1020.00s - 1050.00s] ===
+噴火了哇靠哇變地獄犬了哇超帥的我眼睛淨沙了好痛你先弄眼睛我來打他木木木木個頭
+
+=== Chunk 36 [1050.00s - 1080.00s] ===
+Damn you both! I'll kill you with my bare hands!還可以講話的這種存在一直跑好了一直跑好了一直跑好了我人在他後面那很好啊你就可以一直射啊真的嗎
+
+=== Chunk 37 [1080.00s - 1110.00s] ===
+哇喔可是等一下車廂斷掉了怎麼辦不會啦好了好了走嗎走又不知道怎麼打了勝利或死亡那我們可以在這裡停一下嗎為什麼Excuse me.終極禁殺幫我上去幫我上去讓我上去我要死了
+
+=== Chunk 38 [1110.00s - 1113.75s] ===
+啊 哥 你幹什麼呢
 

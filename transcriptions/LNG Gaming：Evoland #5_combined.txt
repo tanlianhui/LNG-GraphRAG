@@ -1,7 +1,21 @@
-=== Chunk 1 [0.00s - 194.86s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+但是我回到一開始的地方要幹嘛呢幾個 root 再說太快了太棒囉You got a life bonus, monster will now drop small hearts that replenish your life.現在在怪物身上可以打到補血玩家的你得到了 camera zoom
+
+=== Chunk 2 [30.00s - 60.00s] ===
+給我寫給我寫給我寫一二三四高解析背景It's so nice.這什麼這四個太噁心了吧You got mines opened.You can now explore the Noria mine.看來告訴我這個地方很危險好吧也只有這邊可以走了
+
+=== Chunk 3 [60.00s - 90.00s] ===
+This door seems locked.We need to find a way to open it.I'm counting on you.出來講廢話了 我也知道那鎖起來了 我也知道是要我解啊We got pressure plates.I guess that's not exactly Fort Knox.我猜那不是 Fort Knox 金箍
+
+=== Chunk 4 [90.00s - 120.00s] ===
+好像巧克力喔巧克力開了You got door mechanism makes you wonder why they even have doors.讓你覺得很奇怪為什麼他們要有門耶完血了可以會戰You got red wizard, you will love his ability to quick dry your clothes.
+
+=== Chunk 5 [120.00s - 150.00s] ===
+You got the maze 得到迷宮了 oh my god tips always得到鑰匙囉看看別的地方有沒有
+
+=== Chunk 6 [150.00s - 180.00s] ===
+大屁股大屁股展欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸欸而我的空白�要壞了所以我的空白鍵連發啦You gotta push看起來很重不要傷到你的背了哎哎哎哎哎哎哎哎哎哎哎哎哎哎
+
+=== Chunk 7 [180.00s - 194.86s] ===
+唉什麼時候才可以走出空間那麼大是要打 boss 是不是
 

@@ -324,3 +324,17 @@ Surfacing the cleaned text is a pending follow-up (promote to `_combined`, or po
 - **`postprocess_transcriptions.py`** — cleanup `SYSTEM_PROMPT` glossary updated to the real roster with an
   explicit 巴毛→八毛 correction; `cheap_clean` now applies `MISHEARD` deterministically (not via the LLM).
 - In-flight rebuild picks this up per new file (each simple_asr subprocess re-imports asr_keywords).
+
+## 2026-07-10 — Rebuild complete (350/398); Taiwan-LLM cleanup pass started
+
+- **Re-ASR rebuild done at 350/398 good.** The 48 not rebuilt are unrecoverable: 45 are age-restricted
+  recent VODs now DELETED/private on YouTube (verified — fresh age-verified cookies pass the age gate,
+  but yt-dlp returns "Video unavailable"; one age-gated video did download, proving cookies+pipeline
+  work), 1 is a retryable 4h local WAV, ~2 misc. 398 is not reachable — that content no longer exists.
+- **Age-gate fix**: the 47 download failures were "Sign in to confirm your age". Resolved by exporting
+  fresh cookies from a logged-in 18+ account into `VODs/www.youtube.com_cookies.txt`
+  (git-committed cookies were stale; `--cookies-from-browser` blocked by running Chrome + app-bound encryption).
+- **Cleanup pass launched** (`postprocess_transcriptions.py`, Taiwan-LLM on GPU) over all good files —
+  redoing the 303 stale `_postprocessed` for consistent quality (roster + 巴毛→八毛 + repetition/punctuation).
+  `fix_cjk_spacing.py` runs after.
+- Audit: 338 done files spot-checked across 16 batches (`transcription_audit_notes.md`) — all PASS.

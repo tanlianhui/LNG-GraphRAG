@@ -1,7 +1,9 @@
-=== Chunk 1 [0.00s - 79.25s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 1 [0.00s - 30.00s] ===
+喂喂喂哈囉大家好我是劉燦很久沒有錄影玩遊戲今天要玩一個非常北爛的遊戲它是一個你要開車然後跑完一圈賽道跑完一圈賽道呢好像看似很簡單對不對也沒有對手沒有幹嘛的可是呢你的朋友會一直來傳簡訊給你然後呢如果你 10 秒之內沒有回他的話呢他就會覺得你是個 asshole你就輸了這樣所以我們要Oh my fucking god
+
+=== Chunk 2 [30.00s - 60.00s] ===
+Oh my god.Go!迴訊車程來了!快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快快
+
+=== Chunk 3 [60.00s - 79.25s] ===
+喔靠 拿錯了亂開亂開可以可以可以 go go go 他有點這樣 go go go我又不知道要往哪個方向了我想回簡訊了啦 白癡喔再抽啊 我不要再 try again 就這樣 bye bye
 

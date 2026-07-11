@@ -1,49 +1,108 @@
 === Chunk 1 [0.00s - 30.00s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳咳嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼嚼�
 
 === Chunk 2 [30.00s - 60.00s] ===
-[Error in chunk 2: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好 不玩了等一下等一下等一下我覺得你們太逗了
 
 === Chunk 3 [60.00s - 73.07s] ===
-[Error in chunk 3: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+我要告狀看看一堆人變其他菜必發唉唷
 
 === Chunk 4 [74.77s - 104.77s] ===
-[Error in chunk 4: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+欸好我有調正量啊騙我好樣的我想說我還沒開的時候就進來的人應該是知道就看到我PO文這樣子就是看到我的 Facebook 還是不讓這樣子然後問這種問題我覺得真的很酷我想說如果我再開一半他闖進來那很正常啊就是
 
 === Chunk 5 [104.77s - 134.77s] ===
-[Error in chunk 5: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+不囉嗦了因為這些影片都還會上去 YouTube 嘛所以講太多廢話 YouTube 人就會莫名其妙我們上一次好像打到你是什麼時候我就逃出那個地方然後跟沖馬桶一樣跑這樣子下水道吧
 
 === Chunk 6 [134.77s - 164.77s] ===
-[Error in chunk 6: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好我們看一下地圖好哎呀真是忙了好那個我要請那個 alpha 加 q c這個廢老鬼廢老鬼It happens in your head.I'll come get her when you're running.
 
-=== Chunk 7 [164.77s - 1042.51s] ===
-[Error in chunk 7: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 7 [164.77s - 194.77s] ===
+Oh no!他們把那個賤女人抓走了Yoohoo! Sexy girls play games!You mean me? I'm a sexy girl!But we're not even feverish, we're...我們根本沒有感染啊太浪費子彈了吧Can't you hear anything, even at the point break rate? Unbelievable!What does it matter?
+
+=== Chunk 8 [194.77s - 224.77s] ===
+We're here to make sure he does. Finish him.Oh my god.不好意思不好意思先把燈關了Oh my god 你的姿勢也太體操了吧And I can't stand the thought of unloading the cargo.If we take our time, they might finish it before we arrive.
+
+=== Chunk 9 [224.77s - 254.77s] ===
+對不起唉唷炸死我了啦我要丟飛刀啦唉呀真是的丟到炸彈了對不起不好意思不好意思再來一次再來一次剛剛不是故意的不好意思不好意思不是他把那個停在炸彈我怎麼知道我不想聽我聽過了
+
+=== Chunk 10 [254.77s - 284.77s] ===
+So what do we do with her?我之前都預設在那個刀子所以根本就都是 Red 去殺的太賤了太賤了你太賤了
+
+=== Chunk 11 [284.77s - 314.77s] ===
+有三個人我想想看怎麼殺比較好我先想一下
+
+=== Chunk 12 [314.77s - 344.77s] ===
+光速表子吧有炸彈我已經被發現了是不是是嗎應該沒有被發現吧有嗎被發現了被發現了可惡我想想看喔對不起不好意思我就是這麼厲害
+
+=== Chunk 13 [344.77s - 374.77s] ===
+我有這個可以帶把他頭露出來頭露出來頭露出來欸我看到頭皮了 a little bit 快點快點哇賽他們好聰明喔好難打喔來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來
+
+=== Chunk 14 [374.77s - 404.77s] ===
+太亮了太亮了太亮了嚇到了吼oh yeah我怎麼聽到炸彈的聲音喔錯錯錯錯錯錯錯
+
+=== Chunk 15 [404.77s - 434.77s] ===
+上面有壞人先吃先給他一口我的玻璃快爆炸了應該死的差不多了吧偷看一眼
+
+=== Chunk 16 [434.77s - 464.77s] ===
+好像沒人了我聽到有人的聲音桌上的罐罐先拿你應該看不見我吧可以讓我換一下上樓好了這裡太亮了我可能會被看個精光怎麼都沒有面具可以換啊人彈吉他我要關燈啊隨手關燈下面有人這個笨蛋
+
+=== Chunk 17 [464.77s - 494.77s] ===
+不要動啦我要射你好謝謝你還有沒有人都來都來喔燒起來了燒起來了應該是守這吧關燈關燈欸又有一個面具又有一個面具又有一個面具他不給我撿好吧欸等一下這裡好像有點燙
+
+=== Chunk 18 [494.77s - 524.77s] ===
+Completed within an hour.Will you go?Yes, sir.怎麼辦 要走哪裡啊現在好熱的感覺往那裡走 這裡嗎沒有路耶糟糕 看一下喔欸 換又沒得換了好啊 都沒得
+
+=== Chunk 19 [524.77s - 554.77s] ===
+The fucking nightmare! Man, something happened with his wife.我會被看到我會被看到我會被看到我會被看到對不起對不起開玩笑的啦這樣應該 OK 吧他們發現我嗎好像還沒
+
+=== Chunk 20 [554.77s - 584.77s] ===
+看不見很扯耶 太扯了吧他走過來了我就不客氣啦
+
+=== Chunk 21 [584.77s - 614.77s] ===
+哈哈哈有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有有
+
+=== Chunk 22 [614.77s - 644.77s] ===
+來啊沒了吧等一下我是要走進去嗎有一點熱耶我忘了開冷氣喔好沒看到我先撿東西你們大家不要緊張喔可不可以換不可以換
+
+=== Chunk 23 [644.77s - 674.77s] ===
+巴辣巴辣巴辣有嗎我看錯了是不是
+
+=== Chunk 24 [674.77s - 704.77s] ===
+救命啊我好害怕欸糟糕燒起來了啦我要趕快過去耶糟糕我不知道要去哪裡好燙好燙而且還有人在射我go go go啊不行啊我想想看喔天啊太亮了
+
+=== Chunk 25 [704.77s - 734.77s] ===
+時間到沒有關係啊算了拿散彈槍進去啦煩死了還要從這邊啊好機車啊有人在上樓那怎麼好意思啊免費的投啊
+
+=== Chunk 26 [734.77s - 764.77s] ===
+Shit, we have to go check the south.Aye aye, 這樣你們也看得見真的假的有槍無聲的耶Shut down him, comrades.下面有笨蛋He's down.他知道他很聰明啊真的假的你怎麼從上面打啊
+
+=== Chunk 27 [764.77s - 794.77s] ===
+LalalalalaLalalalala我看一下聊天室好了等我一下好欸我把聊天室拉大一點大家我可以稍微看一下因為我想說這影片是要
+
+=== Chunk 28 [794.77s - 824.77s] ===
+前面有人不好意思我在看聊天室啊這什麼東西
+
+=== Chunk 29 [824.77s - 854.77s] ===
+太燙了欸好像當機了耶我還有在開台嗎
+
+=== Chunk 30 [854.77s - 884.77s] ===
+有欸怎麼會這樣欸怎麼辦這種時候應該怎麼辦太熱了你昨天晚上也會這樣停格怎麼辦好煩耶還關不掉而且滑鼠也弄不了
+
+=== Chunk 31 [884.77s - 914.77s] ===
+我的滑鼠勒只好先好再開一次吧它不見了不知道為什麼好麻煩喔
+
+=== Chunk 32 [914.77s - 944.77s] ===
+右邊大聲好吵好吧當機了不是我可以控制的有腦
+
+=== Chunk 33 [944.77s - 974.77s] ===
+好煩耶那個地方好難喔不過我想應該是快結束了啦到時候上傳是不是會把重複的部分剪掉當然不會啦我才沒有那麼勤勞啊從哪邊開始啊這邊啊好吧這也是沒辦法的事情
+
+=== Chunk 34 [974.77s - 1004.77s] ===
+沒有沒有你沒看到他會射下面快跑喔他走回來了猛登猛登好猛的登算了算了
+
+=== Chunk 35 [1004.77s - 1034.77s] ===
+事情很快又回到原本的進度了Over here有人衝下來了衝下來的話是不是我上去比較好他找到我了好厲害
+
+=== Chunk 36 [1034.77s - 1042.51s] ===
+原來上面其實比較好耶 我覺得早知道先走上面了
 

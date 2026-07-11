@@ -1,14 +1,549 @@
 === Chunk 1 [0.00s - 30.00s] ===
-[Error in chunk 1: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+好我去開囉我先掛了拜拜
 
-=== Chunk 2 [30.00s - 5464.89s] ===
-[Error in chunk 2: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-]
+=== Chunk 2 [30.00s - 60.00s] ===
+喂喂喂哈囉哈囉哈囉哈囉哈囉哈囉大家晚上好啦
+
+=== Chunk 3 [60.00s - 90.00s] ===
+嗨嗨嗨那個那個先跟大家講一下啦這個這個延遲問題呢還沒改善對還沒改善不好意思因為就小聲一點這樣好因為沒辦法啊就是就這樣啊我不知道為什麼它好像 YouTube 預設就是會延遲一分鐘我也不知道為什麼那我已經調成不延遲但是它基本就是
+
+=== Chunk 4 [90.00s - 120.00s] ===
+延遲一分鐘所以呢真的是沒辦法那沒關係啦因為我會再選擇用 youtube 來實況這次的系列也是因為它那個儲存影片比較方便啊因為這一系列既然是 walkthrough 的話那在 youtube 上面是比較保險的因為之後人家要看啊也比較好好整理就是有播放清單啊什麼的可以看那如果是在 twitch 的話
+
+=== Chunk 5 [120.00s - 150.00s] ===
+有時候影片不見啊有時候兩小時後面就消失啊之類的所以就今天就是平常打那種LOL啊還是什麼之類的就會用 twitch 這樣可以跟觀眾一起玩啊一起聊天之類的那這個 work through 的話就單機遊戲 work through 的話我就會用 youtube 這樣子那我就開始囉好好好
+
+=== Chunk 6 [150.00s - 180.00s] ===
+聲音好像有點大現在延遲也是剛剛好一分鐘真沒有辦法真是不好意思所以聊天室呢我也不簽了這樣子讓大家看記錄檔的人比較不會那個聲音好像有點大聲我調小聲一點好了
+
+=== Chunk 7 [180.00s - 210.00s] ===
+一開始遊戲開頭就在地道裡面這動畫有點長有點煩那這一代的 Metro Next Line 呢一樣延續上一代的故事應該是在大爆炸了一年之後如果有看我的 YouTube 的那個 walkthrough 的話應該應該會應該會知道上一代最後的結局這樣子因為評論更新的很慢
+
+=== Chunk 8 [210.00s - 240.00s] ===
+new game它有一個 original mode 跟 ranger mode就是難度啦 original mode recommend for metro newcomersif this your first time playthrough of lexnar we recommend select original mode所以第一次玩 ll 的話他會建議玩這個模式啦那這個就是比較難的模式啊子彈比較少啊那個提示跟 ui 也
+
+=== Chunk 9 [240.00s - 270.00s] ===
+所以我們玩 original mode 就好了嘛你知道因為我因為我recommend for regular fps playersrecommend for fps novice等一下我看一下 ranger mode 會怎樣ranger mode可是我上一代是玩 ranger mode 的 easy
+
+=== Chunk 10 [270.00s - 300.00s] ===
+All combat scenarios.啊我想想看原本還是 Ranger 呢兩件事都不更新好難喔現在才在六探安安好久喔算了哇等一下我看一下聲音還好很正常是喔好吧遊戲音量太大了嗎對啊那這樣我調沒問題
+
+=== Chunk 11 [300.00s - 330.00s] ===
+玩 Ranger 好了In Ranger normal,HDR limited and hits are disabled for increased immersion.Enemy do more damage, but so do you, combat intense, tactical and brutal.好我們玩 Ranger 好了因為 Ranger 的模式敵人比較少命我喜歡這樣好那就開始了不囉嗦
+
+=== Chunk 12 [330.00s - 360.00s] ===
+不行我想要亮一點點好視窗的話基本上是沒有差的好那直接進去不管了The Dark Ones came much later, from the Garden's direction.The Dark Ones, huge, towering a full head over the highest man, nightmarish creatures, creepy as a man turned inside out, monsters born to destroy us.
+
+=== Chunk 13 [360.00s - 390.00s] ===
+The word was they were incredibly strong and unnaturally evil, that with bare paws they could tear armed men apart.That's all lies.Truth is even scarier.你不講一下話之類的嗎
+
+=== Chunk 14 [390.00s - 420.00s] ===
+繼續Well, I used to live nearby.Before the war, I mean, up there, I was on the train when it happened.I tried calling my family, but couldn't get through.老生常見Oh my god!一開始這麼刺激啊What happened?Shit!
+
+=== Chunk 15 [420.00s - 450.00s] ===
+我已經忘記怎麼了Shit! Shit! What's going on here?哇他好淡定喔唉唷不要虛弱喔我的天啊欸是人耶等一下怎麼會這樣欸等一下我冠絕耶
+
+=== Chunk 16 [450.00s - 480.00s] ===
+唉唷好吵欸怎麼會這樣欸大哥完了完了完了我覺得是被魅惑了我覺得又是看到幻覺所以我才把自己的隊友都殺光了喔天啊怎麼會這樣喔對不起
+
+=== Chunk 17 [480.00s - 510.00s] ===
+It's me, Khan.No wonder, after all you've been through.Listen, I have incredible news.A couple of days ago, I was near the ruins of the Dark One's hive, and I saw one of them, still alive.I immediately set out to find you, as you were the one they tried to contact, before you launched a missile strike against them.Khan, how the hell did you get here? Get out, now!Yes, Ullman.
+
+=== Chunk 18 [510.00s - 540.00s] ===
+If a Dark One has survived, it is vital that you try to speak with it, Artyom.I realize that as one of the Order now, you report to Miller, but we must persuade him to allow this mission.Kong過來跟我說他去巡邏的時候又看到 Dark One 了他說他記得 Dark One 在我們之前引爆炸彈之前一直都想來找我這樣子I'll be waiting at the exit.然後他覺得他們還是在這樣子
+
+=== Chunk 19 [540.00s - 570.00s] ===
+I knew a smoker once.During the last year of his life, he had to eat, drink, and breathe through a tiny hole in his throat.這台畫面真的漂亮
+
+=== Chunk 20 [570.00s - 600.00s] ===
+好潮啊好就在這邊彈吉他彈一個小時好了
+
+=== Chunk 21 [600.00s - 630.00s] ===
+看比賽的 VOD 講解會不會被罵可能喔Artyom was one of the men who found these six.They gave him a Ranger's badge on the spot.It's nice for him.I had to spend two years as a cadet before they accepted me into the order.他在羨慕我
+
+=== Chunk 22 [630.00s - 660.00s] ===
+They can keep dreaming in the metros.For me, it still feels like every patrol outside could be the last.Did you hear what happened to Romanov's group?Romanov? I thought he was in the hospital from the attack on the Great Library.He discharged last week, so his squad sent over another batch to the church base, and Romanov's the only one who makes it there alive.You're shitting me.
+
+=== Chunk 23 [660.00s - 690.00s] ===
+The rest of the group wiped out?The marshals are easy, just look for the markers and flags and walk away.小沈上一代的臉用下來的怎樣Ok, the shrimps always gave you hell, but come on, what could take a whole squad down?我覺得他們都是在討論就是說我們都用那個Look at those two rookies! Pathetic! No wonder the cooler or the training time doubled.He speaks to God.Sharper, move sharper!
+
+=== Chunk 24 [690.00s - 720.00s] ===
+他們應該是講說在討論說就是說雖然我們已經發射飛彈應該都被炸完了可是最近又是又有一些攻擊的事件還是幹嘛的又有人死掉耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶耶
+
+=== Chunk 25 [720.00s - 750.00s] ===
+It's been twenty years and the radiation's still strong enough in some places to boil water.恐怖喔There are hot spots down here in the Metro, too.Don't forget filters for the mask.Sure it looks cool enough even without these, but they definitely make it better for your health.What the fuck is this?I need to go.Now, mad kids, well, what can I say?Anything you need for survival in a stylish orange case.Here's your advance salary for this month.Remember.
+
+=== Chunk 26 [750.00s - 780.00s] ===
+Your pay is in military-grade rounds.Sure, you can use them as usual ammo for some hefty extra damage, but saving them to buy guns, attachments, regular ammo and equipment from merchants anywhere in the Metro seems like a smarter move.所以這袋的貨幣一樣是君不會自帶 Now to the good stuff, huh? Let's get you some guns.Take the ones you want and try them out on my range.耶
+
+=== Chunk 27 [780.00s - 810.00s] ===
+Weapon choice full主武器跟副武器是不是我看齁就能選那種戰術最多的啊一把散彈槍一把
+
+=== Chunk 28 [810.00s - 840.00s] ===
+This revolving shotgun is very effective to close range.這是 SMG拿一個這個好了This rifle made in Metro by a skilled gunsmith is extremely accurate and powerful, a truly great long-distance weapon.
+
+=== Chunk 29 [840.00s - 870.00s] ===
+I high regard in Metro to the reliability and performance.這把啦Good choice.The Kalash is the workhorse of the Ranger Army.Good hunting.Come visit.How was that gun? Like it?我還沒射啊Want to try another gun? I have a fine selection.好啊 不要理我這裡可以實射What the fuck is this? What the hell are you aiming at?
+
+=== Chunk 30 [870.00s - 900.00s] ===
+換了一把槍應該不會浪費我自己的子彈吧啊管你的撿狂狂差不多了好了我好了我好了好啊不要理我啊都不要理我啊
+
+=== Chunk 31 [900.00s - 930.00s] ===
+Quality怎麼在 high 啊選 normal 好了不知道會不會當機停住了
+
+=== Chunk 32 [930.00s - 960.00s] ===
+沒什麼差但是沒關係沒關係就 normal 好了那我現在要去哪裡啊我要去哪裡都不跟我講Diary什麼地圖啊這裡是 M 啦忘記了Learn about what you did.Follow Kong to meeting with Miller.Good, doing good.
+
+=== Chunk 33 [960.00s - 990.00s] ===
+Come on, stay sharp.Damn, good job is like that.哪裡啊我走錯了耶Don't rush.他們點檔回家 無聊這裡啦我要吃我要吃No way, the base is clear.It leaves the part where
+
+=== Chunk 34 [990.00s - 1020.00s] ===
+And they've checked it.Yesterday, the commander and I checked the doors.Lots of them are still sealed, some are welded shut.There's a few that look like they were locked from inside.So what?So there's radioactive shit behind some of those doors, hot enough to bake an egg.Can't remember the last time.I hated that.還有輻射在還是什麼東西在把門甚至都融化他們打不開的地方There's going to be a big assembly.
+
+=== Chunk 35 [1020.00s - 1050.00s] ===
+可以知道一些線索啦代表外面還是有可能發生什麼東西啊米勒抽支煙吧燒你頭髮Have you heard about Lesnicki?What are you talking about?Check with the guards at the lab.What the hell did he do?All right, let's go.
+
+=== Chunk 36 [1050.00s - 1080.00s] ===
+The tombs of ancient kings were filled with whatever they might need in the afterlife.Weapons, gold, chariots.They sacrificed their wives and slaves to serve their lords even in death.Reminds me of this bunker.Cut that shit out!什麼啊這個人好兇啊他為什麼一直對抗那麼兇啊長得就像等一下就要死掉的那種The ZZ-6 are like what the conqueror took with him beyond the grave.Cold Steel.
+
+=== Chunk 37 [1080.00s - 1110.00s] ===
+And wild steeds and treasures untold.Of course, the Tomb Raiders would always die horribly, killed by demons or ghosts or their own greed.Khan, will you shut up or what?Why is Joe shut up?Hey, I heard that Lesnitsky did something. What happened?Nobody knows. Lesnitsky was at the lab.When the next shift came, the door was open and the lab ransacked.
+
+=== Chunk 38 [1110.00s - 1140.00s] ===
+Lesnicki was gone.Shit. So, what's inside?Chemical weapons, maybe some other shit. That's all I heard.God, these Avengers who don't want her to fear them.The girls confirmed a new one because of Lesnicki, a red hot poker right into my soul.If I still have it.All right, let's go.It's the household.We might control these six, but it's like a damn city.
+
+=== Chunk 39 [1140.00s - 1170.00s] ===
+太 lag 了吧快幫我們開門話一下 Miller 啦Herman, take these guys to Miller, they've been summoned.Yes, sir.All right, go on in.I'll wait here.When you've gone, I'll speak to Miller.
+
+=== Chunk 40 [1170.00s - 1200.00s] ===
+BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM BOOM B
+
+=== Chunk 41 [1200.00s - 1230.00s] ===
+Perhaps the severe pain and loss of consciousness suffered in their presence just meant we were incompatible, machines with different wiring.But somehow you, Artyom, have the common wire, the connection with the Dark Ones.Yes, people died at Exhibition, your home station.Hunter, the best of the order, is most likely dead as well.
+
+=== Chunk 42 [1230.00s - 1260.00s] ===
+He taught you this.If we don't fight for our lives in this new world, we'll be devoured.It is the law of evolution.But I would argue, the old laws no longer apply.所以連 Hunter 都好像死掉了在我的家鄉 exhibition 站
+
+=== Chunk 43 [1260.00s - 1290.00s] ===
+I located a surviving Dark One at the gardens.What? One of those things is still alive?Luckily, yes.Luckily? Come, this is utter madness.The Dark Ones were the greatest threat the Order's ever faced.Colonel, just give me a chance.A single Dark One is no threat.Artyom has a gift.I believe he can establish contact with the creature.Let him come with me.
+
+=== Chunk 44 [1290.00s - 1320.00s] ===
+他在說服 Miller 說Miller 很驚訝說居然還有人在然後他說請相信我他說那個 Artyom 是有天賦的他可以讓那個讓 Artyom 去解決這件事情
+
+=== Chunk 45 [1320.00s - 1350.00s] ===
+他還派了一個女的那個狙擊手It's your last chance for forgiveness, for getting rid of the nightmares.他還派了那個女狙擊手要跟我一起因為他想要把那個 Dark One 幹掉Looks like he got close, too close to the creature and lost his mind.可是因為 Clown 也覺得那個 Dark One 其實是可以溝通的但是這個 Mira 就不相信他決定要派狙擊手跟我們一起去把他幹掉So, what are you waiting for?Come along, rabbit.
+
+=== Chunk 46 [1350.00s - 1380.00s] ===
+Rabbit 你個頭啊你這個小 bitchIf it's true that the Dark Ones can sleep, then don't forget to wait in the hatch.We now suspect Leznitsky was a sleeper agent, but we haven't caught him yet.Don't tell me you believe that bullshit about making peace with the Dark Ones.I wish I had been up in that tower myself to see the missiles fall and watch them burn in dust.
+
+=== Chunk 47 [1380.00s - 1410.00s] ===
+你不要以為你該不會相信你可以跟 Dr. One 談判這種鬼話但是你絕對可以的所以 the children could live on the surface and feed off the radiation.Shit, you don't shake hands with the devil.Please step away from the edge of the block or strain coming in.神經是會偷上你的馬尾的All right, I'll bend like a good little rabbit.
+
+=== Chunk 48 [1410.00s - 1440.00s] ===
+Well, we've worn this place out. Let's move.我覺得他一定等一下很快就死掉了Just a year ago, I stood on top of the TV tower and saw missiles rain on the botanical gardens, turning the flesh into ashes, smelting metal and glass. Nobody and nothing could survive that inferno.
+
+=== Chunk 49 [1440.00s - 1470.00s] ===
+Yet Khan did find a Dark One there.Now my mission is to find and eliminate it.To finish what I started.他說一年之前我在那個電波塔上面把那個飛彈發射下去然後把一切都砸壞什麼東西但是但是 Khan 還是發現了 Dark One 還在所以他現在的任務就是去找到他然後把他幹掉來終結這一切
+
+=== Chunk 50 [1470.00s - 1500.00s] ===
+In the past, trains were ordinary things.But now, this monorail seems magic, doesn't it?Our kids won't know how to operate these things.And their kids will probably think this was built by the gods.以前的這個東西就是很普通但是對我們來講現在是很稀奇的東西
+
+=== Chunk 51 [1500.00s - 1530.00s] ===
+Metro two lines, we haven't explored these tunnels. Can't spare the time or manpower, so don't wander off.I'll try to put some juice on the system and get the lights on. Use your flashlights in the meantime.
+
+=== Chunk 52 [1530.00s - 1560.00s] ===
+Watch yourself, the door is closing.不好意思啊 等我一下 等我一下 我要熟悉一下呀Control 什麼 keyboardOptical inventories gas magnities with a light FLight general hold and magnetic field navigation 一樣啊為什麼我叫不出來我的
+
+=== Chunk 53 [1560.00s - 1590.00s] ===
+That's good sign, Albert.Maybe we'll have luck with this mission too.Oh my gosh.Tower is working, open the gate, I'll cover the passage.cover你的頭為什麼是我 open 這個白痴女人開Great, you did fine after all.
+
+=== Chunk 54 [1590.00s - 1620.00s] ===
+All clear, move out.真討厭這種女生 捨你佼佼All right, the map shows a collector entry point ahead.幹嘛又是我開Move, I'm following.都讓我坦傷害注意
+
+=== Chunk 55 [1620.00s - 1650.00s] ===
+Go right, there's a dead end on the left.東西可以撿老鼠欸你也走太快了吧等我等我等我等我等我等我等我啊有怪物啦欸你可不可以打它你可不可以打它我不想浪費我的子彈拜託交給你了拜託啦I don't think we'll run into anything serious here.Great, the ladder, it's just a little more walking.
+
+=== Chunk 56 [1650.00s - 1680.00s] ===
+We'll see if you're a rabbit or man.rabbit 啦 怎樣啦 不行喔Surface, put your mask on.滴滴滴個屁啊可以觀賞他的屁喔Quit looking at my ass.他知道我要看他的屁股耶他怎麼知道好 我不看了再偷看一下
+
+=== Chunk 57 [1680.00s - 1710.00s] ===
+正常人爬梯子都馬要往上看啊Give me a hand here.Give me a hand.看 胸巴巴但是又打不開現在手電筒是不用打電的是不是要耶
+
+=== Chunk 58 [1710.00s - 1740.00s] ===
+I can cover a lot of territory.You're supposed to be immune to their what, influence?Well, I don't have your gift.So hop along, rabbit.他叫我自己過去那個地方因為他知道我不會受影響但是他會受影響所以他想要我叫我自己過去跟他們接觸講什麼啦Just try to stay with them so I can cover you.We'll maintain radio contact.
+
+=== Chunk 59 [1740.00s - 1770.00s] ===
+And if you have second thoughts, don't worry, I'll do it.OK then, good luck.如果你會猶豫的話不要緊張他會殺他的真的很賤這幹嘛我的地圖咧看不到啦往前走是不是好吧這地方這麼遠還是拿 AK 好了注意
+
+=== Chunk 60 [1770.00s - 1800.00s] ===
+要時常拿地圖出來看 不然觀眾在那邊會拿地圖出來看嗎衝衝衝對不起你幫我打啊王八糕
+
+=== Chunk 61 [1800.00s - 1830.00s] ===
+Bad luck, get ready for more.Call you, call you, call you.你打你打你打我剛剛沒子彈你打你打你打那隻那隻快打快打Look, there's more in the reeds.你瞄準他我自己來了加油加油打他打他快點快點快點快點快點
+
+=== Chunk 62 [1830.00s - 1860.00s] ===
+他要來了他要來了好嘛浪費我的子彈了Looks like we pretty much cleaned the place.How are you?I'm fine thank you and you?They are dumb.You're doing a decent job.Maybe you're more than a rabbit after all.我本來就不是 rabbit 的 bitchOK, go left.There's a way around.There's something at the edge of the crater.A tree is blocking the way.
+
+=== Chunk 63 [1860.00s - 1890.00s] ===
+這個水是不是臭臭好像大瘋狂大走錯了這裡這裡水很髒耶跳超低的啦怎麼搞的啦什麼啦算了我走這好了
+
+=== Chunk 64 [1890.00s - 1920.00s] ===
+跳過去嗎不Damn, it's fast.How does it do that?Nervous from the left, it's still there.Targeting.
+
+=== Chunk 65 [1920.00s - 1950.00s] ===
+不好意思 剛剛好像斷線了一下我要死了 我要死了 怎麼回事不知道跑到哪裡了啦欸 為什麼我死掉了奇怪 為什麼我死掉了
+
+=== Chunk 66 [1950.00s - 1980.00s] ===
+Make sure you look around for more filters and change them when they run out.喔 還要自己換喔Looks like we pretty much cleaned the place. How are you?Hey, you alright?They are dumb.You're doing a decent job.Maybe you're more than a rabbit after all.OK, go left. There's a way around.There's something at the edge of the crater.A tree is blocking my view.
+
+=== Chunk 67 [1980.00s - 2010.00s] ===
+I think I see it, about thirty meters from your position, two o'clock.There it is, looks small, but it's definitely a dark one.What's keeping you? Come on!他跑掉了耶我不想打他說
+
+=== Chunk 68 [2010.00s - 2040.00s] ===
+你擋不死他的啦你就跟著他走好了right個頭啊我什麼都沒看到
+
+=== Chunk 69 [2040.00s - 2070.00s] ===
+欸不我不會打你啦不啊噢噢怎麼回事噢不看到好多怪東西
+
+=== Chunk 70 [2070.00s - 2100.00s] ===
+喔天啊喔他們從頭到尾看到飛彈耶好多喔
+
+=== Chunk 71 [2100.00s - 2130.00s] ===
+什麼為什麼那是那是那是什麼The creature I met in the burnt-out remains of the gardens looks like a dark one.
+
+=== Chunk 72 [2130.00s - 2160.00s] ===
+It was able to enter my mind, dragging the innermost out of me.But it was also just a baby.And I am sure that it recognized me and got scared.It also left me knocked out for some time.Just enough for me to get captured.他說他他說他遇到的這個小生物應該就是 Dark One然後是小 babyDark One 的小 baby
+
+=== Chunk 73 [2160.00s - 2190.00s] ===
+然後他也有能力可以侵入 Atom 的心靈這樣子然後但是他也有能力就是把它弄暈跟以前一樣然後害他被人家抓起來了應該就是 DG 吧我忘記是法西斯還是
+
+=== Chunk 74 [2190.00s - 2220.00s] ===
+Was caught near him.It was delivered to Reich as well.I'll deal with it later.This one.Suspected mutation.No, no, I'm normal.See, two arms, two legs, ten fingers.Don't you understand? I'm a Hansa citizen.Shut up!You're not in Hansa.Here you are a suspect in the distribution of corrupted genes.And this is your trial.If your scale has the correct proportions, you are free to go.
+
+=== Chunk 75 [2220.00s - 2250.00s] ===
+好可怕喔居然用這種方法來辯是超壞的
+
+=== Chunk 76 [2250.00s - 2280.00s] ===
+What was your mission in the gardens?Go to hell yourself, Nazi.I'm gonna count to three.One.Glory to the Red Line!Two.All they've covered must win!Three.Please, please, I'll talk, but away from the others, they'll kill me if they hear, okay?Take this one to the second unit.Usually,
+
+=== Chunk 77 [2280.00s - 2310.00s] ===
+不愧是帥氣紅軍德軍總是在殺人前講 very 多話
+
+=== Chunk 78 [2310.00s - 2340.00s] ===
+You keep the knife. Keep it.So, uh, we are with the Spartan Order. I'm from the Red Line.Our superiors are not on the best of terms, but I say fuck that. Fuck that, the grunts stick together, huh? Do it.I see. 哇, 你看 remotely controlled block.One thing's for sure, our only chance of getting out of this alive — work together.
+
+=== Chunk 79 [2340.00s - 2370.00s] ===
+到底拿槍好啊What did they say about the garbage shoot?是我要開的意思嗎你開吧應該會有很多屍體掉出來之類的我要離你遠一點OK, let's get our asses out of this place, then we'll go our separate ways.
+
+=== Chunk 80 [2370.00s - 2400.00s] ===
+躺著玩坐著玩還是發現好玩都是屍體超噁的
+
+=== Chunk 81 [2400.00s - 2430.00s] ===
+好Let's move.Sweet mother of god, I heard rumors of a concentration camp here, but to see it with my own eyes...好恐怖喔There's a tunnel on the other side.Okay, I lead, you follow.Now keep it quiet, or they'll guess everyone.好你走我跟著Let's move.Stay out of the light and stick to the shadows.
+
+=== Chunk 82 [2430.00s - 2460.00s] ===
+我過來了 你呢打吧 car那我幫你嗎
+
+=== Chunk 83 [2460.00s - 2490.00s] ===
+好了好了 give you a lift好耶好耶好恐怖謝謝
+
+=== Chunk 84 [2490.00s - 2520.00s] ===
+Now listen, pretend you're a little fucking mouse.Get down, don't make any sudden moves.Now let's move.Carefully, huh?Two fingers looks like claws, you can do nothing but harm.Freeze!I will save innocent lives just by shooting you.看不見我看不見我你看不見我Move!你看不見我
+
+=== Chunk 85 [2520.00s - 2550.00s] ===
+Wow 有這種小路喔Oh my god 他們要把那個人打下去OK you take the right one, I the left one.I will distract mine, then you take yours down. 懂嗎?Get to it. Don't start too soon, huh?Let's do it.偷偷殺掉他What?
+
+=== Chunk 86 [2550.00s - 2580.00s] ===
+謝謝謝謝你們好啊你們是 Kiss 的成員嗎你們的眼妝好重啊欸我怎麼過不去啊這裡怎麼走啊救命啊太黑了啊我看一下喔好黑啊你不要吵啦你不要吵啦
+
+=== Chunk 87 [2580.00s - 2610.00s] ===
+噓不要吵啦不要打擾我做事啦欸怎麼走啊How is he supposed to do that?怎麼上去的How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to do that?How is he supposed to
+
+=== Chunk 88 [2610.00s - 2640.00s] ===
+是要跳過去的意思嗎喔不用跳這裡可以走什麼我跳欸大家怎麼走啊走這喔原來是用的原來如此不好意思喔 kids 的成員unscrew the light bulb把這個扭掉好燙好燙
+
+=== Chunk 89 [2640.00s - 2670.00s] ===
+關燈 關燈開燈的白痴喔You go to that side, maybe there you will be able to climb up.Let's meet on the top.Hey, looks like there's...噓噓噓噓Alarm!噓噓噓噓噓噓噓噓噓噓噓噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬噬
+
+=== Chunk 90 [2670.00s - 2700.00s] ===
+不好意思再一次再一次You go to that side, maybe there you will be able to climb up.Let's meet on the top.Hey, friend, break a leg.好恐怖啊
+
+=== Chunk 91 [2700.00s - 2730.00s] ===
+不要吵啦不要吵不要吵不要吵
+
+=== Chunk 92 [2730.00s - 2760.00s] ===
+I don't know, just looked at him and somehow found myself.And that trader from Hansa kept pestering me to sell the creature, so that it would be a waste to shoot it, that it'd pay good money, so I justShow me the bullets.Sure, sure, look, I'm ready to share.It's too much for me alone, just don't tell the Oberscharführer.I got two hundred bullets out of it.I'll take half.Well, well, why are you
+
+=== Chunk 93 [2760.00s - 2790.00s] ===
+It's just that our shift is ended.Then you have no further business here.Off to the barracks with you.Yes, Herr Oberstscharführer.How come brewer
+
+=== Chunk 94 [2790.00s - 2820.00s] ===
+沒人快下來快快快拿飛刀拿飛刀請問一下飛刀是飛刀在哪啊
+
+=== Chunk 95 [2820.00s - 2850.00s] ===
+我不會用飛刀所以飛刀是 C 是不是你看不見我啊
+
+=== Chunk 96 [2850.00s - 2880.00s] ===
+洗臉丟歪了不要吵不要吵我老 Smith 了都你們了欸他跌倒了哈哈哈欸欸不對他被殺了
+
+=== Chunk 97 [2880.00s - 2910.00s] ===
+We need to get them to open the airlock from the other side.Open the airlock.The button on the wall is the intercom, push it.哪裡有 button 哪裡有 button oh.Well come on, push it.我在 push 在推啊 hide hide hide 靠北喔喂 白痴啊Who's a hell of some patient?什麼搞子不要吵
+
+=== Chunk 98 [2910.00s - 2940.00s] ===
+Let us out, let us out!This is a control panel.Oh, 這樣!太棒了Nice watch.This little blue indicator, it lights up when you're visible, huh?All right, there's both of you.你怎麼知道我的手錶功能好厲害啊They won't be able to use gas here, we can really let ourselves go.Ah, I wish I had a grenade.
+
+=== Chunk 99 [2940.00s - 2970.00s] ===
+走吧走吧走吧You take the lower route, I'll take the top and cover you.好你 cover 我自己講的喔不要騙我我最討厭別人騙我你給我 cover 喔你射死那個喔不然我不要過去喔靠你根本就沒有要射的意思請問一下大哥你可以幫我射他嗎謝謝你
+
+=== Chunk 100 [2970.00s - 3000.00s] ===
+好喔來來那個也是你射齁誰射加油加油你射吧大哥大哥不好意思你在哪裡大哥
+
+=== Chunk 101 [3000.00s - 3030.00s] ===
+大哥他要走掉了大哥他走掉了好吧走掉就算了被看到了被看到了被看到了大哥這個你不殺嗎大哥大哥你去哪了大哥
+
+=== Chunk 102 [3030.00s - 3060.00s] ===
+呃好我們直接走裡面也太亮了啦啊算了偷偷摸摸不是我的風格有人要出來了
+
+=== Chunk 103 [3060.00s - 3090.00s] ===
+要出來了哇這殺人的速度也太快了趕快把他撿一撿應該死光了欸不好意思喔對不起對不起不好意思不好意思不好意思打擾了打擾了打擾了根本就不知道我還剩幾顆子彈
+
+=== Chunk 104 [3090.00s - 3120.00s] ===
+死光了So, what do we have here?I see, I see.Okay, take a look on the other side.There should be a switch just like this one.好,我看found it?push來等你啊
+
+=== Chunk 105 [3120.00s - 3150.00s] ===
+快點過來好險跑出來囉The enemy of my enemy is my friend.This friend's name is Pavel.He led a Red Recon team wiped out by the Nazis.I never liked communists much.
+
+=== Chunk 106 [3150.00s - 3180.00s] ===
+But Pavel acted like a real hero.反正他認識這個人他叫 Pavel然後他是 Red Raccoon 小隊我不知道是什麼樣組織啦我目前還不知道然後 I never like communists 他不喜歡communists是什麼我忘記了communists不是共產我忘記了我忘記了反正呢他說這個 Pavel 人還不錯啦很像英雄啊
+
+=== Chunk 107 [3180.00s - 3210.00s] ===
+So, how are you, Chua? All right?Oh, you are tough, huh? No wonder they made you a Ranger.你的 Chua 難怪當 Ranger 啊你很棒啊幫忙Follow me, don't stop.人超多的耶是 ChihuahuaChihuahuaFortune has smiled upon us.Our shelter located directly in the Niagara Falls, in legendary D-6 bunker complex.
+
+=== Chunk 108 [3210.00s - 3240.00s] ===
+Huge storage facilities filled with supplies.There is medicine and enough gan food to sustain the Reich for a hundred years.And enough weapons for us to wipe the Greeks and genetically impure from the face of the earth.But these six has been seized and occupied.What do you want?
+
+=== Chunk 109 [3240.00s - 3270.00s] ===
+What the hell are you doing here then? Go get them!哇塞他太猛了吧邊跑邊殺欸屁啦屁啦我跌倒了
+
+=== Chunk 110 [3270.00s - 3300.00s] ===
+喔不我累累了唉唷哇賽超猛超猛超猛超猛超猛屁啦屁啦我是不是中彈啦我已經開始中彈了我的天啊
+
+=== Chunk 111 [3300.00s - 3330.00s] ===
+人很好弱其實我已經沒子彈了拜託Hold on, Artyom, Artyom, hold on, just a little more.After them, now!Catch them!Bastards, blin, they're opening the gate!Drop them!來!I see them!There they are!Piece of...Stop them!Stop them!OK, let's get out of here!
+
+=== Chunk 112 [3330.00s - 3360.00s] ===
+去死跑掉了跑掉了這段好快啊Now I have to inform the Order that the Dark One is missing, which means to acknowledge that I've failed my mission.But now, when he's down in the Metro, I won't be able to find him alone.I have to get to the nearest neutral station and then to Polis, the Order's HQ.Pavel will show me the way.
+
+=== Chunk 113 [3360.00s - 3390.00s] ===
+他說他們終於逃出那個地方啦然後他必須要回去 order 跟他們說 Dark One 不見了就是他任務失敗沒有找到這樣子但是He's down in the Metro, I won't be able to find him.他說WhenHe's down in the Metro 應該是 Dark One 吧他說 Dark One 如果跑到 Metro 地鐵裡面的話他沒辦法找到他他沒辦法靠自己的力量找到他他必須要先去最近的中壢車站不是中壢喔不是中壢火車站喔
+
+=== Chunk 114 [3390.00s - 3420.00s] ===
+那個就是保持中立的因為它有不同陣營嘛中立的車站然後呢然後去 police 就是 police station 嘛就是 order 的總部這樣子然後 pavo 會帶他去這樣OK, looks like we lost them.Then we'd better hurry to the theater.There's nowhere else to go, huh?Chuva, are you all right, Chuva?That's great, the armor works wonders.Shit!A dead end.
+
+=== Chunk 115 [3420.00s - 3450.00s] ===
+是死路啊是要撞過去嗎塔塔你也蠻酷的啦唉唷喂呀呼這是有病耶但是真的是有用的好 走
+
+=== Chunk 116 [3450.00s - 3480.00s] ===
+他說沒看過這個地圖但是還是可以走然後我們還在那個 wreck 的領地所以要小心哇他真的很酷等一下你不拉我嗎他被抓了看來只剩我一個人了
+
+=== Chunk 117 [3480.00s - 3510.00s] ===
+The second guard post in one of these flock is not alone.來 出來That makes the second guard post.Check your sector in the tunnel.靠我 他們也太聰明了吧Stay sharp, there might be more.他們把 Pavel 抓走了然後說 Pavel 可能不只有一個同伴然後他們要加緊討厭不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思不好意思
+
+=== Chunk 118 [3510.00s - 3540.00s] ===
+Roger, checking that, over.我把燈關起來先躲一下看得到我嗎你這樣看得到我嗎What the...我會把你們殺光我才不管
+
+=== Chunk 119 [3540.00s - 3570.00s] ===
+欸你在幹嘛啊我會把你們殺光我沒子彈了完了撿撿撿撿
+
+=== Chunk 120 [3570.00s - 3600.00s] ===
+When you sneak up on them, you don't have to execute them, you can also knock them out by pressing E.
+
+=== Chunk 121 [3600.00s - 3630.00s] ===
+所以我可以用 E 打暈他們這樣看這個地方可以躲啊打暈啊你該不會都沒看到啊
+
+=== Chunk 122 [3630.00s - 3660.00s] ===
+唉接下來怎麼潛進去就是一個嗎喂狀態大了吧燈太亮了可不可以打爆不好意思把人打死了喔不是嚇我一跳雷看不到我吧什麼
+
+=== Chunk 123 [3660.00s - 3690.00s] ===
+你們好像有點緊張啊不要緊張啊怎麼辦我現在真的不知道該怎麼辦超麻煩的看一下好了他叫我進去了
+
+=== Chunk 124 [3690.00s - 3720.00s] ===
+偷偷躲這裡好了這裡好像可以上去太難了吧不行 我一定要想一下怎麼過前面的用刀子殺掉好了我看一下有什麼地方可以躲一下躲這裡好了
+
+=== Chunk 125 [3720.00s - 3750.00s] ===
+This is a fucking mess.A communist rat found in our tunnels.It's not the one I'm worried about.Right.Who knows how many more of those bastards are lurking in the shadows.All I know is we'd better find them.See anything?Let's go check the dead end out, while we're at it, just to make sure.Oh, shit.
+
+=== Chunk 126 [3750.00s - 3780.00s] ===
+Hey, was it?安靜安靜需要更安靜的殺掉什麼這裡真的可以進去嗎超難的啦
+
+=== Chunk 127 [3780.00s - 3810.00s] ===
+不會被看到吧超危險啊唉唷完了我們被看到了王八蛋我們被看到了王八蛋我們被看到了王八蛋我們被看到了王八蛋
+
+=== Chunk 128 [3810.00s - 3840.00s] ===
+This is damn good tea. Real stuff from exhibition.When the next station got their shit together, it was just my imagination after all.So the ones are that one against that one?He is damn crafty.Some other monsters?Yeah, that's what I'm talking about.Hey boys, call out, out loud.
+
+=== Chunk 129 [3840.00s - 3870.00s] ===
+Where are you?他還叫他們兩個呢那兩個被我殺掉的笨蛋They're probably hold up somewhere drinking, letting me stand guard, assholes.Oh, no.Hey, what the fuck is this?不不不不這個太難了吧怎麼樣可以把
+
+=== Chunk 130 [3870.00s - 3900.00s] ===
+關起來這樣子也看不見
+
+=== Chunk 131 [3900.00s - 3930.00s] ===
+Second guard post, report your situation.這樣也可以?All clear, over.I check for tails first.Roger, over.這麼厲害喔我Sleep deprivation does play its tricks.我潛入了看看現在要去哪裡I heard they were going to give a gift for every coming kill.對不起對不起那邊也太亮了吧
+
+=== Chunk 132 [3930.00s - 3960.00s] ===
+Hey, what the hell?It was just my imagination after all.Hey, was it?Nothing.Oh my god.這個我覺得實在是太恐怖了
+
+=== Chunk 133 [3960.00s - 3990.00s] ===
+如果很大聲我不就玩完了安靜安靜安靜
+
+=== Chunk 134 [3990.00s - 4020.00s] ===
+哇這麼大吧這什麼好意思燈可不可以打壞可以嗎可以可以雷看不見我啦看不見啦看不見啦
+
+=== Chunk 135 [4020.00s - 4050.00s] ===
+謝謝謝謝我要弄一下桌上的東西好都黑黑的就搞定了
+
+=== Chunk 136 [4050.00s - 4080.00s] ===
+不要不要不要不要等一下等一下來不及了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了我要死了
+
+=== Chunk 137 [4080.00s - 4110.00s] ===
+哎呀機車啦煩耶
+
+=== Chunk 138 [4110.00s - 4140.00s] ===
+It's a month left and I'll be a petty officer.恐怖喔啊不要不要不要坐下沒事坐下坐下
+
+=== Chunk 139 [4140.00s - 4170.00s] ===
+I thought they were going to give a clip for every commie killed.I swear.怎麼殺不到 怎麼會這樣
+
+=== Chunk 140 [4170.00s - 4200.00s] ===
+What?Oh根本就是利益成全好了應該差不多了不要啦不要啦哇被發現了
+
+=== Chunk 141 [4200.00s - 4230.00s] ===
+開始了開始了開始了開始了開始了He's not going anywhere.來 我把你們殺光 這次一定要殺光How about you?Damn.有人下樓了好恐怖喔護盃受敵All right, let's go.
+
+=== Chunk 142 [4230.00s - 4260.00s] ===
+來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來來
+
+=== Chunk 143 [4260.00s - 4290.00s] ===
+換個子彈好喔天啊我太緊張好緊張喔他們在旁邊你不來我來啦欸沒人好吧沒人那我先走了不好意思收刮一下
+
+=== Chunk 144 [4290.00s - 4320.00s] ===
+可以了吧好了吧別再來了好了吧我要去哪裡啊我殺光了吧你們這些臭傢伙
+
+=== Chunk 145 [4320.00s - 4350.00s] ===
+去哪裡啊我迷路了
+
+=== Chunk 146 [4350.00s - 4380.00s] ===
+欸欸怎麼會這樣啊我不知道去哪裡了現在這裡這裡喔這裡啊
+
+=== Chunk 147 [4380.00s - 4410.00s] ===
+太棒了What?I surrender, you hear?I surrender, let the bigwigs took it out, I heard enough.不吵死了
+
+=== Chunk 148 [4410.00s - 4440.00s] ===
+應該沒人了吧這應該不用太害怕才是太黑了吧現在是要去哪我看一下這裡這裡
+
+=== Chunk 149 [4440.00s - 4470.00s] ===
+太黑了終於啊好餓啊Bubble is almost certainly going to hang.Who knows what would have happened to me had he not released me.
+
+=== Chunk 150 [4470.00s - 4500.00s] ===
+Red, blue, yellow, what difference does that make?He risked his life for me.You don't get that much in the Metro.I can't just walk away on him.反而他說他說他雖然覺得 Puffles簡單來說就是他雖然覺得 Puffles 凶多吉少但是但是他覺得他還欠 Puffles 一份人情啦因為在 Metro 裡面他救了他一命這樣子所以他不能就這樣子離開他
+
+=== Chunk 151 [4500.00s - 4530.00s] ===
+他可能要回去找 Pavel 把他救出來Oh my god欸 Pavel 耶PavelArjunShitI knew you wouldn't abandon me, I knew itYou're a true comradeI've been in your debt for lifeNow get me out of here and I'll lead you home in no time
+
+=== Chunk 152 [4530.00s - 4560.00s] ===
+Fuck! Fuck, they're coming for me! They're gonna take me to the noose!Good luck, my friend, you're my only hope now!天啊Come on, get your ass out here, you fucking commie rat!喔天啊想幫雷啊可是我不知道走哪裏啊
+
+=== Chunk 153 [4560.00s - 4590.00s] ===
+Oh,亮亮.Come on, say my mother is a whore.可以下去了.Or else you are a beast, if your mother delivers, freaks!剛剛好,現在要...
+
+=== Chunk 154 [4590.00s - 4620.00s] ===
+要去救帕佛啦那就讓我來救帕佛吧哎唷Now I know you're crazy.If you were here, no one is watching your stache.嘿嘿這樣也可以不要講
+
+=== Chunk 155 [4620.00s - 4650.00s] ===
+And this is no wife, damn it!哈囉欸等一下你們有看到嗎你們應該沒有看到吧你們不要緊張啊大家不要緊張免緊張免緊張不要緊張外面也太亮了吧
+
+=== Chunk 156 [4650.00s - 4680.00s] ===
+緊張我要把燈打壞把燈打壞他們是不是會發現我看不到我看不到我看不到
+
+=== Chunk 157 [4680.00s - 4710.00s] ===
+還好不不不不被看到了不行啦這次應該要死掉了機車被看到了啦
+
+=== Chunk 158 [4710.00s - 4740.00s] ===
+你們在哪裡啊我都看不見你們噓吵死了不要大聲嚷嚷我們團隊大聲嚷嚷耶吃不到我的吃不到我的我是無敵的
+
+=== Chunk 159 [4740.00s - 4770.00s] ===
+需要子彈啊 我需要很多子彈
+
+=== Chunk 160 [4770.00s - 4800.00s] ===
+太硬了吧都沒子彈了這個小人在這呢應該差不多了不怕
+
+=== Chunk 161 [4800.00s - 4830.00s] ===
+哎呀呀現在呢完全沒有要前行的意思殺光你們這群小王八蛋就這裡啦Pavo 我來了 不要緊張Who's there?Don't shoot men, take anything, but please, don't kill me.好了好了好了好了Don't kill me, please.我在哪了嘛Picking on one of their own bastards.
+
+=== Chunk 162 [4830.00s - 4860.00s] ===
+殺了他會有不同的劇情是不是But I don't care.走這吧哇 這裡是什麼地方啊All suspicious persons are to be shot on sight.Watch it in half an hour.他為什麼一直後退
+
+=== Chunk 163 [4860.00s - 4890.00s] ===
+等一下這邊這麼多人是不是你們沒有看到吧這裡有辦法打穿他們嗎可以耶欸你好你好不好意思喔那個不好意思不好意思不好意思如果如果哇你燒起來了怎麼會這樣欸不好意思不好意思不好意思欸痛痛痛Hello
+
+=== Chunk 164 [4890.00s - 4920.00s] ===
+靠邀我要死了等我一下等我一下呼差不多了不要緊張啊你怎麼在亂射呢不要浪費子彈啊我等一下還要解決
+
+=== Chunk 165 [4920.00s - 4950.00s] ===
+不要亂射左邊有腳步聲應該是沒問題了去哪兒呢這邊
+
+=== Chunk 166 [4950.00s - 4980.00s] ===
+啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦
+
+=== Chunk 167 [4980.00s - 5010.00s] ===
+這麼多人指導黃龍The trial of the captured spy from the Red Line is starting.All right citizens free from their duties are encouraged to attend.誰的武裝比較
+
+=== Chunk 168 [5010.00s - 5040.00s] ===
+哇被看到了可惡哇好多打不贏我想想看怎麼打哇賽他們好聰明啊
+
+=== Chunk 169 [5040.00s - 5070.00s] ===
+我看看喔 大家不要緊張敵人有一點點的多不要緊張好近好近好近好近靜靜的靜靜的不要以為亮亮我就打不到他糟了子彈不知道夠不夠
+
+=== Chunk 170 [5070.00s - 5100.00s] ===
+小心注意躺著不要躺著不要躺好躺好躺好不要以為這樣我看不到大家不要驚訝趕快把東西撿一撿好好好
+
+=== Chunk 171 [5100.00s - 5130.00s] ===
+小槍也有子彈好棒棒好走直搗黃龍前面有人現身奪人超準的啊這小手槍無敵了啊
+
+=== Chunk 172 [5130.00s - 5160.00s] ===
+他們裝甲好厚喔這裡好了比較暗對不起被我看到了被我看到你就要死翹翹因為我是壞人要殺光你們全部
+
+=== Chunk 173 [5160.00s - 5190.00s] ===
+哇你的裝備好大量喔錯了嗯了之後勒然後呢這裡是不是
+
+=== Chunk 174 [5190.00s - 5220.00s] ===
+應該是吧這裡不要唱歌你唱的很難聽不是草地雷嗎草地雷了嚇死我了
+
+=== Chunk 175 [5220.00s - 5250.00s] ===
+PTT鄉民專用釣竿椅一支有線地上
+
+=== Chunk 176 [5250.00s - 5280.00s] ===
+All right, citizens, free from their duty starting course, go ahead.這不是夜市嗎夜市版賣東西的欸電鑽耶有人鑽了一個洞In the name of the great firepower, you have to save this world.This version don't really like this is the point of our creation.This court has sentenced you to death by hanging.
+
+=== Chunk 177 [5280.00s - 5310.00s] ===
+You, three, two, four, death to the Nazis!A special sound, be mine!按錯了啦 按到飛刀了快下來快下來好險好險Puffball差點死掉Let's move!It's gonna be another Stalingrad around here.
+
+=== Chunk 178 [5310.00s - 5340.00s] ===
+走之前還是要撿東西啊沒有東西撿是不是好吧走走走我們快走PAVAL我們快走結束了結束了結束了I dragged Pavel out of the noose, and he says he's going to take me as close to Paulis as possible.
+
+=== Chunk 179 [5340.00s - 5370.00s] ===
+The order and report on everything that has happened.The path to the legendary theatre lies through the catacombs.I've never been here before, and without my new friend I'd probably be completely lost.I hope he knows the way.
+
+=== Chunk 180 [5370.00s - 5400.00s] ===
+That has happened.The path to the legendary theatre lies through the catacombs.I've never been here before.所以他們會經過一個很恐怖的 catacombs我也不知道是什麼反正是一個戲院底下的類似像陵墓一樣的地方然後他說如果不是他帶我來這邊的話我可能一定會迷路我希望他找得到路這樣子
+
+=== Chunk 181 [5400.00s - 5430.00s] ===
+現在時間是晚上 11 點半啦那今天就差不多開到這邊啦我之後每一集不會開太久啦因為也是預防它錄太久也是想說完了嘛就大家早點休息吧明天還有上班上課好那差不多就這樣子啦今天差不多就這樣啦大家晚安其實我中間有停了一下我知道而且停了之後聊天室就停住了那我也沒辦法所以我剛剛就是一直在自言自語這樣子那不習慣的觀眾真的不好意思因為
+
+=== Chunk 182 [5430.00s - 5460.00s] ===
+就是我最近真的會比較忙我比較少沒有辦法就是說我去那邊開實況或者是錄影片再處理再上傳這樣子所以我就決定用 youtube 來直播讓他直接把影片檔留下來然後會把它放到播放清單就跟其他上傳的影片一樣然後我也有弄封面也有集數那大家就之後要看整個 walkthrough 的人或者是要看記錄的人就比較方便在 youtube 看這樣子好那今天就差不多開到這邊我們下次再繼續這樣
+
+=== Chunk 183 [5460.00s - 5464.89s] ===
+拜拜
 
