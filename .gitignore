@@ -88,14 +88,24 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-VODs/*.wav
 
 # Neo4j dumps
 neo4j/
 *.dump
 
+# VOD media/transcripts: copyrighted content, keep out of git.
+# Only the utility scripts and the URL-mapping CSV are tracked.
+VODs/*
+!VODs/*.py
+!VODs/videos.csv
+
 # Sensitive credentials
 VODs/www.youtube.com_cookies.txt
+www.youtube.com_cookies.txt
+
+# Runtime databases (contain live user/quiz data)
+lng_graphrag.db
+quiz_feedback.db
 
 # Temporary debug/generation output
 _dbg.txt
